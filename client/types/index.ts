@@ -97,7 +97,7 @@ export interface LoginResponse {
 export interface AuthState {
   user: User | null;
   accessToken: string | null;
-  refreshToken: string | null;
+  refreshTokenValue: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
 }

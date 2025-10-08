@@ -19,7 +19,7 @@ export const useAuthStore = create<AuthStore>()(
       // Initial state
       user: null,
       accessToken: null,
-      refreshToken: null,
+      refreshTokenValue: null,
       isAuthenticated: false,
       isLoading: false,
 
@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthStore>()(
           set({
             user: response.user,
             accessToken: response.accessToken,
-            refreshToken: response.refreshToken,
+            refreshTokenValue: response.refreshToken,
             isAuthenticated: true,
             isLoading: false,
           });
@@ -54,7 +54,7 @@ export const useAuthStore = create<AuthStore>()(
           set({
             user: null,
             accessToken: null,
-            refreshToken: null,
+            refreshTokenValue: null,
             isAuthenticated: false,
             isLoading: false,
           });
@@ -84,7 +84,7 @@ export const useAuthStore = create<AuthStore>()(
         set({
           user: null,
           accessToken: null,
-          refreshToken: null,
+          refreshTokenValue: null,
           isAuthenticated: false,
           isLoading: false,
         });
