@@ -63,10 +63,10 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ['super_admin', 'admin', 'moderator'],
   },
   {
-    id: 'user-management',
+    id: 'artist-management',
     label: 'Artist/User Management',
     icon: 'Users',
-    path: '/users',
+    path: '/artist-management',
     roles: ['super_admin', 'admin', 'moderator'],
   },
   {

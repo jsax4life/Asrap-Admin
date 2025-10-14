@@ -110,17 +110,25 @@ export function Sidebar({ isOpen = true, onClose, user }: SidebarProps) {
             <nav className="space-y-6">
               {ACCOUNT_MENU_ITEMS.map((item) => {
                 const IconComponent = ICON_MAP[item.icon as keyof typeof ICON_MAP];
+                const isActive = isActiveRoute(item.path);
                 
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleMenuClick(item.path)}
-                    className="flex items-center gap-5 w-full text-left text-asra-gray-6 hover:text-white transition-colors"
+                    className={`flex items-center gap-5 w-full text-left transition-colors ${
+                      isActive 
+                        ? "text-white" 
+                        : "text-asra-gray-6 hover:text-white"
+                    }`}
                   >
-                    <IconComponent className="w-6 h-6 flex-shrink-0" strokeWidth={2} />
+                    <IconComponent className="w-6 h-6 flex-shrink-0" strokeWidth={isActive ? 1.87 : 1.5} />
                     <span className="text-base font-bold tracking-[0.13px]">
                       {item.label}
                     </span>
+                    {isActive && (
+                      <div className="w-1 h-6 bg-white ml-auto -mr-8 lg:-mr-12" />
+                    )}
                   </button>
                 );
               })}

@@ -102,3 +102,27 @@
     font-family: 'Roboto', -apple-system, sans-serif;
   }
 }
+
+/* Input visibility fixes */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+select,
+textarea {
+  color: white !important;
+  background-color: #1F2937 !important;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="password"]::placeholder,
+textarea::placeholder {
+  color: #9CA3AF !important;
+}
+
+select option {
+  color: white !important;
+  background-color: #1F2937 !important;
+}

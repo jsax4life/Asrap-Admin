@@ -22,14 +22,24 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
         return 'Music Upload Approval';
       case '/playlist-management':
         return 'Asra Playlist Manager';
+      case '/artist-management':
+        return 'Artist/User Management';
+      case '/payments':
+        return 'Payment';
       case '/users':
         return 'User Management';
       case '/artists':
         return 'Artist Management';
       case '/songs':
         return 'Song Management';
-      case '/payments':
-        return 'Payment Management';
+      case '/admin-users':
+        return 'Admin Users';
+      case '/admin-users/create':
+        return 'Create New User';
+      case '/help-support':
+        return 'Help & Support';
+      case '/promotion':
+        return 'Promotion Management';
       default:
         return 'Dashboard';
     }
