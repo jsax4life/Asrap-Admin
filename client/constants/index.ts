@@ -18,7 +18,24 @@ import {
 } from 'lucide-react';
 
 // API Configuration
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+// In production: use https://app.asrapa.com
+// In development: use http://localhost:4000
+const getApiBaseUrl = () => {
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  
+  // Check if we're in production or development
+  const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+  
+  if (isProduction) {
+    return 'https://app.asrapa.com/api/v1';
+  }
+  
+  return 'http://localhost:4000/api/v1';
+};
+
+export const API_BASE_URL = getApiBaseUrl();
 
 // Authentication
 export const AUTH_TOKEN_KEY = 'asra_auth_token';
@@ -164,10 +181,10 @@ export const NOTIFICATION_TYPES = {
 // API endpoints
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: '/auth/login',
-    LOGOUT: '/auth/logout',
-    REFRESH: '/auth/refresh',
-    PROFILE: '/auth/profile',
+    LOGIN: '/admin/auth/login',
+    LOGOUT: '/admin/auth/logout',
+    REFRESH: '/admin/auth/refresh',
+    PROFILE: '/admin/auth/me',
   },
   USERS: {
     LIST: '/users',

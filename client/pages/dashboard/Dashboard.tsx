@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MetricCard } from "@/components/MetricCard";
 import { 
   DollarSign, 
@@ -10,45 +10,110 @@ import {
   UserPlus, 
   Radio 
 } from "lucide-react";
+import { analyticsService, AdminOverviewResponse, TopArtistsResponse, TopSongsResponse } from "@/services/analyticsService";
 
-const metrics = [
-  { icon: DollarSign, value: "$950m", label: "Revenue generated" },
-  { icon: Users, value: "500", label: "Total Artists" },
-  { icon: Disc, value: "874k", label: "Total Albums" },
-  { icon: Music, value: "12,500k", label: "Total Songs" },
-  { icon: Download, value: "8,325k", label: "Total Downloads" },
-  { icon: UserCheck, value: "1050k", label: "Number of active users" },
-  { icon: UserPlus, value: "50", label: "New user signups" },
-  { icon: Radio, value: "9,950m", label: "Number of songs streamed" },
-];
+// Helper function to format large numbers
+const formatNumber = (num: number): string => {
+  if (num >= 1000000000) return `$${(num / 1000000000).toFixed(1)}b`;
+  if (num >= 1000000) return `$${(num / 1000000).toFixed(0)}m`;
+  if (num >= 1000) return `${(num / 1000).toFixed(0)}k`;
+  return num.toString();
+};
 
-const topArtists = [
-  { no: 1, name: "Wizkid", streams: "526,925 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/c44eead90f6e37874571ded3d4df5295699a225c?width=74" },
-  { no: 2, name: "BurnaBoy", streams: "453,537 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/7de595f9863e192b0f04217263924897c2ff45ce?width=70" },
-  { no: 3, name: "Ice Prince", streams: "390,150 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/41fee7ffe9b510fde5bbafb3aef841155702a282?width=82" },
-  { no: 4, name: "Davido", streams: "336,762 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/56671683fcd5fd3c2a72d29d20962242fcfa89ab?width=70" },
-  { no: 5, name: "Olamide", streams: "293,375 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/c180be1a0238e857ca0e81e1b866cf876b1ea1a0?width=70" },
-  { no: 6, name: "Johnny Drill", streams: "259,987 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/fc4c67d81dea480528ae2b945065062221cdc982?width=194" },
-  { no: 7, name: "Rema", streams: "236,600 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/ed6d461dbdf2157aea8eb791d71ce17debbe1bfa?width=110" },
-  { no: 8, name: "Asa", streams: "213,212 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/1aaf352932d7ae1dec050150d1885f8bd861c13b?width=70" },
-  { no: 9, name: "Tems", streams: "199,825 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/94d30b33fab743967c3f97b3b7589b86512f38fa?width=75" },
-  { no: 10, name: "Rema", streams: "186,437 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/ed6d461dbdf2157aea8eb791d71ce17debbe1bfa?width=110", faded: true },
-];
+// Helper function to format listeners
+const formatListeners = (listeners: number): string => {
+  if (listeners >= 1000000) return `${(listeners / 1000000).toFixed(1)}M listeners`;
+  if (listeners >= 1000) return `${(listeners / 1000).toFixed(0)}K listeners`;
+  return `${listeners} listeners`;
+};
 
-const topSongs = [
-  { no: 1, name: "2 Sugar ft Ayra Starr  - Wiz...", streams: "526,925 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/5cfb76ba25d6351d27d525c323f0a49d59c44167?width=106" },
-  { no: 2, name: "Bad To Me - Wizkid", streams: "453,537 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/5cfb76ba25d6351d27d525c323f0a49d59c44167?width=106" },
-  { no: 3, name: "Special (feat. Don Toliver)", streams: "390,150 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/5cfb76ba25d6351d27d525c323f0a49d59c44167?width=106" },
-  { no: 4, name: "Fever - Wizkid", streams: "336,762 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/1605022505ace4630badc55cb4828c349687453c?width=90" },
-  { no: 5, name: "Big 7 - Burnaboy", streams: "293,375 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/1c8a21ae0d3e24d07b4236e2574054ef5f863f71?width=90" },
-  { no: 6, name: "Kwaku the Traveller", streams: "259,987 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/556c5905bd0e935cdbc73e25f503c587b7c5a7af?width=64" },
-  { no: 7, name: "Big Girls Cry -  Sia", streams: "236,600 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/3387ff42d2f75d750b650c48d3220f6b1ed885e3?width=64" },
-  { no: 8, name: "Missing U - Badwiz", streams: "213,212 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/f9d27803b8ac1f39044ee27e7ec4b7dd32dc36d8?width=90" },
-  { no: 9, name: "Molting - Sion", streams: "199,825 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/e6320e49285464560325ab2f13072f2ffba4aafc?width=90" },
-  { no: 10, name: "Lie to me - Sion", streams: "186,437 streams", image: "https://api.builder.io/api/v1/image/assets/TEMP/cfd740bf75ef80159832dcd286f4464a7d968839?width=90" },
-];
+// Helper function to format plays
+const formatPlays = (plays: number): string => {
+  if (plays >= 1000000) return `${(plays / 1000000).toFixed(1)}M streams`;
+  if (plays >= 1000) return `${(plays / 1000).toFixed(0)}K streams`;
+  return `${plays} streams`;
+};
 
 export default function Dashboard() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [overviewData, setOverviewData] = useState<AdminOverviewResponse | null>(null);
+  const [topArtistsData, setTopArtistsData] = useState<TopArtistsResponse | null>(null);
+  const [topSongsData, setTopSongsData] = useState<TopSongsResponse | null>(null);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch all dashboard data in parallel
+        const [overview, artists, songs] = await Promise.all([
+          analyticsService.getAdminOverview(),
+          analyticsService.getTopArtists(10, '30d'),
+          analyticsService.getTopSongs(10, '30d'),
+        ]);
+
+        setOverviewData(overview);
+        setTopArtistsData(artists);
+        setTopSongsData(songs);
+      } catch (err: any) {
+        console.error('Error fetching dashboard data:', err);
+        setError(err.message || 'Failed to load dashboard data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  // Prepare metrics data
+  const metrics = overviewData?.data ? [
+    { icon: DollarSign, value: formatNumber(overviewData.data.revenueGenerated), label: "Revenue generated" },
+    { icon: Users, value: overviewData.data.totals.artists.toString(), label: "Total Artists" },
+    { icon: Disc, value: formatNumber(overviewData.data.totals.albums), label: "Total Albums" },
+    { icon: Music, value: formatNumber(overviewData.data.totals.songs), label: "Total Songs" },
+    { icon: Download, value: formatNumber(overviewData.data.totals.downloads), label: "Total Downloads" },
+    { icon: UserCheck, value: formatNumber(overviewData.data.users.activeLast30d), label: "Number of active users" },
+    { icon: UserPlus, value: overviewData.data.users.newSignupsLast30d.toString(), label: "New user signups" },
+    { icon: Radio, value: formatNumber(overviewData.data.streams.songsStreamedLast30d), label: "Number of songs streamed" },
+  ] : [];
+
+  // Prepare top artists data
+  const topArtists = topArtistsData?.data.map((artist, index) => ({
+    no: index + 1,
+    name: artist.name,
+    streams: formatListeners(artist.monthlyListeners),
+    image: artist.profilePicture || "https://api.builder.io/api/v1/image/assets/TEMP/c44eead90f6e37874571ded3d4df5295699a225c?width=74",
+    faded: false,
+  })) || [];
+
+  // Prepare top songs data
+  const topSongs = topSongsData?.data.map((song, index) => ({
+    no: index + 1,
+    name: song.title.length > 30 ? `${song.title.substring(0, 30)}...` : song.title,
+    streams: formatPlays(song.plays),
+    image: song.coverPhotoUrl || "https://api.builder.io/api/v1/image/assets/TEMP/5cfb76ba25d6351d27d525c323f0a49d59c44167?width=106",
+  })) || [];
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-white text-lg">Loading dashboard data...</div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-red-500 text-lg">Error: {error}</div>
+      </div>
+    );
+  }
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-[30px] lg:gap-y-4 mb-8 lg:mb-12">

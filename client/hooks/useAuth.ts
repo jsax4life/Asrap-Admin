@@ -15,29 +15,58 @@ export const useAuth = () => {
     clearAuth,
   } = useAuthStore();
 
-  // Initialize auth state on mount
+  // Initialize auth state on mount - only runs once
   useEffect(() => {
-    // TEMPORARY: Skip API calls when backend is not ready
-    // TODO: Uncomment when backend authentication is ready
-    /*
+    let mounted = true;
+    
     const initializeAuth = async () => {
-      if (authService.isAuthenticated()) {
+      // Get current state from store to avoid stale closures
+      const currentState = useAuthStore.getState();
+      const hasToken = authService.isAuthenticated();
+      
+      // Only fetch profile if we have a token but no user (fresh page load)
+      // If user already exists (e.g., from login or persisted state), skip profile fetch
+      if (hasToken && !currentState.user) {
         setLoading(true);
         try {
           const userProfile = await authService.getProfile();
-          setUser(userProfile);
+          if (mounted) {
+            setUser(userProfile);
+          }
         } catch (error) {
           console.error('Failed to fetch user profile:', error);
-          clearAuth();
+          // Only clear auth if we still don't have a user and component is mounted
+          // This prevents logout after successful login if profile fetch fails
+          if (mounted) {
+            const stateAfterError = useAuthStore.getState();
+            if (!stateAfterError.user) {
+              clearAuth();
+            }
+          }
         } finally {
+          if (mounted) {
+            setLoading(false);
+          }
+        }
+      } else if (!hasToken && currentState.user) {
+        // We have a user but no token - clear auth (token expired or removed)
+        if (mounted) {
+          clearAuth();
+        }
+      } else if (hasToken && currentState.user) {
+        // We have both token and user - ensure loading is false
+        if (mounted) {
           setLoading(false);
         }
       }
     };
 
     initializeAuth();
-    */
-  }, [setUser, setLoading, clearAuth]);
+    
+    return () => {
+      mounted = false;
+    };
+  }, []); // Empty deps - only run once on mount
 
   const login = useCallback(async (credentials: LoginRequest) => {
     try {

@@ -9,6 +9,18 @@ export interface User {
   isActive: boolean;
   createdAt: string;
   lastLogin?: string;
+  firstName?: string;
+  lastName?: string;
+  department?: string;
+  permissions?: string[];
+  isEmailVerified?: boolean;
+  lastLoginAt?: string;
+  phoneNumber?: string;
+  passwordChangedAt?: string;
+  updatedAt?: string;
+  loginAttempts?: number;
+  fullName?: string;
+  isLocked?: boolean;
 }
 
 export interface Artist {
@@ -88,6 +100,66 @@ export interface LoginRequest {
   password: string;
 }
 
+// API Response for login
+export interface AdminData {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  department: string;
+  permissions: string[];
+  isEmailVerified: boolean;
+  lastLoginAt: string;
+}
+
+export interface AdminLoginData {
+  admin: AdminData;
+  accessToken: string;
+  tokenType: string;
+  expiresIn: string;
+}
+
+export interface AdminLoginResponse {
+  status: string;
+  message: string;
+  timestamp: string;
+  data: AdminLoginData;
+}
+
+export interface AdminProfileData {
+  profilePicture: {
+    url: string | null;
+    public_id: string | null;
+  };
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  role: string;
+  permissions: string[];
+  department: string;
+  isActive: boolean;
+  isEmailVerified: boolean;
+  passwordChangedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  lastLoginAt: string;
+  loginAttempts: number;
+  fullName: string;
+  isLocked: boolean;
+  id: string;
+}
+
+export interface AdminProfileResponse {
+  status: string;
+  message: string;
+  timestamp: string;
+  data: AdminProfileData;
+}
+
+// Frontend Login Response (transformed from API)
 export interface LoginResponse {
   user: User;
   accessToken: string;

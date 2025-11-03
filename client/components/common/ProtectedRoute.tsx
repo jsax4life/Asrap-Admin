@@ -17,12 +17,6 @@ export const ProtectedRoute = ({
   const { isAuthenticated, isLoading, user } = useAuth();
   const location = useLocation();
 
-  // TEMPORARY: Bypass authentication for development
-  // TODO: Remove this when backend authentication is ready
-  return <>{children}</>;
-
-  // Original authentication logic (commented out for now)
-  /*
   // Show loading state while checking authentication
   if (isLoading) {
     return (
@@ -43,5 +37,4 @@ export const ProtectedRoute = ({
   }
 
   return <>{children}</>;
-  */
 };

@@ -22,9 +22,7 @@ export function Sidebar({ isOpen = true, onClose, user }: SidebarProps) {
 
   const handleMenuClick = (path: string) => {
     if (path === '/logout') {
-      // TEMPORARY: Show alert instead of actual logout when backend is not ready
-      alert('Logout functionality will be available when backend authentication is connected');
-      // logout(); // Uncomment when backend is ready
+      logout();
     } else {
       navigate(path);
     }

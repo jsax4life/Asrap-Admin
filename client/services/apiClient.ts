@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { API_BASE_URL, AUTH_TOKEN_KEY } from '@/constants';
+import { API_BASE_URL, AUTH_TOKEN_KEY, API_ENDPOINTS } from '@/constants';
 import { ApiResponse } from '@/types';
+import { authService } from './authService';
 
 class ApiClient {
   private client: AxiosInstance;
@@ -18,9 +19,6 @@ class ApiClient {
   }
 
   private setupInterceptors() {
-    // TEMPORARY: Disable interceptors when backend is not ready
-    // TODO: Uncomment when backend is ready
-    /*
     // Request interceptor to add auth token
     this.client.interceptors.request.use(
       (config) => {
@@ -43,17 +41,40 @@ class ApiClient {
       async (error) => {
         const originalRequest = error.config;
 
-        // Handle 401 errors (unauthorized)
+        // Handle 401 errors (unauthorized) - attempt token refresh
         if (error.response?.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
+
+          // Don't try to refresh if this is the refresh endpoint itself
+          const isRefreshEndpoint = originalRequest.url?.includes('/admin/auth/refresh') || 
+                                    originalRequest.url?.includes(API_ENDPOINTS.AUTH.REFRESH);
           
-          // Clear invalid tokens
-          localStorage.removeItem(AUTH_TOKEN_KEY);
-          localStorage.removeItem('asra_refresh_token');
-          
-          // Redirect to login if not already there
-          if (window.location.pathname !== '/login') {
-            window.location.href = '/login';
+          if (isRefreshEndpoint) {
+            // Refresh failed - clear tokens and redirect to login
+            this.clearAuthToken();
+            if (window.location.pathname !== '/login') {
+              window.location.href = '/login';
+            }
+            return Promise.reject(error);
+          }
+
+          try {
+            // Attempt to refresh the token
+            const newAccessToken = await authService.refreshToken();
+            
+            // Retry the original request with the new token
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            return this.client(originalRequest);
+          } catch (refreshError) {
+            // Token refresh failed - clear tokens and redirect to login
+            console.error('Token refresh failed:', refreshError);
+            this.clearAuthToken();
+            
+            if (window.location.pathname !== '/login') {
+              window.location.href = '/login';
+            }
+            
+            return Promise.reject(refreshError);
           }
         }
 
@@ -65,7 +86,6 @@ class ApiClient {
         return Promise.reject(error);
       }
     );
-    */
   }
 
   // Generic request methods

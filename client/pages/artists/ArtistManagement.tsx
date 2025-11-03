@@ -1,74 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Calendar, User, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Calendar, User, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { artistService, type ArtistItem } from '@/services/artistService';
 
-// Mock data for artists
-const mockArtists = [
-  {
-    id: '52166565161',
-    name: 'Wizkid',
-    followers: 500,
-    monthlyListeners: 526925,
-    songsCount: 914,
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-  },
-  {
-    id: '52166565161',
-    name: 'Ice Prince',
-    followers: 400,
-    monthlyListeners: 526925,
-    songsCount: 500,
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-  },
-  {
-    id: '52166565161',
-    name: 'Olamide',
-    followers: 200,
-    monthlyListeners: 526925,
-    songsCount: 871,
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-  },
-  {
-    id: '52166565161',
-    name: 'Davido',
-    followers: 322,
-    monthlyListeners: 526925,
-    songsCount: 900,
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-  },
-  {
-    id: '52166565161',
-    name: 'Timaya',
-    followers: 123,
-    monthlyListeners: 526925,
-    songsCount: 40,
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-  },
-  {
-    id: '52166565161',
-    name: 'Tems',
-    followers: 189,
-    monthlyListeners: 526925,
-    songsCount: 34,
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-  },
-  {
-    id: '52166565161',
-    name: 'Ruger',
-    followers: 488,
-    monthlyListeners: 526925,
-    songsCount: 50,
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-  },
-  {
-    id: '52166565161',
-    name: 'Adekunle Gold',
-    followers: 123,
-    monthlyListeners: 526925,
-    songsCount: 823,
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-  },
-];
+// API-backed state for artists
 
 // Mock data for users
 const mockUsers = [
@@ -141,6 +76,15 @@ const ArtistManagement = () => {
   const [activeTab, setActiveTab] = useState<'artists' | 'users'>('artists');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [sortBy, setSortBy] = useState<'createdAt' | 'stageName' | 'followers' | 'monthlyListeners' | 'songCount'>('createdAt');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [artists, setArtists] = useState<ArtistItem[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [debounceId, setDebounceId] = useState<number | undefined>(undefined);
   const navigate = useNavigate();
 
   const handleArtistClick = (artistId: string) => {
@@ -151,9 +95,35 @@ const ArtistManagement = () => {
     navigate(`/user-management/${userId}`);
   };
 
-  const filteredArtists = mockArtists.filter(artist =>
-    artist.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Fetch artists
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await artistService.listArtists({
+          search: searchQuery || undefined,
+          page: currentPage,
+          limit,
+          sortBy,
+          sortOrder,
+        });
+        setArtists(res.data);
+        setTotalPages(res.totalPages);
+        setTotalResults(res.totalResults);
+      } catch (e: any) {
+        setError(e.message || 'Failed to load artists');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // debounce only on search
+    if (debounceId) window.clearTimeout(debounceId);
+    const id = window.setTimeout(fetchData, searchQuery ? 500 : 0);
+    setDebounceId(id);
+    return () => window.clearTimeout(id);
+  }, [searchQuery, currentPage, limit, sortBy, sortOrder]);
 
   const filteredUsers = mockUsers.filter(user =>
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -235,6 +205,61 @@ const ArtistManagement = () => {
           </button>
         </div>
 
+        {/* Filters per swagger: search, sortBy, sortOrder, limit */}
+        {activeTab === 'artists' && (
+          <div className="mb-4 flex flex-wrap gap-3 items-center">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
+              <input
+                type="text"
+                placeholder="Search by artist name, stage name, or email"
+                value={searchQuery}
+                onChange={(e) => { setCurrentPage(1); setSearchQuery(e.target.value); }}
+                className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-72"
+              />
+            </div>
+            <select
+              value={sortBy}
+              onChange={(e) => { setCurrentPage(1); setSortBy(e.target.value as any); }}
+              className="bg-asra-gray-800 text-white px-3 py-2 rounded-lg border border-asra-gray-700 focus:outline-none"
+            >
+              <option value="createdAt">Sort by: Created At</option>
+              <option value="stageName">Stage Name</option>
+              <option value="followers">Followers</option>
+              <option value="monthlyListeners">Monthly Listeners</option>
+              <option value="songCount">Song Count</option>
+            </select>
+            <select
+              value={sortOrder}
+              onChange={(e) => { setCurrentPage(1); setSortOrder(e.target.value as any); }}
+              className="bg-asra-gray-800 text-white px-3 py-2 rounded-lg border border-asra-gray-700 focus:outline-none"
+            >
+              <option value="desc">Desc</option>
+              <option value="asc">Asc</option>
+            </select>
+            <select
+              value={limit}
+              onChange={(e) => { setCurrentPage(1); setLimit(parseInt(e.target.value, 10)); }}
+              className="bg-asra-gray-800 text-white px-3 py-2 rounded-lg border border-asra-gray-700 focus:outline-none"
+            >
+              <option value={10}>10 per page</option>
+              <option value={20}>20 per page</option>
+              <option value={50}>50 per page</option>
+            </select>
+            {loading && (
+              <span className="inline-flex items-center text-asra-gray-400 text-sm">
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Loading
+              </span>
+            )}
+            {error && (
+              <span className="text-red-400 text-sm">{error}</span>
+            )}
+            {!loading && !error && (
+              <span className="text-asra-gray-400 text-sm">{totalResults.toLocaleString()} results</span>
+            )}
+          </div>
+        )}
+
         {/* Table */}
         <div className="bg-asra-gray-900 rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
@@ -285,33 +310,33 @@ const ArtistManagement = () => {
               </thead>
               <tbody className="divide-y divide-asra-gray-800">
                 {activeTab === 'artists' ? (
-                  filteredArtists.map((artist, index) => (
-                    <tr key={index} className="hover:bg-asra-gray-800 transition-colors">
+                  artists.map((artist) => (
+                    <tr key={artist._id} className="hover:bg-asra-gray-800 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
-                        {artist.id}
+                        {artist.artistId}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center space-x-3">
                           <img
-                            src={artist.avatar}
-                            alt={artist.name}
+                            src={artist.profilePicture || ''}
+                            alt={artist.stageName}
                             className="w-10 h-10 rounded-full object-cover"
                           />
-                          <span className="text-sm font-medium text-white">{artist.name}</span>
+                          <span className="text-sm font-medium text-white">{artist.stageName}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
-                        {formatNumber(artist.followers)}
+                        {formatNumber(artist.followers || 0)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
-                        {formatNumber(artist.monthlyListeners)}
+                        {formatNumber(artist.monthlyListeners || 0)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
-                        {formatNumber(artist.songsCount)}
+                        {formatNumber(artist.songCount || 0)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <button
-                          onClick={() => handleArtistClick(artist.id)}
+                          onClick={() => handleArtistClick(artist._id)}
                           className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
                         >
                           View

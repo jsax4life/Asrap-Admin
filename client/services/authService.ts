@@ -1,55 +1,54 @@
+import axios from 'axios';
 import { apiClient } from './apiClient';
-import { API_ENDPOINTS } from '@/constants';
-import { LoginRequest, LoginResponse, User, ApiResponse } from '@/types';
+import { API_ENDPOINTS, API_BASE_URL } from '@/constants';
+import { LoginRequest, LoginResponse, User, ApiResponse, AdminLoginResponse, AdminProfileResponse } from '@/types';
 
 class AuthService {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    // TEMPORARY: Return mock response when backend is not ready
-    // TODO: Uncomment when backend is ready
-    /*
     try {
-      const response = await apiClient.post<LoginResponse>(
+      const response = await apiClient.post<AdminLoginResponse>(
         API_ENDPOINTS.AUTH.LOGIN,
         credentials
-      );
+      ) as any; // Temporary fix - apiClient returns wrong type
 
-      if (response.success && response.data) {
-        // Store tokens
-        apiClient.setAuthToken(response.data.accessToken);
-        localStorage.setItem('asra_refresh_token', response.data.refreshToken);
+      if (response.status === 'success' && response.data) {
+        const { admin, accessToken } = response.data;
         
-        return response.data;
+        // Transform API response to match frontend User type
+        const user: User = {
+          id: admin.id,
+          email: admin.email,
+          name: `${admin.firstName} ${admin.lastName}`,
+          role: admin.role as any,
+          firstName: admin.firstName,
+          lastName: admin.lastName,
+          department: admin.department,
+          permissions: admin.permissions,
+          isEmailVerified: admin.isEmailVerified,
+          isActive: true,
+          createdAt: new Date().toISOString(),
+          lastLogin: admin.lastLoginAt,
+          lastLoginAt: admin.lastLoginAt,
+        };
+        
+        // Store tokens
+        apiClient.setAuthToken(accessToken);
+        localStorage.setItem('asra_refresh_token', accessToken); // Using accessToken as refresh for now
+        
+        return {
+          user,
+          accessToken,
+          refreshToken: accessToken, // TODO: Update when separate refresh token is available
+        };
       }
 
       throw new Error(response.message || 'Login failed');
     } catch (error: any) {
       throw new Error(error.response?.data?.message || error.message || 'Login failed');
     }
-    */
-    
-    // Mock login response for development
-    const mockUser: User = {
-      id: '1',
-      email: credentials.email,
-      name: 'System Admin',
-      role: 'super_admin',
-      avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      lastLogin: new Date().toISOString(),
-    };
-
-    return {
-      user: mockUser,
-      accessToken: 'mock-token',
-      refreshToken: 'mock-refresh-token',
-    };
   }
 
   async logout(): Promise<void> {
-    // TEMPORARY: Skip API call when backend is not ready
-    // TODO: Uncomment when backend is ready
-    /*
     try {
       await apiClient.post(API_ENDPOINTS.AUTH.LOGOUT);
     } catch (error) {
@@ -58,62 +57,84 @@ class AuthService {
       // Always clear local tokens
       apiClient.clearAuthToken();
     }
-    */
-    
-    // Just clear local tokens for now
-    apiClient.clearAuthToken();
   }
 
   async getProfile(): Promise<User> {
-    // TEMPORARY: Return mock user when backend is not ready
-    // TODO: Uncomment when backend is ready
-    /*
     try {
-      const response = await apiClient.get<User>(API_ENDPOINTS.AUTH.PROFILE);
+      const response = await apiClient.get<AdminProfileResponse>(API_ENDPOINTS.AUTH.PROFILE) as any; // Temporary fix - apiClient returns wrong type
       
-      if (response.success && response.data) {
-        return response.data;
+      if (response.status === 'success' && response.data) {
+        const admin = response.data;
+        
+        // Transform API response to match frontend User type
+        const user: User = {
+          id: admin.id || admin._id,
+          email: admin.email,
+          name: admin.fullName || `${admin.firstName} ${admin.lastName}`,
+          role: admin.role as any,
+          avatar: admin.profilePicture?.url || undefined,
+          firstName: admin.firstName,
+          lastName: admin.lastName,
+          department: admin.department,
+          permissions: admin.permissions,
+          isEmailVerified: admin.isEmailVerified,
+          isActive: admin.isActive,
+          phoneNumber: admin.phoneNumber,
+          passwordChangedAt: admin.passwordChangedAt,
+          updatedAt: admin.updatedAt,
+          loginAttempts: admin.loginAttempts,
+          fullName: admin.fullName,
+          isLocked: admin.isLocked,
+          createdAt: admin.createdAt,
+          lastLogin: admin.lastLoginAt,
+          lastLoginAt: admin.lastLoginAt,
+        };
+        
+        return user;
       }
 
       throw new Error(response.message || 'Failed to fetch profile');
     } catch (error: any) {
+      console.error('getProfile error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        url: API_ENDPOINTS.AUTH.PROFILE,
+      });
       throw new Error(error.response?.data?.message || error.message || 'Failed to fetch profile');
     }
-    */
-    
-    // Mock user for development
-    return {
-      id: '1',
-      email: 'admin@asramusic.com',
-      name: 'System Admin',
-      role: 'super_admin',
-      avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      lastLogin: new Date().toISOString(),
-    };
   }
 
   async refreshToken(): Promise<string> {
     try {
-      const refreshToken = localStorage.getItem('asra_refresh_token');
-      
-      if (!refreshToken) {
-        throw new Error('No refresh token available');
-      }
-
-      const response = await apiClient.post<{ accessToken: string }>(
-        API_ENDPOINTS.AUTH.REFRESH,
-        { refreshToken }
+      // Use axios directly to avoid circular dependency and interceptor loops
+      const response = await axios.post(
+        `${API_BASE_URL}${API_ENDPOINTS.AUTH.REFRESH}`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
 
-      if (response.success && response.data) {
-        apiClient.setAuthToken(response.data.accessToken);
-        return response.data.accessToken;
+      const responseData = response.data as AdminLoginResponse;
+
+      if (responseData.status === 'success' && responseData.data) {
+        const { accessToken } = responseData.data;
+        apiClient.setAuthToken(accessToken);
+        
+        // Update refresh token if provided (some implementations return new refresh token)
+        if (responseData.data.accessToken) {
+          localStorage.setItem('asra_refresh_token', responseData.data.accessToken);
+        }
+        
+        return accessToken;
       }
 
-      throw new Error(response.message || 'Token refresh failed');
+      throw new Error(responseData.message || 'Token refresh failed');
     } catch (error: any) {
+      console.error('Token refresh error:', error);
       // Clear tokens on refresh failure
       apiClient.clearAuthToken();
       throw new Error(error.response?.data?.message || error.message || 'Token refresh failed');
