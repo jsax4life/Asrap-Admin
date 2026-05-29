@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 // API Configuration
-// In production: use https://app.asrapa.com
+// In production: use https://api.asrapa.com
 // In development: use http://localhost:4000
 const getApiBaseUrl = () => {
   if (import.meta.env.VITE_API_BASE_URL) {
@@ -29,7 +29,7 @@ const getApiBaseUrl = () => {
   const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
   
   if (isProduction) {
-    return 'https://app.asrapa.com/api/v1';
+    return 'https://api.asrapa.com/api/v1';
   }
   
   return 'http://localhost:4000/api/v1';
