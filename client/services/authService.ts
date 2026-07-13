@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiClient } from './apiClient';
-import { API_ENDPOINTS, API_BASE_URL } from '@/constants';
+import { API_ENDPOINTS, API_BASE_URL, REFRESH_TOKEN_KEY } from '@/constants';
 import { LoginRequest, LoginResponse, User, ApiResponse, AdminLoginResponse, AdminProfileResponse, ChangePasswordRequest } from '@/types';
 
 class AuthService {
@@ -12,7 +12,7 @@ class AuthService {
       ) as any; // Temporary fix - apiClient returns wrong type
 
       if (response.status === 'success' && response.data) {
-        const { admin, accessToken } = response.data;
+        const { admin, accessToken, refreshToken } = response.data;
         
         // Transform API response to match frontend User type
         const user: User = {
@@ -34,12 +34,14 @@ class AuthService {
         
         // Store tokens
         apiClient.setAuthToken(accessToken);
-        localStorage.setItem('asra_refresh_token', accessToken); // Using accessToken as refresh for now
+        if (refreshToken) {
+          localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+        }
         
         return {
           user,
           accessToken,
-          refreshToken: accessToken, // TODO: Update when separate refresh token is available
+          refreshToken: refreshToken || '',
         };
       }
 
@@ -66,7 +68,8 @@ class AuthService {
 
   async logout(): Promise<void> {
     try {
-      await apiClient.post(API_ENDPOINTS.AUTH.LOGOUT);
+      const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+      await apiClient.post(API_ENDPOINTS.AUTH.LOGOUT, refreshToken ? { refreshToken } : undefined);
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
@@ -124,26 +127,28 @@ class AuthService {
 
   async refreshToken(): Promise<string> {
     try {
+      const storedRefreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+
       // Use axios directly to avoid circular dependency and interceptor loops
       const response = await axios.post(
         `${API_BASE_URL}${API_ENDPOINTS.AUTH.REFRESH}`,
-        {},
+        storedRefreshToken ? { refreshToken: storedRefreshToken } : {},
         {
           headers: {
             'Content-Type': 'application/json',
           },
+          withCredentials: true,
         }
       );
 
       const responseData = response.data as AdminLoginResponse;
 
       if (responseData.status === 'success' && responseData.data) {
-        const { accessToken } = responseData.data;
+        const { accessToken, refreshToken } = responseData.data;
         apiClient.setAuthToken(accessToken);
         
-        // Update refresh token if provided (some implementations return new refresh token)
-        if (responseData.data.accessToken) {
-          localStorage.setItem('asra_refresh_token', responseData.data.accessToken);
+        if (refreshToken) {
+          localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
         }
         
         return accessToken;

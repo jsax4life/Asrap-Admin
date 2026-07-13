@@ -135,6 +135,7 @@ export interface AdminData {
 export interface AdminLoginData {
   admin: AdminData;
   accessToken: string;
+  refreshToken?: string;
   tokenType: string;
   expiresIn: string;
 }

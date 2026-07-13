@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { API_BASE_URL, AUTH_TOKEN_KEY, API_ENDPOINTS } from '@/constants';
+import { API_BASE_URL, AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY, API_ENDPOINTS } from '@/constants';
 import { ApiResponse } from '@/types';
 import { authService } from './authService';
 
@@ -10,6 +10,7 @@ class ApiClient {
     this.client = axios.create({
       baseURL: API_BASE_URL,
       timeout: 10000,
+      withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -51,6 +52,17 @@ class ApiClient {
           
           if (isRefreshEndpoint) {
             // Refresh failed - clear tokens and redirect to login
+            this.clearAuthToken();
+            if (window.location.pathname !== '/login') {
+              window.location.href = '/login';
+            }
+            return Promise.reject(error);
+          }
+
+          const isLoginEndpoint = originalRequest.url?.includes('/admin/auth/login');
+          const hasRefreshToken = !!localStorage.getItem(REFRESH_TOKEN_KEY);
+
+          if (isLoginEndpoint || !hasRefreshToken) {
             this.clearAuthToken();
             if (window.location.pathname !== '/login') {
               window.location.href = '/login';
@@ -143,7 +155,7 @@ class ApiClient {
   // Clear auth token
   clearAuthToken() {
     localStorage.removeItem(AUTH_TOKEN_KEY);
-    localStorage.removeItem('asra_refresh_token');
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
   }
 
   // Get current token
