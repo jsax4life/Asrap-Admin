@@ -51,6 +51,7 @@ export const useAuthStore = create<AuthStore>()(
         } catch (error) {
           console.error('Logout error:', error);
         } finally {
+          sessionStorage.removeItem('asra_dev_preview');
           set({
             user: null,
             accessToken: null,

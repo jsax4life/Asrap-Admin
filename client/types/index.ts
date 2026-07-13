@@ -1,4 +1,4 @@
-// Core types for Asra Music Admin Dashboard
+// Core types for Asrapa Music Admin Dashboard
 
 export interface User {
   id: string;
@@ -21,6 +21,8 @@ export interface User {
   loginAttempts?: number;
   fullName?: string;
   isLocked?: boolean;
+  /** Set when admin creates account with a temporary password; agent must change on first login */
+  mustChangePassword?: boolean;
 }
 
 export interface Artist {
@@ -100,6 +102,22 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
+/** Payload when super_admin creates a payment agent account */
+export interface CreateAgentAccountRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  temporaryPassword: string;
+  role: 'payment_agent';
+  department?: string;
+}
+
 // API Response for login
 export interface AdminData {
   id: string;
@@ -111,6 +129,7 @@ export interface AdminData {
   permissions: string[];
   isEmailVerified: boolean;
   lastLoginAt: string;
+  mustChangePassword?: boolean;
 }
 
 export interface AdminLoginData {
@@ -150,6 +169,7 @@ export interface AdminProfileData {
   fullName: string;
   isLocked: boolean;
   id: string;
+  mustChangePassword?: boolean;
 }
 
 export interface AdminProfileResponse {
@@ -179,7 +199,64 @@ export interface ThemeState {
   systemTheme: boolean;
 }
 
-export type UserRole = 'super_admin' | 'admin' | 'moderator' | 'analyst';
+export type UserRole = 'super_admin' | 'admin' | 'moderator' | 'analyst' | 'payment_agent';
+
+export type ClientType = 'user' | 'artist' | 'advertiser';
+
+export type SubscriptionPlan = 'free' | 'premium' | 'family' | 'artist_pro' | 'advertiser_starter' | 'advertiser_pro';
+
+export interface AgentClient {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  clientType: ClientType;
+  subscriptionPlan?: SubscriptionPlan;
+  subscriptionStatus: 'active' | 'pending' | 'expired' | 'none';
+  onboardedAt: string;
+  lastActivityAt?: string;
+}
+
+export interface AgentTransaction {
+  id: string;
+  transactionId: string;
+  clientName: string;
+  clientType: ClientType;
+  plan: SubscriptionPlan;
+  amount: number;
+  paymentMethod: 'cash' | 'mobile_money' | 'bank_transfer' | 'card';
+  status: 'completed' | 'pending' | 'failed';
+  createdAt: string;
+}
+
+export interface AgentDashboardStats {
+  totalClients: number;
+  onboardedToday: number;
+  activeSubscriptions: number;
+  monthlyCommission: number;
+  pendingOnboardings: number;
+  usersOnboarded: number;
+  artistsOnboarded: number;
+  advertisersOnboarded: number;
+}
+
+export interface OnboardingFormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  dateOfBirth?: string;
+  location?: string;
+  clientType: ClientType;
+  subscriptionPlan?: SubscriptionPlan;
+  paymentMethod?: 'cash' | 'mobile_money' | 'bank_transfer' | 'card';
+  notes?: string;
+  // Artist-specific
+  stageName?: string;
+  genre?: string;
+  // Advertiser-specific
+  companyName?: string;
+  businessType?: string;
+}
 
 export interface NotificationItem {
   id: string;

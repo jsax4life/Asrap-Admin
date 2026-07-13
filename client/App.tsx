@@ -11,9 +11,11 @@ import { Toaster as HotToaster } from 'react-hot-toast';
 // Layouts
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 import { CustomLayout } from "@/layouts/CustomLayout";
+import { AgentLayout } from "@/layouts/AgentLayout";
 
 // Pages
 import { Login } from "./pages/auth/Login";
+import { ChangePassword } from "./pages/auth/ChangePassword";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Analytics from "./pages/analytics/Analytics";
 import MusicUploadApproval from "./pages/music-upload/MusicUploadApproval";
@@ -33,11 +35,23 @@ import EditUser from "./pages/admin/EditUser";
 import HelpSupport from "./pages/support/HelpSupport";
 import ViewSupportRequest from "./pages/support/ViewSupportRequest";
 import PromotionManagement from "./pages/promotion/PromotionManagement";
+import GenreManagement from "./pages/genres/GenreManagement";
+import AgentDashboard from "./pages/agent/AgentDashboard";
+import AgentOnboarding from "./pages/agent/AgentOnboarding";
+import OnboardUser from "./pages/agent/OnboardUser";
+import OnboardArtist from "./pages/agent/OnboardArtist";
+import OnboardAdvertiser from "./pages/agent/OnboardAdvertiser";
+import AgentClients from "./pages/agent/AgentClients";
+import AgentSubscriptions from "./pages/agent/AgentSubscriptions";
+import AgentTransactions from "./pages/agent/AgentTransactions";
+import AgentHelp from "./pages/agent/AgentHelp";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
 
 // Components
 import { ProtectedRoute } from "@/components/common/ProtectedRoute";
+import { RoleBasedRedirect } from "@/components/common/RoleBasedRedirect";
+import { ADMIN_ROLES, AGENT_ROLES } from "@/lib/roles";
 
 // Hooks
 import { useTheme } from "@/hooks/useTheme";
@@ -59,10 +73,15 @@ const AppRoutes = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/change-password" element={
+          <ProtectedRoute>
+            <ChangePassword />
+          </ProtectedRoute>
+        } />
         
         {/* Protected Routes */}
         <Route path="/dashboard" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <DashboardLayout>
               <Dashboard />
             </DashboardLayout>
@@ -70,7 +89,7 @@ const AppRoutes = () => {
         } />
         
         <Route path="/analytics" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <DashboardLayout>
               <Analytics />
             </DashboardLayout>
@@ -78,7 +97,7 @@ const AppRoutes = () => {
         } />
         
         <Route path="/music-upload" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <MusicUploadApproval />
             </CustomLayout>
@@ -86,7 +105,7 @@ const AppRoutes = () => {
         } />
         
         <Route path="/music-upload/:id" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <MusicApprovalDetail />
             </CustomLayout>
@@ -94,15 +113,23 @@ const AppRoutes = () => {
         } />
         
         <Route path="/music-upload/success" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <MusicApprovalSuccess />
             </CustomLayout>
           </ProtectedRoute>
         } />
+
+        <Route path="/genre-management" element={
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
+            <CustomLayout>
+              <GenreManagement />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
         
         <Route path="/playlist-management" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <PlaylistManagement />
             </CustomLayout>
@@ -110,7 +137,7 @@ const AppRoutes = () => {
         } />
         
         <Route path="/playlist-management/:id" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <PlaylistDetail />
             </CustomLayout>
@@ -118,7 +145,7 @@ const AppRoutes = () => {
         } />
         
         <Route path="/artist-management" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <ArtistManagement />
             </CustomLayout>
@@ -126,7 +153,7 @@ const AppRoutes = () => {
         } />
         
         <Route path="/artist-management/:id" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <ArtistDetail />
             </CustomLayout>
@@ -134,7 +161,7 @@ const AppRoutes = () => {
         } />
         
         <Route path="/album/:id" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <AlbumDetail />
             </CustomLayout>
@@ -142,7 +169,7 @@ const AppRoutes = () => {
         } />
         
         <Route path="/user-management/:id" element={
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <UserDetail />
             </CustomLayout>
@@ -150,7 +177,7 @@ const AppRoutes = () => {
         } />
         
             <Route path="/payments" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={ADMIN_ROLES}>
                 <CustomLayout>
                   <PaymentManagement />
                 </CustomLayout>
@@ -158,7 +185,7 @@ const AppRoutes = () => {
             } />
 
             <Route path="/admin-users" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={ADMIN_ROLES}>
                 <CustomLayout>
                   <AdminUsers />
                 </CustomLayout>
@@ -166,7 +193,7 @@ const AppRoutes = () => {
             } />
 
             <Route path="/admin-users/create" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={ADMIN_ROLES}>
                 <CustomLayout>
                   <CreateUser />
                 </CustomLayout>
@@ -174,7 +201,7 @@ const AppRoutes = () => {
             } />
 
             <Route path="/admin-users/view/:id" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={ADMIN_ROLES}>
                 <CustomLayout>
                   <ViewUser />
                 </CustomLayout>
@@ -182,7 +209,7 @@ const AppRoutes = () => {
             } />
 
             <Route path="/admin-users/edit/:id" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={ADMIN_ROLES}>
                 <CustomLayout>
                   <EditUser />
                 </CustomLayout>
@@ -190,7 +217,7 @@ const AppRoutes = () => {
             } />
 
             <Route path="/help-support" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={ADMIN_ROLES}>
                 <CustomLayout>
                   <HelpSupport />
                 </CustomLayout>
@@ -198,7 +225,7 @@ const AppRoutes = () => {
             } />
 
             <Route path="/help-support/view/:id" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={ADMIN_ROLES}>
                 <CustomLayout>
                   <ViewSupportRequest />
                 </CustomLayout>
@@ -206,15 +233,90 @@ const AppRoutes = () => {
             } />
 
             <Route path="/promotion" element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={ADMIN_ROLES}>
                 <CustomLayout>
                   <PromotionManagement />
                 </CustomLayout>
               </ProtectedRoute>
             } />
 
-            {/* Redirect root to dashboard */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        {/* Agent App Routes */}
+        <Route path="/agent/dashboard" element={
+          <ProtectedRoute requiredRoles={AGENT_ROLES}>
+            <AgentLayout>
+              <AgentDashboard />
+            </AgentLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/agent/onboarding" element={
+          <ProtectedRoute requiredRoles={AGENT_ROLES}>
+            <AgentLayout>
+              <AgentOnboarding />
+            </AgentLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/agent/onboard/user" element={
+          <ProtectedRoute requiredRoles={AGENT_ROLES}>
+            <AgentLayout>
+              <OnboardUser />
+            </AgentLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/agent/onboard/artist" element={
+          <ProtectedRoute requiredRoles={AGENT_ROLES}>
+            <AgentLayout>
+              <OnboardArtist />
+            </AgentLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/agent/onboard/advertiser" element={
+          <ProtectedRoute requiredRoles={AGENT_ROLES}>
+            <AgentLayout>
+              <OnboardAdvertiser />
+            </AgentLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/agent/clients" element={
+          <ProtectedRoute requiredRoles={AGENT_ROLES}>
+            <AgentLayout>
+              <AgentClients />
+            </AgentLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/agent/subscriptions" element={
+          <ProtectedRoute requiredRoles={AGENT_ROLES}>
+            <AgentLayout>
+              <AgentSubscriptions />
+            </AgentLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/agent/transactions" element={
+          <ProtectedRoute requiredRoles={AGENT_ROLES}>
+            <AgentLayout>
+              <AgentTransactions />
+            </AgentLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/agent/help" element={
+          <ProtectedRoute requiredRoles={AGENT_ROLES}>
+            <AgentLayout>
+              <AgentHelp />
+            </AgentLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/agent" element={<Navigate to="/agent/dashboard" replace />} />
+
+            {/* Redirect root based on role */}
+            <Route path="/" element={<RoleBasedRedirect />} />
         
         {/* Unauthorized */}
         <Route path="/unauthorized" element={<Unauthorized />} />

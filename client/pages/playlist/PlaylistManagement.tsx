@@ -144,7 +144,7 @@ export default function PlaylistManagement() {
           {/* Left Side - Date and Title */}
           <div className="space-y-2">
             <div className="text-white text-sm">Date: 03/02/2023</div>
-            <h1 className="text-white text-3xl font-bold">Asra Playlist Manager</h1>
+            <h1 className="text-white text-3xl font-bold">Asrapa Playlist Manager</h1>
           </div>
 
           {/* Center - Search Bar */}

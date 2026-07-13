@@ -10,7 +10,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/hooks/useAuth';
+import { useAuthStore } from '@/store/authStore';
 import { LoginRequest } from '@/types';
+import { getPostLoginPath } from '@/lib/roles';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -42,7 +44,11 @@ export const Login = () => {
     try {
       await login(data as LoginRequest);
       toast.success('Login successful!');
-      navigate(from, { replace: true });
+      const currentUser = useAuthStore.getState().user;
+      const redirectTo = currentUser
+        ? getPostLoginPath(currentUser)
+        : from;
+      navigate(redirectTo, { replace: true });
     } catch (error: any) {
       toast.error(error.message || 'Login failed. Please try again.');
     } finally {
@@ -55,7 +61,7 @@ export const Login = () => {
       <div className="space-y-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-2">Welcome Back</h1>
-          <p className="text-asra-gray-6">Sign in to your admin account</p>
+          <p className="text-asra-gray-6">Sign in to your admin or agent account</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -66,7 +72,7 @@ export const Login = () => {
             <Input
               id="email"
               type="email"
-              placeholder="admin@asramusic.com"
+              placeholder="admin@asrapa.com"
               className="bg-asra-gray-2 border-asra-gray-5 text-white placeholder:text-asra-gray-6"
               {...register('email')}
             />

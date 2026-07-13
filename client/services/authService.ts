@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { apiClient } from './apiClient';
 import { API_ENDPOINTS, API_BASE_URL } from '@/constants';
-import { LoginRequest, LoginResponse, User, ApiResponse, AdminLoginResponse, AdminProfileResponse } from '@/types';
+import { LoginRequest, LoginResponse, User, ApiResponse, AdminLoginResponse, AdminProfileResponse, ChangePasswordRequest } from '@/types';
 
 class AuthService {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
@@ -29,6 +29,7 @@ class AuthService {
           createdAt: new Date().toISOString(),
           lastLogin: admin.lastLoginAt,
           lastLoginAt: admin.lastLoginAt,
+          mustChangePassword: admin.mustChangePassword ?? false,
         };
         
         // Store tokens
@@ -45,6 +46,21 @@ class AuthService {
       throw new Error(response.message || 'Login failed');
     } catch (error: any) {
       throw new Error(error.response?.data?.message || error.message || 'Login failed');
+    }
+  }
+
+  async changePassword(data: ChangePasswordRequest): Promise<void> {
+    try {
+      const response = await apiClient.post<{ status: string; message: string }>(
+        API_ENDPOINTS.AUTH.CHANGE_PASSWORD,
+        data
+      ) as any;
+
+      if (response.status !== 'success') {
+        throw new Error(response.message || 'Failed to change password');
+      }
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || error.message || 'Failed to change password');
     }
   }
 
@@ -88,6 +104,7 @@ class AuthService {
           createdAt: admin.createdAt,
           lastLogin: admin.lastLoginAt,
           lastLoginAt: admin.lastLoginAt,
+          mustChangePassword: admin.mustChangePassword ?? false,
         };
         
         return user;

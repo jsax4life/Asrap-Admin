@@ -18,7 +18,7 @@ export const CustomLayout = ({ children }: CustomLayoutProps) => {
         user={user}
       />
       
-      <main className="flex-1 lg:ml-[315px]">
+      <main className="flex-1 lg:ml-[315px] min-w-0 overflow-x-hidden">
         {children}
       </main>
     </div>

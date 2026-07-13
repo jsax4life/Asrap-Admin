@@ -144,7 +144,7 @@ const ArtistManagement = () => {
               <div className="w-8 h-8 bg-asra-red rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">S</span>
               </div>
-              <span className="text-white text-xl font-bold">AsraMusic</span>
+              <span className="text-white text-xl font-bold">Asrapa</span>
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
@@ -191,7 +191,7 @@ const ArtistManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Artists on Asra
+            Artists on Asrapa
           </button>
           <button
             onClick={() => setActiveTab('users')}
@@ -201,7 +201,7 @@ const ArtistManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Users on Asra
+            Users on Asrapa
           </button>
         </div>
 
@@ -281,7 +281,7 @@ const ArtistManagement = () => {
                         Monthly Listeners
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        No. of Songs on Asra
+                        No. of Songs on Asrapa
                       </th>
                     </>
                   ) : (

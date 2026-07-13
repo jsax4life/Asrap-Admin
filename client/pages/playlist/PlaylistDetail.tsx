@@ -16,7 +16,7 @@ const playlistData = {
   likes: '5,865,865',
   songCount: 34,
   duration: '2hr 01 min',
-  createdBy: 'AsraMusic',
+  createdBy: 'Asrapa',
 };
 
 // Mock data for songs in the playlist
@@ -215,7 +215,7 @@ export default function PlaylistDetail() {
         <div className="lg:col-span-1">
           <div className="relative">
             <div className="aspect-[3/4] bg-asra-red rounded-lg overflow-hidden">
-              {/* Asra Logo */}
+              {/* Asrapa Logo */}
               <div className="absolute top-6 left-6 z-10">
                 <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
                   <span className="text-asra-red text-lg font-bold">S</span>

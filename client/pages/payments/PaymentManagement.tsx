@@ -355,7 +355,7 @@ const PaymentManagement = () => {
               <div className="w-8 h-8 bg-asra-red rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">S</span>
               </div>
-              <span className="text-white text-xl font-bold">AsraMusic</span>
+              <span className="text-white text-xl font-bold">Asrapa</span>
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />

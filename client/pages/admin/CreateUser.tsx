@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, User, Upload, UserCheck, Mail, Phone, Shield } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Upload, UserCheck, Mail, Phone, Shield, Loader2, RefreshCw, Copy } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { adminAgentService } from '@/services/adminAgentService';
+import { generateTemporaryPassword } from '@/lib/password';
 
 const CreateUser = () => {
   const navigate = useNavigate();
@@ -12,9 +15,13 @@ const CreateUser = () => {
     name: '',
     phoneNumber: '',
     accessLevel: '',
+    temporaryPassword: '',
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isPaymentAgent = formData.userType === 'Payment Agent';
 
   const userTypeOptions = [
     'Admin User',
@@ -33,7 +40,14 @@ const CreateUser = () => {
   ];
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => {
+      const next = { ...prev, [field]: value };
+      if (field === 'userType' && value === 'Payment Agent') {
+        next.role = 'payment_agent';
+        next.accessLevel = 'Payment Agent';
+      }
+      return next;
+    });
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
@@ -55,7 +69,13 @@ const CreateUser = () => {
     if (!formData.role) newErrors.role = 'Role is required';
     if (!formData.name) newErrors.name = 'Name is required';
     if (!formData.phoneNumber) newErrors.phoneNumber = 'Phone number is required';
-    if (!formData.accessLevel) newErrors.accessLevel = 'Access level is required';
+    if (!isPaymentAgent && !formData.accessLevel) newErrors.accessLevel = 'Access level is required';
+    if (isPaymentAgent && !formData.temporaryPassword) {
+      newErrors.temporaryPassword = 'Temporary password is required for agents';
+    }
+    if (isPaymentAgent && formData.temporaryPassword && formData.temporaryPassword.length < 8) {
+      newErrors.temporaryPassword = 'Temporary password must be at least 8 characters';
+    }
 
     // Email validation
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
@@ -66,15 +86,52 @@ const CreateUser = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleGeneratePassword = () => {
+    const password = generateTemporaryPassword();
+    handleInputChange('temporaryPassword', password);
+    toast.success('Temporary password generated');
+  };
+
+  const handleCopyPassword = async () => {
+    if (!formData.temporaryPassword) return;
+    await navigator.clipboard.writeText(formData.temporaryPassword);
+    toast.success('Password copied to clipboard');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (validateForm()) {
-      console.log('Creating user:', formData);
-      // TODO: Implement create user API call
-      // For now, just navigate back to admin users
-      navigate('/admin-users');
+
+    if (!validateForm()) return;
+
+    if (isPaymentAgent) {
+      const nameParts = formData.name.trim().split(/\s+/);
+      const firstName = nameParts[0] || formData.name;
+      const lastName = nameParts.slice(1).join(' ') || firstName;
+
+      setIsSubmitting(true);
+      try {
+        await adminAgentService.createPaymentAgent({
+          firstName,
+          lastName,
+          email: formData.email,
+          phoneNumber: formData.phoneNumber,
+          role: 'payment_agent',
+          temporaryPassword: formData.temporaryPassword,
+          department: 'field_agents',
+        });
+        toast.success('Payment agent created. Share the temporary password securely with the agent.');
+        navigate('/admin-users?tab=payment-agents');
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : 'Failed to create payment agent';
+        toast.error(message);
+      } finally {
+        setIsSubmitting(false);
+      }
+      return;
     }
+
+    console.log('Creating user:', formData);
+    navigate('/admin-users');
   };
 
   const handleGoBack = () => {
@@ -92,7 +149,7 @@ const CreateUser = () => {
               <div className="w-8 h-8 bg-asra-red rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">A</span>
               </div>
-              <span className="text-white text-xl font-bold">AsraMusic</span>
+              <span className="text-white text-xl font-bold">Asrapa</span>
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
@@ -193,6 +250,12 @@ const CreateUser = () => {
                 {errors.userType && (
                   <p className="text-red-500 text-sm mt-1">{errors.userType}</p>
                 )}
+                {isPaymentAgent && (
+                  <p className="text-asra-gray-400 text-sm mt-2">
+                    Payment agents cannot self-register. They log in with the temporary password you
+                    set here and must change it on first login before using the Agent Portal.
+                  </p>
+                )}
               </div>
 
               {/* Email */}
@@ -227,14 +290,58 @@ const CreateUser = () => {
                   value={formData.role}
                   onChange={(e) => handleInputChange('role', e.target.value)}
                   placeholder="Enter the role"
+                  readOnly={isPaymentAgent}
                   className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                     errors.role ? 'border-red-500' : 'border-asra-gray-700'
-                  }`}
+                  } ${isPaymentAgent ? 'opacity-70 cursor-not-allowed' : ''}`}
                 />
                 {errors.role && (
                   <p className="text-red-500 text-sm mt-1">{errors.role}</p>
                 )}
               </div>
+
+              {isPaymentAgent && (
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    Temporary password <span className="text-asra-red">*</span>
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={formData.temporaryPassword}
+                      onChange={(e) => handleInputChange('temporaryPassword', e.target.value)}
+                      placeholder="Agent will change this on first login"
+                      className={`flex-1 px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red font-mono ${
+                        errors.temporaryPassword ? 'border-red-500' : 'border-asra-gray-700'
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleGeneratePassword}
+                      className="px-4 py-3 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white hover:border-asra-red transition-colors flex items-center gap-2 whitespace-nowrap"
+                      title="Generate password"
+                    >
+                      <RefreshCw className="w-4 h-4" />
+                      Generate
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCopyPassword}
+                      disabled={!formData.temporaryPassword}
+                      className="px-4 py-3 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white hover:border-asra-red transition-colors disabled:opacity-50"
+                      title="Copy password"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </button>
+                  </div>
+                  {errors.temporaryPassword && (
+                    <p className="text-red-500 text-sm mt-1">{errors.temporaryPassword}</p>
+                  )}
+                  <p className="text-asra-gray-400 text-sm mt-1">
+                    Click Generate for a secure password. Share it with the agent — it won't be shown again.
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Right Column */}
@@ -281,6 +388,7 @@ const CreateUser = () => {
               </div>
 
               {/* Access Level */}
+              {!isPaymentAgent && (
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
                   Access Level <span className="text-asra-red">*</span>
@@ -306,6 +414,7 @@ const CreateUser = () => {
                   <p className="text-red-500 text-sm mt-1">{errors.accessLevel}</p>
                 )}
               </div>
+              )}
             </div>
           </div>
 
@@ -313,9 +422,11 @@ const CreateUser = () => {
           <div className="flex justify-center pt-8">
             <button
               type="submit"
-              className="bg-asra-red hover:bg-red-600 text-white px-12 py-4 rounded-lg text-lg font-medium transition-colors"
+              disabled={isSubmitting}
+              className="bg-asra-red hover:bg-red-600 disabled:opacity-60 text-white px-12 py-4 rounded-lg text-lg font-medium transition-colors flex items-center gap-2"
             >
-              Create
+              {isSubmitting && <Loader2 className="w-5 h-5 animate-spin" />}
+              {isSubmitting ? 'Creating...' : 'Create'}
             </button>
           </div>
         </form>

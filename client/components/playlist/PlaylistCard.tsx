@@ -44,7 +44,7 @@ export const PlaylistCard = ({ playlist, onClick, className }: PlaylistCardProps
           </div>
         )}
         
-        {/* Asra Logo */}
+        {/* Asrapa Logo */}
         <div className="absolute top-2 left-2 w-6 h-6 bg-white rounded-full flex items-center justify-center">
           <span className="text-asra-red text-xs font-bold">S</span>
         </div>

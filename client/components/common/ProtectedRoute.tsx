@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { UserRole } from '@/types';
+import { isDevPreview } from '@/lib/devPreview';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -29,6 +30,15 @@ export const ProtectedRoute = ({
   // Redirect to login if not authenticated
   if (!isAuthenticated || !user) {
     return <Navigate to={fallbackPath} state={{ from: location }} replace />;
+  }
+
+  // Force password change on first login (admin-provisioned accounts)
+  if (
+    user.mustChangePassword &&
+    !isDevPreview() &&
+    location.pathname !== '/change-password'
+  ) {
+    return <Navigate to="/change-password" replace />;
   }
 
   // Check role-based access

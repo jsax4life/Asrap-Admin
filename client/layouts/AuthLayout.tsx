@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import { APP_NAME } from '@/constants';
+
 interface AuthLayoutProps {
   children: ReactNode;
 }
@@ -12,7 +14,7 @@ export const AuthLayout = ({ children }: AuthLayoutProps) => {
         <div className="text-center mb-8">
           <img 
             src="https://api.builder.io/api/v1/image/assets/TEMP/2f1510a347aa5bfec3416f59e81b157d9997dfa5?width=464" 
-            alt="AsraMusic" 
+            alt={APP_NAME} 
             className="w-[232px] h-[52px] mx-auto"
           />
         </div>

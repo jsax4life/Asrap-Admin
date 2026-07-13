@@ -1,4 +1,4 @@
-import { MenuItem, UserRole } from '@/types';
+import { MenuItem, UserRole, SubscriptionPlan } from '@/types';
 import { 
   Home, 
   BarChart3, 
@@ -14,8 +14,18 @@ import {
   Shield,
   TrendingUp,
   FileText,
-  Calendar
+  Calendar,
+  UserPlus,
+  CreditCard,
+  ClipboardList,
+  Headphones,
+  Mic2,
+  Building2,
+  Tags,
 } from 'lucide-react';
+
+export const APP_NAME = 'Asrapa';
+export const APP_NAME_FULL = 'Asrapa Music';
 
 // API Configuration
 // In production: use https://api.asrapa.com
@@ -47,6 +57,7 @@ export const USER_ROLES: Record<UserRole, string> = {
   admin: 'Admin',
   moderator: 'Moderator',
   analyst: 'Analyst',
+  payment_agent: 'Payment Agent',
 };
 
 // Menu Items Configuration
@@ -73,8 +84,15 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ['super_admin', 'admin', 'moderator'],
   },
   {
+    id: 'genre-management',
+    label: 'Genre Management',
+    icon: 'Tags',
+    path: '/genre-management',
+    roles: ['super_admin', 'admin', 'moderator'],
+  },
+  {
     id: 'playlist-management',
-    label: 'Asra Playlist Management',
+    label: 'Asrapa Playlist Management',
     icon: 'Music2',
     path: '/playlist-management',
     roles: ['super_admin', 'admin', 'moderator'],
@@ -108,6 +126,72 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ['super_admin'],
   },
 ];
+
+// Agent App Menu Items
+export const AGENT_MENU_ITEMS: MenuItem[] = [
+  {
+    id: 'agent-dashboard',
+    label: 'Dashboard',
+    icon: 'Home',
+    path: '/agent/dashboard',
+    roles: ['payment_agent'],
+  },
+  {
+    id: 'agent-onboarding',
+    label: 'Onboard Clients',
+    icon: 'UserPlus',
+    path: '/agent/onboarding',
+    roles: ['payment_agent'],
+  },
+  {
+    id: 'agent-clients',
+    label: 'My Clients',
+    icon: 'Users',
+    path: '/agent/clients',
+    roles: ['payment_agent'],
+  },
+  {
+    id: 'agent-subscriptions',
+    label: 'Subscriptions',
+    icon: 'CreditCard',
+    path: '/agent/subscriptions',
+    roles: ['payment_agent'],
+  },
+  {
+    id: 'agent-transactions',
+    label: 'Transactions',
+    icon: 'Banknote',
+    path: '/agent/transactions',
+    roles: ['payment_agent'],
+  },
+];
+
+export const AGENT_ACCOUNT_MENU_ITEMS: MenuItem[] = [
+  {
+    id: 'agent-help',
+    label: 'Help & Support',
+    icon: 'HelpCircle',
+    path: '/agent/help',
+    roles: ['payment_agent'],
+  },
+  {
+    id: 'agent-logout',
+    label: 'Log Out',
+    icon: 'LogOut',
+    path: '/logout',
+    roles: ['payment_agent'],
+  },
+];
+
+// Subscription plans available for agents to sell
+export const SUBSCRIPTION_PLANS: Record<SubscriptionPlan, { label: string; price: number; clientTypes: string[] }> = {
+  free: { label: 'Free', price: 0, clientTypes: ['user'] },
+  premium: { label: 'Premium (Listener)', price: 1500, clientTypes: ['user'] },
+  family: { label: 'Family Plan', price: 3500, clientTypes: ['user'] },
+  artist_pro: { label: 'Artist Pro', price: 5000, clientTypes: ['artist'] },
+  advertiser_starter: { label: 'Advertiser Starter', price: 10000, clientTypes: ['advertiser'] },
+  advertiser_pro: { label: 'Advertiser Pro', price: 25000, clientTypes: ['advertiser'] },
+};
 
 export const ACCOUNT_MENU_ITEMS: MenuItem[] = [
   {
@@ -150,6 +234,13 @@ export const ICON_MAP = {
   TrendingUp,
   FileText,
   Calendar,
+  UserPlus,
+  CreditCard,
+  ClipboardList,
+  Headphones,
+  Mic2,
+  Building2,
+  Tags,
 };
 
 // Table pagination
@@ -185,6 +276,7 @@ export const API_ENDPOINTS = {
     LOGOUT: '/admin/auth/logout',
     REFRESH: '/admin/auth/refresh',
     PROFILE: '/admin/auth/me',
+    CHANGE_PASSWORD: '/admin/auth/change-password',
   },
   USERS: {
     LIST: '/users',
@@ -216,6 +308,22 @@ export const API_ENDPOINTS = {
     REVENUE: '/analytics/revenue',
     USERS: '/analytics/users',
     STREAMS: '/analytics/streams',
+  },
+  AGENT: {
+    DASHBOARD: '/agent/dashboard',
+    CLIENTS: '/agent/clients',
+    ONBOARD: '/agent/clients/onboard',
+    SUBSCRIPTIONS: '/agent/subscriptions',
+    TRANSACTIONS: '/agent/transactions',
+    CREATE_ACCOUNT: '/admin/agents',
+  },
+  ADMIN: {
+    ADMINS: '/admin/management/admins',
+  },
+  GENRES: {
+    LIST: '/genres',
+    ADMIN_CREATE: '/admin/genres',
+    ADMIN_DELETE: '/admin/genres/:genreId',
   },
 } as const;
 

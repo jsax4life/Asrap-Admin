@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { authService } from '@/services/authService';
+import { isDevPreview } from '@/lib/devPreview';
 import { LoginRequest } from '@/types';
 
 export const useAuth = () => {
@@ -20,7 +21,12 @@ export const useAuth = () => {
     let mounted = true;
     
     const initializeAuth = async () => {
-      // Get current state from store to avoid stale closures
+      // Dev preview mode — skip API profile fetch
+      if (isDevPreview()) {
+        if (mounted) setLoading(false);
+        return;
+      }
+
       const currentState = useAuthStore.getState();
       const hasToken = authService.isAuthenticated();
       

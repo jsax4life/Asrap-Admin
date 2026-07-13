@@ -21,7 +21,7 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
       case '/music-upload':
         return 'Music Upload Approval';
       case '/playlist-management':
-        return 'Asra Playlist Manager';
+        return 'Asrapa Playlist Manager';
       case '/artist-management':
         return 'Artist/User Management';
       case '/payments':

@@ -1,6 +1,6 @@
-# Asra Music Admin Dashboard
+# Asrapa Music Admin Dashboard
 
-A production-grade administrator dashboard for Asra Music streaming platform, built with React, TypeScript, and modern web technologies.
+A production-grade administrator dashboard for Asrapa Music streaming platform, built with React, TypeScript, and modern web technologies.
 
 ## 🚀 Features
 
@@ -13,7 +13,7 @@ A production-grade administrator dashboard for Asra Music streaming platform, bu
   - Login page with form validation
 
 - **🎨 Modern UI/UX**
-  - Beautiful dark theme with Asra Music branding
+  - Beautiful dark theme with Asrapa Music branding
   - Light/dark theme toggle
   - Responsive design for all screen sizes
   - Professional dashboard layout with collapsible sidebar
@@ -192,7 +192,7 @@ pnpm dev
 ### Default Login
 
 For development, you can use these test credentials:
-- **Email**: admin@asramusic.com
+- **Email**: admin@asrapa.com
 - **Password**: password123
 
 *Note: These are mock credentials. Replace with real authentication when backend is ready.*
@@ -232,7 +232,7 @@ The dashboard is fully responsive and works on:
 // Login
 POST /api/v1/auth/login
 {
-  "email": "admin@asramusic.com",
+  "email": "admin@asrapa.com",
   "password": "password123"
 }
 
@@ -316,8 +316,8 @@ The application can be deployed to:
 
 ## 📄 License
 
-This project is proprietary to Asra Music.
+This project is proprietary to Asrapa Music.
 
 ---
 
-**Built with ❤️ for Asra Music**
+**Built with ❤️ for Asrapa Music**
