@@ -1,6 +1,6 @@
-# Asrapa Music Admin Dashboard
+# Asrapa Admin Dashboard
 
-A production-grade administrator dashboard for Asrapa Music streaming platform, built with React, TypeScript, and modern web technologies.
+A production-grade administrator dashboard for Asrapa streaming platform, built with React, TypeScript, and modern web technologies.
 
 ## 🚀 Features
 
@@ -13,7 +13,7 @@ A production-grade administrator dashboard for Asrapa Music streaming platform, 
   - Login page with form validation
 
 - **🎨 Modern UI/UX**
-  - Beautiful dark theme with Asrapa Music branding
+  - Beautiful dark theme with Asrapa branding
   - Light/dark theme toggle
   - Responsive design for all screen sizes
   - Professional dashboard layout with collapsible sidebar
@@ -107,22 +107,26 @@ client/
 ### Key Components
 
 #### 1. Authentication System
+
 - **AuthStore**: Manages user authentication state
 - **AuthService**: Handles API calls for login/logout
 - **ProtectedRoute**: Wraps routes requiring authentication
 - **useAuth**: Hook for authentication state and actions
 
 #### 2. Theme System
+
 - **ThemeStore**: Manages theme state (light/dark)
 - **ThemeToggle**: Component for switching themes
 - **CSS Variables**: Dynamic theming with CSS custom properties
 
 #### 3. API Layer
+
 - **ApiClient**: Centralized HTTP client with interceptors
 - **Error Handling**: Automatic token refresh and error management
 - **Type Safety**: Full TypeScript support for API responses
 
 #### 4. UI Components
+
 - **DataTable**: Reusable table with sorting and pagination
 - **SearchBar**: Search input with clear functionality
 - **Pagination**: Complete pagination component
@@ -154,11 +158,11 @@ Menu items are configured in `constants/index.ts` with role-based access:
 ```typescript
 export const MENU_ITEMS: MenuItem[] = [
   {
-    id: 'dashboard',
-    label: 'Dashboard',
-    icon: 'Home',
-    path: '/dashboard',
-    roles: ['super_admin', 'admin', 'moderator', 'analyst'],
+    id: "dashboard",
+    label: "Dashboard",
+    icon: "Home",
+    path: "/dashboard",
+    roles: ["super_admin", "admin", "moderator", "analyst"],
   },
   // ... more items
 ];
@@ -168,12 +172,13 @@ export const MENU_ITEMS: MenuItem[] = [
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or pnpm
 
 ### Installation
 
 1. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -181,6 +186,7 @@ pnpm install
 ```
 
 2. Start the development server:
+
 ```bash
 npm run dev
 # or
@@ -192,19 +198,22 @@ pnpm dev
 ### Default Login
 
 For development, you can use these test credentials:
+
 - **Email**: admin@asrapa.com
 - **Password**: password123
 
-*Note: These are mock credentials. Replace with real authentication when backend is ready.*
+_Note: These are mock credentials. Replace with real authentication when backend is ready._
 
 ## 📱 Responsive Design
 
 The dashboard is fully responsive and works on:
+
 - Desktop (1200px+)
 - Tablet (768px - 1199px)
 - Mobile (320px - 767px)
 
 ### Mobile Features
+
 - Collapsible sidebar with overlay
 - Touch-friendly interface
 - Optimized table scrolling
@@ -213,12 +222,14 @@ The dashboard is fully responsive and works on:
 ## 🎨 Theming
 
 ### Dark Theme (Default)
+
 - Primary background: `#131313` (asra-dark)
 - Card background: `#2B2B2B` (asra-gray-1)
 - Text colors: White and gray variants
 - Accent color: `#C40505` (asra-red)
 
 ### Light Theme
+
 - Primary background: White
 - Card background: Light gray
 - Text colors: Dark gray and black
@@ -249,18 +260,19 @@ Authorization: Bearer <token>
 
 ```typescript
 // Get Dashboard Metrics
-GET /api/v1/dashboard/metrics
+GET / api / v1 / dashboard / metrics;
 
 // Get Top Artists
-GET /api/v1/dashboard/top-artists
+GET / api / v1 / dashboard / top - artists;
 
 // Get Top Songs
-GET /api/v1/dashboard/top-songs
+GET / api / v1 / dashboard / top - songs;
 ```
 
 ## 🧪 Testing
 
 Run tests with:
+
 ```bash
 npm test
 # or
@@ -280,6 +292,7 @@ The built files will be in the `dist/` directory.
 ## 🚀 Deployment
 
 The application can be deployed to:
+
 - **Netlify**: Use the Netlify MCP integration
 - **Vercel**: Use the Vercel MCP integration
 - **Any static hosting**: Upload the `dist/` folder
@@ -287,18 +300,21 @@ The application can be deployed to:
 ## 🔮 Future Enhancements
 
 ### Phase 2: Content Management
+
 - [ ] User management interface
 - [ ] Artist management
 - [ ] Song upload approval system
 - [ ] Playlist management
 
 ### Phase 3: Analytics
+
 - [ ] Advanced analytics dashboard
 - [ ] Revenue reporting
 - [ ] User engagement metrics
 - [ ] Export functionality
 
 ### Phase 4: Advanced Features
+
 - [ ] Real-time notifications
 - [ ] Bulk operations
 - [ ] Advanced search and filtering
@@ -316,8 +332,8 @@ The application can be deployed to:
 
 ## 📄 License
 
-This project is proprietary to Asrapa Music.
+This project is proprietary to Asrapa.
 
 ---
 
-**Built with ❤️ for Asrapa Music**
+**Built with ❤️ for Asrapa**

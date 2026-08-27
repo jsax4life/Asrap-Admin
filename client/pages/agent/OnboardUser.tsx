@@ -5,7 +5,7 @@ export default function OnboardUser() {
     <OnboardClientForm
       clientType="user"
       title="Onboard a Listener"
-      subtitle="Register a new listener on Asrapa Music and help them choose a subscription plan."
+      subtitle="Register a new listener on Asrapa and help them choose a subscription plan."
     />
   );
 }

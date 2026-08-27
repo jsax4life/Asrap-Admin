@@ -5,7 +5,7 @@ export default function OnboardAdvertiser() {
     <OnboardClientForm
       clientType="advertiser"
       title="Onboard an Advertiser"
-      subtitle="Register a business on Asrapa Music and set up their advertising subscription."
+      subtitle="Register a business on Asrapa and set up their advertising subscription."
     />
   );
 }

@@ -50,7 +50,7 @@ export default function AgentDashboard() {
     },
     {
       title: 'Onboard an Advertiser',
-      description: 'Register a business for advertising on Asrapa Music',
+      description: 'Register a business for advertising on Asrapa',
       icon: Building2,
       path: '/agent/onboard/advertiser',
       color: 'bg-amber-600',

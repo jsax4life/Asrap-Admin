@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Calendar, User, Search, Plus, Trash2, Loader2, Music2, Upload } from 'lucide-react';
+import { Calendar, User, Search, Plus, Trash2, Loader2, Music2, Upload, Pencil } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { genreService, Genre } from '@/services/genreService';
 import { APP_NAME } from '@/constants';
@@ -13,6 +13,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 export default function GenreManagement() {
   const [genres, setGenres] = useState<Genre[]>([]);
@@ -26,6 +35,11 @@ export default function GenreManagement() {
   const [submitting, setSubmitting] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Genre | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [editTarget, setEditTarget] = useState<Genre | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [editCoverImage, setEditCoverImage] = useState<File | null>(null);
+  const [editSubmitting, setEditSubmitting] = useState(false);
 
   const loadGenres = async () => {
     setLoading(true);
@@ -97,6 +111,56 @@ export default function GenreManagement() {
       toast.error(error instanceof Error ? error.message : 'Failed to delete genre');
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const openEditDialog = (genre: Genre) => {
+    setEditTarget(genre);
+    setEditName(genre.name);
+    setEditDescription(genre.description || '');
+    setEditCoverImage(null);
+  };
+
+  const closeEditDialog = (force = false) => {
+    if (!force && editSubmitting) return;
+    setEditTarget(null);
+    setEditName('');
+    setEditDescription('');
+    setEditCoverImage(null);
+  };
+
+  const handleEditSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editTarget) return;
+
+    if (!editName.trim()) {
+      toast.error('Genre name is required');
+      return;
+    }
+
+    const payload: { name?: string; description?: string; coverImage?: File } = {};
+    const trimmedName = editName.trim();
+    const trimmedDescription = editDescription.trim();
+
+    if (trimmedName !== editTarget.name) payload.name = trimmedName;
+    if (trimmedDescription !== (editTarget.description || '')) payload.description = trimmedDescription;
+    if (editCoverImage) payload.coverImage = editCoverImage;
+
+    if (Object.keys(payload).length === 0) {
+      toast.error('No changes to save');
+      return;
+    }
+
+    setEditSubmitting(true);
+    try {
+      const result = await genreService.updateGenre(editTarget._id, payload);
+      toast.success(result.message || 'Genre updated successfully');
+      closeEditDialog(true);
+      await loadGenres();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to update genre');
+    } finally {
+      setEditSubmitting(false);
     }
   };
 
@@ -271,13 +335,22 @@ export default function GenreManagement() {
                         <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Active</span>
                       </td>
                       <td className="px-6 py-4 text-right whitespace-nowrap sticky right-0 bg-asra-gray-1 group-hover:bg-asra-gray-2/40">
-                        <button
-                          onClick={() => setDeleteTarget(genre)}
-                          className="text-asra-gray-6 hover:text-red-400 p-2 rounded-lg hover:bg-asra-gray-2 transition-colors"
-                          title="Remove genre"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                        <div className="flex items-center justify-end gap-1">
+                          <button
+                            onClick={() => openEditDialog(genre)}
+                            className="text-asra-gray-6 hover:text-white p-2 rounded-lg hover:bg-asra-gray-2 transition-colors"
+                            title="Edit genre"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => setDeleteTarget(genre)}
+                            className="text-asra-gray-6 hover:text-red-400 p-2 rounded-lg hover:bg-asra-gray-2 transition-colors"
+                            title="Remove genre"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -291,6 +364,90 @@ export default function GenreManagement() {
           )}
         </div>
       </div>
+
+      <Dialog open={!!editTarget} onOpenChange={(open) => !open && closeEditDialog()}>
+        <DialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white">Edit genre</DialogTitle>
+            <DialogDescription className="text-asra-gray-6">
+              Update the name, description, or cover image for &quot;{editTarget?.name}&quot;.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleEditSave} className="space-y-4">
+            <div>
+              <label className="text-white text-sm font-medium mb-1 block">Genre name *</label>
+              <input
+                type="text"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                className="w-full px-4 py-3 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 caret-white focus:outline-none focus:border-asra-red"
+              />
+            </div>
+
+            <div>
+              <label className="text-white text-sm font-medium mb-1 block">Description</label>
+              <textarea
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
+                placeholder="Optional description"
+                rows={3}
+                className="w-full px-4 py-3 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 caret-white focus:outline-none focus:border-asra-red resize-none"
+              />
+            </div>
+
+            <div>
+              <label className="text-white text-sm font-medium mb-1 block">Cover image</label>
+              {editTarget?.coverImageUrl && !editCoverImage && (
+                <div className="mb-2 flex items-center gap-3">
+                  <img
+                    src={editTarget.coverImageUrl}
+                    alt={editTarget.name}
+                    className="w-12 h-12 rounded-lg object-cover"
+                  />
+                  <span className="text-asra-gray-6 text-xs">Current cover</span>
+                </div>
+              )}
+              <label className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-asra-gray-2 border border-dashed border-asra-gray-5 rounded-lg text-asra-gray-6 cursor-pointer hover:border-asra-red transition-colors">
+                <Upload className="w-4 h-4" />
+                {editCoverImage ? editCoverImage.name : 'Replace cover (optional)'}
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={(e) => setEditCoverImage(e.target.files?.[0] || null)}
+                />
+              </label>
+            </div>
+
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={closeEditDialog}
+                disabled={editSubmitting}
+                className="border-asra-gray-5 text-white hover:bg-asra-gray-2 hover:text-white"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={editSubmitting}
+                className="bg-asra-red hover:bg-asra-red/90 text-white"
+              >
+                {editSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Save changes'
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
         <AlertDialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white">

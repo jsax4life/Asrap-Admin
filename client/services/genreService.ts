@@ -30,6 +30,14 @@ interface AddGenreResponse {
   };
 }
 
+interface UpdateGenreResponse {
+  status: string;
+  message: string;
+  data?: {
+    genre?: Genre;
+  };
+}
+
 function getErrorMessage(error: unknown, fallback: string): string {
   if (axios.isAxiosError(error)) {
     return error.response?.data?.message || error.message || fallback;
@@ -79,6 +87,49 @@ class GenreService {
       return response;
     } catch (error) {
       throw new Error(getErrorMessage(error, 'Failed to add genre'));
+    }
+  }
+
+  async updateGenre(
+    genreId: string,
+    payload: {
+      name?: string;
+      description?: string;
+      coverImage?: File;
+    }
+  ): Promise<UpdateGenreResponse> {
+    const url = API_ENDPOINTS.GENRES.ADMIN_UPDATE.replace(':genreId', genreId);
+
+    try {
+      let response: UpdateGenreResponse;
+
+      if (payload.coverImage) {
+        const formData = new FormData();
+        if (payload.name !== undefined) formData.append('name', payload.name.trim());
+        if (payload.description !== undefined) formData.append('description', payload.description.trim());
+        formData.append('coverImage', payload.coverImage);
+
+        response = (await apiClient.patch<UpdateGenreResponse>(url, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        })) as unknown as UpdateGenreResponse;
+      } else {
+        const body: Record<string, string> = {};
+        if (payload.name !== undefined) body.name = payload.name.trim();
+        if (payload.description !== undefined) body.description = payload.description.trim();
+
+        if (Object.keys(body).length === 0) {
+          throw new Error('Provide at least one field to update');
+        }
+
+        response = (await apiClient.patch<UpdateGenreResponse>(url, body)) as unknown as UpdateGenreResponse;
+      }
+
+      if (response.status !== 'success') {
+        throw new Error(response.message || 'Failed to update genre');
+      }
+      return response;
+    } catch (error) {
+      throw new Error(getErrorMessage(error, 'Failed to update genre'));
     }
   }
 

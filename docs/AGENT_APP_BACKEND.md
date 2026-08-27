@@ -6,9 +6,10 @@ This document describes what the **frontend (Asrap-Admin)** has built for the Ag
 
 ## 1. What the Agent App Is
 
-The Agent App is a separate experience inside the same admin SPA (`Asrap-Admin`). Field agents use it to help **Listeners (Users)**, **Artists**, and **Advertisers** who cannot self-register or subscribe on the main Asrapa Music app.
+The Agent App is a separate experience inside the same admin SPA (`Asrap-Admin`). Field agents use it to help **Listeners (Users)**, **Artists**, and **Advertisers** who cannot self-register or subscribe on the main Asrapa app.
 
 Agents can:
+
 - View their dashboard stats and commission
 - Onboard new clients (user / artist / advertiser)
 - Set up subscriptions and record payments
@@ -16,19 +17,20 @@ Agents can:
 
 **Frontend routes (SPA only — no server routing needed):**
 
-| Route | Screen |
-|-------|--------|
-| `/agent/dashboard` | Agent overview |
-| `/agent/onboarding` | Choose client type |
-| `/agent/onboard/user` | Onboard a listener |
-| `/agent/onboard/artist` | Onboard an artist |
-| `/agent/onboard/advertiser` | Onboard an advertiser |
-| `/agent/clients` | Clients the agent has helped |
-| `/agent/subscriptions` | Subscription status by client |
-| `/agent/transactions` | Payment / commission history |
-| `/agent/help` | Static help (no API needed) |
+| Route                       | Screen                        |
+| --------------------------- | ----------------------------- |
+| `/agent/dashboard`          | Agent overview                |
+| `/agent/onboarding`         | Choose client type            |
+| `/agent/onboard/user`       | Onboard a listener            |
+| `/agent/onboard/artist`     | Onboard an artist             |
+| `/agent/onboard/advertiser` | Onboard an advertiser         |
+| `/agent/clients`            | Clients the agent has helped  |
+| `/agent/subscriptions`      | Subscription status by client |
+| `/agent/transactions`       | Payment / commission history  |
+| `/agent/help`               | Static help (no API needed)   |
 
 **Key frontend files:**
+
 - Service (currently mock): `client/services/agentService.ts`
 - Types: `client/types/index.ts` (`AgentClient`, `AgentTransaction`, `OnboardingFormData`, etc.)
 - Constants: `client/constants/index.ts` (`SUBSCRIPTION_PLANS`, `API_ENDPOINTS.AGENT`)
@@ -37,17 +39,17 @@ Agents can:
 
 ## 2. What Is Done on the Frontend (No Backend Yet)
 
-| Area | Status |
-|------|--------|
-| UI / layout / navigation | Done |
-| Role-based routing (`payment_agent` → `/agent/*`) | Done |
-| Login redirect by role | Done |
-| Onboarding forms (user, artist, advertiser) | Done |
-| Dashboard, clients, subscriptions, transactions pages | Done |
-| API integration | **Mock only** in `agentService.ts` |
-| Dev preview mode (no API) | Done — "Preview Agent Portal" on login in dev |
-| Admin creates agent accounts | UI done at `/admin-users/create` (Payment Agent type + temporary password) — **API not wired** |
-| First-login password change | UI done at `/change-password` — blocks agent portal until complete — **API not wired** |
+| Area                                                  | Status                                                                                         |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| UI / layout / navigation                              | Done                                                                                           |
+| Role-based routing (`payment_agent` → `/agent/*`)     | Done                                                                                           |
+| Login redirect by role                                | Done                                                                                           |
+| Onboarding forms (user, artist, advertiser)           | Done                                                                                           |
+| Dashboard, clients, subscriptions, transactions pages | Done                                                                                           |
+| API integration                                       | **Mock only** in `agentService.ts`                                                             |
+| Dev preview mode (no API)                             | Done — "Preview Agent Portal" on login in dev                                                  |
+| Admin creates agent accounts                          | UI done at `/admin-users/create` (Payment Agent type + temporary password) — **API not wired** |
+| First-login password change                           | UI done at `/change-password` — blocks agent portal until complete — **API not wired**         |
 
 All agent pages read from `agentService.ts`, which returns hardcoded mock data with artificial delays. Once backend endpoints exist, only `agentService.ts` (and optionally `API_ENDPOINTS` in constants) need updating.
 
@@ -79,19 +81,19 @@ Agent begins onboarding clients
 
 **Frontend screens involved:**
 
-| Step | Route | Who |
-|------|-------|-----|
-| Create agent | `/admin-users/create` | `super_admin` |
-| Login | `/login` | Agent |
-| Force password change | `/change-password` | Agent (first login only) |
-| Agent portal | `/agent/*` | Agent (after password changed) |
+| Step                  | Route                 | Who                            |
+| --------------------- | --------------------- | ------------------------------ |
+| Create agent          | `/admin-users/create` | `super_admin`                  |
+| Login                 | `/login`              | Agent                          |
+| Force password change | `/change-password`    | Agent (first login only)       |
+| Agent portal          | `/agent/*`            | Agent (after password changed) |
 
 ### 3.2 New role required
 
 The frontend expects a new role on admin/agent accounts:
 
 ```ts
-role: 'payment_agent'
+role: "payment_agent";
 ```
 
 Existing admin roles (`super_admin`, `admin`, `moderator`, `analyst`) must **not** access `/agent/*` routes. Agents must **not** access `/dashboard` and other admin routes.
@@ -100,13 +102,13 @@ Existing admin roles (`super_admin`, `admin`, `moderator`, `analyst`) must **not
 
 The app already uses these under base URL `https://api.asrapa.com/api/v1` (or `http://localhost:4000/api/v1` in dev):
 
-| Method | Path | Notes |
-|--------|------|-------|
-| `POST` | `/admin/auth/login` | Must accept `payment_agent` accounts; return `mustChangePassword` when temporary password not yet changed |
-| `GET` | `/admin/auth/me` | Must return profile for `payment_agent` users including `mustChangePassword` |
-| `POST` | `/admin/auth/change-password` | **New** — agent (or any user) changes password; clears `mustChangePassword` |
-| `POST` | `/admin/auth/refresh` | Same as today |
-| `POST` | `/admin/auth/logout` | Same as today |
+| Method | Path                          | Notes                                                                                                     |
+| ------ | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `POST` | `/admin/auth/login`           | Must accept `payment_agent` accounts; return `mustChangePassword` when temporary password not yet changed |
+| `GET`  | `/admin/auth/me`              | Must return profile for `payment_agent` users including `mustChangePassword`                              |
+| `POST` | `/admin/auth/change-password` | **New** — agent (or any user) changes password; clears `mustChangePassword`                               |
+| `POST` | `/admin/auth/refresh`         | Same as today                                                                                             |
+| `POST` | `/admin/auth/logout`          | Same as today                                                                                             |
 
 **Login response shape (existing pattern):**
 
@@ -136,6 +138,7 @@ The app already uses these under base URL `https://api.asrapa.com/api/v1` (or `h
 ```
 
 **Frontend behavior after login:**
+
 - If `mustChangePassword === true` → redirect to `/change-password` (all roles)
 - Else if `payment_agent` → redirect to `/agent/dashboard`
 - Else → redirect to `/dashboard`
@@ -158,6 +161,7 @@ Requires Bearer token (user is already logged in with temporary password).
 ```
 
 **Backend must:**
+
 - Verify `currentPassword` matches stored hash
 - Enforce password policy (min 8 chars; frontend enforces this)
 - Set `mustChangePassword: false`
@@ -198,16 +202,17 @@ Only **`super_admin`** can create payment agent accounts (existing admin UI at `
 }
 ```
 
-| Field | Required | Notes |
-|-------|----------|-------|
-| `firstName`, `lastName` | Yes | Or accept `fullName` and split server-side |
-| `email` | Yes | Unique; used for login |
-| `phoneNumber` | Yes | |
-| `role` | Yes | Must be `"payment_agent"` |
-| `temporaryPassword` | Yes | Min 8 chars; hashed server-side; never returned after creation |
-| `department` | No | Defaults to e.g. `"Field Agents"` |
+| Field                   | Required | Notes                                                          |
+| ----------------------- | -------- | -------------------------------------------------------------- |
+| `firstName`, `lastName` | Yes      | Or accept `fullName` and split server-side                     |
+| `email`                 | Yes      | Unique; used for login                                         |
+| `phoneNumber`           | Yes      |                                                                |
+| `role`                  | Yes      | Must be `"payment_agent"`                                      |
+| `temporaryPassword`     | Yes      | Min 8 chars; hashed server-side; never returned after creation |
+| `department`            | No       | Defaults to e.g. `"Field Agents"`                              |
 
 **Backend must on create:**
+
 - Set `mustChangePassword: true`
 - Set `isActive: true`
 - **Do not** allow `payment_agent` via self-registration or public signup
@@ -235,21 +240,21 @@ Admin shares `email` + `temporaryPassword` with the agent out of band. Optional:
 
 The UI hardcodes plan IDs and display prices. Backend should accept these **exact string values** for `subscriptionPlan` / `plan`:
 
-| Plan ID | Client type | Display price (NGN) |
-|---------|-------------|---------------------|
-| `free` | `user` | 0 |
-| `premium` | `user` | 1,500 |
-| `family` | `user` | 3,500 |
-| `artist_pro` | `artist` | 5,000 |
-| `advertiser_starter` | `advertiser` | 10,000 |
-| `advertiser_pro` | `advertiser` | 25,000 |
+| Plan ID              | Client type  | Display price (NGN) |
+| -------------------- | ------------ | ------------------- |
+| `free`               | `user`       | 0                   |
+| `premium`            | `user`       | 1,500               |
+| `family`             | `user`       | 3,500               |
+| `artist_pro`         | `artist`     | 5,000               |
+| `advertiser_starter` | `advertiser` | 10,000              |
+| `advertiser_pro`     | `advertiser` | 25,000              |
 
 Backend may store different internal pricing, but API request/response should use these slugs. Consider a `GET /agent/plans` endpoint later so prices can be server-driven.
 
 ### Payment methods
 
 ```ts
-'cash' | 'mobile_money' | 'bank_transfer' | 'card'
+"cash" | "mobile_money" | "bank_transfer" | "card";
 ```
 
 ---
@@ -281,16 +286,16 @@ Used by: Agent Dashboard
 }
 ```
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `totalClients` | number | All clients onboarded by this agent |
-| `onboardedToday` | number | Clients onboarded today |
-| `activeSubscriptions` | number | Clients with active paid plan |
-| `monthlyCommission` | number | Agent commission this month (NGN) |
-| `pendingOnboardings` | number | Onboardings started but subscription not completed |
-| `usersOnboarded` | number | Listener count |
-| `artistsOnboarded` | number | Artist count |
-| `advertisersOnboarded` | number | Advertiser count |
+| Field                  | Type   | Description                                        |
+| ---------------------- | ------ | -------------------------------------------------- |
+| `totalClients`         | number | All clients onboarded by this agent                |
+| `onboardedToday`       | number | Clients onboarded today                            |
+| `activeSubscriptions`  | number | Clients with active paid plan                      |
+| `monthlyCommission`    | number | Agent commission this month (NGN)                  |
+| `pendingOnboardings`   | number | Onboardings started but subscription not completed |
+| `usersOnboarded`       | number | Listener count                                     |
+| `artistsOnboarded`     | number | Artist count                                       |
+| `advertisersOnboarded` | number | Advertiser count                                   |
 
 ---
 
@@ -302,13 +307,13 @@ Used by: My Clients, Subscriptions
 
 **Query params:**
 
-| Param | Type | Description |
-|-------|------|-------------|
-| `search` | string | Optional — name, email, or phone |
-| `clientType` | `user` \| `artist` \| `advertiser` | Optional filter |
-| `subscriptionStatus` | `active` \| `pending` \| `expired` \| `none` | Optional filter |
-| `page` | number | Default `1` |
-| `limit` | number | Default `10` |
+| Param                | Type                                         | Description                      |
+| -------------------- | -------------------------------------------- | -------------------------------- |
+| `search`             | string                                       | Optional — name, email, or phone |
+| `clientType`         | `user` \| `artist` \| `advertiser`           | Optional filter                  |
+| `subscriptionStatus` | `active` \| `pending` \| `expired` \| `none` | Optional filter                  |
+| `page`               | number                                       | Default `1`                      |
+| `limit`              | number                                       | Default `10`                     |
 
 **Response (paginated, match existing admin list style):**
 
@@ -366,13 +371,13 @@ This should create the appropriate platform account (listener, artist, or advert
 }
 ```
 
-| Field | Required | When |
-|-------|----------|------|
-| `fullName`, `email`, `phone`, `clientType` | Yes | Always |
-| `stageName` | Yes | `clientType === "artist"` |
-| `companyName` | Yes | `clientType === "advertiser"` |
-| `subscriptionPlan` | No | If omitted, client is registered without paid plan |
-| `paymentMethod` | Yes if paid plan | Required when plan is not `free` |
+| Field                                      | Required         | When                                               |
+| ------------------------------------------ | ---------------- | -------------------------------------------------- |
+| `fullName`, `email`, `phone`, `clientType` | Yes              | Always                                             |
+| `stageName`                                | Yes              | `clientType === "artist"`                          |
+| `companyName`                              | Yes              | `clientType === "advertiser"`                      |
+| `subscriptionPlan`                         | No               | If omitted, client is registered without paid plan |
+| `paymentMethod`                            | Yes if paid plan | Required when plan is not `free`                   |
 
 **Response:**
 
@@ -388,6 +393,7 @@ This should create the appropriate platform account (listener, artist, or advert
 ```
 
 **Recommended backend behavior:**
+
 - If `subscriptionPlan` is `free` or omitted → create account only; `subscriptionStatus: "none"` or `"active"` for free tier
 - If paid plan + `paymentMethod` → create subscription and transaction in one atomic operation (frontend currently calls onboard then subscribe separately — a single endpoint is preferred)
 
@@ -432,13 +438,13 @@ Used by: Transactions page
 
 **Query params:**
 
-| Param | Type | Description |
-|-------|------|-------------|
-| `status` | `completed` \| `pending` \| `failed` | Optional |
-| `page` | number | Default `1` |
-| `limit` | number | Default `10` |
-| `dateFrom` | ISO date | Optional |
-| `dateTo` | ISO date | Optional |
+| Param      | Type                                 | Description  |
+| ---------- | ------------------------------------ | ------------ |
+| `status`   | `completed` \| `pending` \| `failed` | Optional     |
+| `page`     | number                               | Default `1`  |
+| `limit`    | number                               | Default `10` |
+| `dateFrom` | ISO date                             | Optional     |
+| `dateTo`   | ISO date                             | Optional     |
 
 **Response:**
 
@@ -483,18 +489,21 @@ Frontend currently computes commission as 10% client-side — backend should own
 ## 7. Data Model Summary
 
 ### Client types
+
 ```ts
-'user' | 'artist' | 'advertiser'
+"user" | "artist" | "advertiser";
 ```
 
 ### Subscription status
+
 ```ts
-'active' | 'pending' | 'expired' | 'none'
+"active" | "pending" | "expired" | "none";
 ```
 
 ### Transaction status
+
 ```ts
-'completed' | 'pending' | 'failed'
+"completed" | "pending" | "failed";
 ```
 
 ### Agent–client relationship
@@ -517,6 +526,7 @@ Match existing Asrapa admin API style used by `artistService` and `authService`:
 ```
 
 Errors:
+
 - `401` — missing/invalid token
 - `403` — valid token but not `payment_agent` (or accessing another agent's data)
 - `400` — validation errors (return field-level messages if possible)
