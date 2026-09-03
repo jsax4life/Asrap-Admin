@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { MetricCard } from "@/components/MetricCard";
 import {
   Banknote,
@@ -25,21 +26,23 @@ const formatNumber = (num: number): string => {
 // Helper function to format revenue in FCFA
 const formatRevenue = (num: number): string => `${formatNumber(num)} FCFA`;
 
-// Helper function to format listeners
-const formatListeners = (listeners: number): string => {
-  if (listeners >= 1000000) return `${(listeners / 1000000).toFixed(1)}M auditeurs`;
-  if (listeners >= 1000) return `${(listeners / 1000).toFixed(0)}k auditeurs`;
-  return `${listeners} auditeurs`;
-};
-
-// Helper function to format plays
-const formatPlays = (plays: number): string => {
-  if (plays >= 1000000) return `${(plays / 1000000).toFixed(1)}M écoutes`;
-  if (plays >= 1000) return `${(plays / 1000).toFixed(0)}k écoutes`;
-  return `${plays} écoutes`;
-};
-
 export default function Dashboard() {
+  const { t } = useTranslation('dashboard');
+
+  // Helper function to format listeners
+  const formatListeners = (listeners: number): string => {
+    if (listeners >= 1000000) return `${(listeners / 1000000).toFixed(1)}M ${t('units.listeners')}`;
+    if (listeners >= 1000) return `${(listeners / 1000).toFixed(0)}k ${t('units.listeners')}`;
+    return `${listeners} ${t('units.listeners')}`;
+  };
+
+  // Helper function to format plays
+  const formatPlays = (plays: number): string => {
+    if (plays >= 1000000) return `${(plays / 1000000).toFixed(1)}M ${t('units.plays')}`;
+    if (plays >= 1000) return `${(plays / 1000).toFixed(0)}k ${t('units.plays')}`;
+    return `${plays} ${t('units.plays')}`;
+  };
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [overviewData, setOverviewData] = useState<AdminOverviewResponse | null>(null);

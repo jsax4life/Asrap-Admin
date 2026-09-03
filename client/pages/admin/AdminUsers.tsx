@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Search, Calendar, User, Plus, Edit, Trash2, Eye, Loader2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { adminAgentService, PaymentAgentListItem } from '@/services/adminAgentService';
 
 import { useAuth } from '@/hooks/useAuth';
@@ -17,8 +18,8 @@ const mockAdminUsers: {
   createdAt: string;
 }[] = [];
 
-function formatLastLogin(date?: string | null) {
-  if (!date) return 'Jamais';
+function formatLastLogin(date: string | null | undefined, neverLabel: string) {
+  if (!date) return neverLabel;
   return new Date(date).toLocaleString('en-GB', {
     day: '2-digit',
     month: '2-digit',
@@ -43,6 +44,7 @@ function AgentAvatar({ name }: { name: string }) {
 }
 
 const AdminUsers = () => {
+  const { t } = useTranslation('admin');
   const { user } = useAuth();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -134,7 +136,7 @@ const AdminUsers = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Rechercher par nom ou e-mail"
+                placeholder={t('usersList.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -151,20 +153,20 @@ const AdminUsers = () => {
               className="bg-asra-red hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
             >
               <Plus className="w-4 h-4" />
-              <span>Nouvel utilisateur</span>
+              <span>{t('usersList.newUserButton')}</span>
             </button>
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
+              <span className="text-white text-sm">{user?.name || t('usersList.defaultUserName')}</span>
             </div>
           </div>
         </div>
       </div>
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold text-white mb-8">Utilisateurs administrateurs</h1>
+        <h1 className="text-2xl font-bold text-white mb-8">{t('usersList.title')}</h1>
 
         <div className="flex space-x-8 mb-8 border-b border-asra-gray-700">
           <button
@@ -175,7 +177,7 @@ const AdminUsers = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Utilisateurs
+            {t('usersList.tabs.users')}
           </button>
           <button
             onClick={() => handleTabChange('payment-agents')}
@@ -185,7 +187,7 @@ const AdminUsers = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Agent de paiement
+            {t('usersList.tabs.paymentAgents')}
           </button>
         </div>
 
@@ -199,18 +201,18 @@ const AdminUsers = () => {
               <table className="w-full">
                 <thead className="bg-asra-gray-800">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">N°</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Nom</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Rôle</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Dernière connexion</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">E-mail</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.number')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.name')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.role')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.lastLogin')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.email')}</th>
                     {activeTab === 'payment-agents' && (
                       <>
-                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Statut</th>
-                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Mot de passe</th>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.status')}</th>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.password')}</th>
                       </>
                     )}
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Gérer</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.manage')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-asra-gray-800">
@@ -241,7 +243,7 @@ const AdminUsers = () => {
                               onClick={() => handleViewUser(item.id)}
                               className="bg-asra-red hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium"
                             >
-                              Voir
+                              {t('usersList.table.view')}
                             </button>
                           </div>
                         </td>
@@ -262,7 +264,7 @@ const AdminUsers = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">{agent.role}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
-                          {formatLastLogin(agent.lastLoginAt)}
+                          {formatLastLogin(agent.lastLoginAt, t('usersList.table.never'))}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">{agent.email}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -271,7 +273,7 @@ const AdminUsers = () => {
                               agent.isActive ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
                             }`}
                           >
-                            {agent.isActive ? 'Actif' : 'Inactif'}
+                            {agent.isActive ? t('usersList.table.statusActive') : t('usersList.table.statusInactive')}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -282,7 +284,7 @@ const AdminUsers = () => {
                                 : 'bg-asra-gray-2 text-asra-gray-6'
                             }`}
                           >
-                            {agent.mustChangePassword ? 'À changer' : 'Défini'}
+                            {agent.mustChangePassword ? t('usersList.table.passwordToChange') : t('usersList.table.passwordSet')}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -291,7 +293,7 @@ const AdminUsers = () => {
                               onClick={() => handleViewUser(agent.id)}
                               className="bg-asra-red hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium"
                             >
-                              Voir
+                              {t('usersList.table.view')}
                             </button>
                           </div>
                         </td>
@@ -301,7 +303,7 @@ const AdminUsers = () => {
                   {activeTab === 'users' && currentUserItems.length === 0 && (
                     <tr>
                       <td colSpan={6} className="px-6 py-12 text-center text-asra-gray-400">
-                        Aucun utilisateur admin pour le moment.
+                        {t('usersList.emptyUsers')}
                       </td>
                     </tr>
                   )}
@@ -309,7 +311,7 @@ const AdminUsers = () => {
                   {activeTab === 'payment-agents' && !agentsLoading && paymentAgents.length === 0 && (
                     <tr>
                       <td colSpan={8} className="px-6 py-12 text-center text-asra-gray-400">
-                        Aucun agent de paiement pour le moment. Cliquez sur <strong className="text-white">Nouvel utilisateur</strong> pour en créer un.
+                        {t('usersList.emptyPaymentAgentsBefore')} <strong className="text-white">{t('usersList.newUserButton')}</strong> {t('usersList.emptyPaymentAgentsAfter')}
                       </td>
                     </tr>
                   )}
@@ -326,18 +328,18 @@ const AdminUsers = () => {
               disabled={currentPage === 1}
               className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Précédent
+              {t('usersList.pagination.previous')}
             </button>
             <button
               onClick={() => setCurrentPage((prev) => Math.min(displayTotalPages, prev + 1))}
               disabled={currentPage === displayTotalPages || displayTotalPages === 0}
               className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Suivant
+              {t('usersList.pagination.next')}
             </button>
           </div>
           <div className="text-asra-gray-400 text-sm">
-            Page {currentPage} sur {Math.max(displayTotalPages, 1)}
+            {t('usersList.pagination.pageOf', { current: currentPage, total: Math.max(displayTotalPages, 1) })}
           </div>
         </div>
       </div>

@@ -1,0 +1,52 @@
+{
+  "helpSupport": {
+    "brand": "Asrapa",
+    "date": "Date: 03/02/2023",
+    "title": "Help & Support",
+    "searchPlaceholder": "Search",
+    "defaultUserName": "System Administrator",
+    "tabs": {
+      "all": "All",
+      "answered": "Answered",
+      "pending": "Pending"
+    },
+    "status": {
+      "answered": "Answered",
+      "pending": "Pending"
+    },
+    "table": {
+      "number": "No.",
+      "userType": "User Type",
+      "name": "Name",
+      "subject": "Subject",
+      "dateSent": "Date Sent",
+      "status": "Status",
+      "action": "Action"
+    },
+    "viewButton": "View",
+    "emptyState": "No support requests at this time",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page 1"
+    }
+  },
+  "viewSupportRequest": {
+    "backButton": "Back to Help & Support",
+    "title": "Help & Support",
+    "defaultUserName": "System Administrator",
+    "labels": {
+      "userName": "User Name",
+      "userType": "User Type",
+      "subject": "Subject",
+      "dateSent": "Date Sent"
+    },
+    "messageTitle": "Message",
+    "replyTitle": "Reply",
+    "replyPlaceholder": "Your message here",
+    "sendButton": "Send",
+    "resolveButton": "Resolved",
+    "replySentAlert": "Reply sent!",
+    "resolvedAlert": "Request marked as resolved!"
+  }
+}

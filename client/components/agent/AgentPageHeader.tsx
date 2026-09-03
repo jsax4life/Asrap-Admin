@@ -1,4 +1,5 @@
 import { Calendar, User, Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 
 interface AgentPageHeaderProps {
@@ -11,11 +12,12 @@ interface AgentPageHeaderProps {
 
 export function AgentPageHeader({
   title,
-  searchPlaceholder = 'Rechercher',
+  searchPlaceholder,
   searchValue = '',
   onSearchChange,
   showSearch = false,
 }: AgentPageHeaderProps) {
+  const { t } = useTranslation('agent');
   const { user } = useAuth();
   const today = new Date().toLocaleDateString('en-GB', {
     day: '2-digit',
@@ -52,7 +54,7 @@ export function AgentPageHeader({
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder={searchPlaceholder}
+                placeholder={searchPlaceholder ?? t('pageHeader.searchDefault')}
                 value={searchValue}
                 onChange={(e) => onSearchChange(e.target.value)}
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-64"
@@ -63,7 +65,7 @@ export function AgentPageHeader({
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm hidden sm:inline">{user?.name || 'Agent'}</span>
+            <span className="text-white text-sm hidden sm:inline">{user?.name || t('pageHeader.agentFallback')}</span>
           </div>
         </div>
       </div>

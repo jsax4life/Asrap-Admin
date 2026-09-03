@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Play, Pause, RotateCcw, RotateCw, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -16,6 +17,7 @@ export const AudioPlayer = ({
   duration = '00:00',
   className 
 }: AudioPlayerProps) => {
+  const { t } = useTranslation('musicUpload');
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentTimeDisplay, setCurrentTimeDisplay] = useState(currentTime);
@@ -78,24 +80,24 @@ export const AudioPlayer = ({
       setIsPlaying(false);
       
       const audioError = audio.error;
-      let errorMessage = 'Impossible de lire l\'audio';
+      let errorMessage = t('audioPlayer.errors.cannotPlay');
 
       if (audioError) {
         switch (audioError.code) {
           case MediaError.MEDIA_ERR_ABORTED:
-            errorMessage = 'La lecture audio a été interrompue';
+            errorMessage = t('audioPlayer.errors.aborted');
             break;
           case MediaError.MEDIA_ERR_NETWORK:
-            errorMessage = 'Erreur réseau lors du chargement de l\'audio. Veuillez vérifier votre connexion ou actualiser la page.';
+            errorMessage = t('audioPlayer.errors.network');
             break;
           case MediaError.MEDIA_ERR_DECODE:
-            errorMessage = 'Le fichier audio est corrompu ou dans un format non pris en charge';
+            errorMessage = t('audioPlayer.errors.decode');
             break;
           case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            errorMessage = 'Format audio non pris en charge ou URL invalide. Le lien signé a peut-être expiré.';
+            errorMessage = t('audioPlayer.errors.notSupported');
             break;
           default:
-            errorMessage = 'Impossible de lire l\'audio. Le fichier est peut-être corrompu ou le lien a expiré.';
+            errorMessage = t('audioPlayer.errors.generic');
         }
       }
       
@@ -112,7 +114,7 @@ export const AudioPlayer = ({
       
       // Provide more specific message for potential CORS issues
       if (isCorsError && !audioError) {
-        errorMessage = 'Erreur CORS : impossible de charger l\'audio depuis S3. Veuillez contacter le support si le problème persiste.';
+        errorMessage = t('audioPlayer.errors.cors');
       }
       
       setError(errorMessage);
@@ -138,7 +140,7 @@ export const AudioPlayer = ({
         // Audio hasn't started loading after 5 seconds - likely CORS or network issue
         const isS3Url = audioUrl.includes('s3.') || audioUrl.includes('amazonaws.com');
         if (isS3Url && !audio.error) {
-          setError('Impossible de charger l\'audio. Il pourrait s\'agir d\'un problème de configuration CORS du bucket S3. Veuillez contacter le support.');
+          setError(t('audioPlayer.errors.corsTimeout'));
           setIsLoading(false);
         }
       }
@@ -190,7 +192,7 @@ export const AudioPlayer = ({
         console.error('Play error:', err);
         setIsLoading(false);
         setIsPlaying(false);
-        setError(err.message || 'Échec de la lecture audio. Veuillez réessayer.');
+        setError(err.message || t('audioPlayer.errors.playFailed'));
       }
     }
   };

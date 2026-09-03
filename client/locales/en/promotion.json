@@ -1,0 +1,58 @@
+{
+  "header": {
+    "title": "Promotion management",
+    "date": "Date: 03/02/2023",
+    "searchPlaceholder": "Search campaigns...",
+    "defaultAdminName": "System Administrator"
+  },
+  "actions": {
+    "createCampaign": "Create a campaign"
+  },
+  "filters": {
+    "allStatuses": "All statuses",
+    "allTypes": "All types",
+    "sortByDate": "Sort by date",
+    "sortByName": "Sort by name",
+    "sortByBudget": "Sort by budget",
+    "sortByReach": "Sort by reach",
+    "eventPromotion": "Event promotion",
+    "artistPromotion": "Artist promotion",
+    "albumPromotion": "Album promotion",
+    "seasonalPromotion": "Seasonal promotion"
+  },
+  "status": {
+    "active": "Active",
+    "paused": "Paused",
+    "completed": "Completed",
+    "draft": "Draft"
+  },
+  "stats": {
+    "totalCampaigns": "Total campaigns",
+    "activeCampaigns": "Active campaigns",
+    "totalBudget": "Total budget",
+    "totalReach": "Total reach"
+  },
+  "card": {
+    "budget": "Budget",
+    "spent": "Spent",
+    "reach": "Reach",
+    "engagement": "Engagement",
+    "platforms": "Platforms",
+    "pause": "Pause",
+    "resume": "Resume"
+  },
+  "table": {
+    "campaign": "Campaign",
+    "type": "Type",
+    "status": "Status",
+    "budget": "Budget",
+    "reach": "Reach",
+    "engagement": "Engagement",
+    "actions": "Actions"
+  },
+  "emptyState": {
+    "title": "No campaign found",
+    "filtered": "Try adjusting your filters to see more results.",
+    "notFiltered": "Start by creating your first promotion campaign."
+  }
+}

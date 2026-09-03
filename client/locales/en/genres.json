@@ -1,0 +1,72 @@
+{
+  "header": {
+    "title": "Genre management",
+    "admin": "Admin"
+  },
+  "errors": {
+    "loadFailed": "Failed to load genres",
+    "nameRequired": "Genre name is required",
+    "bulkNamesRequired": "Enter at least one genre name",
+    "addFailed": "Failed to add genre",
+    "deleteFailed": "Failed to delete genre",
+    "noChanges": "No changes to save",
+    "updateFailed": "Failed to update genre"
+  },
+  "success": {
+    "added": "Genre(s) added successfully",
+    "deleted": "\"{{name}}\" deleted",
+    "updated": "Genre updated successfully"
+  },
+  "addPanel": {
+    "title": "Add a genre",
+    "single": "Single",
+    "bulk": "Multiple",
+    "nameLabel": "Genre name *",
+    "namePlaceholder": "e.g. Afrobeats",
+    "bulkNamesLabel": "Genre names *",
+    "bulkNamesPlaceholder": "Hip Hop, R&B, Jazz, Gospel",
+    "bulkNamesHint": "Separate them with commas",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Optional description",
+    "coverImageLabel": "Cover image",
+    "coverImageUpload": "Upload a cover (optional)",
+    "submitting": "Adding...",
+    "submit": "Add genre"
+  },
+  "list": {
+    "searchPlaceholder": "Search genres",
+    "activeCount": "{{count}} active",
+    "columns": {
+      "genre": "Genre",
+      "description": "Description",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active"
+    },
+    "editTitle": "Edit genre",
+    "deleteTitle": "Delete genre",
+    "empty": "No genres found"
+  },
+  "editDialog": {
+    "title": "Edit genre",
+    "description": "Edit the name, description, or cover image of \"{{name}}\".",
+    "nameLabel": "Genre name *",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Optional description",
+    "coverImageLabel": "Cover image",
+    "currentCover": "Current cover",
+    "coverImageReplace": "Replace cover (optional)",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "save": "Save changes"
+  },
+  "deleteDialog": {
+    "title": "Delete genre?",
+    "description": "\"{{name}}\" will be deactivated and hidden from the public genre list. This does not delete tracks already associated with this genre.",
+    "cancel": "Cancel",
+    "deleting": "Deleting...",
+    "confirm": "Delete"
+  }
+}

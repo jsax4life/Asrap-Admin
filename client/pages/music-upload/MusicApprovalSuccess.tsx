@@ -1,15 +1,17 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { CheckCircle, ArrowLeft, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function MusicApprovalSuccess() {
+  const { t } = useTranslation('musicUpload');
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const { action, songName, artistName } = location.state || {
     action: 'approved',
-    songName: 'Chanson inconnue',
-    artistName: 'Artiste inconnu'
+    songName: t('success.unknownSong'),
+    artistName: t('success.unknownArtist')
   };
 
   const isApproved = action === 'approved';
@@ -29,22 +31,22 @@ export default function MusicApprovalSuccess() {
         {/* Success Message */}
         <div className="space-y-4 mb-8">
           <h1 className="text-3xl font-bold text-white">
-            {isApproved ? 'Musique approuvée !' : 'Musique refusée !'}
+            {isApproved ? t('success.approvedTitle') : t('success.declinedTitle')}
           </h1>
-          
+
           <div className="text-asra-gray-6">
             <p className="text-lg">
               <span className="text-white font-semibold">"{songName}"</span>
             </p>
             <p className="text-sm">
-              par <span className="text-white font-medium">{artistName}</span>
+              {t('success.by')} <span className="text-white font-medium">{artistName}</span>
             </p>
           </div>
 
           <p className="text-asra-gray-6 text-sm">
             {isApproved
-              ? 'La musique a été approuvée avec succès et sera disponible sur la plateforme.'
-              : 'La musique a été refusée et l\'artiste sera informé de vos commentaires.'
+              ? t('success.approvedMessage')
+              : t('success.declinedMessage')
             }
           </p>
         </div>
@@ -57,7 +59,7 @@ export default function MusicApprovalSuccess() {
             className="border-asra-gray-5 text-white hover:bg-asra-gray-2"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour aux téléversements
+            {t('success.backToUploads')}
           </Button>
 
           <Button
@@ -65,7 +67,7 @@ export default function MusicApprovalSuccess() {
             className="bg-asra-red hover:bg-asra-red/90 text-white"
           >
             <Home className="w-4 h-4 mr-2" />
-            Aller au tableau de bord
+            {t('success.goToDashboard')}
           </Button>
         </div>
       </div>

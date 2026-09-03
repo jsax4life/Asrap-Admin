@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Calendar, User, Eye } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/hooks/useAuth';
 // Demandes d'assistance (à connecter au service backend)
@@ -15,6 +16,7 @@ const mockSupportRequests: {
 }[] = [];
 
 const HelpSupport = () => {
+  const { t } = useTranslation('support');
   const { user } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'all' | 'answered' | 'pending'>('all');
@@ -50,13 +52,13 @@ const HelpSupport = () => {
     if (status === 'Answered') {
       return (
         <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-          Répondu
+          {t('helpSupport.status.answered')}
         </span>
       );
     } else if (status === 'Pending') {
       return (
         <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-          En attente
+          {t('helpSupport.status.pending')}
         </span>
       );
     }
@@ -76,17 +78,17 @@ const HelpSupport = () => {
               <div className="w-8 h-8 bg-asra-red rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">A</span>
               </div>
-              <span className="text-white text-xl font-bold">Asrapa</span>
+              <span className="text-white text-xl font-bold">{t('helpSupport.brand')}</span>
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">Date : 03/02/2023</span>
+              <span className="text-sm">{t('helpSupport.date')}</span>
             </div>
           </div>
 
           {/* Center - Page Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Aide et assistance</h1>
+            <h1 className="text-2xl font-bold text-white">{t('helpSupport.title')}</h1>
           </div>
 
           {/* Right side - Search and Profile */}
@@ -95,7 +97,7 @@ const HelpSupport = () => {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Rechercher"
+                placeholder={t('helpSupport.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-64 px-4 py-2 pl-10 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red"
@@ -108,7 +110,7 @@ const HelpSupport = () => {
               <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
+              <span className="text-white text-sm">{user?.name || t('helpSupport.defaultUserName')}</span>
             </div>
           </div>
         </div>
@@ -126,7 +128,7 @@ const HelpSupport = () => {
                 : 'text-asra-gray-400 hover:text-white'
             }`}
           >
-            Tous
+            {t('helpSupport.tabs.all')}
           </button>
           <button
             onClick={() => setActiveTab('answered')}
@@ -136,7 +138,7 @@ const HelpSupport = () => {
                 : 'text-asra-gray-400 hover:text-white'
             }`}
           >
-            Répondu
+            {t('helpSupport.tabs.answered')}
           </button>
           <button
             onClick={() => setActiveTab('pending')}
@@ -146,7 +148,7 @@ const HelpSupport = () => {
                 : 'text-asra-gray-400 hover:text-white'
             }`}
           >
-            En attente
+            {t('helpSupport.tabs.pending')}
           </button>
         </div>
 
@@ -156,13 +158,13 @@ const HelpSupport = () => {
             <table className="w-full">
               <thead className="bg-asra-gray-800">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">N°</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Type d'utilisateur</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Nom</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Sujet</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Date d'envoi</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Statut</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Action</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('helpSupport.table.number')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('helpSupport.table.userType')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('helpSupport.table.name')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('helpSupport.table.subject')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('helpSupport.table.dateSent')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('helpSupport.table.status')}</th>
+                  <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('helpSupport.table.action')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-asra-gray-700">
@@ -182,7 +184,7 @@ const HelpSupport = () => {
                         className="bg-asra-red hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
                       >
                         <Eye className="w-4 h-4" />
-                        <span>Voir</span>
+                        <span>{t('helpSupport.viewButton')}</span>
                       </button>
                     </td>
                   </tr>
@@ -190,7 +192,7 @@ const HelpSupport = () => {
                 {filteredRequests.length === 0 && (
                   <tr>
                     <td colSpan={7} className="px-6 py-12 text-center text-sm text-asra-gray-400">
-                      Aucune demande d'assistance pour le moment
+                      {t('helpSupport.emptyState')}
                     </td>
                   </tr>
                 )}
@@ -203,14 +205,14 @@ const HelpSupport = () => {
         <div className="flex items-center justify-between mt-6">
           <div className="flex space-x-2">
             <button className="bg-asra-red hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-              Précédent
+              {t('helpSupport.pagination.previous')}
             </button>
             <button className="bg-asra-red hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-              Suivant
+              {t('helpSupport.pagination.next')}
             </button>
           </div>
           <div className="text-asra-gray-400 text-sm">
-            Page 1
+            {t('helpSupport.pagination.page')}
           </div>
         </div>
       </div>

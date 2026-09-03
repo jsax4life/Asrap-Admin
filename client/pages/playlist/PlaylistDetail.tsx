@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ArrowLeft, MoreHorizontal, Clock, Plus, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
@@ -99,6 +100,7 @@ const songs = [
 type Song = typeof songs[0];
 
 export default function PlaylistDetail() {
+  const { t } = useTranslation('playlist');
   const { user } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -122,7 +124,7 @@ export default function PlaylistDetail() {
     },
     {
       key: 'title',
-      label: 'TITRE',
+      label: t('detail.columns.title'),
       render: (_, song) => (
         <div className="flex items-center gap-3">
           <img
@@ -139,21 +141,21 @@ export default function PlaylistDetail() {
     },
     {
       key: 'album',
-      label: 'ALBUM',
+      label: t('detail.columns.album'),
       render: (value: string) => (
         <span className="text-asra-gray-6 text-sm">{value}</span>
       ),
     },
     {
       key: 'dateAdded',
-      label: 'DATE D\'AJOUT',
+      label: t('detail.columns.dateAdded'),
       render: (value: string) => (
         <span className="text-asra-gray-6 text-sm">{value}</span>
       ),
     },
     {
       key: 'duration',
-      label: 'DURÉE',
+      label: t('detail.columns.duration'),
       render: (value: string) => (
         <div className="flex items-center gap-1">
           <Clock className="w-3 h-3 text-asra-gray-6" />
@@ -182,7 +184,7 @@ export default function PlaylistDetail() {
           className="text-white hover:text-asra-red text-sm font-medium flex items-center gap-2 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Retour
+          {t('detail.goBack')}
         </button>
 
         {/* Search Bar */}
@@ -191,7 +193,7 @@ export default function PlaylistDetail() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
             <input
               type="text"
-              placeholder="Rechercher"
+              placeholder={t('detail.searchPlaceholder')}
               className="w-full pl-10 pr-4 py-2 bg-asra-red/80 border border-asra-red rounded-lg text-white placeholder:text-white/80 focus:outline-none focus:border-white"
             />
           </div>
@@ -207,7 +209,7 @@ export default function PlaylistDetail() {
             </div>
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
           </div>
-          <span className="text-white text-sm font-medium">{user?.name || 'Administrateur système'}</span>
+          <span className="text-white text-sm font-medium">{user?.name || t('detail.defaultUser')}</span>
         </div>
       </div>
 
@@ -227,8 +229,8 @@ export default function PlaylistDetail() {
               {/* Banner Text */}
               <div className="absolute top-6 left-16 right-6 z-10">
                 <div className="text-white text-sm font-bold leading-tight">
-                  <div>VOICI</div>
-                  <div className="text-lg">Wizkid</div>
+                  <div>{t('detail.banner.line1')}</div>
+                  <div className="text-lg">{t('detail.banner.line2')}</div>
                 </div>
               </div>
               
@@ -248,7 +250,7 @@ export default function PlaylistDetail() {
               className="w-full mt-4 bg-asra-red hover:bg-asra-red/90 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Ajouter à la playlist
+              {t('detail.addToPlaylist')}
             </Button>
           </div>
         </div>
@@ -256,7 +258,7 @@ export default function PlaylistDetail() {
         {/* Right Column - Playlist Information */}
         <div className="lg:col-span-2 flex flex-col justify-center space-y-6">
           <div>
-            <div className="text-white text-sm mb-3 font-medium">PLAYLIST PUBLIQUE</div>
+            <div className="text-white text-sm mb-3 font-medium">{t('detail.publicPlaylist')}</div>
             <h1 className="text-white text-5xl font-bold mb-6 leading-tight">{playlistData.title}</h1>
             <p className="text-white text-lg mb-8 leading-relaxed">{playlistData.description}</p>
           </div>
@@ -267,9 +269,9 @@ export default function PlaylistDetail() {
             </div>
             <span className="text-white font-medium">{playlistData.createdBy}</span>
             <span className="text-white text-lg">•</span>
-            <span className="text-white">{playlistData.likes} mentions J'aime</span>
+            <span className="text-white">{playlistData.likes} {t('detail.likes')}</span>
             <span className="text-white text-lg">•</span>
-            <span className="text-white">{playlistData.songCount} chansons, {playlistData.duration}</span>
+            <span className="text-white">{t('detail.songsAndDuration', { songCount: playlistData.songCount, duration: playlistData.duration })}</span>
           </div>
         </div>
       </div>

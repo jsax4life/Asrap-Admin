@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Search, Calendar, User, ChevronLeft, ChevronRight, Banknote, TrendingUp, Building, Users, ArrowUp, ArrowDown } from 'lucide-react';
 
 import { useAuth } from '@/hooks/useAuth';
@@ -59,6 +60,7 @@ const mockPaymentAgentHistory: {
 }[] = [];
 
 const PaymentManagement = () => {
+  const { t } = useTranslation('payments');
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'overview' | 'payment-in' | 'payment-out' | 'payment-agents'>('overview');
   const [searchQuery, setSearchQuery] = useState('');
@@ -107,7 +109,7 @@ const PaymentManagement = () => {
 
           {/* Center - Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Paiement</h1>
+            <h1 className="text-2xl font-bold text-white">{t('header.title')}</h1>
           </div>
 
           {/* Right side - Search and Profile */}
@@ -116,7 +118,7 @@ const PaymentManagement = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Rechercher"
+                placeholder={t('header.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-64"
@@ -126,7 +128,7 @@ const PaymentManagement = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
+              <span className="text-white text-sm">{user?.name || t('header.defaultAdminName')}</span>
             </div>
           </div>
         </div>
@@ -144,7 +146,7 @@ const PaymentManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Aperçu des paiements
+            {t('tabs.overview')}
           </button>
           <button
             onClick={() => setActiveTab('payment-in')}
@@ -154,7 +156,7 @@ const PaymentManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Paiements entrants
+            {t('tabs.paymentIn')}
           </button>
           <button
             onClick={() => setActiveTab('payment-out')}
@@ -164,7 +166,7 @@ const PaymentManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Paiements sortants
+            {t('tabs.paymentOut')}
           </button>
           <button
             onClick={() => setActiveTab('payment-agents')}
@@ -174,7 +176,7 @@ const PaymentManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Paiements entrants des agents
+            {t('tabs.paymentAgents')}
           </button>
         </div>
 
@@ -201,21 +203,21 @@ const PaymentManagement = () => {
                           onChange={(e) => setSelectedMonth(e.target.value)}
                           className="bg-white text-gray-900 text-sm rounded-full px-4 py-2 border-0 focus:outline-none focus:ring-2 focus:ring-asra-red"
                         >
-                          <option value="January">Janvier</option>
-                          <option value="February">Février</option>
-                          <option value="March">Mars</option>
-                          <option value="April">Avril</option>
-                          <option value="May">Mai</option>
-                          <option value="June">Juin</option>
-                          <option value="July">Juillet</option>
-                          <option value="August">Août</option>
-                          <option value="September">Septembre</option>
-                          <option value="October">Octobre</option>
-                          <option value="November">Novembre</option>
-                          <option value="December">Décembre</option>
+                          <option value="January">{t('months.january')}</option>
+                          <option value="February">{t('months.february')}</option>
+                          <option value="March">{t('months.march')}</option>
+                          <option value="April">{t('months.april')}</option>
+                          <option value="May">{t('months.may')}</option>
+                          <option value="June">{t('months.june')}</option>
+                          <option value="July">{t('months.july')}</option>
+                          <option value="August">{t('months.august')}</option>
+                          <option value="September">{t('months.september')}</option>
+                          <option value="October">{t('months.october')}</option>
+                          <option value="November">{t('months.november')}</option>
+                          <option value="December">{t('months.december')}</option>
                         </select>
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Revenu mensuel total</div>
+                      <div className="text-asra-gray-400 text-sm">{t('overview.totalMonthlyRevenue')}</div>
                     </div>
                   </div>
                 </div>
@@ -241,7 +243,7 @@ const PaymentManagement = () => {
                           <option value="2021">2021</option>
                         </select>
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Revenu annuel total</div>
+                      <div className="text-asra-gray-400 text-sm">{t('overview.totalAnnualRevenue')}</div>
                     </div>
                   </div>
                 </div>
@@ -256,7 +258,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrency(mockPaymentOverview.earningsFromSubscription)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Revenus des abonnements</div>
+                      <div className="text-asra-gray-400 text-sm">{t('overview.earningsFromSubscription')}</div>
                     </div>
                   </div>
                 </div>
@@ -271,7 +273,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrency(mockPaymentOverview.outstandingBalances)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Soldes impayés</div>
+                      <div className="text-asra-gray-400 text-sm">{t('overview.outstandingBalances')}</div>
                     </div>
                   </div>
                 </div>
@@ -289,7 +291,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrencyCompact(mockPaymentOverview.earningsFromArtists)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Revenus des artistes</div>
+                      <div className="text-asra-gray-400 text-sm">{t('overview.earningsFromArtists')}</div>
                     </div>
                   </div>
                 </div>
@@ -304,7 +306,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrencyCompact(mockPaymentOverview.totalPayoutsToArtists)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Total des versements aux artistes</div>
+                      <div className="text-asra-gray-400 text-sm">{t('overview.totalPayoutsToArtists')}</div>
                     </div>
                   </div>
                 </div>
@@ -319,7 +321,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrencyCompact(mockPaymentOverview.subscriptionFromAgents)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Abonnements via les agents</div>
+                      <div className="text-asra-gray-400 text-sm">{t('overview.subscriptionFromAgents')}</div>
                     </div>
                   </div>
                 </div>
@@ -329,12 +331,12 @@ const PaymentManagement = () => {
             {/* Payment History */}
             <div className="bg-asra-gray-900 rounded-lg p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-white">Historique des paiements</h3>
+                <h3 className="text-xl font-bold text-white">{t('paymentHistory.title')}</h3>
                 <button
                   onClick={() => setActiveTab('payment-in')}
                   className="text-asra-red hover:text-red-400 text-sm font-medium"
                 >
-                  Voir tout
+                  {t('paymentHistory.viewAll')}
                 </button>
               </div>
 
@@ -343,25 +345,25 @@ const PaymentManagement = () => {
                   <thead className="bg-asra-gray-800">
                     <tr>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        N°
+                        {t('table.overview.columns.number')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        ID de transaction
+                        {t('table.overview.columns.transactionId')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Date de transaction
+                        {t('table.overview.columns.transactionDate')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Type de paiement
+                        {t('table.overview.columns.paymentType')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Montant
+                        {t('table.overview.columns.amount')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Source/Description du paiement
+                        {t('table.overview.columns.paymentSource')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Statut du paiement
+                        {t('table.overview.columns.paymentStatus')}
                       </th>
                     </tr>
                   </thead>
@@ -396,7 +398,7 @@ const PaymentManagement = () => {
                     {filteredPayments.length === 0 && (
                       <tr>
                         <td colSpan={7} className="px-6 py-8 text-center text-sm text-asra-gray-400">
-                          Aucune transaction pour le moment
+                          {t('emptyState.noTransactions')}
                         </td>
                       </tr>
                     )}
@@ -413,18 +415,18 @@ const PaymentManagement = () => {
                     className="bg-asra-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-asra-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                   >
                     <ChevronLeft className="w-4 h-4" />
-                    <span>Précédent</span>
+                    <span>{t('pagination.previous')}</span>
                   </button>
                   <button
                     onClick={() => setCurrentPage(currentPage + 1)}
                     className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
                   >
-                    <span>Suivant</span>
+                    <span>{t('pagination.next')}</span>
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
                 <div className="text-asra-gray-400 text-sm">
-                  Page {currentPage}
+                  {t('pagination.page', { page: currentPage })}
                 </div>
 
               </div>
@@ -436,9 +438,9 @@ const PaymentManagement = () => {
             {activeTab === 'payment-in' && (
               <div className="bg-asra-gray-900 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold text-white">Paiements entrants</h3>
+                  <h3 className="text-xl font-bold text-white">{t('sections.paymentIn.title')}</h3>
                   <button className="text-asra-red hover:text-red-400 text-sm font-medium">
-                    Voir tout
+                    {t('paymentHistory.viewAll')}
                   </button>
                 </div>
                 <div className="overflow-x-auto">
@@ -446,25 +448,25 @@ const PaymentManagement = () => {
                     <thead className="bg-asra-gray-800">
                       <tr>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          N°
+                          {t('table.paymentIn.columns.number')}
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Date de paiement
+                          {t('table.paymentIn.columns.paymentDate')}
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          ID de paiement
+                          {t('table.paymentIn.columns.paymentId')}
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Type de paiement
+                          {t('table.paymentIn.columns.paymentType')}
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Montant
+                          {t('table.paymentIn.columns.amount')}
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Source/Description du paiement
+                          {t('table.paymentIn.columns.paymentSource')}
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Statut du paiement
+                          {t('table.paymentIn.columns.paymentStatus')}
                         </th>
                       </tr>
                     </thead>
@@ -499,7 +501,7 @@ const PaymentManagement = () => {
                       {mockPaymentInHistory.length === 0 && (
                         <tr>
                           <td colSpan={7} className="px-6 py-8 text-center text-sm text-asra-gray-400">
-                            Aucun paiement entrant pour le moment
+                            {t('emptyState.noPaymentIn')}
                           </td>
                         </tr>
                       )}
@@ -514,18 +516,18 @@ const PaymentManagement = () => {
                       className="bg-asra-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-asra-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                     >
                       <ChevronLeft className="w-4 h-4" />
-                      <span>Précédent</span>
+                      <span>{t('pagination.previous')}</span>
                     </button>
                     <button
                       onClick={() => setCurrentPage(prev => prev + 1)}
                       className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
                     >
-                      <span>Suivant</span>
+                      <span>{t('pagination.next')}</span>
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
                   <div className="text-asra-gray-400 text-sm">
-                    Page {currentPage}
+                    {t('pagination.page', { page: currentPage })}
                   </div>
                 </div>
               </div>
@@ -534,9 +536,9 @@ const PaymentManagement = () => {
         {activeTab === 'payment-out' && (
           <div className="bg-asra-gray-900 rounded-lg p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Paiements sortants</h3>
+              <h3 className="text-xl font-bold text-white">{t('sections.paymentOut.title')}</h3>
               <button className="text-asra-red hover:text-red-400 text-sm font-medium">
-                Voir tout
+                {t('paymentHistory.viewAll')}
               </button>
             </div>
             <div className="overflow-x-auto">
@@ -544,25 +546,25 @@ const PaymentManagement = () => {
                 <thead className="bg-asra-gray-800">
                   <tr>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      N°
+                      {t('table.paymentOut.columns.number')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Date de versement
+                      {t('table.paymentOut.columns.payoutDate')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      ID de versement
+                      {t('table.paymentOut.columns.payoutId')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Nom de l'artiste
+                      {t('table.paymentOut.columns.artistName')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Montant
+                      {t('table.paymentOut.columns.amount')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Type de paiement
+                      {t('table.paymentOut.columns.paymentType')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Statut du paiement
+                      {t('table.paymentOut.columns.paymentStatus')}
                     </th>
                   </tr>
                 </thead>
@@ -597,7 +599,7 @@ const PaymentManagement = () => {
                   {mockPaymentOutHistory.length === 0 && (
                     <tr>
                       <td colSpan={7} className="px-6 py-8 text-center text-sm text-asra-gray-400">
-                        Aucun paiement sortant pour le moment
+                        {t('emptyState.noPaymentOut')}
                       </td>
                     </tr>
                   )}
@@ -612,18 +614,18 @@ const PaymentManagement = () => {
                   className="bg-asra-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-asra-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                 >
                   <ChevronLeft className="w-4 h-4" />
-                  <span>Précédent</span>
+                  <span>{t('pagination.previous')}</span>
                 </button>
                 <button
                   onClick={() => setCurrentPage(prev => prev + 1)}
                   className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
                 >
-                  <span>Suivant</span>
+                  <span>{t('pagination.next')}</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
               <div className="text-asra-gray-400 text-sm">
-                Page {currentPage}
+                {t('pagination.page', { page: currentPage })}
               </div>
             </div>
           </div>
@@ -632,9 +634,9 @@ const PaymentManagement = () => {
         {activeTab === 'payment-agents' && (
           <div className="bg-asra-gray-900 rounded-lg p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Paiements des agents</h3>
+              <h3 className="text-xl font-bold text-white">{t('sections.paymentAgents.title')}</h3>
               <button className="text-asra-red hover:text-red-400 text-sm font-medium">
-                Voir tout
+                {t('paymentHistory.viewAll')}
               </button>
             </div>
             <div className="overflow-x-auto">
@@ -642,28 +644,28 @@ const PaymentManagement = () => {
                 <thead className="bg-asra-gray-800">
                   <tr>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      N°
+                      {t('table.paymentAgents.columns.number')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Date de paiement
+                      {t('table.paymentAgents.columns.paymentDate')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      ID de paiement
+                      {t('table.paymentAgents.columns.paymentId')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Type de paiement
+                      {t('table.paymentAgents.columns.paymentType')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Montant
+                      {t('table.paymentAgents.columns.amount')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      E-mail du payeur
+                      {t('table.paymentAgents.columns.payerEmail')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payé par (nom de l'agent)
+                      {t('table.paymentAgents.columns.agentName')}
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Statut du paiement
+                      {t('table.paymentAgents.columns.paymentStatus')}
                     </th>
                   </tr>
                 </thead>
@@ -701,7 +703,7 @@ const PaymentManagement = () => {
                   {mockPaymentAgentHistory.length === 0 && (
                     <tr>
                       <td colSpan={8} className="px-6 py-8 text-center text-sm text-asra-gray-400">
-                        Aucun paiement reçu d'agent pour le moment
+                        {t('emptyState.noPaymentAgents')}
                       </td>
                     </tr>
                   )}
@@ -716,18 +718,18 @@ const PaymentManagement = () => {
                   className="bg-asra-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-asra-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                 >
                   <ChevronLeft className="w-4 h-4" />
-                  <span>Précédent</span>
+                  <span>{t('pagination.previous')}</span>
                 </button>
                 <button
                   onClick={() => setCurrentPage(prev => prev + 1)}
                   className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
                 >
-                  <span>Suivant</span>
+                  <span>{t('pagination.next')}</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
               <div className="text-asra-gray-400 text-sm">
-                Page {currentPage}
+                {t('pagination.page', { page: currentPage })}
               </div>
             </div>
           </div>

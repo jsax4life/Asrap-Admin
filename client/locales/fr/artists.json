@@ -1,0 +1,175 @@
+{
+  "shared": {
+    "defaultAdminName": "Administrateur système",
+    "searchPlaceholder": "Rechercher",
+    "back": "Retour",
+    "view": "Voir",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "management": {
+    "title": "Gestion des artistes/utilisateurs",
+    "tabs": {
+      "artists": "Artistes sur Asrapa",
+      "users": "Utilisateurs sur Asrapa"
+    },
+    "filters": {
+      "searchPlaceholder": "Rechercher par nom d'artiste, nom de scène ou e-mail",
+      "statusActive": "Artistes actifs",
+      "statusDeactivated": "Artistes désactivés",
+      "sortCreatedAt": "Trier par : Date de création",
+      "sortStageName": "Nom de scène",
+      "sortFollowers": "Abonnés",
+      "sortMonthlyListeners": "Auditeurs mensuels",
+      "sortSongCount": "Nombre de titres",
+      "orderDesc": "Décroissant",
+      "orderAsc": "Croissant",
+      "limit10": "10 par page",
+      "limit20": "20 par page",
+      "limit50": "50 par page",
+      "loading": "Chargement",
+      "resultsCount": "{{count}} résultats"
+    },
+    "table": {
+      "artistId": "Id Artiste",
+      "artistName": "Nom de l'artiste",
+      "status": "Statut",
+      "followers": "Abonnés",
+      "monthlyListeners": "Auditeurs mensuels",
+      "songCount": "Nb. de titres sur Asrapa",
+      "userId": "Id Utilisateur",
+      "userName": "Nom de l'utilisateur",
+      "age": "Âge",
+      "playlistsCreated": "Playlist créée",
+      "songsLiked": "Titres aimés",
+      "actions": "Actions",
+      "noArtistsActive": "Aucun artiste actif trouvé",
+      "noArtistsDeactivated": "Aucun artiste désactivé trouvé",
+      "noUsers": "Aucun utilisateur trouvé",
+      "statusActive": "Actif",
+      "statusDeactivated": "Désactivé"
+    },
+    "actions": {
+      "reactivateTitle": "Réactiver l'artiste",
+      "deactivateTitle": "Désactiver l'artiste",
+      "deleteTitle": "Supprimer définitivement l'artiste"
+    },
+    "pagination": {
+      "pageOf": "Page {{current}} sur {{total}}"
+    },
+    "dialog": {
+      "deactivateTitle": "Désactiver l'artiste ?",
+      "reactivateTitle": "Réactiver l'artiste ?",
+      "deleteTitle": "Supprimer définitivement l'artiste ?",
+      "deactivateDescription": "\"{{name}}\" sera désactivé : catalogue masqué, connexion bloquée, titres retirés des playlists, et abonnements annulés. Vous pourrez le réactiver plus tard.",
+      "reactivateDescription": "\"{{name}}\" sera restauré avec ses titres et albums.",
+      "deleteDescription": "\"{{name}}\" et toutes les données du catalogue seront supprimés définitivement. Cette action est irréversible.",
+      "cancel": "Annuler",
+      "processing": "Traitement...",
+      "deactivate": "Désactiver",
+      "reactivate": "Réactiver",
+      "deletePermanently": "Supprimer définitivement"
+    },
+    "errors": {
+      "loadFailed": "Échec du chargement des artistes",
+      "actionFailed": "Échec de l'action"
+    },
+    "toasts": {
+      "deactivated": "\"{{name}}\" désactivé",
+      "reactivated": "\"{{name}}\" réactivé",
+      "deleted": "\"{{name}}\" supprimé définitivement"
+    }
+  },
+  "detail": {
+    "loadingArtist": "Chargement de l'artiste...",
+    "errorLoadFailed": "Échec du chargement de l'artiste",
+    "notFound": "Artiste introuvable",
+    "verifiedArtist": "Artiste vérifié",
+    "monthlyListeners": "{{count}} auditeurs mensuels",
+    "likes": "{{count}} mentions J'aime",
+    "songsAndDuration": "{{count}} titres, {{duration}}",
+    "tabs": {
+      "about": "À propos",
+      "albums": "Albums, EPs et titres téléversés",
+      "videos": "Vidéos",
+      "tagged": "Mentions"
+    },
+    "biography": "Biographie",
+    "noBio": "Aucune biographie fournie.",
+    "birthDate": "Date de naissance",
+    "notAvailable": "—",
+    "hometown": "Ville d'origine",
+    "genre": "Genre",
+    "editBio": "Modifier la biographie",
+    "albums": "Albums",
+    "songCountAndDuration": "{{count}} titres • {{duration}}",
+    "plays": "{{count}} écoutes",
+    "viewDetails": "Voir les détails",
+    "songs": "Titres",
+    "table": {
+      "number": "#",
+      "title": "Titre",
+      "album": "Album",
+      "year": "Année",
+      "duration": "Durée",
+      "status": "Statut",
+      "plays": "Écoutes",
+      "genre": "Genre",
+      "uploaded": "Téléversé",
+      "action": "Action"
+    },
+    "comingSoon": "Contenu à venir..."
+  },
+  "albumDetail": {
+    "plays": "{{count}} écoutes",
+    "likes": "{{count}} mentions J'aime",
+    "songsAndDuration": "{{count}} titres, {{duration}}",
+    "more": "Plus",
+    "tabs": {
+      "songs": "Titres",
+      "details": "Détails"
+    },
+    "table": {
+      "number": "#",
+      "title": "Titre",
+      "artist": "Artiste",
+      "plays": "Écoutes",
+      "duration": "Durée",
+      "dateAdded": "Date d'ajout",
+      "status": "Statut",
+      "action": "Action"
+    },
+    "pagination": {
+      "page": "Page"
+    },
+    "details": {
+      "title": "Détails de l'album",
+      "comingSoon": "Le contenu des détails de l'album arrive bientôt..."
+    }
+  },
+  "userDetail": {
+    "ageAndMember": "Âge : {{age}} • Membre depuis {{date}}",
+    "songsLiked": "{{count}} titres aimés",
+    "playlistsCreated": "{{count}} playlists créées",
+    "totalPlayTime": "{{time}} de temps d'écoute total",
+    "tabs": {
+      "overview": "Aperçu",
+      "playlists": "Playlists",
+      "activity": "Activité récente"
+    },
+    "userInfo": "Informations sur l'utilisateur",
+    "email": "E-mail",
+    "joinDate": "Date d'inscription",
+    "lastActive": "Dernière activité",
+    "favoriteGenres": "Genres préférés",
+    "statistics": "Statistiques",
+    "statSongsLiked": "Titres aimés",
+    "statPlaylistsCreated": "Playlists créées",
+    "statTotalPlayTime": "Temps d'écoute total",
+    "userPlaylists": "Playlists de l'utilisateur",
+    "noPlaylists": "Aucune playlist pour le moment",
+    "songsAndDuration": "{{count}} titres • {{duration}}",
+    "createdOn": "Créée le {{date}}",
+    "noActivity": "Aucune activité récente"
+  }
+}

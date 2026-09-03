@@ -1,0 +1,63 @@
+{
+  "sections": {
+    "statsOverview": "Toutes vos statistiques en un coup d'œil",
+    "reportsOverview": "Tous vos rapports en un coup d'œil",
+    "subscriptionStats": "Statistiques d'abonnement"
+  },
+  "metrics": {
+    "plays": "Écoutes",
+    "avgDailyListeners": "Auditeurs quotidiens moy.",
+    "subscribers": "Abonnés",
+    "likes": "Mentions J'aime",
+    "downloads": "Téléchargements"
+  },
+  "reportMetrics": {
+    "users": "Utilisateurs",
+    "subscribedUsers": "Utilisateurs abonnés",
+    "newUsers": "Nouveaux utilisateurs",
+    "returningUsers": "Anciens utilisateurs",
+    "failedSubscriptions": "Abonnements échoués"
+  },
+  "days": {
+    "last7Days": "7 derniers jours",
+    "monday": "Lundi",
+    "tuesday": "Mardi",
+    "wednesday": "Mercredi",
+    "thursday": "Jeudi",
+    "friday": "Vendredi",
+    "saturday": "Samedi",
+    "sunday": "Dimanche"
+  },
+  "subscriptionMetrics": {
+    "signupStarted": "Inscription commencée",
+    "signupCompleted": "Inscription terminée",
+    "subscriptionStarted": "Abonnement commencé",
+    "subscriptionEnded": "Abonnement terminé.."
+  },
+  "chartDays": {
+    "mon": "Lun",
+    "tue": "Mar",
+    "wed": "Mer",
+    "thu": "Jeu",
+    "fri": "Ven",
+    "sat": "Sam",
+    "sun": "Dim"
+  },
+  "filters": {
+    "all": "Tout",
+    "music": "Musique",
+    "users": "Utilisateurs",
+    "revenue": "Revenus",
+    "engagement": "Engagement",
+    "subscriptions": "Abonnements",
+    "listeners": "Auditeurs",
+    "downloads": "Téléchargements",
+    "last7Days": "7 derniers jours",
+    "last30Days": "30 derniers jours",
+    "last3Months": "3 derniers mois",
+    "lastYear": "L'an dernier",
+    "byTitle": "Par titres",
+    "byArtist": "Par artistes",
+    "byAlbum": "Par albums"
+  }
+}

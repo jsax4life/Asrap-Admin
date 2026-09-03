@@ -1,0 +1,256 @@
+{
+  "pageHeader": {
+    "searchDefault": "Search",
+    "agentFallback": "Agent"
+  },
+  "previewBanner": {
+    "title": "Preview mode",
+    "description": "Interface only, mock data. No server connection required.",
+    "exit": "Exit preview"
+  },
+  "dashboard": {
+    "header": {
+      "title": "Agent Dashboard"
+    },
+    "overview": "Today's Overview",
+    "metrics": {
+      "totalClients": "Total Clients Helped",
+      "onboardedToday": "Onboarded Today",
+      "activeSubscriptions": "Active Subscriptions",
+      "monthlyCommission": "Commission This Month"
+    },
+    "breakdown": {
+      "listeners": "Listeners",
+      "artists": "Artists",
+      "advertisers": "Advertisers"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "onboardUser": {
+        "title": "Onboard a listener",
+        "description": "Register a new user and set up their subscription"
+      },
+      "onboardArtist": {
+        "title": "Onboard an artist",
+        "description": "Help an artist join Asrapa and subscribe to Artist Pro"
+      },
+      "onboardAdvertiser": {
+        "title": "Onboard an advertiser",
+        "description": "Register a business to advertise on Asrapa"
+      },
+      "start": "Get started"
+    },
+    "pendingBanner_one": "You have {{count}} pending onboarding to finalize",
+    "pendingBanner_other": "You have {{count}} pending onboardings to finalize",
+    "viewPendingClients": "View pending clients →"
+  },
+  "clients": {
+    "header": {
+      "title": "My Clients",
+      "searchPlaceholder": "Search by name, email or phone"
+    },
+    "filters": {
+      "all": "All clients"
+    },
+    "types": {
+      "user": "Listener",
+      "artist": "Artist",
+      "advertiser": "Advertiser"
+    },
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "expired": "Expired",
+      "none": "None"
+    },
+    "table": {
+      "client": "Client",
+      "type": "Type",
+      "plan": "Plan",
+      "status": "Status",
+      "onboardedAt": "Onboarded On"
+    },
+    "empty": "No clients found",
+    "pagination": {
+      "totalCount": "{{count}} clients in total",
+      "page": "Page {{current}} of {{total}}"
+    }
+  },
+  "subscriptions": {
+    "header": {
+      "title": "Subscriptions"
+    },
+    "tabs": {
+      "active": "Active",
+      "pending": "Pending",
+      "expiredOrNone": "No Plan / Expired"
+    },
+    "newSubscription": "New subscription",
+    "status": {
+      "active": "Active",
+      "pending": "Pending",
+      "expired": "Expired",
+      "none": "None"
+    },
+    "noPlanSelected": "No plan selected",
+    "priceSuffix": "FCFA/month",
+    "configureSubscription": "Set up subscription",
+    "emptyCategory": "No subscriptions in this category",
+    "availablePlans": "Available plans",
+    "free": "Free",
+    "forClientTypes": "For: {{types}}"
+  },
+  "transactions": {
+    "header": {
+      "title": "Transactions"
+    },
+    "summary": {
+      "totalCollected": "Total collected",
+      "transactionCount": "Transactions",
+      "estimatedCommission": "Est. commission"
+    },
+    "table": {
+      "transactionId": "Transaction ID",
+      "client": "Client",
+      "type": "Type",
+      "plan": "Plan",
+      "amount": "Amount",
+      "payment": "Payment",
+      "status": "Status",
+      "date": "Date"
+    },
+    "types": {
+      "user": "Listener",
+      "artist": "Artist",
+      "advertiser": "Advertiser"
+    },
+    "payment": {
+      "cash": "Cash",
+      "mobile_money": "Mobile Money",
+      "bank_transfer": "Bank Transfer",
+      "card": "Card"
+    },
+    "status": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "pagination": {
+      "page": "Page {{current}} of {{total}}"
+    }
+  },
+  "help": {
+    "header": {
+      "title": "Help & Support"
+    },
+    "contactSupport": "Contact support",
+    "whatsapp": "WhatsApp support available Monday to Saturday, 8am to 6pm",
+    "faqTitle": "Frequently Asked Questions",
+    "faqs": {
+      "onboardClient": {
+        "q": "How do I onboard a new client?",
+        "a": "Go to \"Onboard Clients\" in the menu, choose whether it's a listener, an artist, or an advertiser, fill in their information, select a subscription plan, and collect payment if needed."
+      },
+      "paymentMethods": {
+        "q": "What payment methods can I accept?",
+        "a": "You can record payments by cash, Mobile Money, bank transfer, or card when setting up a subscription for a client."
+      },
+      "commission": {
+        "q": "How is my commission calculated?",
+        "a": "You earn a 10% commission on every paid subscription you help set up. Check your earnings on the Transactions page."
+      },
+      "existingAccount": {
+        "q": "What if a client already has an account?",
+        "a": "Search for them in \"My Clients\". If they don't appear, contact Asrapa support to link an existing account to your agent profile."
+      }
+    }
+  },
+  "onboarding": {
+    "header": {
+      "title": "Onboard Clients"
+    },
+    "role": {
+      "title": "Your role as an Asrapa agent",
+      "description": "Many people in your community may not be comfortable signing up and subscribing on their own. Use this portal to onboard them, collect payments, and earn a commission on every subscription you help set up."
+    },
+    "question": "Who would you like to help today?",
+    "options": {
+      "user": {
+        "title": "Listener / User",
+        "description": "Help someone who wants to listen to music on Asrapa. Register their account and set up a Free, Premium, or Family subscription.",
+        "plans": ["Free", "Premium", "Family Plan"]
+      },
+      "artist": {
+        "title": "Artist",
+        "description": "Help a musician or group join Asrapa Music. Create their artist profile and subscribe them to Artist Pro so they can publish and earn money.",
+        "plans": ["Artist Pro"]
+      },
+      "advertiser": {
+        "title": "Advertiser",
+        "description": "Help a business advertise on Asrapa Music. Register their company and set up an advertising subscription plan.",
+        "plans": ["Advertiser Starter", "Advertiser Pro"]
+      }
+    }
+  },
+  "onboardForm": {
+    "user": {
+      "title": "Onboard a listener",
+      "subtitle": "Register a new listener on Asrapa and help them choose a subscription plan."
+    },
+    "artist": {
+      "title": "Onboard an artist",
+      "subtitle": "Create an artist profile and subscribe them to Artist Pro so they can publish music and earn money on Asrapa."
+    },
+    "advertiser": {
+      "title": "Onboard an advertiser",
+      "subtitle": "Register a business on Asrapa and set up their advertising subscription."
+    },
+    "backToOptions": "Back to onboarding options",
+    "sections": {
+      "personalInfo": "Personal information",
+      "artistDetails": "Artist details",
+      "businessDetails": "Business details",
+      "subscriptionPlan": "Subscription plan",
+      "notes": "Notes (optional)"
+    },
+    "fields": {
+      "fullName": "Full name *",
+      "fullNamePlaceholder": "Enter the client's full name",
+      "email": "Email *",
+      "emailPlaceholder": "email@example.com",
+      "phone": "Phone number *",
+      "phonePlaceholder": "+234 800 000 0000",
+      "dob": "Date of birth",
+      "location": "Location / City",
+      "locationPlaceholder": "e.g. Lagos, Abuja",
+      "stageName": "Stage name *",
+      "stageNamePlaceholder": "Artist or band name",
+      "genre": "Genre",
+      "genrePlaceholder": "e.g. Afrobeats, Hip-Hop",
+      "companyName": "Company name *",
+      "companyNamePlaceholder": "Company or brand name",
+      "businessType": "Business type",
+      "businessTypePlaceholder": "e.g. Restaurant, Retail, Events"
+    },
+    "free": "Free",
+    "priceSuffix": "FCFA/month",
+    "paymentMethod": "Payment method",
+    "paymentMethods": {
+      "cash": "Cash",
+      "mobile_money": "Mobile Money",
+      "bank_transfer": "Bank Transfer",
+      "card": "Card"
+    },
+    "notesPlaceholder": "Any additional notes about this client...",
+    "totalToCollect": "Total to collect",
+    "processing": "Processing...",
+    "submit": "Finalize onboarding",
+    "successToast": "{{title}} onboarded successfully!",
+    "errors": {
+      "requiredFields": "Please fill in all required fields",
+      "stageNameRequired": "Stage name is required for artists",
+      "companyNameRequired": "Company name is required for advertisers",
+      "genericFailure": "Failed to onboard client. Please try again."
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "header": {
+    "title": "Payment",
+    "searchPlaceholder": "Search",
+    "defaultAdminName": "System Administrator"
+  },
+  "tabs": {
+    "overview": "Payment overview",
+    "paymentIn": "Incoming payments",
+    "paymentOut": "Outgoing payments",
+    "paymentAgents": "Incoming payments from agents"
+  },
+  "overview": {
+    "totalMonthlyRevenue": "Total monthly revenue",
+    "totalAnnualRevenue": "Total annual revenue",
+    "earningsFromSubscription": "Subscription earnings",
+    "outstandingBalances": "Outstanding balances",
+    "earningsFromArtists": "Earnings from artists",
+    "totalPayoutsToArtists": "Total payouts to artists",
+    "subscriptionFromAgents": "Subscriptions via agents"
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  },
+  "paymentHistory": {
+    "title": "Payment history",
+    "viewAll": "View all"
+  },
+  "table": {
+    "overview": {
+      "columns": {
+        "number": "No.",
+        "transactionId": "Transaction ID",
+        "transactionDate": "Transaction date",
+        "paymentType": "Payment type",
+        "amount": "Amount",
+        "paymentSource": "Payment source/description",
+        "paymentStatus": "Payment status"
+      }
+    },
+    "paymentIn": {
+      "columns": {
+        "number": "No.",
+        "paymentDate": "Payment date",
+        "paymentId": "Payment ID",
+        "paymentType": "Payment type",
+        "amount": "Amount",
+        "paymentSource": "Payment source/description",
+        "paymentStatus": "Payment status"
+      }
+    },
+    "paymentOut": {
+      "columns": {
+        "number": "No.",
+        "payoutDate": "Payout date",
+        "payoutId": "Payout ID",
+        "artistName": "Artist name",
+        "amount": "Amount",
+        "paymentType": "Payment type",
+        "paymentStatus": "Payment status"
+      }
+    },
+    "paymentAgents": {
+      "columns": {
+        "number": "No.",
+        "paymentDate": "Payment date",
+        "paymentId": "Payment ID",
+        "paymentType": "Payment type",
+        "amount": "Amount",
+        "payerEmail": "Payer email",
+        "agentName": "Paid by (agent name)",
+        "paymentStatus": "Payment status"
+      }
+    }
+  },
+  "emptyState": {
+    "noTransactions": "No transactions yet",
+    "noPaymentIn": "No incoming payments yet",
+    "noPaymentOut": "No outgoing payments yet",
+    "noPaymentAgents": "No payments received from agents yet"
+  },
+  "sections": {
+    "paymentIn": {
+      "title": "Incoming payments"
+    },
+    "paymentOut": {
+      "title": "Outgoing payments"
+    },
+    "paymentAgents": {
+      "title": "Agent payments"
+    }
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{page}}"
+  }
+}

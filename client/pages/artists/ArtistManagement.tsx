@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Calendar, User, ChevronLeft, ChevronRight, Loader2, Ban, RotateCcw, Trash2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { artistService, type ArtistItem } from '@/services/artistService';
 import { useAuth } from '@/hooks/useAuth';
 import {
@@ -30,6 +31,7 @@ const mockUsers: {
 }[] = [];
 
 const ArtistManagement = () => {
+  const { t } = useTranslation('artists');
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'artists' | 'users'>('artists');
   const [searchQuery, setSearchQuery] = useState('');
@@ -72,7 +74,7 @@ const ArtistManagement = () => {
       setTotalPages(res.totalPages);
       setTotalResults(res.totalResults);
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Échec du chargement des artistes');
+      setError(e instanceof Error ? e.message : t('management.errors.loadFailed'));
     } finally {
       setLoading(false);
     }
@@ -93,18 +95,18 @@ const ArtistManagement = () => {
     try {
       if (action === 'deactivate') {
         const res = await artistService.deactivateArtist(artist._id);
-        toast.success(res.message || `"${artist.stageName}" désactivé`);
+        toast.success(res.message || t('management.toasts.deactivated', { name: artist.stageName }));
       } else if (action === 'reactivate') {
         const res = await artistService.reactivateArtist(artist._id);
-        toast.success(res.message || `"${artist.stageName}" réactivé`);
+        toast.success(res.message || t('management.toasts.reactivated', { name: artist.stageName }));
       } else {
         const res = await artistService.deleteArtist(artist._id);
-        toast.success(res.message || `"${artist.stageName}" supprimé définitivement`);
+        toast.success(res.message || t('management.toasts.deleted', { name: artist.stageName }));
       }
       setActionTarget(null);
       await loadArtists();
     } catch (e: unknown) {
-      toast.error(e instanceof Error ? e.message : 'Échec de l\'action');
+      toast.error(e instanceof Error ? e.message : t('management.errors.actionFailed'));
     } finally {
       setActionLoading(false);
     }
@@ -142,7 +144,7 @@ const ArtistManagement = () => {
 
           {/* Center - Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Gestion des artistes/utilisateurs</h1>
+            <h1 className="text-2xl font-bold text-white">{t('management.title')}</h1>
           </div>
 
           {/* Right side - Search and Profile */}
@@ -151,7 +153,7 @@ const ArtistManagement = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Rechercher"
+                placeholder={t('shared.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-64"
@@ -161,7 +163,7 @@ const ArtistManagement = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
+              <span className="text-white text-sm">{user?.name || t('shared.defaultAdminName')}</span>
             </div>
           </div>
         </div>
@@ -179,7 +181,7 @@ const ArtistManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Artistes sur Asrapa
+            {t('management.tabs.artists')}
           </button>
           <button
             onClick={() => setActiveTab('users')}
@@ -189,7 +191,7 @@ const ArtistManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Utilisateurs sur Asrapa
+            {t('management.tabs.users')}
           </button>
         </div>
 
@@ -200,7 +202,7 @@ const ArtistManagement = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Rechercher par nom d'artiste, nom de scène ou e-mail"
+                placeholder={t('management.filters.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => { setCurrentPage(1); setSearchQuery(e.target.value); }}
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-72"
@@ -211,47 +213,47 @@ const ArtistManagement = () => {
               onChange={(e) => { setCurrentPage(1); setStatusFilter(e.target.value as ArtistStatusFilter); }}
               className="bg-asra-gray-2 text-white px-3 py-2 rounded-lg border border-asra-gray-5 focus:outline-none"
             >
-              <option value="active">Artistes actifs</option>
-              <option value="deactivated">Artistes désactivés</option>
+              <option value="active">{t('management.filters.statusActive')}</option>
+              <option value="deactivated">{t('management.filters.statusDeactivated')}</option>
             </select>
             <select
               value={sortBy}
               onChange={(e) => { setCurrentPage(1); setSortBy(e.target.value as typeof sortBy); }}
               className="bg-asra-gray-2 text-white px-3 py-2 rounded-lg border border-asra-gray-5 focus:outline-none"
             >
-              <option value="createdAt">Trier par : Date de création</option>
-              <option value="stageName">Nom de scène</option>
-              <option value="followers">Abonnés</option>
-              <option value="monthlyListeners">Auditeurs mensuels</option>
-              <option value="songCount">Nombre de titres</option>
+              <option value="createdAt">{t('management.filters.sortCreatedAt')}</option>
+              <option value="stageName">{t('management.filters.sortStageName')}</option>
+              <option value="followers">{t('management.filters.sortFollowers')}</option>
+              <option value="monthlyListeners">{t('management.filters.sortMonthlyListeners')}</option>
+              <option value="songCount">{t('management.filters.sortSongCount')}</option>
             </select>
             <select
               value={sortOrder}
               onChange={(e) => { setCurrentPage(1); setSortOrder(e.target.value as 'asc' | 'desc'); }}
               className="bg-asra-gray-2 text-white px-3 py-2 rounded-lg border border-asra-gray-5 focus:outline-none"
             >
-              <option value="desc">Décroissant</option>
-              <option value="asc">Croissant</option>
+              <option value="desc">{t('management.filters.orderDesc')}</option>
+              <option value="asc">{t('management.filters.orderAsc')}</option>
             </select>
             <select
               value={limit}
               onChange={(e) => { setCurrentPage(1); setLimit(parseInt(e.target.value, 10)); }}
               className="bg-asra-gray-2 text-white px-3 py-2 rounded-lg border border-asra-gray-5 focus:outline-none"
             >
-              <option value={10}>10 par page</option>
-              <option value={20}>20 par page</option>
-              <option value={50}>50 par page</option>
+              <option value={10}>{t('management.filters.limit10')}</option>
+              <option value={20}>{t('management.filters.limit20')}</option>
+              <option value={50}>{t('management.filters.limit50')}</option>
             </select>
             {loading && (
               <span className="inline-flex items-center text-asra-gray-400 text-sm">
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Chargement
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" /> {t('management.filters.loading')}
               </span>
             )}
             {error && (
               <span className="text-red-400 text-sm">{error}</span>
             )}
             {!loading && !error && (
-              <span className="text-asra-gray-400 text-sm">{totalResults.toLocaleString()} résultats</span>
+              <span className="text-asra-gray-400 text-sm">{t('management.filters.resultsCount', { count: totalResults.toLocaleString() })}</span>
             )}
           </div>
         )}
@@ -265,45 +267,45 @@ const ArtistManagement = () => {
                   {activeTab === 'artists' ? (
                     <>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Id Artiste
+                        {t('management.table.artistId')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Nom de l'artiste
+                        {t('management.table.artistName')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Statut
+                        {t('management.table.status')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Abonnés
+                        {t('management.table.followers')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Auditeurs mensuels
+                        {t('management.table.monthlyListeners')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Nb. de titres sur Asrapa
+                        {t('management.table.songCount')}
                       </th>
                     </>
                   ) : (
                     <>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Id Utilisateur
+                        {t('management.table.userId')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Nom de l'utilisateur
+                        {t('management.table.userName')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Âge
+                        {t('management.table.age')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Playlist créée
+                        {t('management.table.playlistsCreated')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Titres aimés
+                        {t('management.table.songsLiked')}
                       </th>
                     </>
                   )}
                   <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider whitespace-nowrap sticky right-0 bg-asra-gray-800">
-                    Actions
+                    {t('management.table.actions')}
                   </th>
                 </tr>
               </thead>
@@ -312,7 +314,7 @@ const ArtistManagement = () => {
                   artists.length === 0 && !loading ? (
                     <tr>
                       <td colSpan={7} className="px-6 py-12 text-center text-asra-gray-400 text-sm">
-                        Aucun artiste {statusFilter === 'active' ? 'actif' : 'désactivé'} trouvé
+                        {statusFilter === 'active' ? t('management.table.noArtistsActive') : t('management.table.noArtistsDeactivated')}
                       </td>
                     </tr>
                   ) : (
@@ -348,7 +350,7 @@ const ArtistManagement = () => {
                             ? 'bg-red-500/20 text-red-400'
                             : 'bg-green-500/20 text-green-400'
                         }`}>
-                          {deactivated ? 'Désactivé' : 'Actif'}
+                          {deactivated ? t('management.table.statusDeactivated') : t('management.table.statusActive')}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
@@ -366,13 +368,13 @@ const ArtistManagement = () => {
                             onClick={() => handleArtistClick(artist._id)}
                             className="bg-asra-red text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
                           >
-                            Voir
+                            {t('shared.view')}
                           </button>
                           {deactivated ? (
                             <button
                               onClick={() => setActionTarget({ artist, action: 'reactivate' })}
                               className="text-green-400 hover:text-green-300 p-1.5 rounded-lg hover:bg-asra-gray-2 transition-colors"
-                              title="Réactiver l'artiste"
+                              title={t('management.actions.reactivateTitle')}
                             >
                               <RotateCcw className="w-4 h-4" />
                             </button>
@@ -380,7 +382,7 @@ const ArtistManagement = () => {
                             <button
                               onClick={() => setActionTarget({ artist, action: 'deactivate' })}
                               className="text-amber-400 hover:text-amber-300 p-1.5 rounded-lg hover:bg-asra-gray-2 transition-colors"
-                              title="Désactiver l'artiste"
+                              title={t('management.actions.deactivateTitle')}
                             >
                               <Ban className="w-4 h-4" />
                             </button>
@@ -388,7 +390,7 @@ const ArtistManagement = () => {
                           <button
                             onClick={() => setActionTarget({ artist, action: 'delete' })}
                             className="text-asra-gray-6 hover:text-red-400 p-1.5 rounded-lg hover:bg-asra-gray-2 transition-colors"
-                            title="Supprimer définitivement l'artiste"
+                            title={t('management.actions.deleteTitle')}
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -400,7 +402,7 @@ const ArtistManagement = () => {
                 ) : filteredUsers.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="px-6 py-12 text-center text-asra-gray-400 text-sm">
-                      Aucun utilisateur trouvé
+                      {t('management.table.noUsers')}
                     </td>
                   </tr>
                 ) : (
@@ -426,7 +428,7 @@ const ArtistManagement = () => {
                           onClick={() => handleUserClick(user.id)}
                           className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
                         >
-                          Voir
+                          {t('shared.view')}
                         </button>
                       </td>
                     </tr>
@@ -446,19 +448,19 @@ const ArtistManagement = () => {
               className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
             >
               <ChevronLeft className="w-4 h-4" />
-              <span>Précédent</span>
+              <span>{t('shared.previous')}</span>
             </button>
             <button
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={currentPage >= totalPages}
               className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
             >
-              <span>Suivant</span>
+              <span>{t('shared.next')}</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
           <div className="text-asra-gray-400 text-sm">
-            Page {currentPage} sur {totalPages}
+            {t('management.pagination.pageOf', { current: currentPage, total: totalPages })}
           </div>
         </div>
       </div>
@@ -467,28 +469,26 @@ const ArtistManagement = () => {
         <AlertDialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white max-w-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {actionTarget?.action === 'deactivate' && 'Désactiver l\'artiste ?'}
-              {actionTarget?.action === 'reactivate' && 'Réactiver l\'artiste ?'}
-              {actionTarget?.action === 'delete' && 'Supprimer définitivement l\'artiste ?'}
+              {actionTarget?.action === 'deactivate' && t('management.dialog.deactivateTitle')}
+              {actionTarget?.action === 'reactivate' && t('management.dialog.reactivateTitle')}
+              {actionTarget?.action === 'delete' && t('management.dialog.deleteTitle')}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-asra-gray-6 space-y-2">
               {actionTarget?.action === 'deactivate' && (
                 <>
                   <span className="block">
-                    &quot;{actionTarget.artist.stageName}&quot; sera désactivé : catalogue masqué, connexion bloquée,
-                    titres retirés des playlists, et abonnements annulés. Vous pourrez le réactiver plus tard.
+                    {t('management.dialog.deactivateDescription', { name: actionTarget.artist.stageName })}
                   </span>
                 </>
               )}
               {actionTarget?.action === 'reactivate' && (
                 <span className="block">
-                  &quot;{actionTarget.artist.stageName}&quot; sera restauré avec ses titres et albums.
+                  {t('management.dialog.reactivateDescription', { name: actionTarget.artist.stageName })}
                 </span>
               )}
               {actionTarget?.action === 'delete' && (
                 <span className="block text-red-400">
-                  &quot;{actionTarget.artist.stageName}&quot; et toutes les données du catalogue seront supprimés définitivement.
-                  Cette action est irréversible.
+                  {t('management.dialog.deleteDescription', { name: actionTarget.artist.stageName })}
                 </span>
               )}
             </AlertDialogDescription>
@@ -498,7 +498,7 @@ const ArtistManagement = () => {
               disabled={actionLoading}
               className="bg-asra-gray-2 border-asra-gray-2 text-white hover:bg-asra-gray-800"
             >
-              Annuler
+              {t('management.dialog.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleArtistAction}
@@ -511,10 +511,10 @@ const ArtistManagement = () => {
                     : 'bg-amber-600 hover:bg-amber-700'
               }
             >
-              {actionLoading ? 'Traitement...' : (
-                actionTarget?.action === 'deactivate' ? 'Désactiver' :
-                actionTarget?.action === 'reactivate' ? 'Réactiver' :
-                'Supprimer définitivement'
+              {actionLoading ? t('management.dialog.processing') : (
+                actionTarget?.action === 'deactivate' ? t('management.dialog.deactivate') :
+                actionTarget?.action === 'reactivate' ? t('management.dialog.reactivate') :
+                t('management.dialog.deletePermanently')
               )}
             </AlertDialogAction>
           </AlertDialogFooter>

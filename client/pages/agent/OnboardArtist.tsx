@@ -1,11 +1,13 @@
+import { useTranslation } from 'react-i18next';
 import { OnboardClientForm } from './OnboardClientForm';
 
 export default function OnboardArtist() {
+  const { t } = useTranslation('agent');
   return (
     <OnboardClientForm
       clientType="artist"
-      title="Intégrer un artiste"
-      subtitle="Créez un profil d'artiste et abonnez-le à Artist Pro afin qu'il puisse publier de la musique et gagner de l'argent sur Asrapa."
+      title={t('onboardForm.artist.title')}
+      subtitle={t('onboardForm.artist.subtitle')}
     />
   );
 }

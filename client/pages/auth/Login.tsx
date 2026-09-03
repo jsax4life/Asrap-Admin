@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { AuthLayout } from '@/layouts/AuthLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,14 +15,8 @@ import { useAuthStore } from '@/store/authStore';
 import { LoginRequest } from '@/types';
 import { getPostLoginPath } from '@/lib/roles';
 
-const loginSchema = z.object({
-  email: z.string().email('Veuillez saisir une adresse e-mail valide'),
-  password: z.string().min(6, 'Le mot de passe doit comporter au moins 6 caractères'),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
-
 export const Login = () => {
+  const { t } = useTranslation('auth');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
@@ -29,6 +24,17 @@ export const Login = () => {
   const location = useLocation();
 
   const from = location.state?.from?.pathname || '/dashboard';
+
+  const loginSchema = useMemo(
+    () =>
+      z.object({
+        email: z.string().email(t('login.validation.invalidEmail')),
+        password: z.string().min(6, t('login.validation.passwordTooShort')),
+      }),
+    [t]
+  );
+
+  type LoginFormData = z.infer<typeof loginSchema>;
 
   const {
     register,
@@ -40,17 +46,17 @@ export const Login = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
-    
+
     try {
       await login(data as LoginRequest);
-      toast.success('Connexion réussie !');
+      toast.success(t('login.loginSuccess'));
       const currentUser = useAuthStore.getState().user;
       const redirectTo = currentUser
         ? getPostLoginPath(currentUser)
         : from;
       navigate(redirectTo, { replace: true });
     } catch (error: any) {
-      toast.error(error.message || 'Échec de la connexion. Veuillez réessayer.');
+      toast.error(error.message || t('login.loginError'));
     } finally {
       setIsLoading(false);
     }
@@ -60,19 +66,19 @@ export const Login = () => {
     <AuthLayout>
       <div className="space-y-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-2">Content de vous revoir</h1>
-          <p className="text-asra-gray-6">Connectez-vous à votre compte administrateur ou agent</p>
+          <h1 className="text-2xl font-bold text-white mb-2">{t('login.heading')}</h1>
+          <p className="text-asra-gray-6">{t('login.subheading')}</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email" className="text-white">
-              Adresse e-mail
+              {t('login.emailLabel')}
             </Label>
             <Input
               id="email"
               type="email"
-              placeholder="admin@asrapa.com"
+              placeholder={t('login.emailPlaceholder')}
               className="bg-asra-gray-2 border-asra-gray-5 text-white placeholder:text-asra-gray-6"
               {...register('email')}
             />
@@ -83,13 +89,13 @@ export const Login = () => {
 
           <div className="space-y-2">
             <Label htmlFor="password" className="text-white">
-              Mot de passe
+              {t('login.passwordLabel')}
             </Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Entrez votre mot de passe"
+                placeholder={t('login.passwordPlaceholder')}
                 className="bg-asra-gray-2 border-asra-gray-5 text-white placeholder:text-asra-gray-6 pr-10"
                 {...register('password')}
               />
@@ -118,17 +124,17 @@ export const Login = () => {
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Connexion en cours...
+                {t('login.submitButtonLoading')}
               </>
             ) : (
-              'Se connecter'
+              t('login.submitButton')
             )}
           </Button>
         </form>
 
         <div className="text-center">
           <button className="text-asra-gray-6 hover:text-white text-sm">
-            Mot de passe oublié ?
+            {t('login.forgotPassword')}
           </button>
         </div>
       </div>

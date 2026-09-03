@@ -1,0 +1,34 @@
+{
+  "management": {
+    "header": {
+      "date": "Date: 03/02/2023",
+      "title": "Asrapa Playlist Manager",
+      "searchPlaceholder": "Search",
+      "defaultUser": "System Administrator"
+    },
+    "newPlaylist": "New Playlist",
+    "emptyState": {
+      "message": "No playlist matches your search",
+      "clearSearch": "Clear search"
+    }
+  },
+  "detail": {
+    "goBack": "Back",
+    "searchPlaceholder": "Search",
+    "defaultUser": "System Administrator",
+    "banner": {
+      "line1": "THIS IS",
+      "line2": "Wizkid"
+    },
+    "addToPlaylist": "Add to playlist",
+    "publicPlaylist": "PUBLIC PLAYLIST",
+    "likes": "likes",
+    "songsAndDuration": "{{songCount}} songs, {{duration}}",
+    "columns": {
+      "title": "TITLE",
+      "album": "ALBUM",
+      "dateAdded": "DATE ADDED",
+      "duration": "DURATION"
+    }
+  }
+}

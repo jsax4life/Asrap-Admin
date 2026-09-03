@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { AgentPageHeader } from '@/components/agent/AgentPageHeader';
 import { SUBSCRIPTION_PLANS } from '@/constants';
 import { agentService } from '@/services/agentService';
@@ -12,31 +13,32 @@ const STATUS_STYLES = {
   failed: 'bg-red-500/20 text-red-400',
 };
 
-const PAYMENT_LABELS = {
-  cash: 'Espèces',
-  mobile_money: 'Mobile Money',
-  bank_transfer: 'Virement bancaire',
-  card: 'Carte',
-};
-
-const CLIENT_TYPE_LABELS = {
-  user: 'Auditeur',
-  artist: 'Artiste',
-  advertiser: 'Annonceur',
-};
-
-const STATUS_LABELS: Record<string, string> = {
-  completed: 'Terminée',
-  pending: 'En attente',
-  failed: 'Échouée',
-};
-
 export default function AgentTransactions() {
+  const { t } = useTranslation('agent');
   const [transactions, setTransactions] = useState<AgentTransaction[]>([]);
   const [summary, setSummary] = useState({ totalCollected: 0, transactionCount: 0, estimatedCommission: 0 });
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8;
+
+  const PAYMENT_LABELS = {
+    cash: t('transactions.payment.cash'),
+    mobile_money: t('transactions.payment.mobile_money'),
+    bank_transfer: t('transactions.payment.bank_transfer'),
+    card: t('transactions.payment.card'),
+  };
+
+  const CLIENT_TYPE_LABELS = {
+    user: t('transactions.types.user'),
+    artist: t('transactions.types.artist'),
+    advertiser: t('transactions.types.advertiser'),
+  };
+
+  const STATUS_LABELS: Record<string, string> = {
+    completed: t('transactions.status.completed'),
+    pending: t('transactions.status.pending'),
+    failed: t('transactions.status.failed'),
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -55,20 +57,20 @@ export default function AgentTransactions() {
 
   return (
     <div className="min-h-screen bg-asra-dark">
-      <AgentPageHeader title="Transactions" />
+      <AgentPageHeader title={t('transactions.header.title')} />
 
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
-            <p className="text-asra-gray-6 text-sm">Total encaissé</p>
+            <p className="text-asra-gray-6 text-sm">{t('transactions.summary.totalCollected')}</p>
             <p className="text-white text-2xl font-bold">{summary.totalCollected.toLocaleString('fr-FR')} FCFA</p>
           </div>
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
-            <p className="text-asra-gray-6 text-sm">Transactions</p>
+            <p className="text-asra-gray-6 text-sm">{t('transactions.summary.transactionCount')}</p>
             <p className="text-white text-2xl font-bold">{summary.transactionCount}</p>
           </div>
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
-            <p className="text-asra-gray-6 text-sm">Commission est.</p>
+            <p className="text-asra-gray-6 text-sm">{t('transactions.summary.estimatedCommission')}</p>
             <p className="text-white text-2xl font-bold">{summary.estimatedCommission.toLocaleString('fr-FR')} FCFA</p>
           </div>
         </div>
@@ -83,14 +85,14 @@ export default function AgentTransactions() {
               <table className="w-full min-w-[700px]">
                 <thead>
                   <tr className="border-b border-asra-gray-2">
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">ID transaction</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Client</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Type</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Forfait</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Montant</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Paiement</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Statut</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Date</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('transactions.table.transactionId')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('transactions.table.client')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('transactions.table.type')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('transactions.table.plan')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('transactions.table.amount')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('transactions.table.payment')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('transactions.table.status')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('transactions.table.date')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -125,7 +127,7 @@ export default function AgentTransactions() {
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <span className="text-white text-sm">Page {currentPage} sur {totalPages}</span>
+                <span className="text-white text-sm">{t('transactions.pagination.page', { current: currentPage, total: totalPages })}</span>
                 <button
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}

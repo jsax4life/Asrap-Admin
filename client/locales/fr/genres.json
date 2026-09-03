@@ -1,0 +1,72 @@
+{
+  "header": {
+    "title": "Gestion des genres",
+    "admin": "Admin"
+  },
+  "errors": {
+    "loadFailed": "Échec du chargement des genres",
+    "nameRequired": "Le nom du genre est requis",
+    "bulkNamesRequired": "Saisissez au moins un nom de genre",
+    "addFailed": "Échec de l'ajout du genre",
+    "deleteFailed": "Échec de la suppression du genre",
+    "noChanges": "Aucune modification à enregistrer",
+    "updateFailed": "Échec de la mise à jour du genre"
+  },
+  "success": {
+    "added": "Genre(s) ajouté(s) avec succès",
+    "deleted": "\"{{name}}\" supprimé",
+    "updated": "Genre mis à jour avec succès"
+  },
+  "addPanel": {
+    "title": "Ajouter un genre",
+    "single": "Un seul",
+    "bulk": "Plusieurs",
+    "nameLabel": "Nom du genre *",
+    "namePlaceholder": "ex. Afrobeats",
+    "bulkNamesLabel": "Noms des genres *",
+    "bulkNamesPlaceholder": "Hip Hop, R&B, Jazz, Gospel",
+    "bulkNamesHint": "Séparez-les par des virgules",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Description optionnelle",
+    "coverImageLabel": "Image de couverture",
+    "coverImageUpload": "Téléverser une couverture (optionnel)",
+    "submitting": "Ajout en cours...",
+    "submit": "Ajouter le genre"
+  },
+  "list": {
+    "searchPlaceholder": "Rechercher des genres",
+    "activeCount": "{{count}} actifs",
+    "columns": {
+      "genre": "Genre",
+      "description": "Description",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Actif"
+    },
+    "editTitle": "Modifier le genre",
+    "deleteTitle": "Supprimer le genre",
+    "empty": "Aucun genre trouvé"
+  },
+  "editDialog": {
+    "title": "Modifier le genre",
+    "description": "Modifiez le nom, la description ou l'image de couverture de \"{{name}}\".",
+    "nameLabel": "Nom du genre *",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Description optionnelle",
+    "coverImageLabel": "Image de couverture",
+    "currentCover": "Couverture actuelle",
+    "coverImageReplace": "Remplacer la couverture (optionnel)",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "save": "Enregistrer les modifications"
+  },
+  "deleteDialog": {
+    "title": "Supprimer le genre ?",
+    "description": "« {{name}} » sera désactivé et masqué de la liste publique des genres. Cela ne supprime pas les titres déjà associés à ce genre.",
+    "cancel": "Annuler",
+    "deleting": "Suppression...",
+    "confirm": "Supprimer"
+  }
+}

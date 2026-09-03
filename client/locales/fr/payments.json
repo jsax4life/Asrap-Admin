@@ -1,0 +1,109 @@
+{
+  "header": {
+    "title": "Paiement",
+    "searchPlaceholder": "Rechercher",
+    "defaultAdminName": "Administrateur système"
+  },
+  "tabs": {
+    "overview": "Aperçu des paiements",
+    "paymentIn": "Paiements entrants",
+    "paymentOut": "Paiements sortants",
+    "paymentAgents": "Paiements entrants des agents"
+  },
+  "overview": {
+    "totalMonthlyRevenue": "Revenu mensuel total",
+    "totalAnnualRevenue": "Revenu annuel total",
+    "earningsFromSubscription": "Revenus des abonnements",
+    "outstandingBalances": "Soldes impayés",
+    "earningsFromArtists": "Revenus des artistes",
+    "totalPayoutsToArtists": "Total des versements aux artistes",
+    "subscriptionFromAgents": "Abonnements via les agents"
+  },
+  "months": {
+    "january": "Janvier",
+    "february": "Février",
+    "march": "Mars",
+    "april": "Avril",
+    "may": "Mai",
+    "june": "Juin",
+    "july": "Juillet",
+    "august": "Août",
+    "september": "Septembre",
+    "october": "Octobre",
+    "november": "Novembre",
+    "december": "Décembre"
+  },
+  "paymentHistory": {
+    "title": "Historique des paiements",
+    "viewAll": "Voir tout"
+  },
+  "table": {
+    "overview": {
+      "columns": {
+        "number": "N°",
+        "transactionId": "ID de transaction",
+        "transactionDate": "Date de transaction",
+        "paymentType": "Type de paiement",
+        "amount": "Montant",
+        "paymentSource": "Source/Description du paiement",
+        "paymentStatus": "Statut du paiement"
+      }
+    },
+    "paymentIn": {
+      "columns": {
+        "number": "N°",
+        "paymentDate": "Date de paiement",
+        "paymentId": "ID de paiement",
+        "paymentType": "Type de paiement",
+        "amount": "Montant",
+        "paymentSource": "Source/Description du paiement",
+        "paymentStatus": "Statut du paiement"
+      }
+    },
+    "paymentOut": {
+      "columns": {
+        "number": "N°",
+        "payoutDate": "Date de versement",
+        "payoutId": "ID de versement",
+        "artistName": "Nom de l'artiste",
+        "amount": "Montant",
+        "paymentType": "Type de paiement",
+        "paymentStatus": "Statut du paiement"
+      }
+    },
+    "paymentAgents": {
+      "columns": {
+        "number": "N°",
+        "paymentDate": "Date de paiement",
+        "paymentId": "ID de paiement",
+        "paymentType": "Type de paiement",
+        "amount": "Montant",
+        "payerEmail": "E-mail du payeur",
+        "agentName": "Payé par (nom de l'agent)",
+        "paymentStatus": "Statut du paiement"
+      }
+    }
+  },
+  "emptyState": {
+    "noTransactions": "Aucune transaction pour le moment",
+    "noPaymentIn": "Aucun paiement entrant pour le moment",
+    "noPaymentOut": "Aucun paiement sortant pour le moment",
+    "noPaymentAgents": "Aucun paiement reçu d'agent pour le moment"
+  },
+  "sections": {
+    "paymentIn": {
+      "title": "Paiements entrants"
+    },
+    "paymentOut": {
+      "title": "Paiements sortants"
+    },
+    "paymentAgents": {
+      "title": "Paiements des agents"
+    }
+  },
+  "pagination": {
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {{page}}"
+  }
+}

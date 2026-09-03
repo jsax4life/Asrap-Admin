@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Settings",
+    "defaultUserName": "System Administrator",
+    "accountInfoTitle": "Account Information",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "roleLabel": "Role",
+    "emptyValue": "—",
+    "comingSoon": "Content coming soon..."
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Oops! Page not found",
+    "backHome": "Back to home"
+  },
+  "unauthorized": {
+    "title": "Access denied",
+    "message": "You do not have permission to access this page. Please contact your administrator if you believe this is an error.",
+    "backButton": "Go back"
+  }
+}

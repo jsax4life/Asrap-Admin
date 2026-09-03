@@ -1,0 +1,34 @@
+{
+  "metrics": {
+    "revenueGenerated": "Revenus générés",
+    "totalArtists": "Total artistes",
+    "totalAlbums": "Total albums",
+    "totalSongs": "Total titres",
+    "totalDownloads": "Total téléchargements",
+    "activeUsers": "Utilisateurs actifs",
+    "newSignups": "Nouvelles inscriptions",
+    "songsStreamed": "Titres écoutés"
+  },
+  "units": {
+    "listeners": "auditeurs",
+    "plays": "écoutes"
+  },
+  "loading": "Chargement des données...",
+  "error": "Erreur : {{message}}",
+  "topArtists": {
+    "title": "Top 10 artistes",
+    "columns": {
+      "rank": "N°",
+      "name": "NOM DE L'ARTISTE",
+      "monthlyListeners": "AUDITEURS MENSUELS"
+    }
+  },
+  "topSongs": {
+    "title": "Top 10 titres",
+    "columns": {
+      "rank": "N°",
+      "name": "NOM DU TITRE",
+      "monthlyListeners": "AUDITEURS MENSUELS"
+    }
+  }
+}

@@ -1,0 +1,256 @@
+{
+  "pageHeader": {
+    "searchDefault": "Rechercher",
+    "agentFallback": "Agent"
+  },
+  "previewBanner": {
+    "title": "Mode aperçu",
+    "description": "Interface uniquement, données fictives. Aucune connexion au serveur requise.",
+    "exit": "Quitter l'aperçu"
+  },
+  "dashboard": {
+    "header": {
+      "title": "Tableau de bord de l'agent"
+    },
+    "overview": "Aperçu du jour",
+    "metrics": {
+      "totalClients": "Total de clients aidés",
+      "onboardedToday": "Intégrés aujourd'hui",
+      "activeSubscriptions": "Abonnements actifs",
+      "monthlyCommission": "Commission ce mois-ci"
+    },
+    "breakdown": {
+      "listeners": "Auditeurs",
+      "artists": "Artistes",
+      "advertisers": "Annonceurs"
+    },
+    "quickActions": {
+      "title": "Actions rapides",
+      "onboardUser": {
+        "title": "Intégrer un auditeur",
+        "description": "Inscrire un nouvel utilisateur et configurer son abonnement"
+      },
+      "onboardArtist": {
+        "title": "Intégrer un artiste",
+        "description": "Aider un artiste à rejoindre Asrapa et à s'abonner à Artist Pro"
+      },
+      "onboardAdvertiser": {
+        "title": "Intégrer un annonceur",
+        "description": "Inscrire une entreprise pour faire de la publicité sur Asrapa"
+      },
+      "start": "Commencer"
+    },
+    "pendingBanner_one": "Vous avez {{count}} intégration en attente à finaliser",
+    "pendingBanner_other": "Vous avez {{count}} intégrations en attente à finaliser",
+    "viewPendingClients": "Voir les clients en attente →"
+  },
+  "clients": {
+    "header": {
+      "title": "Mes clients",
+      "searchPlaceholder": "Rechercher par nom, e-mail ou téléphone"
+    },
+    "filters": {
+      "all": "Tous les clients"
+    },
+    "types": {
+      "user": "Auditeur",
+      "artist": "Artiste",
+      "advertiser": "Annonceur"
+    },
+    "status": {
+      "active": "Actif",
+      "pending": "En attente",
+      "expired": "Expiré",
+      "none": "Aucun"
+    },
+    "table": {
+      "client": "Client",
+      "type": "Type",
+      "plan": "Forfait",
+      "status": "Statut",
+      "onboardedAt": "Intégré le"
+    },
+    "empty": "Aucun client trouvé",
+    "pagination": {
+      "totalCount": "{{count}} clients au total",
+      "page": "Page {{current}} sur {{total}}"
+    }
+  },
+  "subscriptions": {
+    "header": {
+      "title": "Abonnements"
+    },
+    "tabs": {
+      "active": "Actifs",
+      "pending": "En attente",
+      "expiredOrNone": "Sans forfait / Expiré"
+    },
+    "newSubscription": "Nouvel abonnement",
+    "status": {
+      "active": "Actif",
+      "pending": "En attente",
+      "expired": "Expiré",
+      "none": "Aucun"
+    },
+    "noPlanSelected": "Aucun forfait sélectionné",
+    "priceSuffix": "FCFA/mois",
+    "configureSubscription": "Configurer l'abonnement",
+    "emptyCategory": "Aucun abonnement dans cette catégorie",
+    "availablePlans": "Forfaits disponibles",
+    "free": "Gratuit",
+    "forClientTypes": "Pour : {{types}}"
+  },
+  "transactions": {
+    "header": {
+      "title": "Transactions"
+    },
+    "summary": {
+      "totalCollected": "Total encaissé",
+      "transactionCount": "Transactions",
+      "estimatedCommission": "Commission est."
+    },
+    "table": {
+      "transactionId": "ID transaction",
+      "client": "Client",
+      "type": "Type",
+      "plan": "Forfait",
+      "amount": "Montant",
+      "payment": "Paiement",
+      "status": "Statut",
+      "date": "Date"
+    },
+    "types": {
+      "user": "Auditeur",
+      "artist": "Artiste",
+      "advertiser": "Annonceur"
+    },
+    "payment": {
+      "cash": "Espèces",
+      "mobile_money": "Mobile Money",
+      "bank_transfer": "Virement bancaire",
+      "card": "Carte"
+    },
+    "status": {
+      "completed": "Terminée",
+      "pending": "En attente",
+      "failed": "Échouée"
+    },
+    "pagination": {
+      "page": "Page {{current}} sur {{total}}"
+    }
+  },
+  "help": {
+    "header": {
+      "title": "Aide et assistance"
+    },
+    "contactSupport": "Contacter le support",
+    "whatsapp": "Support WhatsApp disponible du lundi au samedi, de 8h à 18h",
+    "faqTitle": "Questions fréquentes",
+    "faqs": {
+      "onboardClient": {
+        "q": "Comment intégrer un nouveau client ?",
+        "a": "Allez dans « Intégrer des clients » dans le menu, choisissez s'il s'agit d'un auditeur, d'un artiste ou d'un annonceur, remplissez ses informations, sélectionnez un forfait d'abonnement et encaissez le paiement si nécessaire."
+      },
+      "paymentMethods": {
+        "q": "Quels moyens de paiement puis-je accepter ?",
+        "a": "Vous pouvez enregistrer des paiements en espèces, par Mobile Money, par virement bancaire ou par carte lors de la configuration d'un abonnement pour un client."
+      },
+      "commission": {
+        "q": "Comment ma commission est-elle calculée ?",
+        "a": "Vous gagnez 10 % de commission sur chaque abonnement payant que vous aidez à mettre en place. Consultez vos gains dans la page Transactions."
+      },
+      "existingAccount": {
+        "q": "Que faire si un client a déjà un compte ?",
+        "a": "Recherchez-le dans « Mes clients ». S'il n'apparaît pas, contactez le support Asrapa pour lier un compte existant à votre profil d'agent."
+      }
+    }
+  },
+  "onboarding": {
+    "header": {
+      "title": "Intégrer des clients"
+    },
+    "role": {
+      "title": "Votre rôle en tant qu'agent Asrapa",
+      "description": "De nombreuses personnes de votre communauté ne sont peut-être pas à l'aise pour s'inscrire et s'abonner elles-mêmes. Utilisez ce portail pour les intégrer, encaisser les paiements et gagner une commission sur chaque abonnement que vous aidez à mettre en place."
+    },
+    "question": "Qui souhaitez-vous aider aujourd'hui ?",
+    "options": {
+      "user": {
+        "title": "Auditeur / Utilisateur",
+        "description": "Aidez une personne qui souhaite écouter de la musique sur Asrapa. Inscrivez son compte et configurez un abonnement Gratuit, Premium ou Famille.",
+        "plans": ["Gratuit", "Premium", "Forfait Famille"]
+      },
+      "artist": {
+        "title": "Artiste",
+        "description": "Aidez un musicien ou un groupe à rejoindre Asrapa Music. Créez son profil d'artiste et abonnez-le à Artist Pro afin qu'il puisse publier et gagner de l'argent.",
+        "plans": ["Artist Pro"]
+      },
+      "advertiser": {
+        "title": "Annonceur",
+        "description": "Aidez une entreprise à faire de la publicité sur Asrapa Music. Inscrivez son entreprise et configurez un forfait d'abonnement publicitaire.",
+        "plans": ["Advertiser Starter", "Advertiser Pro"]
+      }
+    }
+  },
+  "onboardForm": {
+    "user": {
+      "title": "Intégrer un auditeur",
+      "subtitle": "Inscrivez un nouvel auditeur sur Asrapa et aidez-le à choisir un forfait d'abonnement."
+    },
+    "artist": {
+      "title": "Intégrer un artiste",
+      "subtitle": "Créez un profil d'artiste et abonnez-le à Artist Pro afin qu'il puisse publier de la musique et gagner de l'argent sur Asrapa."
+    },
+    "advertiser": {
+      "title": "Intégrer un annonceur",
+      "subtitle": "Inscrivez une entreprise sur Asrapa et configurez son abonnement publicitaire."
+    },
+    "backToOptions": "Retour aux options d'intégration",
+    "sections": {
+      "personalInfo": "Informations personnelles",
+      "artistDetails": "Détails de l'artiste",
+      "businessDetails": "Détails de l'entreprise",
+      "subscriptionPlan": "Forfait d'abonnement",
+      "notes": "Notes (facultatif)"
+    },
+    "fields": {
+      "fullName": "Nom complet *",
+      "fullNamePlaceholder": "Saisissez le nom complet du client",
+      "email": "E-mail *",
+      "emailPlaceholder": "email@example.com",
+      "phone": "Numéro de téléphone *",
+      "phonePlaceholder": "+234 800 000 0000",
+      "dob": "Date de naissance",
+      "location": "Lieu / Ville",
+      "locationPlaceholder": "ex. Lagos, Abuja",
+      "stageName": "Nom de scène *",
+      "stageNamePlaceholder": "Nom de l'artiste ou du groupe",
+      "genre": "Genre",
+      "genrePlaceholder": "ex. Afrobeats, Hip-Hop",
+      "companyName": "Nom de l'entreprise *",
+      "companyNamePlaceholder": "Nom de l'entreprise ou de la marque",
+      "businessType": "Type d'entreprise",
+      "businessTypePlaceholder": "ex. Restaurant, Commerce, Événementiel"
+    },
+    "free": "Gratuit",
+    "priceSuffix": "FCFA/mois",
+    "paymentMethod": "Mode de paiement",
+    "paymentMethods": {
+      "cash": "Espèces",
+      "mobile_money": "Mobile Money",
+      "bank_transfer": "Virement bancaire",
+      "card": "Carte"
+    },
+    "notesPlaceholder": "Toute note supplémentaire concernant ce client...",
+    "totalToCollect": "Total à encaisser",
+    "processing": "Traitement en cours...",
+    "submit": "Finaliser l'intégration",
+    "successToast": "{{title}} intégré avec succès !",
+    "errors": {
+      "requiredFields": "Veuillez remplir tous les champs obligatoires",
+      "stageNameRequired": "Le nom de scène est obligatoire pour les artistes",
+      "companyNameRequired": "Le nom de l'entreprise est obligatoire pour les annonceurs",
+      "genericFailure": "Échec de l'intégration du client. Veuillez réessayer."
+    }
+  }
+}

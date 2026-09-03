@@ -1,9 +1,11 @@
 import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { exitDevPreview, isDevPreview } from '@/lib/devPreview';
 
 export function AgentPreviewBanner() {
   const navigate = useNavigate();
+  const { t } = useTranslation('agent');
 
   if (!isDevPreview()) return null;
 
@@ -15,13 +17,13 @@ export function AgentPreviewBanner() {
   return (
     <div className="bg-amber-600 text-white px-4 py-2 flex items-center justify-between text-sm">
       <span>
-        <strong>Mode aperçu</strong> — Interface uniquement, données fictives. Aucune connexion au serveur requise.
+        <strong>{t('previewBanner.title')}</strong> — {t('previewBanner.description')}
       </span>
       <button
         onClick={handleExit}
         className="flex items-center gap-1 hover:underline font-medium"
       >
-        Quitter l'aperçu <X className="w-4 h-4" />
+        {t('previewBanner.exit')} <X className="w-4 h-4" />
       </button>
     </div>
   );

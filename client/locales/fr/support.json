@@ -1,0 +1,52 @@
+{
+  "helpSupport": {
+    "brand": "Asrapa",
+    "date": "Date : 03/02/2023",
+    "title": "Aide et assistance",
+    "searchPlaceholder": "Rechercher",
+    "defaultUserName": "Administrateur système",
+    "tabs": {
+      "all": "Tous",
+      "answered": "Répondu",
+      "pending": "En attente"
+    },
+    "status": {
+      "answered": "Répondu",
+      "pending": "En attente"
+    },
+    "table": {
+      "number": "N°",
+      "userType": "Type d'utilisateur",
+      "name": "Nom",
+      "subject": "Sujet",
+      "dateSent": "Date d'envoi",
+      "status": "Statut",
+      "action": "Action"
+    },
+    "viewButton": "Voir",
+    "emptyState": "Aucune demande d'assistance pour le moment",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "page": "Page 1"
+    }
+  },
+  "viewSupportRequest": {
+    "backButton": "Retour à l'aide et assistance",
+    "title": "Aide et assistance",
+    "defaultUserName": "Administrateur système",
+    "labels": {
+      "userName": "Nom de l'utilisateur",
+      "userType": "Type d'utilisateur",
+      "subject": "Sujet",
+      "dateSent": "Date d'envoi"
+    },
+    "messageTitle": "Message",
+    "replyTitle": "Réponse",
+    "replyPlaceholder": "Votre message ici",
+    "sendButton": "Envoyer",
+    "resolveButton": "Résolu",
+    "replySentAlert": "Réponse envoyée !",
+    "resolvedAlert": "Demande marquée comme résolue !"
+  }
+}

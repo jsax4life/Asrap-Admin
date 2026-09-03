@@ -1,0 +1,166 @@
+{
+  "usersList": {
+    "searchPlaceholder": "Rechercher par nom ou e-mail",
+    "newUserButton": "Nouvel utilisateur",
+    "defaultUserName": "Administrateur système",
+    "title": "Utilisateurs administrateurs",
+    "tabs": {
+      "users": "Utilisateurs",
+      "paymentAgents": "Agent de paiement"
+    },
+    "table": {
+      "number": "N°",
+      "name": "Nom",
+      "role": "Rôle",
+      "lastLogin": "Dernière connexion",
+      "email": "E-mail",
+      "status": "Statut",
+      "password": "Mot de passe",
+      "manage": "Gérer",
+      "view": "Voir",
+      "statusActive": "Actif",
+      "statusInactive": "Inactif",
+      "passwordToChange": "À changer",
+      "passwordSet": "Défini",
+      "never": "Jamais"
+    },
+    "emptyUsers": "Aucun utilisateur admin pour le moment.",
+    "emptyPaymentAgentsBefore": "Aucun agent de paiement pour le moment. Cliquez sur",
+    "emptyPaymentAgentsAfter": "pour en créer un.",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "pageOf": "Page {{current}} sur {{total}}"
+    }
+  },
+  "createUser": {
+    "defaultUserName": "Administrateur système",
+    "dateLabel": "Date : 03/02/2023",
+    "pageTitle": "Utilisateurs administrateurs",
+    "backLink": "Retour à la liste des utilisateurs administrateurs",
+    "formTitle": "Créer de nouveaux utilisateurs",
+    "avatar": {
+      "label": "Choisir un avatar",
+      "hint": "Cliquez sur l'avatar pour téléverser une nouvelle image",
+      "previewAlt": "Aperçu de l'avatar"
+    },
+    "userTypeLabels": {
+      "adminUser": "Utilisateur administrateur",
+      "paymentAgent": "Agent de paiement",
+      "supportStaff": "Personnel de support",
+      "moderator": "Modérateur",
+      "analyst": "Analyste"
+    },
+    "accessLevelLabels": {
+      "superAdmin": "Super administrateur",
+      "admin": "Administrateur",
+      "moderator": "Modérateur",
+      "analyst": "Analyste",
+      "viewer": "Lecteur"
+    },
+    "form": {
+      "userType": "Type d'utilisateur",
+      "selectPlaceholder": "Sélectionner...",
+      "paymentAgentHint": "Les agents de paiement ne peuvent pas s'auto-inscrire. Ils se connectent avec le mot de passe temporaire défini ici et doivent le changer dès la première connexion avant d'utiliser le portail agent.",
+      "email": "E-mail",
+      "emailPlaceholder": "Entrez l'adresse e-mail",
+      "role": "Rôle",
+      "rolePlaceholder": "Entrez le rôle",
+      "temporaryPassword": "Mot de passe temporaire",
+      "temporaryPasswordPlaceholder": "L'agent le changera à la première connexion",
+      "generateButton": "Générer",
+      "generateTitle": "Générer un mot de passe",
+      "copyTitle": "Copier le mot de passe",
+      "temporaryPasswordHint": "Cliquez sur Générer pour un mot de passe sécurisé. Partagez-le avec l'agent — il ne sera plus affiché ensuite.",
+      "name": "Nom de l'utilisateur",
+      "namePlaceholder": "Entrez le nom",
+      "phoneNumber": "Numéro de téléphone",
+      "phoneNumberPlaceholder": "+234",
+      "accessLevel": "Niveau d'accès"
+    },
+    "submit": {
+      "submitting": "Création...",
+      "submit": "Créer"
+    },
+    "errors": {
+      "userTypeRequired": "Le type d'utilisateur est requis",
+      "emailRequired": "L'e-mail est requis",
+      "roleRequired": "Le rôle est requis",
+      "nameRequired": "Le nom est requis",
+      "phoneNumberRequired": "Le numéro de téléphone est requis",
+      "accessLevelRequired": "Le niveau d'accès est requis",
+      "temporaryPasswordRequiredForAgent": "Le mot de passe temporaire est requis pour les agents",
+      "temporaryPasswordTooShort": "Le mot de passe temporaire doit comporter au moins 8 caractères",
+      "emailInvalid": "Veuillez saisir une adresse e-mail valide"
+    },
+    "toasts": {
+      "temporaryPasswordGenerated": "Mot de passe temporaire généré",
+      "passwordCopied": "Mot de passe copié dans le presse-papiers",
+      "agentCreated": "Agent de paiement créé. Partagez le mot de passe temporaire en toute sécurité avec l'agent.",
+      "agentCreateFailed": "Échec de la création de l'agent de paiement"
+    }
+  },
+  "editUser": {
+    "defaultUserName": "Administrateur système",
+    "dateLabel": "Date : 03/02/2023",
+    "pageTitle": "Utilisateurs administrateurs",
+    "backLink": "Retour à la liste des utilisateurs administrateurs",
+    "formTitle": "Modifier l'utilisateur",
+    "avatar": {
+      "label": "Changer l'avatar",
+      "hint": "Cliquez sur l'avatar pour téléverser une nouvelle image",
+      "previewAlt": "Aperçu de l'avatar"
+    },
+    "form": {
+      "userType": "Type d'utilisateur",
+      "selectPlaceholder": "Sélectionner...",
+      "email": "E-mail",
+      "emailPlaceholder": "Entrez l'adresse e-mail",
+      "role": "Rôle",
+      "rolePlaceholder": "Entrez le rôle",
+      "name": "Nom de l'utilisateur",
+      "namePlaceholder": "Entrez le nom",
+      "phoneNumber": "Numéro de téléphone",
+      "phoneNumberPlaceholder": "+234",
+      "accessLevel": "Niveau d'accès"
+    },
+    "credentials": {
+      "title": "Identifiants du compte",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez le nouveau mot de passe"
+    },
+    "saveChanges": "Enregistrer les modifications",
+    "errors": {
+      "nameRequired": "Le nom est requis",
+      "userTypeRequired": "Le type d'utilisateur est requis",
+      "emailRequired": "L'e-mail est requis",
+      "phoneNumberRequired": "Le numéro de téléphone est requis",
+      "roleRequired": "Le rôle est requis",
+      "accessLevelRequired": "Le niveau d'accès est requis",
+      "passwordRequired": "Le mot de passe est requis",
+      "emailInvalid": "Veuillez saisir une adresse e-mail valide"
+    }
+  },
+  "viewUser": {
+    "defaultUserName": "Administrateur système",
+    "dateLabel": "Date : 03/02/2023",
+    "pageTitle": "Utilisateurs administrateurs",
+    "backLink": "Retour à la liste des utilisateurs administrateurs",
+    "printButton": "Imprimer",
+    "userNameLabel": "Nom de l'utilisateur",
+    "fields": {
+      "userType": "Type d'utilisateur",
+      "email": "E-mail",
+      "phoneNumber": "Numéro de téléphone",
+      "role": "Rôle",
+      "accessLevel": "Niveau d'accès"
+    },
+    "credentials": {
+      "title": "Identifiants du compte",
+      "password": "Mot de passe"
+    },
+    "editButton": "Modifier les détails",
+    "deleteButton": "Supprimer le compte",
+    "passwordCopiedLog": "Mot de passe copié dans le presse-papiers"
+  }
+}

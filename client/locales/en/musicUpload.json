@@ -1,0 +1,129 @@
+{
+  "status": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "approval": {
+    "header": {
+      "date": "Date: 03/02/2023",
+      "title": "Music Upload Approval",
+      "searchPlaceholder": "Search by song/album title, artist name, or genre",
+      "defaultUser": "System Administrator"
+    },
+    "filters": {
+      "uploadType": "Upload Type:",
+      "uploadTypeAll": "All",
+      "uploadTypeSong": "Song",
+      "uploadTypeAlbum": "Album",
+      "status": "Status:",
+      "statusAll": "All",
+      "sortBy": "Sort By:",
+      "sortByDate": "Date",
+      "sortByTitle": "Title",
+      "sortByArtist": "Artist",
+      "sortByGenre": "Genre",
+      "sortByStatus": "Status",
+      "order": "Order:",
+      "orderDesc": "Descending",
+      "orderAsc": "Ascending"
+    },
+    "columns": {
+      "artistId": "Artist ID",
+      "artistName": "Artist Name",
+      "uploadType": "Upload Type",
+      "title": "Song/Album/EP Name",
+      "genre": "Genre",
+      "dateSent": "Date Sent",
+      "status": "Status",
+      "action": "Action"
+    },
+    "viewButton": "View",
+    "loading": "Loading music uploads...",
+    "errorLoading": "Failed to load music uploads",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "summary": "Page {{currentPage}} of {{totalPages}} ({{totalResults}} total results)"
+    }
+  },
+  "detail": {
+    "defaultApproveComment": "Approved for publication",
+    "invalidId": "Invalid upload ID",
+    "errorLoadingDetail": "Failed to load upload details",
+    "loading": "Loading upload details...",
+    "notFound": "Upload not found",
+    "goBack": "Back",
+    "tabs": {
+      "songs": "Songs",
+      "audio": "Audio",
+      "lyrics": "Lyrics"
+    },
+    "albumSongsTitle": "Album songs ({{count}})",
+    "info": {
+      "artist": "Artist:",
+      "fullName": "Full name:",
+      "genre": "Genre:",
+      "uploadType": "Upload type:",
+      "dateSent": "Date sent:",
+      "status": "Status:",
+      "duration": "Duration:",
+      "collaborators": "Collaborators:",
+      "content": "Content:",
+      "explicit": "Explicit",
+      "streams": "Streams:",
+      "downloads": "Downloads:",
+      "songCount": "Number of songs:",
+      "caption": "Caption:"
+    },
+    "comment": {
+      "label": "Leave a comment",
+      "requiredToReject": " (required to decline)",
+      "requiredToChangeStatus": " (required to change status)",
+      "placeholder": "Enter your comment here..."
+    },
+    "currentStatus": "Current status: ",
+    "previousComment": "Previous comment: ",
+    "actions": {
+      "processing": "Processing...",
+      "approve": "Approve",
+      "decline": "Decline",
+      "declineReject": "Decline / Reject"
+    },
+    "noLyrics": "No lyrics available for this upload",
+    "editLyrics": "Edit lyrics",
+    "editLyricsComingSoon": "Lyrics editing feature coming soon!",
+    "toasts": {
+      "approveSuccess": "Music approved successfully!",
+      "approveError": "Failed to approve music",
+      "declineSuccess": "Music declined successfully!",
+      "declineError": "Failed to decline music",
+      "rejectReasonRequiredApproved": "Please provide a reason for rejecting this approved upload",
+      "rejectReasonRequired": "Please provide a reason for declining"
+    }
+  },
+  "success": {
+    "unknownSong": "Unknown song",
+    "unknownArtist": "Unknown artist",
+    "approvedTitle": "Music approved!",
+    "declinedTitle": "Music declined!",
+    "by": "by",
+    "approvedMessage": "The music has been approved successfully and will be available on the platform.",
+    "declinedMessage": "The music has been declined and the artist will be informed of your comments.",
+    "backToUploads": "Back to uploads",
+    "goToDashboard": "Go to dashboard"
+  },
+  "audioPlayer": {
+    "errors": {
+      "cannotPlay": "Unable to play the audio",
+      "aborted": "Audio playback was interrupted",
+      "network": "Network error while loading the audio. Please check your connection or refresh the page.",
+      "decode": "The audio file is corrupted or in an unsupported format",
+      "notSupported": "Unsupported audio format or invalid URL. The signed link may have expired.",
+      "generic": "Unable to play the audio. The file may be corrupted or the link may have expired.",
+      "cors": "CORS error: unable to load the audio from S3. Please contact support if the problem persists.",
+      "corsTimeout": "Unable to load the audio. This could be an S3 bucket CORS configuration issue. Please contact support.",
+      "playFailed": "Failed to play audio. Please try again."
+    }
+  }
+}
