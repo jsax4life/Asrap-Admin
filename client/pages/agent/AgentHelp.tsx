@@ -3,33 +3,33 @@ import { AgentPageHeader } from '@/components/agent/AgentPageHeader';
 
 const faqs = [
   {
-    q: 'How do I onboard a new client?',
-    a: 'Go to "Onboard Clients" in the menu, choose whether they are a Listener, Artist, or Advertiser, fill in their details, select a subscription plan, and collect payment if applicable.',
+    q: 'Comment intégrer un nouveau client ?',
+    a: 'Allez dans « Intégrer des clients » dans le menu, choisissez s\'il s\'agit d\'un auditeur, d\'un artiste ou d\'un annonceur, remplissez ses informations, sélectionnez un forfait d\'abonnement et encaissez le paiement si nécessaire.',
   },
   {
-    q: 'What payment methods can I accept?',
-    a: 'You can record Cash, Mobile Money, Bank Transfer, or Card payments when setting up a subscription for a client.',
+    q: 'Quels moyens de paiement puis-je accepter ?',
+    a: 'Vous pouvez enregistrer des paiements en espèces, par Mobile Money, par virement bancaire ou par carte lors de la configuration d\'un abonnement pour un client.',
   },
   {
-    q: 'How is my commission calculated?',
-    a: 'You earn 10% commission on every paid subscription you help set up. View your earnings in the Transactions page.',
+    q: 'Comment ma commission est-elle calculée ?',
+    a: 'Vous gagnez 10 % de commission sur chaque abonnement payant que vous aidez à mettre en place. Consultez vos gains dans la page Transactions.',
   },
   {
-    q: 'What if a client already has an account?',
-    a: 'Search for them in "My Clients". If they are not listed, contact Asrapa support to link an existing account to your agent profile.',
+    q: 'Que faire si un client a déjà un compte ?',
+    a: 'Recherchez-le dans « Mes clients ». S\'il n\'apparaît pas, contactez le support Asrapa pour lier un compte existant à votre profil d\'agent.',
   },
 ];
 
 export default function AgentHelp() {
   return (
     <div className="min-h-screen bg-asra-dark">
-      <AgentPageHeader title="Help & Support" />
+      <AgentPageHeader title="Aide et assistance" />
 
       <div className="p-6 max-w-3xl mx-auto space-y-8">
         <div className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2">
           <h2 className="text-white font-bold text-lg mb-4 flex items-center gap-2">
             <HelpCircle className="w-5 h-5 text-asra-red" />
-            Contact Support
+            Contacter le support
           </h2>
           <div className="space-y-3">
             <a href="tel:+2348000000000" className="flex items-center gap-3 text-asra-gray-6 hover:text-white transition-colors">
@@ -42,13 +42,13 @@ export default function AgentHelp() {
             </a>
             <p className="flex items-center gap-3 text-asra-gray-6">
               <MessageCircle className="w-4 h-4" />
-              WhatsApp support available Mon–Sat, 8am–6pm
+              Support WhatsApp disponible du lundi au samedi, de 8h à 18h
             </p>
           </div>
         </div>
 
         <div>
-          <h2 className="text-white font-bold text-lg mb-4">Frequently Asked Questions</h2>
+          <h2 className="text-white font-bold text-lg mb-4">Questions fréquentes</h2>
           <div className="space-y-3">
             {faqs.map((faq) => (
               <div key={faq.q} className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">

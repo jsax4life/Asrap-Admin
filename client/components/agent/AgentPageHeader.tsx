@@ -11,7 +11,7 @@ interface AgentPageHeaderProps {
 
 export function AgentPageHeader({
   title,
-  searchPlaceholder = 'Search',
+  searchPlaceholder = 'Rechercher',
   searchValue = '',
   onSearchChange,
   showSearch = false,

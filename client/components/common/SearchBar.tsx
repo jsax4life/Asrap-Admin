@@ -12,7 +12,7 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({
-  placeholder = 'Search...',
+  placeholder = 'Rechercher...',
   value = '',
   onChange,
   onClear,

@@ -47,7 +47,7 @@ export default function GenreManagement() {
       const data = await genreService.listGenres();
       setGenres(data);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to load genres');
+      toast.error(error instanceof Error ? error.message : 'Échec du chargement des genres');
     } finally {
       setLoading(false);
     }
@@ -73,11 +73,11 @@ export default function GenreManagement() {
   const handleAddGenre = async (e: React.FormEvent) => {
     e.preventDefault();
     if (addMode === 'single' && !name.trim()) {
-      toast.error('Genre name is required');
+      toast.error('Le nom du genre est requis');
       return;
     }
     if (addMode === 'bulk' && !bulkNames.trim()) {
-      toast.error('Enter at least one genre name');
+      toast.error('Saisissez au moins un nom de genre');
       return;
     }
 
@@ -89,11 +89,11 @@ export default function GenreManagement() {
         description: description || undefined,
         coverImage: coverImage || undefined,
       });
-      toast.success(result.message || 'Genre(s) added successfully');
+      toast.success(result.message || 'Genre(s) ajouté(s) avec succès');
       resetForm();
       await loadGenres();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to add genre');
+      toast.error(error instanceof Error ? error.message : 'Échec de l\'ajout du genre');
     } finally {
       setSubmitting(false);
     }
@@ -104,11 +104,11 @@ export default function GenreManagement() {
     setDeleting(true);
     try {
       await genreService.deleteGenre(deleteTarget._id);
-      toast.success(`"${deleteTarget.name}" removed`);
+      toast.success(`"${deleteTarget.name}" supprimé`);
       setDeleteTarget(null);
       await loadGenres();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to delete genre');
+      toast.error(error instanceof Error ? error.message : 'Échec de la suppression du genre');
     } finally {
       setDeleting(false);
     }
@@ -134,7 +134,7 @@ export default function GenreManagement() {
     if (!editTarget) return;
 
     if (!editName.trim()) {
-      toast.error('Genre name is required');
+      toast.error('Le nom du genre est requis');
       return;
     }
 
@@ -147,18 +147,18 @@ export default function GenreManagement() {
     if (editCoverImage) payload.coverImage = editCoverImage;
 
     if (Object.keys(payload).length === 0) {
-      toast.error('No changes to save');
+      toast.error('Aucune modification à enregistrer');
       return;
     }
 
     setEditSubmitting(true);
     try {
       const result = await genreService.updateGenre(editTarget._id, payload);
-      toast.success(result.message || 'Genre updated successfully');
+      toast.success(result.message || 'Genre mis à jour avec succès');
       closeEditDialog(true);
       await loadGenres();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to update genre');
+      toast.error(error instanceof Error ? error.message : 'Échec de la mise à jour du genre');
     } finally {
       setEditSubmitting(false);
     }
@@ -181,7 +181,7 @@ export default function GenreManagement() {
             </div>
           </div>
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Genre Management</h1>
+            <h1 className="text-2xl font-bold text-white">Gestion des genres</h1>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
@@ -196,7 +196,7 @@ export default function GenreManagement() {
         <div className="xl:col-span-1 bg-asra-gray-1 rounded-lg border border-asra-gray-2 p-6 h-fit">
           <h2 className="text-white text-lg font-bold mb-4 flex items-center gap-2">
             <Plus className="w-5 h-5 text-asra-red" />
-            Add Genre
+            Ajouter un genre
           </h2>
 
           <div className="flex gap-2 mb-4">
@@ -207,7 +207,7 @@ export default function GenreManagement() {
                 addMode === 'single' ? 'bg-asra-red text-white' : 'bg-asra-gray-2 text-asra-gray-6'
               }`}
             >
-              Single
+              Un seul
             </button>
             <button
               type="button"
@@ -216,25 +216,25 @@ export default function GenreManagement() {
                 addMode === 'bulk' ? 'bg-asra-red text-white' : 'bg-asra-gray-2 text-asra-gray-6'
               }`}
             >
-              Multiple
+              Plusieurs
             </button>
           </div>
 
           <form onSubmit={handleAddGenre} className="space-y-4">
             {addMode === 'single' ? (
               <div>
-                <label className="text-white text-sm font-medium mb-1 block">Genre name *</label>
+                <label className="text-white text-sm font-medium mb-1 block">Nom du genre *</label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Afrobeats"
+                  placeholder="ex. Afrobeats"
                   className="w-full px-4 py-3 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 caret-white focus:outline-none focus:border-asra-red"
                 />
               </div>
             ) : (
               <div>
-                <label className="text-white text-sm font-medium mb-1 block">Genre names *</label>
+                <label className="text-white text-sm font-medium mb-1 block">Noms des genres *</label>
                 <textarea
                   value={bulkNames}
                   onChange={(e) => setBulkNames(e.target.value)}
@@ -242,7 +242,7 @@ export default function GenreManagement() {
                   rows={3}
                   className="w-full px-4 py-3 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 caret-white focus:outline-none focus:border-asra-red resize-none"
                 />
-                <p className="text-asra-gray-6 text-xs mt-1">Separate with commas</p>
+                <p className="text-asra-gray-6 text-xs mt-1">Séparez-les par des virgules</p>
               </div>
             )}
 
@@ -251,17 +251,17 @@ export default function GenreManagement() {
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Optional description"
+                placeholder="Description optionnelle"
                 rows={2}
                 className="w-full px-4 py-3 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 caret-white focus:outline-none focus:border-asra-red resize-none"
               />
             </div>
 
             <div>
-              <label className="text-white text-sm font-medium mb-1 block">Cover image</label>
+              <label className="text-white text-sm font-medium mb-1 block">Image de couverture</label>
               <label className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-asra-gray-2 border border-dashed border-asra-gray-5 rounded-lg text-asra-gray-6 cursor-pointer hover:border-asra-red transition-colors">
                 <Upload className="w-4 h-4" />
-                {coverImage ? coverImage.name : 'Upload cover (optional)'}
+                {coverImage ? coverImage.name : 'Téléverser une couverture (optionnel)'}
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
@@ -277,7 +277,7 @@ export default function GenreManagement() {
               className="w-full bg-asra-red hover:bg-asra-red/90 disabled:opacity-60 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2"
             >
               {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
-              {submitting ? 'Adding...' : 'Add Genre'}
+              {submitting ? 'Ajout en cours...' : 'Ajouter le genre'}
             </button>
           </form>
         </div>
@@ -288,13 +288,13 @@ export default function GenreManagement() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search genres"
+                placeholder="Rechercher des genres"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 caret-white focus:outline-none focus:border-asra-red"
               />
             </div>
-            <span className="text-asra-gray-6 text-sm whitespace-nowrap">{filteredGenres.length} active</span>
+            <span className="text-asra-gray-6 text-sm whitespace-nowrap">{filteredGenres.length} actifs</span>
           </div>
 
           {loading ? (
@@ -309,7 +309,7 @@ export default function GenreManagement() {
                   <tr className="border-b border-asra-gray-2">
                     <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Genre</th>
                     <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4 min-w-[160px]">Description</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4 whitespace-nowrap">Status</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4 whitespace-nowrap">Statut</th>
                     <th className="text-right text-asra-gray-6 text-sm font-medium px-6 py-4 whitespace-nowrap sticky right-0 bg-asra-gray-1">Actions</th>
                   </tr>
                 </thead>
@@ -332,21 +332,21 @@ export default function GenreManagement() {
                         {genre.description || '—'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Active</span>
+                        <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Actif</span>
                       </td>
                       <td className="px-6 py-4 text-right whitespace-nowrap sticky right-0 bg-asra-gray-1 group-hover:bg-asra-gray-2/40">
                         <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => openEditDialog(genre)}
                             className="text-asra-gray-6 hover:text-white p-2 rounded-lg hover:bg-asra-gray-2 transition-colors"
-                            title="Edit genre"
+                            title="Modifier le genre"
                           >
                             <Pencil className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => setDeleteTarget(genre)}
                             className="text-asra-gray-6 hover:text-red-400 p-2 rounded-lg hover:bg-asra-gray-2 transition-colors"
-                            title="Remove genre"
+                            title="Supprimer le genre"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -358,7 +358,7 @@ export default function GenreManagement() {
               </table>
               </div>
               {filteredGenres.length === 0 && (
-                <p className="text-center text-asra-gray-6 py-12">No genres found</p>
+                <p className="text-center text-asra-gray-6 py-12">Aucun genre trouvé</p>
               )}
             </div>
           )}
@@ -368,15 +368,15 @@ export default function GenreManagement() {
       <Dialog open={!!editTarget} onOpenChange={(open) => !open && closeEditDialog()}>
         <DialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-white">Edit genre</DialogTitle>
+            <DialogTitle className="text-white">Modifier le genre</DialogTitle>
             <DialogDescription className="text-asra-gray-6">
-              Update the name, description, or cover image for &quot;{editTarget?.name}&quot;.
+              Modifiez le nom, la description ou l'image de couverture de &quot;{editTarget?.name}&quot;.
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleEditSave} className="space-y-4">
             <div>
-              <label className="text-white text-sm font-medium mb-1 block">Genre name *</label>
+              <label className="text-white text-sm font-medium mb-1 block">Nom du genre *</label>
               <input
                 type="text"
                 value={editName}
@@ -390,14 +390,14 @@ export default function GenreManagement() {
               <textarea
                 value={editDescription}
                 onChange={(e) => setEditDescription(e.target.value)}
-                placeholder="Optional description"
+                placeholder="Description optionnelle"
                 rows={3}
                 className="w-full px-4 py-3 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 caret-white focus:outline-none focus:border-asra-red resize-none"
               />
             </div>
 
             <div>
-              <label className="text-white text-sm font-medium mb-1 block">Cover image</label>
+              <label className="text-white text-sm font-medium mb-1 block">Image de couverture</label>
               {editTarget?.coverImageUrl && !editCoverImage && (
                 <div className="mb-2 flex items-center gap-3">
                   <img
@@ -405,12 +405,12 @@ export default function GenreManagement() {
                     alt={editTarget.name}
                     className="w-12 h-12 rounded-lg object-cover"
                   />
-                  <span className="text-asra-gray-6 text-xs">Current cover</span>
+                  <span className="text-asra-gray-6 text-xs">Couverture actuelle</span>
                 </div>
               )}
               <label className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-asra-gray-2 border border-dashed border-asra-gray-5 rounded-lg text-asra-gray-6 cursor-pointer hover:border-asra-red transition-colors">
                 <Upload className="w-4 h-4" />
-                {editCoverImage ? editCoverImage.name : 'Replace cover (optional)'}
+                {editCoverImage ? editCoverImage.name : 'Remplacer la couverture (optionnel)'}
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
@@ -428,7 +428,7 @@ export default function GenreManagement() {
                 disabled={editSubmitting}
                 className="border-asra-gray-5 text-white hover:bg-asra-gray-2 hover:text-white"
               >
-                Cancel
+                Annuler
               </Button>
               <Button
                 type="submit"
@@ -438,10 +438,10 @@ export default function GenreManagement() {
                 {editSubmitting ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Saving...
+                    Enregistrement...
                   </>
                 ) : (
-                  'Save changes'
+                  'Enregistrer les modifications'
                 )}
               </Button>
             </DialogFooter>
@@ -452,22 +452,22 @@ export default function GenreManagement() {
       <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
         <AlertDialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white">
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove genre?</AlertDialogTitle>
+            <AlertDialogTitle>Supprimer le genre ?</AlertDialogTitle>
             <AlertDialogDescription className="text-asra-gray-6">
-              "{deleteTarget?.name}" will be deactivated and hidden from the public genre list. This does not delete
-              songs already tagged with this genre.
+              « {deleteTarget?.name} » sera désactivé et masqué de la liste publique des genres. Cela ne supprime pas
+              les titres déjà associés à ce genre.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="bg-asra-gray-2 border-asra-gray-2 text-white hover:bg-asra-gray-800">
-              Cancel
+              Annuler
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               disabled={deleting}
               className="bg-asra-red hover:bg-asra-red/90"
             >
-              {deleting ? 'Removing...' : 'Remove'}
+              {deleting ? 'Suppression...' : 'Supprimer'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

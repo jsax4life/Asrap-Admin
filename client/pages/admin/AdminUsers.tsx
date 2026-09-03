@@ -4,32 +4,20 @@ import { Search, Calendar, User, Plus, Edit, Trash2, Eye, Loader2 } from 'lucide
 import { toast } from 'react-hot-toast';
 import { adminAgentService, PaymentAgentListItem } from '@/services/adminAgentService';
 
-// Mock data for admin users (non-agent staff — API wiring pending)
-const mockAdminUsers = [
-  {
-    id: 1,
-    name: 'Bashir Muhammad',
-    role: 'Support Admin',
-    lastLogin: '10/02/2023 9.00AM',
-    email: 'bashirmuhammad@gmail.com',
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-    status: 'Active',
-    createdAt: '2023-01-15',
-  },
-  {
-    id: 2,
-    name: 'Jess Archer',
-    role: 'Support Admin',
-    lastLogin: '10/02/2023 9.00AM',
-    email: 'jess@gmail.com',
-    avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
-    status: 'Active',
-    createdAt: '2023-01-20',
-  },
-];
+// Utilisateurs admin non-agents (API à connecter)
+const mockAdminUsers: {
+  id: number;
+  name: string;
+  role: string;
+  lastLogin: string;
+  email: string;
+  avatar: string;
+  status: string;
+  createdAt: string;
+}[] = [];
 
 function formatLastLogin(date?: string | null) {
-  if (!date) return 'Never';
+  if (!date) return 'Jamais';
   return new Date(date).toLocaleString('en-GB', {
     day: '2-digit',
     month: '2-digit',
@@ -144,7 +132,7 @@ const AdminUsers = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search by name or email"
+                placeholder="Rechercher par nom ou e-mail"
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -161,20 +149,20 @@ const AdminUsers = () => {
               className="bg-asra-red hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
             >
               <Plus className="w-4 h-4" />
-              <span>New User</span>
+              <span>Nouvel utilisateur</span>
             </button>
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">System Admin</span>
+              <span className="text-white text-sm">Administrateur système</span>
             </div>
           </div>
         </div>
       </div>
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold text-white mb-8">Admin Users</h1>
+        <h1 className="text-2xl font-bold text-white mb-8">Utilisateurs administrateurs</h1>
 
         <div className="flex space-x-8 mb-8 border-b border-asra-gray-700">
           <button
@@ -185,7 +173,7 @@ const AdminUsers = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Users
+            Utilisateurs
           </button>
           <button
             onClick={() => handleTabChange('payment-agents')}
@@ -195,7 +183,7 @@ const AdminUsers = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Payment Agent
+            Agent de paiement
           </button>
         </div>
 
@@ -209,18 +197,18 @@ const AdminUsers = () => {
               <table className="w-full">
                 <thead className="bg-asra-gray-800">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">S/N</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Role</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Last Log In</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">N°</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Nom</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Rôle</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Dernière connexion</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">E-mail</th>
                     {activeTab === 'payment-agents' && (
                       <>
-                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Status</th>
-                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Password</th>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Statut</th>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Mot de passe</th>
                       </>
                     )}
-                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Manage</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">Gérer</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-asra-gray-800">
@@ -251,7 +239,7 @@ const AdminUsers = () => {
                               onClick={() => handleViewUser(item.id)}
                               className="bg-asra-red hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium"
                             >
-                              View
+                              Voir
                             </button>
                           </div>
                         </td>
@@ -281,7 +269,7 @@ const AdminUsers = () => {
                               agent.isActive ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
                             }`}
                           >
-                            {agent.isActive ? 'Active' : 'Inactive'}
+                            {agent.isActive ? 'Actif' : 'Inactif'}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -292,7 +280,7 @@ const AdminUsers = () => {
                                 : 'bg-asra-gray-2 text-asra-gray-6'
                             }`}
                           >
-                            {agent.mustChangePassword ? 'Must change' : 'Set'}
+                            {agent.mustChangePassword ? 'À changer' : 'Défini'}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -301,17 +289,25 @@ const AdminUsers = () => {
                               onClick={() => handleViewUser(agent.id)}
                               className="bg-asra-red hover:bg-red-600 text-white px-3 py-1 rounded text-sm font-medium"
                             >
-                              View
+                              Voir
                             </button>
                           </div>
                         </td>
                       </tr>
                     ))}
 
+                  {activeTab === 'users' && currentUserItems.length === 0 && (
+                    <tr>
+                      <td colSpan={6} className="px-6 py-12 text-center text-asra-gray-400">
+                        Aucun utilisateur admin pour le moment.
+                      </td>
+                    </tr>
+                  )}
+
                   {activeTab === 'payment-agents' && !agentsLoading && paymentAgents.length === 0 && (
                     <tr>
                       <td colSpan={8} className="px-6 py-12 text-center text-asra-gray-400">
-                        No payment agents yet. Click <strong className="text-white">New User</strong> to create one.
+                        Aucun agent de paiement pour le moment. Cliquez sur <strong className="text-white">Nouvel utilisateur</strong> pour en créer un.
                       </td>
                     </tr>
                   )}
@@ -328,18 +324,18 @@ const AdminUsers = () => {
               disabled={currentPage === 1}
               className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Previous
+              Précédent
             </button>
             <button
               onClick={() => setCurrentPage((prev) => Math.min(displayTotalPages, prev + 1))}
               disabled={currentPage === displayTotalPages || displayTotalPages === 0}
               className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Next
+              Suivant
             </button>
           </div>
           <div className="text-asra-gray-400 text-sm">
-            Page {currentPage} of {Math.max(displayTotalPages, 1)}
+            Page {currentPage} sur {Math.max(displayTotalPages, 1)}
           </div>
         </div>
       </div>

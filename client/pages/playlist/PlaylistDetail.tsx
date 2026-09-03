@@ -120,7 +120,7 @@ export default function PlaylistDetail() {
     },
     {
       key: 'title',
-      label: 'TITLE',
+      label: 'TITRE',
       render: (_, song) => (
         <div className="flex items-center gap-3">
           <img
@@ -144,14 +144,14 @@ export default function PlaylistDetail() {
     },
     {
       key: 'dateAdded',
-      label: 'DATE ADDED',
+      label: 'DATE D\'AJOUT',
       render: (value: string) => (
         <span className="text-asra-gray-6 text-sm">{value}</span>
       ),
     },
     {
       key: 'duration',
-      label: 'DURATION',
+      label: 'DURÉE',
       render: (value: string) => (
         <div className="flex items-center gap-1">
           <Clock className="w-3 h-3 text-asra-gray-6" />
@@ -180,7 +180,7 @@ export default function PlaylistDetail() {
           className="text-white hover:text-asra-red text-sm font-medium flex items-center gap-2 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Go Back
+          Retour
         </button>
 
         {/* Search Bar */}
@@ -189,7 +189,7 @@ export default function PlaylistDetail() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Rechercher"
               className="w-full pl-10 pr-4 py-2 bg-asra-red/80 border border-asra-red rounded-lg text-white placeholder:text-white/80 focus:outline-none focus:border-white"
             />
           </div>
@@ -205,7 +205,7 @@ export default function PlaylistDetail() {
             </div>
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
           </div>
-          <span className="text-white text-sm font-medium">System Admin</span>
+          <span className="text-white text-sm font-medium">Administrateur système</span>
         </div>
       </div>
 
@@ -225,7 +225,7 @@ export default function PlaylistDetail() {
               {/* Banner Text */}
               <div className="absolute top-6 left-16 right-6 z-10">
                 <div className="text-white text-sm font-bold leading-tight">
-                  <div>THIS IS</div>
+                  <div>VOICI</div>
                   <div className="text-lg">Wizkid</div>
                 </div>
               </div>
@@ -246,7 +246,7 @@ export default function PlaylistDetail() {
               className="w-full mt-4 bg-asra-red hover:bg-asra-red/90 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Add to Playlist
+              Ajouter à la playlist
             </Button>
           </div>
         </div>
@@ -254,7 +254,7 @@ export default function PlaylistDetail() {
         {/* Right Column - Playlist Information */}
         <div className="lg:col-span-2 flex flex-col justify-center space-y-6">
           <div>
-            <div className="text-white text-sm mb-3 font-medium">PUBLIC PLAYLIST</div>
+            <div className="text-white text-sm mb-3 font-medium">PLAYLIST PUBLIQUE</div>
             <h1 className="text-white text-5xl font-bold mb-6 leading-tight">{playlistData.title}</h1>
             <p className="text-white text-lg mb-8 leading-relaxed">{playlistData.description}</p>
           </div>
@@ -265,9 +265,9 @@ export default function PlaylistDetail() {
             </div>
             <span className="text-white font-medium">{playlistData.createdBy}</span>
             <span className="text-white text-lg">•</span>
-            <span className="text-white">{playlistData.likes} likes</span>
+            <span className="text-white">{playlistData.likes} mentions J'aime</span>
             <span className="text-white text-lg">•</span>
-            <span className="text-white">{playlistData.songCount} songs, {playlistData.duration}</span>
+            <span className="text-white">{playlistData.songCount} chansons, {playlistData.duration}</span>
           </div>
         </div>
       </div>

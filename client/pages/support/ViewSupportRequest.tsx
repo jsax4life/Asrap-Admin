@@ -27,14 +27,14 @@ const ViewSupportRequest = () => {
       console.log('Sending reply:', replyMessage);
       // TODO: Implement API call to send reply
       setReplyMessage('');
-      alert('Reply sent!');
+      alert('Réponse envoyée !');
     }
   };
 
   const handleResolveRequest = () => {
     console.log('Resolving request:', id);
     // TODO: Implement API call to resolve request
-    alert('Request marked as Resolved!');
+    alert('Demande marquée comme résolue !');
     navigate('/help-support'); // Go back to list after resolving
   };
 
@@ -50,9 +50,9 @@ const ViewSupportRequest = () => {
               className="text-asra-red hover:text-red-400 text-sm font-medium flex items-center space-x-2"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Back to Help & Support</span>
+              <span>Retour à l'aide et assistance</span>
             </button>
-            <h1 className="text-2xl font-bold text-white">Help & Support</h1>
+            <h1 className="text-2xl font-bold text-white">Aide et assistance</h1>
           </div>
 
           {/* Right side - Profile */}
@@ -60,7 +60,7 @@ const ViewSupportRequest = () => {
             <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm">System Admin</span>
+            <span className="text-white text-sm">Administrateur système</span>
           </div>
         </div>
       </div>
@@ -72,19 +72,19 @@ const ViewSupportRequest = () => {
           {/* Request Details Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             <div>
-              <p className="text-asra-gray-400 text-sm font-medium mb-2">Name of User</p>
+              <p className="text-asra-gray-400 text-sm font-medium mb-2">Nom de l'utilisateur</p>
               <p className="text-white text-lg font-semibold">{mockSupportRequestDetail.nameOfUser}</p>
             </div>
             <div>
-              <p className="text-asra-gray-400 text-sm font-medium mb-2">Type of User</p>
+              <p className="text-asra-gray-400 text-sm font-medium mb-2">Type d'utilisateur</p>
               <p className="text-white text-lg font-semibold">{mockSupportRequestDetail.typeOfUser}</p>
             </div>
             <div>
-              <p className="text-asra-gray-400 text-sm font-medium mb-2">Subject</p>
+              <p className="text-asra-gray-400 text-sm font-medium mb-2">Sujet</p>
               <p className="text-white text-lg font-semibold">{mockSupportRequestDetail.subject}</p>
             </div>
             <div>
-              <p className="text-asra-gray-400 text-sm font-medium mb-2">Date sent</p>
+              <p className="text-asra-gray-400 text-sm font-medium mb-2">Date d'envoi</p>
               <p className="text-white text-lg font-semibold">{mockSupportRequestDetail.dateSent}</p>
             </div>
           </div>
@@ -108,12 +108,12 @@ const ViewSupportRequest = () => {
 
           {/* Reply Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-white mb-4">Reply</h2>
+            <h2 className="text-xl font-semibold text-white mb-4">Réponse</h2>
             <div className="relative">
               <textarea
                 value={replyMessage}
                 onChange={(e) => setReplyMessage(e.target.value)}
-                placeholder="Message here"
+                placeholder="Votre message ici"
                 className="w-full h-32 bg-asra-gray-800 border border-asra-gray-700 rounded-lg p-4 pr-16 text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red resize-none"
                 style={{ color: 'white' }}
               />
@@ -123,7 +123,7 @@ const ViewSupportRequest = () => {
                 className="absolute bottom-4 right-4 bg-asra-red hover:bg-red-600 disabled:bg-asra-gray-600 disabled:cursor-not-allowed text-white p-2 rounded-lg transition-colors flex items-center space-x-1"
               >
                 <Send className="w-4 h-4" />
-                <span className="text-sm font-medium">Send</span>
+                <span className="text-sm font-medium">Envoyer</span>
               </button>
             </div>
           </div>
@@ -134,7 +134,7 @@ const ViewSupportRequest = () => {
               onClick={handleResolveRequest}
               className="bg-transparent border border-white text-white px-8 py-3 rounded-lg hover:bg-white hover:text-asra-dark transition-colors font-medium"
             >
-              Resolved
+              Résolu
             </button>
           </div>
         </div>

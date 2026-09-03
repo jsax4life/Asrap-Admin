@@ -27,9 +27,9 @@ const formatDuration = (seconds: number): string => {
 // Helper function to format status display
 const formatStatus = (status: string): string => {
   const statusMap: Record<string, string> = {
-    'pending': 'Pending',
-    'approved': 'Approved',
-    'rejected': 'Rejected',
+    'pending': 'En attente',
+    'approved': 'Approuvé',
+    'rejected': 'Rejeté',
   };
   return statusMap[status] || status;
 };
@@ -56,7 +56,7 @@ export default function MusicApprovalDetail() {
   // Fetch upload detail function
   const fetchUploadDetail = async () => {
     if (!id) {
-      setError('Invalid upload ID');
+      setError('ID de téléversement invalide');
       setLoading(false);
       return;
     }
@@ -69,11 +69,11 @@ export default function MusicApprovalDetail() {
       if (response.status === 'success' && response.data) {
         setUploadData(response.data);
       } else {
-        setError('Failed to load upload details');
+        setError('Échec du chargement des détails du téléversement');
       }
     } catch (err: any) {
       console.error('Error fetching upload detail:', err);
-      setError(err.message || 'Failed to load upload details');
+      setError(err.message || 'Échec du chargement des détails du téléversement');
     } finally {
       setLoading(false);
     }
@@ -99,20 +99,20 @@ export default function MusicApprovalDetail() {
       const response = await musicUploadService.updateUploadStatus(
         id,
         'approved',
-        comment.trim() || 'Approved for release'
+        comment.trim() || 'Approuvé pour publication'
       );
-      
+
       if (response.status === 'success') {
-        toast.success(response.message || 'Music approved successfully!');
+        toast.success(response.message || 'Musique approuvée avec succès !');
         // Clear comment and refetch data to show updated status
         setComment('');
         await fetchUploadDetail();
       } else {
-        throw new Error(response.message || 'Failed to approve music');
+        throw new Error(response.message || 'Échec de l\'approbation de la musique');
       }
     } catch (error: any) {
       console.error('Approve error:', error);
-      toast.error(error.message || 'Failed to approve music');
+      toast.error(error.message || 'Échec de l\'approbation de la musique');
     } finally {
       setIsProcessing(false);
     }
@@ -122,9 +122,9 @@ export default function MusicApprovalDetail() {
     if (!uploadData || !id) return;
 
     if (!comment.trim()) {
-      const message = uploadData.status === 'approved' 
-        ? 'Please provide a reason for rejecting this approved upload'
-        : 'Please provide a reason for declining';
+      const message = uploadData.status === 'approved'
+        ? 'Veuillez fournir un motif de rejet pour ce téléversement approuvé'
+        : 'Veuillez fournir un motif de refus';
       toast.error(message);
       return;
     }
@@ -138,16 +138,16 @@ export default function MusicApprovalDetail() {
       );
       
       if (response.status === 'success') {
-        toast.success(response.message || 'Music declined successfully!');
+        toast.success(response.message || 'Musique refusée avec succès !');
         // Clear comment and refetch data to show updated status
         setComment('');
         await fetchUploadDetail();
       } else {
-        throw new Error(response.message || 'Failed to decline music');
+        throw new Error(response.message || 'Échec du refus de la musique');
       }
     } catch (error: any) {
       console.error('Decline error:', error);
-      toast.error(error.message || 'Failed to decline music');
+      toast.error(error.message || 'Échec du refus de la musique');
     } finally {
       setIsProcessing(false);
     }
@@ -162,7 +162,7 @@ export default function MusicApprovalDetail() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <Loader2 className="w-8 h-8 text-asra-red animate-spin" />
-        <span className="ml-3 text-white">Loading upload details...</span>
+        <span className="ml-3 text-white">Chargement des détails du téléversement...</span>
       </div>
     );
   }
@@ -176,10 +176,10 @@ export default function MusicApprovalDetail() {
           className="text-asra-red hover:text-asra-red/80 text-sm font-medium flex items-center gap-2 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Go Back
+          Retour
         </button>
         <div className="bg-red-500/20 border border-red-500 rounded-lg p-6">
-          <p className="text-red-400">{error || 'Upload not found'}</p>
+          <p className="text-red-400">{error || 'Téléversement introuvable'}</p>
         </div>
       </div>
     );
@@ -193,7 +193,7 @@ export default function MusicApprovalDetail() {
         className="text-asra-red hover:text-asra-red/80 text-sm font-medium flex items-center gap-2 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        Go Back
+        Retour
       </button>
 
       {/* Tabs - Only show lyrics tab for songs */}
@@ -206,7 +206,7 @@ export default function MusicApprovalDetail() {
               : 'text-asra-gray-6 hover:text-white'
           }`}
         >
-          {uploadData.uploadType === 'album' ? 'Songs' : 'Audio'}
+          {uploadData.uploadType === 'album' ? 'Chansons' : 'Audio'}
         </button>
         {isSong(uploadData) && (
           <button
@@ -217,7 +217,7 @@ export default function MusicApprovalDetail() {
                 : 'text-asra-gray-6 hover:text-white'
             }`}
           >
-            Lyrics
+            Paroles
           </button>
         )}
       </div>
@@ -251,7 +251,7 @@ export default function MusicApprovalDetail() {
             {isAlbum(uploadData) && (
               <div className="bg-asra-gray-1 rounded-lg p-6">
                 <h4 className="text-white text-lg font-semibold mb-4">
-                  Album Songs ({uploadData.songCount})
+                  Chansons de l'album ({uploadData.songCount})
                 </h4>
                 <div className="space-y-4 max-h-96 overflow-y-auto">
                   {uploadData.songs.map((song, index) => (
@@ -297,40 +297,40 @@ export default function MusicApprovalDetail() {
               <h3 className="text-white text-xl font-bold mb-4">{uploadData.title}</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-asra-gray-6">Artist:</span>
+                  <span className="text-asra-gray-6">Artiste :</span>
                   <span className="text-white">{uploadData.artist.stageName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-asra-gray-6">Full Name:</span>
+                  <span className="text-asra-gray-6">Nom complet :</span>
                   <span className="text-white">{uploadData.artist.fullName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-asra-gray-6">Genre:</span>
+                  <span className="text-asra-gray-6">Genre :</span>
                   <span className="text-white">{uploadData.genre}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-asra-gray-6">Upload Type:</span>
+                  <span className="text-asra-gray-6">Type de téléversement :</span>
                   <span className="text-white capitalize">{uploadData.uploadType}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-asra-gray-6">Date Sent:</span>
+                  <span className="text-asra-gray-6">Date d'envoi :</span>
                   <span className="text-white">{formatDate(uploadData.dateSent)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-asra-gray-6">Status:</span>
+                  <span className="text-asra-gray-6">Statut :</span>
                   <span className="text-white">{formatStatus(uploadData.status)}</span>
                 </div>
-                
+
                 {/* Song-specific fields */}
                 {isSong(uploadData) && (
                   <>
                     <div className="flex justify-between">
-                      <span className="text-asra-gray-6">Duration:</span>
+                      <span className="text-asra-gray-6">Durée :</span>
                       <span className="text-white">{formatDuration(uploadData.duration)}</span>
                     </div>
                     {uploadData.collaborators && uploadData.collaborators.length > 0 && (
                       <div className="flex justify-between">
-                        <span className="text-asra-gray-6">Collaborators:</span>
+                        <span className="text-asra-gray-6">Collaborateurs :</span>
                         <span className="text-white">
                           {uploadData.collaborators.map(c => c.stageName).join(', ')}
                         </span>
@@ -338,19 +338,19 @@ export default function MusicApprovalDetail() {
                     )}
                     {uploadData.isExplicit && (
                       <div className="flex justify-between">
-                        <span className="text-asra-gray-6">Content:</span>
-                        <span className="text-orange-500 font-semibold">Explicit</span>
+                        <span className="text-asra-gray-6">Contenu :</span>
+                        <span className="text-orange-500 font-semibold">Explicite</span>
                       </div>
                     )}
                     {uploadData.streams !== undefined && (
                       <div className="flex justify-between">
-                        <span className="text-asra-gray-6">Streams:</span>
+                        <span className="text-asra-gray-6">Écoutes :</span>
                         <span className="text-white">{uploadData.streams.toLocaleString()}</span>
                       </div>
                     )}
                     {uploadData.downloads !== undefined && (
                       <div className="flex justify-between">
-                        <span className="text-asra-gray-6">Downloads:</span>
+                        <span className="text-asra-gray-6">Téléchargements :</span>
                         <span className="text-white">{uploadData.downloads.toLocaleString()}</span>
                       </div>
                     )}
@@ -361,12 +361,12 @@ export default function MusicApprovalDetail() {
                 {isAlbum(uploadData) && (
                   <>
                     <div className="flex justify-between">
-                      <span className="text-asra-gray-6">Song Count:</span>
+                      <span className="text-asra-gray-6">Nombre de chansons :</span>
                       <span className="text-white">{uploadData.songCount}</span>
                     </div>
                     {uploadData.caption && (
                       <div className="flex flex-col">
-                        <span className="text-asra-gray-6 mb-1">Caption:</span>
+                        <span className="text-asra-gray-6 mb-1">Légende :</span>
                         <span className="text-white">{uploadData.caption}</span>
                       </div>
                     )}
@@ -378,18 +378,18 @@ export default function MusicApprovalDetail() {
             {/* Comment Section */}
             <div className="space-y-4">
               <h4 className="text-white text-lg font-semibold">
-                Leave a comment
+                Laisser un commentaire
                 {uploadData.status === 'pending' && (
-                  <span className="text-asra-gray-6 text-sm font-normal"> (required for decline)</span>
+                  <span className="text-asra-gray-6 text-sm font-normal"> (requis pour refuser)</span>
                 )}
                 {uploadData.status === 'approved' && (
-                  <span className="text-asra-gray-6 text-sm font-normal"> (required to change status)</span>
+                  <span className="text-asra-gray-6 text-sm font-normal"> (requis pour changer le statut)</span>
                 )}
               </h4>
               <Textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Enter your comment here..."
+                placeholder="Saisissez votre commentaire ici..."
                 className="bg-asra-gray-2 border-asra-gray-5 text-white placeholder:text-asra-gray-6 min-h-[120px]"
               />
             </div>
@@ -404,10 +404,10 @@ export default function MusicApprovalDetail() {
                 <p className={`font-semibold ${
                   uploadData.status === 'approved' ? 'text-green-400' : 'text-red-400'
                 }`}>
-                  Current Status: <span className="capitalize">{uploadData.status}</span>
+                  Statut actuel : <span className="capitalize">{formatStatus(uploadData.status)}</span>
                   {uploadData.comment && (
                     <span className="block mt-2 text-sm font-normal text-white">
-                      Previous Comment: {uploadData.comment}
+                      Commentaire précédent : {uploadData.comment}
                     </span>
                   )}
                 </p>
@@ -423,7 +423,7 @@ export default function MusicApprovalDetail() {
                     disabled={isProcessing}
                     className="flex-1 bg-asra-red hover:bg-asra-red/90 text-white"
                   >
-                    {isProcessing ? 'Processing...' : 'Approve'}
+                    {isProcessing ? 'Traitement...' : 'Approuver'}
                   </Button>
                   <Button
                     onClick={handleDecline}
@@ -431,7 +431,7 @@ export default function MusicApprovalDetail() {
                     variant="outline"
                     className="flex-1 border-asra-gray-5 text-white hover:bg-asra-gray-2"
                   >
-                    {isProcessing ? 'Processing...' : 'Decline'}
+                    {isProcessing ? 'Traitement...' : 'Refuser'}
                   </Button>
                 </>
               )}
@@ -443,17 +443,17 @@ export default function MusicApprovalDetail() {
                   variant="outline"
                   className="flex-1 border-red-500 text-red-400 hover:bg-red-500/20 hover:text-red-300"
                 >
-                  {isProcessing ? 'Processing...' : 'Decline / Reject'}
+                  {isProcessing ? 'Traitement...' : 'Refuser / Rejeter'}
                 </Button>
               )}
-              
+
               {uploadData.status === 'rejected' && (
                 <Button
                   onClick={handleApprove}
                   disabled={isProcessing}
                   className="flex-1 bg-asra-red hover:bg-asra-red/90 text-white"
                 >
-                  {isProcessing ? 'Processing...' : 'Approve'}
+                  {isProcessing ? 'Traitement...' : 'Approuver'}
                 </Button>
               )}
             </div>
@@ -472,7 +472,7 @@ export default function MusicApprovalDetail() {
                 </div>
               ) : (
                 <div className="flex items-center justify-center h-full">
-                  <p className="text-asra-gray-6">No lyrics available for this upload</p>
+                  <p className="text-asra-gray-6">Aucune parole disponible pour ce téléversement</p>
                 </div>
               )}
             </div>
@@ -483,26 +483,26 @@ export default function MusicApprovalDetail() {
             {/* Edit Lyrics Button */}
             <Button
               className="w-full bg-asra-red hover:bg-asra-red/90 text-white"
-              onClick={() => toast('Edit lyrics functionality coming soon!')}
+              onClick={() => toast('Fonctionnalité de modification des paroles bientôt disponible !')}
             >
-              Edit Lyrics
+              Modifier les paroles
             </Button>
 
             {/* Comment Section */}
             <div className="space-y-4">
               <h4 className="text-white text-lg font-semibold">
-                Leave a comment
+                Laisser un commentaire
                 {uploadData.status === 'pending' && (
-                  <span className="text-asra-gray-6 text-sm font-normal"> (required for decline)</span>
+                  <span className="text-asra-gray-6 text-sm font-normal"> (requis pour refuser)</span>
                 )}
                 {uploadData.status === 'approved' && (
-                  <span className="text-asra-gray-6 text-sm font-normal"> (required to change status)</span>
+                  <span className="text-asra-gray-6 text-sm font-normal"> (requis pour changer le statut)</span>
                 )}
               </h4>
               <Textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="Enter your comment here..."
+                placeholder="Saisissez votre commentaire ici..."
                 className="bg-asra-gray-2 border-asra-gray-5 text-white placeholder:text-asra-gray-6 min-h-[120px]"
               />
             </div>
@@ -517,10 +517,10 @@ export default function MusicApprovalDetail() {
                 <p className={`font-semibold ${
                   uploadData.status === 'approved' ? 'text-green-400' : 'text-red-400'
                 }`}>
-                  Current Status: <span className="capitalize">{uploadData.status}</span>
+                  Statut actuel : <span className="capitalize">{formatStatus(uploadData.status)}</span>
                   {uploadData.comment && (
                     <span className="block mt-2 text-sm font-normal text-white">
-                      Previous Comment: {uploadData.comment}
+                      Commentaire précédent : {uploadData.comment}
                     </span>
                   )}
                 </p>
@@ -536,7 +536,7 @@ export default function MusicApprovalDetail() {
                     disabled={isProcessing}
                     className="w-full bg-asra-red hover:bg-asra-red/90 text-white"
                   >
-                    {isProcessing ? 'Processing...' : 'Approve'}
+                    {isProcessing ? 'Traitement...' : 'Approuver'}
                   </Button>
                   <Button
                     onClick={handleDecline}
@@ -544,7 +544,7 @@ export default function MusicApprovalDetail() {
                     variant="outline"
                     className="w-full border-asra-gray-5 text-white hover:bg-asra-gray-2"
                   >
-                    {isProcessing ? 'Processing...' : 'Decline'}
+                    {isProcessing ? 'Traitement...' : 'Refuser'}
                   </Button>
                 </>
               )}
@@ -556,17 +556,17 @@ export default function MusicApprovalDetail() {
                   variant="outline"
                   className="w-full border-red-500 text-red-400 hover:bg-red-500/20 hover:text-red-300"
                 >
-                  {isProcessing ? 'Processing...' : 'Decline / Reject'}
+                  {isProcessing ? 'Traitement...' : 'Refuser / Rejeter'}
                 </Button>
               )}
-              
+
               {uploadData.status === 'rejected' && (
                 <Button
                   onClick={handleApprove}
                   disabled={isProcessing}
                   className="w-full bg-asra-red hover:bg-asra-red/90 text-white"
                 >
-                  {isProcessing ? 'Processing...' : 'Approve'}
+                  {isProcessing ? 'Traitement...' : 'Approuver'}
                 </Button>
               )}
             </div>

@@ -8,8 +8,8 @@ export default function MusicApprovalSuccess() {
   
   const { action, songName, artistName } = location.state || {
     action: 'approved',
-    songName: 'Unknown Song',
-    artistName: 'Unknown Artist'
+    songName: 'Chanson inconnue',
+    artistName: 'Artiste inconnu'
   };
 
   const isApproved = action === 'approved';
@@ -29,7 +29,7 @@ export default function MusicApprovalSuccess() {
         {/* Success Message */}
         <div className="space-y-4 mb-8">
           <h1 className="text-3xl font-bold text-white">
-            {isApproved ? 'Music Approved!' : 'Music Declined!'}
+            {isApproved ? 'Musique approuvée !' : 'Musique refusée !'}
           </h1>
           
           <div className="text-asra-gray-6">
@@ -37,14 +37,14 @@ export default function MusicApprovalSuccess() {
               <span className="text-white font-semibold">"{songName}"</span>
             </p>
             <p className="text-sm">
-              by <span className="text-white font-medium">{artistName}</span>
+              par <span className="text-white font-medium">{artistName}</span>
             </p>
           </div>
 
           <p className="text-asra-gray-6 text-sm">
-            {isApproved 
-              ? 'The music has been successfully approved and will be available on the platform.'
-              : 'The music has been declined and the artist will be notified with your feedback.'
+            {isApproved
+              ? 'La musique a été approuvée avec succès et sera disponible sur la plateforme.'
+              : 'La musique a été refusée et l\'artiste sera informé de vos commentaires.'
             }
           </p>
         </div>
@@ -57,15 +57,15 @@ export default function MusicApprovalSuccess() {
             className="border-asra-gray-5 text-white hover:bg-asra-gray-2"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Uploads
+            Retour aux téléversements
           </Button>
-          
+
           <Button
             onClick={() => navigate('/dashboard')}
             className="bg-asra-red hover:bg-asra-red/90 text-white"
           >
             <Home className="w-4 h-4 mr-2" />
-            Go to Dashboard
+            Aller au tableau de bord
           </Button>
         </div>
       </div>

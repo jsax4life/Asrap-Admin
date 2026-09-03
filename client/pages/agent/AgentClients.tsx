@@ -13,9 +13,16 @@ const CLIENT_TYPE_ICONS = {
 };
 
 const CLIENT_TYPE_LABELS = {
-  user: 'Listener',
-  artist: 'Artist',
-  advertiser: 'Advertiser',
+  user: 'Auditeur',
+  artist: 'Artiste',
+  advertiser: 'Annonceur',
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  active: 'Actif',
+  pending: 'En attente',
+  expired: 'Expiré',
+  none: 'Aucun',
 };
 
 const STATUS_STYLES = {
@@ -51,11 +58,11 @@ export default function AgentClients() {
   return (
     <div className="min-h-screen bg-asra-dark">
       <AgentPageHeader
-        title="My Clients"
+        title="Mes clients"
         showSearch
         searchValue={search}
         onSearchChange={(v) => { setSearch(v); setCurrentPage(1); }}
-        searchPlaceholder="Search by name, email, or phone"
+        searchPlaceholder="Rechercher par nom, e-mail ou téléphone"
       />
 
       <div className="p-6">
@@ -70,7 +77,7 @@ export default function AgentClients() {
                   : 'bg-asra-gray-1 text-asra-gray-6 hover:text-white border border-asra-gray-2'
               }`}
             >
-              {type === 'all' ? 'All Clients' : CLIENT_TYPE_LABELS[type]}
+              {type === 'all' ? 'Tous les clients' : CLIENT_TYPE_LABELS[type]}
             </button>
           ))}
         </div>
@@ -87,9 +94,9 @@ export default function AgentClients() {
                   <tr className="border-b border-asra-gray-2">
                     <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Client</th>
                     <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Type</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Plan</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Status</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Onboarded</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Forfait</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Statut</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Intégré le</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -116,7 +123,7 @@ export default function AgentClients() {
                         </td>
                         <td className="px-6 py-4">
                           <span className={`text-xs px-2 py-1 rounded-full capitalize ${STATUS_STYLES[client.subscriptionStatus]}`}>
-                            {client.subscriptionStatus}
+                            {STATUS_LABELS[client.subscriptionStatus] ?? client.subscriptionStatus}
                           </span>
                         </td>
                         <td className="px-6 py-4 text-asra-gray-6 text-sm">
@@ -128,13 +135,13 @@ export default function AgentClients() {
                 </tbody>
               </table>
               {paginatedClients.length === 0 && (
-                <p className="text-asra-gray-6 text-center py-12">No clients found</p>
+                <p className="text-asra-gray-6 text-center py-12">Aucun client trouvé</p>
               )}
             </div>
 
             {totalPages > 1 && (
               <div className="flex items-center justify-between mt-4">
-                <p className="text-asra-gray-6 text-sm">{clients.length} clients total</p>
+                <p className="text-asra-gray-6 text-sm">{clients.length} clients au total</p>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
@@ -144,7 +151,7 @@ export default function AgentClients() {
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <span className="text-white text-sm">
-                    Page {currentPage} of {totalPages}
+                    Page {currentPage} sur {totalPages}
                   </span>
                   <button
                     onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}

@@ -4,8 +4,8 @@ export default function OnboardArtist() {
   return (
     <OnboardClientForm
       clientType="artist"
-      title="Onboard an Artist"
-      subtitle="Create an artist profile and subscribe them to Artist Pro so they can upload music and earn on Asrapa."
+      title="Intégrer un artiste"
+      subtitle="Créez un profil d'artiste et abonnez-le à Artist Pro afin qu'il puisse publier de la musique et gagner de l'argent sur Asrapa."
     />
   );
 }

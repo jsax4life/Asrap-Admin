@@ -13,8 +13,8 @@ const mockAlbumDetail = {
   coverArt: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=400',
   artistAvatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75',
   releaseDate: '11 November 2022',
-  totalPlays: 10000000,
-  likes: 5865865,
+  totalPlays: 0,
+  likes: 0,
   songsCount: 11,
   totalDuration: '40:55',
   songs: [
@@ -22,100 +22,100 @@ const mockAlbumDetail = {
       id: '1',
       title: 'More Love Less Ego',
       artist: 'Wizkid',
-      plays: 10000000,
+      plays: 0,
       duration: '3:15',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '2',
       title: 'Bad To Me',
       artist: 'Wizkid',
-      plays: 8500000,
+      plays: 0,
       duration: '3:28',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '3',
       title: 'Everyday',
       artist: 'Wizkid',
-      plays: 7200000,
+      plays: 0,
       duration: '3:45',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '4',
       title: 'Money & Love',
       artist: 'Wizkid feat. Ayra Starr',
-      plays: 6500000,
+      plays: 0,
       duration: '3:32',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '5',
       title: 'Pressure',
       artist: 'Wizkid',
-      plays: 5800000,
+      plays: 0,
       duration: '3:18',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '6',
       title: 'Flower Pads',
       artist: 'Wizkid, Skillibeng, Shenseea',
-      plays: 5200000,
+      plays: 0,
       duration: '3:55',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '7',
       title: 'Deep',
       artist: 'Wizkid',
-      plays: 4800000,
+      plays: 0,
       duration: '3:42',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '8',
       title: 'Balance',
       artist: 'Wizkid',
-      plays: 4200000,
+      plays: 0,
       duration: '3:25',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '9',
       title: 'Slip N Slide',
       artist: 'Wizkid',
-      plays: 3800000,
+      plays: 0,
       duration: '3:38',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '10',
       title: 'Plenty Loving',
       artist: 'Wizkid',
-      plays: 3500000,
+      plays: 0,
       duration: '3:12',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
     {
       id: '11',
       title: 'Sweet',
       artist: 'Wizkid',
-      plays: 3200000,
+      plays: 0,
       duration: '3:15',
       dateAdded: '2022-11-11',
-      status: 'Published',
+      status: 'Publié',
     },
   ],
 };
@@ -160,7 +160,7 @@ const AlbumDetail = () => {
               className="flex items-center space-x-2 text-asra-gray-400 hover:text-white transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span>Go Back</span>
+              <span>Retour</span>
             </button>
           </div>
 
@@ -170,7 +170,7 @@ const AlbumDetail = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Rechercher"
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-full"
               />
             </div>
@@ -182,7 +182,7 @@ const AlbumDetail = () => {
               <User className="w-4 h-4 text-white" />
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-asra-dark"></div>
             </div>
-            <span className="text-white text-sm">System Admin</span>
+            <span className="text-white text-sm">Administrateur système</span>
           </div>
         </div>
       </div>
@@ -220,15 +220,15 @@ const AlbumDetail = () => {
                 <div className="w-4 h-4 bg-asra-red rounded flex items-center justify-center">
                   <span className="text-white text-xs font-bold">S</span>
                 </div>
-                <span>{formatPlays(mockAlbumDetail.totalPlays)} Streams</span>
+                <span>{formatPlays(mockAlbumDetail.totalPlays)} écoutes</span>
               </div>
               <div className="w-1 h-1 bg-asra-gray-400 rounded-full"></div>
               <div className="flex items-center space-x-2">
-                <span>{formatNumber(mockAlbumDetail.likes)} likes</span>
+                <span>{formatNumber(mockAlbumDetail.likes)} mentions J'aime</span>
               </div>
               <div className="w-1 h-1 bg-asra-gray-400 rounded-full"></div>
               <div className="flex items-center space-x-2">
-                <span>{mockAlbumDetail.songsCount} songs, {mockAlbumDetail.totalDuration}</span>
+                <span>{mockAlbumDetail.songsCount} titres, {mockAlbumDetail.totalDuration}</span>
               </div>
             </div>
 
@@ -239,7 +239,7 @@ const AlbumDetail = () => {
               </button>
               <button className="bg-white text-black px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors flex items-center space-x-2">
                 <MoreHorizontal className="w-5 h-5" />
-                <span>More</span>
+                <span>Plus</span>
               </button>
               <button className="text-asra-gray-400 hover:text-white transition-colors">
                 <Heart className="w-6 h-6" />
@@ -263,7 +263,7 @@ const AlbumDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Songs
+            Titres
           </button>
           <button
             onClick={() => setActiveTab('details')}
@@ -273,7 +273,7 @@ const AlbumDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Details
+            Détails
           </button>
         </div>
       </div>
@@ -291,22 +291,22 @@ const AlbumDetail = () => {
                       #
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Title
+                      Titre
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Artist
+                      Artiste
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Plays
+                      Écoutes
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Duration
+                      Durée
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Date Added
+                      Date d'ajout
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Status
+                      Statut
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
                       Action
@@ -371,13 +371,13 @@ const AlbumDetail = () => {
                 disabled={currentPage === 1}
                 className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Previous
+                Précédent
               </button>
               <button
                 onClick={() => setCurrentPage(currentPage + 1)}
                 className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors"
               >
-                Next
+                Suivant
               </button>
             </div>
             <div className="flex items-center space-x-2">
@@ -409,8 +409,8 @@ const AlbumDetail = () => {
       {activeTab === 'details' && (
         <div className="px-6 py-6">
           <div className="bg-asra-gray-900 rounded-lg p-8">
-            <h3 className="text-xl font-bold text-white mb-6">Album Details</h3>
-            <p className="text-asra-gray-400">Album details content coming soon...</p>
+            <h3 className="text-xl font-bold text-white mb-6">Détails de l'album</h3>
+            <p className="text-asra-gray-400">Le contenu des détails de l'album arrive bientôt...</p>
           </div>
         </div>
       )}

@@ -18,7 +18,7 @@ import { agentService } from '@/services/agentService';
 import { AgentDashboardStats } from '@/types';
 
 const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 0 }).format(amount);
+  `${new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(amount)} FCFA`;
 
 export default function AgentDashboard() {
   const navigate = useNavigate();
@@ -35,22 +35,22 @@ export default function AgentDashboard() {
 
   const quickActions = [
     {
-      title: 'Onboard a Listener',
-      description: 'Register a new user and set up their subscription',
+      title: 'Intégrer un auditeur',
+      description: 'Inscrire un nouvel utilisateur et configurer son abonnement',
       icon: Headphones,
       path: '/agent/onboard/user',
       color: 'bg-blue-600',
     },
     {
-      title: 'Onboard an Artist',
-      description: 'Help an artist join Asrapa and subscribe to Artist Pro',
+      title: 'Intégrer un artiste',
+      description: 'Aider un artiste à rejoindre Asrapa et à s\'abonner à Artist Pro',
       icon: Mic2,
       path: '/agent/onboard/artist',
       color: 'bg-purple-600',
     },
     {
-      title: 'Onboard an Advertiser',
-      description: 'Register a business for advertising on Asrapa',
+      title: 'Intégrer un annonceur',
+      description: 'Inscrire une entreprise pour faire de la publicité sur Asrapa',
       icon: Building2,
       path: '/agent/onboard/advertiser',
       color: 'bg-amber-600',
@@ -67,16 +67,16 @@ export default function AgentDashboard() {
 
   return (
     <div className="min-h-screen bg-asra-dark">
-      <AgentPageHeader title="Agent Dashboard" />
+      <AgentPageHeader title="Tableau de bord de l'agent" />
 
       <div className="p-6 space-y-8">
         <div>
-          <h2 className="text-white text-lg font-bold mb-4">Today's Overview</h2>
+          <h2 className="text-white text-lg font-bold mb-4">Aperçu du jour</h2>
           <div className="flex flex-wrap gap-4">
-            <MetricCard icon={Users} value={String(stats?.totalClients ?? 0)} label="Total clients helped" />
-            <MetricCard icon={UserPlus} value={String(stats?.onboardedToday ?? 0)} label="Onboarded today" />
-            <MetricCard icon={CreditCard} value={String(stats?.activeSubscriptions ?? 0)} label="Active subscriptions" />
-            <MetricCard icon={Banknote} value={formatCurrency(stats?.monthlyCommission ?? 0)} label="Commission this month" />
+            <MetricCard icon={Users} value={String(stats?.totalClients ?? 0)} label="Total de clients aidés" />
+            <MetricCard icon={UserPlus} value={String(stats?.onboardedToday ?? 0)} label="Intégrés aujourd'hui" />
+            <MetricCard icon={CreditCard} value={String(stats?.activeSubscriptions ?? 0)} label="Abonnements actifs" />
+            <MetricCard icon={Banknote} value={formatCurrency(stats?.monthlyCommission ?? 0)} label="Commission ce mois-ci" />
           </div>
         </div>
 
@@ -84,28 +84,28 @@ export default function AgentDashboard() {
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
             <div className="flex items-center gap-3 mb-2">
               <Headphones className="w-5 h-5 text-blue-400" />
-              <span className="text-asra-gray-6 text-sm">Listeners</span>
+              <span className="text-asra-gray-6 text-sm">Auditeurs</span>
             </div>
             <p className="text-white text-2xl font-bold">{stats?.usersOnboarded}</p>
           </div>
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
             <div className="flex items-center gap-3 mb-2">
               <Mic2 className="w-5 h-5 text-purple-400" />
-              <span className="text-asra-gray-6 text-sm">Artists</span>
+              <span className="text-asra-gray-6 text-sm">Artistes</span>
             </div>
             <p className="text-white text-2xl font-bold">{stats?.artistsOnboarded}</p>
           </div>
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
             <div className="flex items-center gap-3 mb-2">
               <Building2 className="w-5 h-5 text-amber-400" />
-              <span className="text-asra-gray-6 text-sm">Advertisers</span>
+              <span className="text-asra-gray-6 text-sm">Annonceurs</span>
             </div>
             <p className="text-white text-2xl font-bold">{stats?.advertisersOnboarded}</p>
           </div>
         </div>
 
         <div>
-          <h2 className="text-white text-lg font-bold mb-4">Quick Actions</h2>
+          <h2 className="text-white text-lg font-bold mb-4">Actions rapides</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {quickActions.map((action) => (
               <button
@@ -119,7 +119,7 @@ export default function AgentDashboard() {
                 <h3 className="text-white font-bold mb-2">{action.title}</h3>
                 <p className="text-asra-gray-6 text-sm mb-4">{action.description}</p>
                 <span className="text-asra-red text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Get started <ArrowRight className="w-4 h-4" />
+                  Commencer <ArrowRight className="w-4 h-4" />
                 </span>
               </button>
             ))}
@@ -129,13 +129,13 @@ export default function AgentDashboard() {
         {stats && stats.pendingOnboardings > 0 && (
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-amber-600/30">
             <p className="text-amber-400 font-medium">
-              You have {stats.pendingOnboardings} pending onboarding{stats.pendingOnboardings > 1 ? 's' : ''} to complete
+              Vous avez {stats.pendingOnboardings} intégration{stats.pendingOnboardings > 1 ? 's' : ''} en attente à finaliser
             </p>
             <button
               onClick={() => navigate('/agent/clients')}
               className="text-asra-red text-sm mt-2 hover:underline"
             >
-              View pending clients →
+              Voir les clients en attente →
             </button>
           </div>
         )}

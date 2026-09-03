@@ -31,6 +31,14 @@ const CreateUser = () => {
     'Analyst',
   ];
 
+  const userTypeLabels: Record<string, string> = {
+    'Admin User': 'Utilisateur administrateur',
+    'Payment Agent': 'Agent de paiement',
+    'Support Staff': 'Personnel de support',
+    'Moderator': 'Modérateur',
+    'Analyst': 'Analyste',
+  };
+
   const accessLevelOptions = [
     'Super Admin',
     'Admin',
@@ -38,6 +46,14 @@ const CreateUser = () => {
     'Analyst',
     'Viewer',
   ];
+
+  const accessLevelLabels: Record<string, string> = {
+    'Super Admin': 'Super administrateur',
+    'Admin': 'Administrateur',
+    'Moderator': 'Modérateur',
+    'Analyst': 'Analyste',
+    'Viewer': 'Lecteur',
+  };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => {
@@ -64,22 +80,22 @@ const CreateUser = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.userType) newErrors.userType = 'User type is required';
-    if (!formData.email) newErrors.email = 'Email is required';
-    if (!formData.role) newErrors.role = 'Role is required';
-    if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.phoneNumber) newErrors.phoneNumber = 'Phone number is required';
-    if (!isPaymentAgent && !formData.accessLevel) newErrors.accessLevel = 'Access level is required';
+    if (!formData.userType) newErrors.userType = 'Le type d\'utilisateur est requis';
+    if (!formData.email) newErrors.email = 'L\'e-mail est requis';
+    if (!formData.role) newErrors.role = 'Le rôle est requis';
+    if (!formData.name) newErrors.name = 'Le nom est requis';
+    if (!formData.phoneNumber) newErrors.phoneNumber = 'Le numéro de téléphone est requis';
+    if (!isPaymentAgent && !formData.accessLevel) newErrors.accessLevel = 'Le niveau d\'accès est requis';
     if (isPaymentAgent && !formData.temporaryPassword) {
-      newErrors.temporaryPassword = 'Temporary password is required for agents';
+      newErrors.temporaryPassword = 'Le mot de passe temporaire est requis pour les agents';
     }
     if (isPaymentAgent && formData.temporaryPassword && formData.temporaryPassword.length < 8) {
-      newErrors.temporaryPassword = 'Temporary password must be at least 8 characters';
+      newErrors.temporaryPassword = 'Le mot de passe temporaire doit comporter au moins 8 caractères';
     }
 
-    // Email validation
+    // Validation de l'e-mail
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Veuillez saisir une adresse e-mail valide';
     }
 
     setErrors(newErrors);
@@ -89,13 +105,13 @@ const CreateUser = () => {
   const handleGeneratePassword = () => {
     const password = generateTemporaryPassword();
     handleInputChange('temporaryPassword', password);
-    toast.success('Temporary password generated');
+    toast.success('Mot de passe temporaire généré');
   };
 
   const handleCopyPassword = async () => {
     if (!formData.temporaryPassword) return;
     await navigator.clipboard.writeText(formData.temporaryPassword);
-    toast.success('Password copied to clipboard');
+    toast.success('Mot de passe copié dans le presse-papiers');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -119,10 +135,10 @@ const CreateUser = () => {
           temporaryPassword: formData.temporaryPassword,
           department: 'field_agents',
         });
-        toast.success('Payment agent created. Share the temporary password securely with the agent.');
+        toast.success('Agent de paiement créé. Partagez le mot de passe temporaire en toute sécurité avec l\'agent.');
         navigate('/admin-users?tab=payment-agents');
       } catch (error: unknown) {
-        const message = error instanceof Error ? error.message : 'Failed to create payment agent';
+        const message = error instanceof Error ? error.message : 'Échec de la création de l\'agent de paiement';
         toast.error(message);
       } finally {
         setIsSubmitting(false);
@@ -153,13 +169,13 @@ const CreateUser = () => {
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">Date: 03/02/2023</span>
+              <span className="text-sm">Date : 03/02/2023</span>
             </div>
           </div>
 
           {/* Center - Page Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Admin Users</h1>
+            <h1 className="text-2xl font-bold text-white">Utilisateurs administrateurs</h1>
           </div>
 
           {/* Right side - Profile */}
@@ -167,7 +183,7 @@ const CreateUser = () => {
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm">System Admin</span>
+            <span className="text-white text-sm">Administrateur système</span>
           </div>
         </div>
       </div>
@@ -180,11 +196,11 @@ const CreateUser = () => {
           className="text-asra-red hover:text-red-400 text-sm font-medium mb-6 flex items-center space-x-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Admin Users list</span>
+          <span>Retour à la liste des utilisateurs administrateurs</span>
         </button>
 
         {/* Form Title */}
-        <h2 className="text-3xl font-bold text-white mb-8">Create new users</h2>
+        <h2 className="text-3xl font-bold text-white mb-8">Créer de nouveaux utilisateurs</h2>
 
         {/* Avatar Section */}
         <div className="mb-8">
@@ -194,7 +210,7 @@ const CreateUser = () => {
                 {formData.avatar ? (
                   <img
                     src={URL.createObjectURL(formData.avatar)}
-                    alt="Avatar preview"
+                    alt="Aperçu de l'avatar"
                     className="w-full h-full rounded-full object-cover"
                   />
                 ) : (
@@ -211,10 +227,10 @@ const CreateUser = () => {
             </div>
             <div>
               <label htmlFor="avatar" className="text-white text-lg font-medium">
-                Choose avatar <span className="text-asra-red">*</span>
+                Choisir un avatar <span className="text-asra-red">*</span>
               </label>
               <p className="text-asra-gray-400 text-sm mt-1">
-                Click on the avatar to upload a new image
+                Cliquez sur l'avatar pour téléverser une nouvelle image
               </p>
             </div>
           </div>
@@ -228,7 +244,7 @@ const CreateUser = () => {
               {/* User Type */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  User Type <span className="text-asra-red">*</span>
+                  Type d'utilisateur <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -238,10 +254,10 @@ const CreateUser = () => {
                       errors.userType ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
                   >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Select...</option>
+                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Sélectionner...</option>
                     {userTypeOptions.map((option) => (
                       <option key={option} value={option} className="text-white bg-asra-gray-800">
-                        {option}
+                        {userTypeLabels[option] || option}
                       </option>
                     ))}
                   </select>
@@ -252,8 +268,8 @@ const CreateUser = () => {
                 )}
                 {isPaymentAgent && (
                   <p className="text-asra-gray-400 text-sm mt-2">
-                    Payment agents cannot self-register. They log in with the temporary password you
-                    set here and must change it on first login before using the Agent Portal.
+                    Les agents de paiement ne peuvent pas s'auto-inscrire. Ils se connectent avec le mot de passe
+                    temporaire défini ici et doivent le changer dès la première connexion avant d'utiliser le portail agent.
                   </p>
                 )}
               </div>
@@ -261,14 +277,14 @@ const CreateUser = () => {
               {/* Email */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Email <span className="text-asra-red">*</span>
+                  E-mail <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    placeholder="Enter the email address"
+                    placeholder="Entrez l'adresse e-mail"
                     className={`w-full px-4 py-3 pl-12 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                       errors.email ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
@@ -283,13 +299,13 @@ const CreateUser = () => {
               {/* Role */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Role <span className="text-asra-red">*</span>
+                  Rôle <span className="text-asra-red">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.role}
                   onChange={(e) => handleInputChange('role', e.target.value)}
-                  placeholder="Enter the role"
+                  placeholder="Entrez le rôle"
                   readOnly={isPaymentAgent}
                   className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                     errors.role ? 'border-red-500' : 'border-asra-gray-700'
@@ -303,14 +319,14 @@ const CreateUser = () => {
               {isPaymentAgent && (
                 <div>
                   <label className="block text-white text-sm font-medium mb-2">
-                    Temporary password <span className="text-asra-red">*</span>
+                    Mot de passe temporaire <span className="text-asra-red">*</span>
                   </label>
                   <div className="flex gap-2">
                     <input
                       type="text"
                       value={formData.temporaryPassword}
                       onChange={(e) => handleInputChange('temporaryPassword', e.target.value)}
-                      placeholder="Agent will change this on first login"
+                      placeholder="L'agent le changera à la première connexion"
                       className={`flex-1 px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red font-mono ${
                         errors.temporaryPassword ? 'border-red-500' : 'border-asra-gray-700'
                       }`}
@@ -319,17 +335,17 @@ const CreateUser = () => {
                       type="button"
                       onClick={handleGeneratePassword}
                       className="px-4 py-3 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white hover:border-asra-red transition-colors flex items-center gap-2 whitespace-nowrap"
-                      title="Generate password"
+                      title="Générer un mot de passe"
                     >
                       <RefreshCw className="w-4 h-4" />
-                      Generate
+                      Générer
                     </button>
                     <button
                       type="button"
                       onClick={handleCopyPassword}
                       disabled={!formData.temporaryPassword}
                       className="px-4 py-3 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white hover:border-asra-red transition-colors disabled:opacity-50"
-                      title="Copy password"
+                      title="Copier le mot de passe"
                     >
                       <Copy className="w-4 h-4" />
                     </button>
@@ -338,7 +354,7 @@ const CreateUser = () => {
                     <p className="text-red-500 text-sm mt-1">{errors.temporaryPassword}</p>
                   )}
                   <p className="text-asra-gray-400 text-sm mt-1">
-                    Click Generate for a secure password. Share it with the agent — it won't be shown again.
+                    Cliquez sur Générer pour un mot de passe sécurisé. Partagez-le avec l'agent — il ne sera plus affiché ensuite.
                   </p>
                 </div>
               )}
@@ -349,13 +365,13 @@ const CreateUser = () => {
               {/* Name */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Name of user <span className="text-asra-red">*</span>
+                  Nom de l'utilisateur <span className="text-asra-red">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  placeholder="Enter the name"
+                  placeholder="Entrez le nom"
                   className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                     errors.name ? 'border-red-500' : 'border-asra-gray-700'
                   }`}
@@ -368,7 +384,7 @@ const CreateUser = () => {
               {/* Phone Number */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Phone number <span className="text-asra-red">*</span>
+                  Numéro de téléphone <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -391,7 +407,7 @@ const CreateUser = () => {
               {!isPaymentAgent && (
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Access Level <span className="text-asra-red">*</span>
+                  Niveau d'accès <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -401,10 +417,10 @@ const CreateUser = () => {
                       errors.accessLevel ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
                   >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Select...</option>
+                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Sélectionner...</option>
                     {accessLevelOptions.map((option) => (
                       <option key={option} value={option} className="text-white bg-asra-gray-800">
-                        {option}
+                        {accessLevelLabels[option] || option}
                       </option>
                     ))}
                   </select>
@@ -426,7 +442,7 @@ const CreateUser = () => {
               className="bg-asra-red hover:bg-red-600 disabled:opacity-60 text-white px-12 py-4 rounded-lg text-lg font-medium transition-colors flex items-center gap-2"
             >
               {isSubmitting && <Loader2 className="w-5 h-5 animate-spin" />}
-              {isSubmitting ? 'Creating...' : 'Create'}
+              {isSubmitting ? 'Création...' : 'Créer'}
             </button>
           </div>
         </form>

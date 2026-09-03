@@ -17,7 +17,7 @@ export const FilterDropdown = ({
   options,
   icon,
   className,
-  placeholder = 'Select option'
+  placeholder = 'Sélectionner une option'
 }: FilterDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

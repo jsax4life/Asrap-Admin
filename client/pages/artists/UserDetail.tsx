@@ -11,65 +11,31 @@ const mockUserDetail = {
   joinDate: '2023-01-15',
   lastActive: '2024-01-10',
   avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=200',
-  playlistsCreated: 1,
-  songsLiked: 914,
-  totalPlayTime: '2,450 hours',
+  playlistsCreated: 0,
+  songsLiked: 0,
+  totalPlayTime: '0 heure',
   favoriteGenres: ['Afrobeats', 'Hip-Hop', 'R&B'],
-  recentActivity: [
-    {
-      id: '1',
-      type: 'playlist_created',
-      description: 'Created playlist "My Favorites"',
-      date: '2024-01-08',
-    },
-    {
-      id: '2',
-      type: 'song_liked',
-      description: 'Liked "Essence" by Wizkid',
-      date: '2024-01-07',
-    },
-    {
-      id: '3',
-      type: 'song_liked',
-      description: 'Liked "Joro" by Wizkid',
-      date: '2024-01-06',
-    },
-  ],
-  playlists: [
-    {
-      id: '1',
-      title: 'My Favorites',
-      songCount: 25,
-      duration: '1:23:45',
-      createdAt: '2024-01-08',
-    },
-  ],
-  likedSongs: [
-    {
-      id: '1',
-      title: 'Essence',
-      artist: 'Wizkid',
-      album: 'Made in Lagos',
-      duration: '3:45',
-      likedDate: '2024-01-07',
-    },
-    {
-      id: '2',
-      title: 'Joro',
-      artist: 'Wizkid',
-      album: 'Made in Lagos',
-      duration: '3:15',
-      likedDate: '2024-01-06',
-    },
-    {
-      id: '3',
-      title: 'Fever',
-      artist: 'Wizkid',
-      album: 'Made in Lagos',
-      duration: '4:12',
-      likedDate: '2024-01-05',
-    },
-  ],
+  recentActivity: [] as {
+    id: string;
+    type: string;
+    description: string;
+    date: string;
+  }[],
+  playlists: [] as {
+    id: string;
+    title: string;
+    songCount: number;
+    duration: string;
+    createdAt: string;
+  }[],
+  likedSongs: [] as {
+    id: string;
+    title: string;
+    artist: string;
+    album: string;
+    duration: string;
+    likedDate: string;
+  }[],
 };
 
 const UserDetail = () => {
@@ -97,7 +63,7 @@ const UserDetail = () => {
               className="flex items-center space-x-2 text-asra-gray-400 hover:text-white transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span>Go Back</span>
+              <span>Retour</span>
             </button>
           </div>
 
@@ -107,7 +73,7 @@ const UserDetail = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Rechercher"
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-64"
               />
             </div>
@@ -115,7 +81,7 @@ const UserDetail = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">System Admin</span>
+              <span className="text-white text-sm">Administrateur système</span>
             </div>
           </div>
         </div>
@@ -134,7 +100,7 @@ const UserDetail = () => {
           </div>
           <h1 className="text-4xl font-bold text-white mb-2">{mockUserDetail.name}</h1>
           <div className="text-asra-gray-300 text-lg mb-6">
-            Age: {mockUserDetail.age} • Member since {new Date(mockUserDetail.joinDate).toLocaleDateString()}
+            Âge : {mockUserDetail.age} • Membre depuis {new Date(mockUserDetail.joinDate).toLocaleDateString()}
           </div>
 
           {/* Stats Bar */}
@@ -143,15 +109,15 @@ const UserDetail = () => {
               <div className="w-4 h-4 bg-asra-red rounded flex items-center justify-center">
                 <span className="text-white text-xs font-bold">S</span>
               </div>
-              <span>{formatNumber(mockUserDetail.songsLiked)} Songs Liked</span>
+              <span>{formatNumber(mockUserDetail.songsLiked)} titres aimés</span>
             </div>
             <div className="w-1 h-1 bg-asra-gray-400 rounded-full"></div>
             <div className="flex items-center space-x-2">
-              <span>{mockUserDetail.playlistsCreated} Playlists Created</span>
+              <span>{mockUserDetail.playlistsCreated} playlists créées</span>
             </div>
             <div className="w-1 h-1 bg-asra-gray-400 rounded-full"></div>
             <div className="flex items-center space-x-2">
-              <span>{mockUserDetail.totalPlayTime} Total Play Time</span>
+              <span>{mockUserDetail.totalPlayTime} de temps d'écoute total</span>
             </div>
           </div>
         </div>
@@ -166,7 +132,7 @@ const UserDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Overview
+            Aperçu
           </button>
           <button
             onClick={() => setActiveTab('playlists')}
@@ -186,7 +152,7 @@ const UserDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Recent Activity
+            Activité récente
           </button>
         </div>
 
@@ -196,22 +162,22 @@ const UserDetail = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* User Info */}
               <div className="bg-asra-gray-900 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-white mb-6">User Information</h3>
+                <h3 className="text-xl font-bold text-white mb-6">Informations sur l'utilisateur</h3>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="text-lg font-semibold text-white mb-2">Email</h4>
+                    <h4 className="text-lg font-semibold text-white mb-2">E-mail</h4>
                     <p className="text-asra-gray-300">{mockUserDetail.email}</p>
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-white mb-2">Join Date</h4>
+                    <h4 className="text-lg font-semibold text-white mb-2">Date d'inscription</h4>
                     <p className="text-asra-gray-300">{new Date(mockUserDetail.joinDate).toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-white mb-2">Last Active</h4>
+                    <h4 className="text-lg font-semibold text-white mb-2">Dernière activité</h4>
                     <p className="text-asra-gray-300">{new Date(mockUserDetail.lastActive).toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-white mb-2">Favorite Genres</h4>
+                    <h4 className="text-lg font-semibold text-white mb-2">Genres préférés</h4>
                     <div className="flex flex-wrap gap-2">
                       {mockUserDetail.favoriteGenres.map((genre, index) => (
                         <span key={index} className="bg-asra-red text-white px-3 py-1 rounded-full text-sm">
@@ -225,18 +191,18 @@ const UserDetail = () => {
 
               {/* Stats */}
               <div className="bg-asra-gray-900 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-white mb-6">Statistics</h3>
+                <h3 className="text-xl font-bold text-white mb-6">Statistiques</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-asra-gray-300">Songs Liked</span>
+                    <span className="text-asra-gray-300">Titres aimés</span>
                     <span className="text-white font-semibold">{formatNumber(mockUserDetail.songsLiked)}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-asra-gray-300">Playlists Created</span>
+                    <span className="text-asra-gray-300">Playlists créées</span>
                     <span className="text-white font-semibold">{mockUserDetail.playlistsCreated}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-asra-gray-300">Total Play Time</span>
+                    <span className="text-asra-gray-300">Temps d'écoute total</span>
                     <span className="text-white font-semibold">{mockUserDetail.totalPlayTime}</span>
                   </div>
                 </div>
@@ -248,19 +214,23 @@ const UserDetail = () => {
         {activeTab === 'playlists' && (
           <div className="max-w-4xl mx-auto">
             <div className="bg-asra-gray-900 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-6">User Playlists</h3>
+              <h3 className="text-xl font-bold text-white mb-6">Playlists de l'utilisateur</h3>
               <div className="space-y-4">
-                {mockUserDetail.playlists.map((playlist) => (
-                  <div key={playlist.id} className="flex items-center justify-between p-4 bg-asra-gray-800 rounded-lg hover:bg-asra-gray-700 transition-colors">
-                    <div>
-                      <div className="text-white font-medium">{playlist.title}</div>
-                      <div className="text-asra-gray-400 text-sm">{playlist.songCount} songs • {playlist.duration}</div>
+                {mockUserDetail.playlists.length === 0 ? (
+                  <p className="text-asra-gray-400 text-sm">Aucune playlist pour le moment</p>
+                ) : (
+                  mockUserDetail.playlists.map((playlist) => (
+                    <div key={playlist.id} className="flex items-center justify-between p-4 bg-asra-gray-800 rounded-lg hover:bg-asra-gray-700 transition-colors">
+                      <div>
+                        <div className="text-white font-medium">{playlist.title}</div>
+                        <div className="text-asra-gray-400 text-sm">{playlist.songCount} titres • {playlist.duration}</div>
+                      </div>
+                      <div className="text-asra-gray-400 text-sm">
+                        Créée le {new Date(playlist.createdAt).toLocaleDateString()}
+                      </div>
                     </div>
-                    <div className="text-asra-gray-400 text-sm">
-                      Created {new Date(playlist.createdAt).toLocaleDateString()}
-                    </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -269,16 +239,20 @@ const UserDetail = () => {
         {activeTab === 'activity' && (
           <div className="max-w-4xl mx-auto">
             <div className="bg-asra-gray-900 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-white mb-6">Recent Activity</h3>
+              <h3 className="text-xl font-bold text-white mb-6">Activité récente</h3>
               <div className="space-y-4">
-                {mockUserDetail.recentActivity.map((activity) => (
-                  <div key={activity.id} className="flex items-center justify-between p-4 bg-asra-gray-800 rounded-lg">
-                    <div>
-                      <div className="text-white font-medium">{activity.description}</div>
-                      <div className="text-asra-gray-400 text-sm">{new Date(activity.date).toLocaleDateString()}</div>
+                {mockUserDetail.recentActivity.length === 0 ? (
+                  <p className="text-asra-gray-400 text-sm">Aucune activité récente</p>
+                ) : (
+                  mockUserDetail.recentActivity.map((activity) => (
+                    <div key={activity.id} className="flex items-center justify-between p-4 bg-asra-gray-800 rounded-lg">
+                      <div>
+                        <div className="text-white font-medium">{activity.description}</div>
+                        <div className="text-asra-gray-400 text-sm">{new Date(activity.date).toLocaleDateString()}</div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>

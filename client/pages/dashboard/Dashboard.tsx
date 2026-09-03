@@ -14,24 +14,27 @@ import { analyticsService, AdminOverviewResponse, TopArtistsResponse, TopSongsRe
 
 // Helper function to format large numbers
 const formatNumber = (num: number): string => {
-  if (num >= 1000000000) return `$${(num / 1000000000).toFixed(1)}b`;
-  if (num >= 1000000) return `$${(num / 1000000).toFixed(0)}m`;
+  if (num >= 1000000000) return `${(num / 1000000000).toFixed(1)}Md`;
+  if (num >= 1000000) return `${(num / 1000000).toFixed(0)}M`;
   if (num >= 1000) return `${(num / 1000).toFixed(0)}k`;
   return num.toString();
 };
 
+// Helper function to format revenue in FCFA
+const formatRevenue = (num: number): string => `${formatNumber(num)} FCFA`;
+
 // Helper function to format listeners
 const formatListeners = (listeners: number): string => {
-  if (listeners >= 1000000) return `${(listeners / 1000000).toFixed(1)}M listeners`;
-  if (listeners >= 1000) return `${(listeners / 1000).toFixed(0)}K listeners`;
-  return `${listeners} listeners`;
+  if (listeners >= 1000000) return `${(listeners / 1000000).toFixed(1)}M auditeurs`;
+  if (listeners >= 1000) return `${(listeners / 1000).toFixed(0)}k auditeurs`;
+  return `${listeners} auditeurs`;
 };
 
 // Helper function to format plays
 const formatPlays = (plays: number): string => {
-  if (plays >= 1000000) return `${(plays / 1000000).toFixed(1)}M streams`;
-  if (plays >= 1000) return `${(plays / 1000).toFixed(0)}K streams`;
-  return `${plays} streams`;
+  if (plays >= 1000000) return `${(plays / 1000000).toFixed(1)}M écoutes`;
+  if (plays >= 1000) return `${(plays / 1000).toFixed(0)}k écoutes`;
+  return `${plays} écoutes`;
 };
 
 export default function Dashboard() {
@@ -70,14 +73,14 @@ export default function Dashboard() {
 
   // Prepare metrics data
   const metrics = overviewData?.data ? [
-    { icon: DollarSign, value: formatNumber(overviewData.data.revenueGenerated), label: "Revenue generated" },
-    { icon: Users, value: overviewData.data.totals.artists.toString(), label: "Total Artists" },
-    { icon: Disc, value: formatNumber(overviewData.data.totals.albums), label: "Total Albums" },
-    { icon: Music, value: formatNumber(overviewData.data.totals.songs), label: "Total Songs" },
-    { icon: Download, value: formatNumber(overviewData.data.totals.downloads), label: "Total Downloads" },
-    { icon: UserCheck, value: formatNumber(overviewData.data.users.activeLast30d), label: "Number of active users" },
-    { icon: UserPlus, value: overviewData.data.users.newSignupsLast30d.toString(), label: "New user signups" },
-    { icon: Radio, value: formatNumber(overviewData.data.streams.songsStreamedLast30d), label: "Number of songs streamed" },
+    { icon: DollarSign, value: formatRevenue(overviewData.data.revenueGenerated), label: "Revenus générés" },
+    { icon: Users, value: overviewData.data.totals.artists.toString(), label: "Total artistes" },
+    { icon: Disc, value: formatNumber(overviewData.data.totals.albums), label: "Total albums" },
+    { icon: Music, value: formatNumber(overviewData.data.totals.songs), label: "Total titres" },
+    { icon: Download, value: formatNumber(overviewData.data.totals.downloads), label: "Total téléchargements" },
+    { icon: UserCheck, value: formatNumber(overviewData.data.users.activeLast30d), label: "Utilisateurs actifs" },
+    { icon: UserPlus, value: overviewData.data.users.newSignupsLast30d.toString(), label: "Nouvelles inscriptions" },
+    { icon: Radio, value: formatNumber(overviewData.data.streams.songsStreamedLast30d), label: "Titres écoutés" },
   ] : [];
 
   // Prepare top artists data
@@ -101,7 +104,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-white text-lg">Loading dashboard data...</div>
+        <div className="text-white text-lg">Chargement des données...</div>
       </div>
     );
   }
@@ -110,7 +113,7 @@ export default function Dashboard() {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-red-500 text-lg">Error: {error}</div>
+        <div className="text-red-500 text-lg">Erreur : {error}</div>
       </div>
     );
   }
@@ -129,14 +132,14 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-[89px] mt-8">
         <div className="overflow-x-auto">
-          <h2 className="text-white text-xl lg:text-2xl font-bold mb-4 lg:mb-6">Top 10 artists</h2>
+          <h2 className="text-white text-xl lg:text-2xl font-bold mb-4 lg:mb-6">Top 10 artistes</h2>
           <div className="rounded-lg bg-asra-gray-1 shadow-[0_1px_3px_rgba(16,24,40,0.10),0_1px_2px_rgba(16,24,40,0.06)] min-w-[500px]">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-asra-gray-5">
-                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-center">No.</th>
-                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-left">NAME OF ARTIST</th>
-                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-center">MONTHLY LISTENERS</th>
+                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-center">N°</th>
+                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-left">NOM DE L'ARTISTE</th>
+                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-center">AUDITEURS MENSUELS</th>
                 </tr>
               </thead>
               <tbody>
@@ -160,14 +163,14 @@ export default function Dashboard() {
         </div>
 
         <div className="overflow-x-auto">
-          <h2 className="text-white text-xl lg:text-2xl font-bold mb-4 lg:mb-6">Top 10 Songs</h2>
+          <h2 className="text-white text-xl lg:text-2xl font-bold mb-4 lg:mb-6">Top 10 titres</h2>
           <div className="rounded-lg bg-asra-gray-1 border border-asra-gray-5 shadow-[0_1px_3px_rgba(16,24,40,0.10),0_1px_2px_rgba(16,24,40,0.06)] min-w-[500px]">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-asra-gray-5">
-                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-center">No.</th>
-                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-left">NAME OF SONG</th>
-                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-center">MONTHLY LISTENERS</th>
+                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-center">N°</th>
+                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-left">NOM DU TITRE</th>
+                  <th className="text-white text-xs font-bold tracking-[0.24px] leading-4 px-4 lg:px-6 py-3 text-center">AUDITEURS MENSUELS</th>
                 </tr>
               </thead>
               <tbody>

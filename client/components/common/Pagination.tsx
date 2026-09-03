@@ -59,7 +59,7 @@ export const Pagination = ({
     const start = (currentPage - 1) * itemsPerPage + 1;
     const end = Math.min(currentPage * itemsPerPage, totalItems);
     
-    return `${start}-${end} of ${totalItems}`;
+    return `${start}-${end} sur ${totalItems}`;
   };
 
   if (totalPages <= 1) return null;
@@ -68,7 +68,7 @@ export const Pagination = ({
     <div className={cn('flex items-center justify-between', className)}>
       {showInfo && getItemRange() && (
         <div className="text-asra-gray-6 text-sm">
-          Showing {getItemRange()} results
+          Affichage de {getItemRange()} résultats
         </div>
       )}
       

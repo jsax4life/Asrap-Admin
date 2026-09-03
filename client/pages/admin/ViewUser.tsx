@@ -6,14 +6,14 @@ import { ArrowLeft, Calendar, User, Printer, Copy, Edit, Trash2 } from 'lucide-r
 const mockUserDetail = {
   id: 1,
   name: 'Bashir Muhammad',
-  userType: 'Admin User',
+  userType: 'Utilisateur administrateur',
   email: 'hasmad6806@gmail.com',
   phoneNumber: '+234 7068061724',
-  role: 'Support Admin',
-  accessLevel: 'Dashboard, Analytics, Help and Support',
+  role: 'Administrateur du support',
+  accessLevel: 'Tableau de bord, Analytique, Aide et assistance',
   password: 'david@124)(',
   avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=200',
-  status: 'Active',
+  status: 'Actif',
   lastLogin: '10/02/2023 9.00AM',
   createdAt: '2023-01-15',
 };
@@ -45,7 +45,7 @@ const ViewUser = () => {
   const handleCopyPassword = () => {
     navigator.clipboard.writeText(mockUserDetail.password);
     // TODO: Show success toast
-    console.log('Password copied to clipboard');
+    console.log('Mot de passe copié dans le presse-papiers');
   };
 
   return (
@@ -63,13 +63,13 @@ const ViewUser = () => {
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">Date: 03/02/2023</span>
+              <span className="text-sm">Date : 03/02/2023</span>
             </div>
           </div>
 
           {/* Center - Page Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Admin Users</h1>
+            <h1 className="text-2xl font-bold text-white">Utilisateurs administrateurs</h1>
           </div>
 
           {/* Right side - Profile */}
@@ -77,7 +77,7 @@ const ViewUser = () => {
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm">System Admin</span>
+            <span className="text-white text-sm">Administrateur système</span>
           </div>
         </div>
       </div>
@@ -91,14 +91,14 @@ const ViewUser = () => {
             className="text-asra-red hover:text-red-400 text-sm font-medium flex items-center space-x-2"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Admin Users list</span>
+            <span>Retour à la liste des utilisateurs administrateurs</span>
           </button>
           <button
             onClick={handlePrint}
             className="bg-asra-red hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
           >
             <Printer className="w-4 h-4" />
-            <span>Print</span>
+            <span>Imprimer</span>
           </button>
         </div>
 
@@ -115,7 +115,7 @@ const ViewUser = () => {
               <div className="absolute -top-1 -right-1 w-4 h-4 bg-asra-red rounded-full"></div>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-asra-gray-300 mb-1">Name of User</h2>
+              <h2 className="text-lg font-medium text-asra-gray-300 mb-1">Nom de l'utilisateur</h2>
               <h3 className="text-2xl font-bold text-white">{mockUserDetail.name}</h3>
             </div>
           </div>
@@ -123,23 +123,23 @@ const ViewUser = () => {
           {/* User Information Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label className="block text-sm font-medium text-asra-gray-300 mb-2">User Type</label>
+              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Type d'utilisateur</label>
               <p className="text-white text-lg">{mockUserDetail.userType}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Email</label>
+              <label className="block text-sm font-medium text-asra-gray-300 mb-2">E-mail</label>
               <p className="text-white text-lg">{mockUserDetail.email}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Phone Number</label>
+              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Numéro de téléphone</label>
               <p className="text-white text-lg">{mockUserDetail.phoneNumber}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Role</label>
+              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Rôle</label>
               <p className="text-white text-lg">{mockUserDetail.role}</p>
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Access Level</label>
+              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Niveau d'accès</label>
               <p className="text-white text-lg">{mockUserDetail.accessLevel}</p>
             </div>
           </div>
@@ -149,9 +149,9 @@ const ViewUser = () => {
 
           {/* Account Credentials */}
           <div className="mb-8">
-            <h3 className="text-lg font-semibold text-white mb-4">Account Credentials</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">Identifiants du compte</h3>
             <div>
-              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Password</label>
+              <label className="block text-sm font-medium text-asra-gray-300 mb-2">Mot de passe</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -176,14 +176,14 @@ const ViewUser = () => {
               className="bg-asra-red hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2"
             >
               <Edit className="w-5 h-5" />
-              <span>Edit Details</span>
+              <span>Modifier les détails</span>
             </button>
             <button
               onClick={handleDelete}
               className="bg-transparent border border-white text-white hover:bg-white hover:text-black px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2"
             >
               <Trash2 className="w-5 h-5" />
-              <span>Delete Account</span>
+              <span>Supprimer le compte</span>
             </button>
           </div>
         </div>

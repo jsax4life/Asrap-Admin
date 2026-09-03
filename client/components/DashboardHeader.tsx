@@ -15,33 +15,33 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
   const getPageTitle = () => {
     switch (location.pathname) {
       case '/dashboard':
-        return 'Dashboard';
+        return 'Tableau de bord';
       case '/analytics':
-        return 'Analytics';
+        return 'Analytique';
       case '/music-upload':
-        return 'Music Upload Approval';
+        return 'Validation des morceaux';
       case '/playlist-management':
-        return 'Asrapa Playlist Manager';
+        return 'Gestionnaire de playlists Asrapa';
       case '/artist-management':
-        return 'Artist/User Management';
+        return 'Gestion des artistes/utilisateurs';
       case '/payments':
-        return 'Payment';
+        return 'Paiement';
       case '/users':
-        return 'User Management';
+        return 'Gestion des utilisateurs';
       case '/artists':
-        return 'Artist Management';
+        return 'Gestion des artistes';
       case '/songs':
-        return 'Song Management';
+        return 'Gestion des morceaux';
       case '/admin-users':
-        return 'Admin Users';
+        return 'Utilisateurs admin';
       case '/admin-users/create':
-        return 'Create New User';
+        return 'Créer un nouvel utilisateur';
       case '/help-support':
-        return 'Help & Support';
+        return 'Aide et assistance';
       case '/promotion':
-        return 'Promotion Management';
+        return 'Gestion des promotions';
       default:
-        return 'Dashboard';
+        return 'Tableau de bord';
     }
   };
   return (
@@ -54,7 +54,7 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
           >
             <Menu className="w-6 h-6" />
           </button>
-          <span className="text-asra-gray-7 text-sm lg:text-base font-bold tracking-[0.13px]">Date:</span>
+          <span className="text-asra-gray-7 text-sm lg:text-base font-bold tracking-[0.13px]">Date :</span>
           <span className="text-asra-gray-7 text-sm lg:text-base font-bold tracking-[0.13px]">03/02/2023</span>
         </div>
         
@@ -81,7 +81,7 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
           <Search className="w-5 h-5 lg:w-6 lg:h-6 text-asra-gray-7 flex-shrink-0" />
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Rechercher"
             className="bg-transparent text-asra-gray-7 text-sm outline-none flex-1 placeholder:text-asra-gray-7"
           />
         </div>
