@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { MetricCard } from "@/components/MetricCard";
-import { 
-  DollarSign, 
-  Users, 
-  Disc, 
-  Music, 
-  Download, 
-  UserCheck, 
-  UserPlus, 
-  Radio 
+import {
+  Banknote,
+  Users,
+  Disc,
+  Music,
+  Download,
+  UserCheck,
+  UserPlus,
+  Radio,
+  User as UserIcon,
+  Music2,
 } from "lucide-react";
 import { analyticsService, AdminOverviewResponse, TopArtistsResponse, TopSongsResponse } from "@/services/analyticsService";
 
@@ -73,7 +75,7 @@ export default function Dashboard() {
 
   // Prepare metrics data
   const metrics = overviewData?.data ? [
-    { icon: DollarSign, value: formatRevenue(overviewData.data.revenueGenerated), label: "Revenus générés" },
+    { icon: Banknote, value: formatRevenue(overviewData.data.revenueGenerated), label: "Revenus générés" },
     { icon: Users, value: overviewData.data.totals.artists.toString(), label: "Total artistes" },
     { icon: Disc, value: formatNumber(overviewData.data.totals.albums), label: "Total albums" },
     { icon: Music, value: formatNumber(overviewData.data.totals.songs), label: "Total titres" },
@@ -88,7 +90,7 @@ export default function Dashboard() {
     no: index + 1,
     name: artist.name,
     streams: formatListeners(artist.monthlyListeners),
-    image: artist.profilePicture || "https://api.builder.io/api/v1/image/assets/TEMP/c44eead90f6e37874571ded3d4df5295699a225c?width=74",
+    image: artist.profilePicture || null,
     faded: false,
   })) || [];
 
@@ -97,7 +99,7 @@ export default function Dashboard() {
     no: index + 1,
     name: song.title.length > 30 ? `${song.title.substring(0, 30)}...` : song.title,
     streams: formatPlays(song.plays),
-    image: song.coverPhotoUrl || "https://api.builder.io/api/v1/image/assets/TEMP/5cfb76ba25d6351d27d525c323f0a49d59c44167?width=106",
+    image: song.coverPhotoUrl || null,
   })) || [];
 
   // Loading state
@@ -148,7 +150,13 @@ export default function Dashboard() {
                     <td className="text-white text-sm px-4 lg:px-6 py-3 lg:py-4 text-center">{artist.no}</td>
                     <td className="px-4 lg:px-6 py-3 lg:py-4">
                       <div className="flex items-center gap-3">
-                        <img src={artist.image} alt={artist.name} className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                        {artist.image ? (
+                          <img src={artist.image} alt={artist.name} className="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                        ) : (
+                          <div className="w-8 h-8 rounded-full bg-asra-gray-2 flex items-center justify-center flex-shrink-0">
+                            <UserIcon className="w-4 h-4 text-asra-gray-6" />
+                          </div>
+                        )}
                         <span className="text-white text-sm">{artist.name}</span>
                       </div>
                     </td>
@@ -179,7 +187,13 @@ export default function Dashboard() {
                     <td className="text-white text-sm px-4 lg:px-6 py-3 lg:py-4 text-center">{song.no}</td>
                     <td className="px-4 lg:px-6 py-3 lg:py-4">
                       <div className="flex items-center gap-3">
-                        <img src={song.image} alt={song.name} className="w-8 h-8 rounded object-cover flex-shrink-0" />
+                        {song.image ? (
+                          <img src={song.image} alt={song.name} className="w-8 h-8 rounded object-cover flex-shrink-0" />
+                        ) : (
+                          <div className="w-8 h-8 rounded bg-asra-gray-2 flex items-center justify-center flex-shrink-0">
+                            <Music2 className="w-4 h-4 text-asra-gray-6" />
+                          </div>
+                        )}
                         <span className="text-white text-sm">{song.name}</span>
                       </div>
                     </td>

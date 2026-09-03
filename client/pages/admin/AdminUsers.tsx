@@ -4,6 +4,7 @@ import { Search, Calendar, User, Plus, Edit, Trash2, Eye, Loader2 } from 'lucide
 import { toast } from 'react-hot-toast';
 import { adminAgentService, PaymentAgentListItem } from '@/services/adminAgentService';
 
+import { useAuth } from '@/hooks/useAuth';
 // Utilisateurs admin non-agents (API à connecter)
 const mockAdminUsers: {
   id: number;
@@ -42,6 +43,7 @@ function AgentAvatar({ name }: { name: string }) {
 }
 
 const AdminUsers = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get('tab') === 'payment-agents' ? 'payment-agents' : 'users';
@@ -155,7 +157,7 @@ const AdminUsers = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">Administrateur système</span>
+              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
             </div>
           </div>
         </div>

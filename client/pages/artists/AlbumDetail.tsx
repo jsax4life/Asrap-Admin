@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, User, Play, Heart, Share, MoreHorizontal, Clock } from 'lucide-react';
 
+import { useAuth } from '@/hooks/useAuth';
 // Mock data for album detail
 const mockAlbumDetail = {
   id: '1',
@@ -121,6 +122,7 @@ const mockAlbumDetail = {
 };
 
 const AlbumDetail = () => {
+  const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'songs' | 'details'>('songs');
@@ -182,7 +184,7 @@ const AlbumDetail = () => {
               <User className="w-4 h-4 text-white" />
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-asra-dark"></div>
             </div>
-            <span className="text-white text-sm">Administrateur système</span>
+            <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
           </div>
         </div>
       </div>

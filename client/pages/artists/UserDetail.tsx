@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, Calendar, User, Edit3, Play, Heart, Share, MoreHorizontal } from 'lucide-react';
 
+import { useAuth } from '@/hooks/useAuth';
 // Mock data for user detail
 const mockUserDetail = {
   id: '52166565161',
@@ -39,6 +40,7 @@ const mockUserDetail = {
 };
 
 const UserDetail = () => {
+  const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'overview' | 'playlists' | 'activity'>('overview');
@@ -81,7 +83,7 @@ const UserDetail = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">Administrateur système</span>
+              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
             </div>
           </div>
         </div>

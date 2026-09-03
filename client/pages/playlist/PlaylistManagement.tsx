@@ -4,6 +4,7 @@ import { PlaylistCard } from '@/components/playlist/PlaylistCard';
 import { Button } from '@/components/ui/button';
 import { Plus, Search } from 'lucide-react';
 
+import { useAuth } from '@/hooks/useAuth';
 // Mock data for playlists
 const playlists = [
   {
@@ -119,6 +120,7 @@ const playlists = [
 ];
 
 export default function PlaylistManagement() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -181,7 +183,7 @@ export default function PlaylistManagement() {
                 </div>
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
               </div>
-              <span className="text-white text-sm font-medium">Administrateur système</span>
+              <span className="text-white text-sm font-medium">{user?.name || 'Administrateur système'}</span>
             </div>
           </div>
         </div>

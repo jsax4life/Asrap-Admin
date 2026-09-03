@@ -35,6 +35,7 @@ import EditUser from "./pages/admin/EditUser";
 import HelpSupport from "./pages/support/HelpSupport";
 import ViewSupportRequest from "./pages/support/ViewSupportRequest";
 import PromotionManagement from "./pages/promotion/PromotionManagement";
+import Settings from "./pages/settings/Settings";
 import GenreManagement from "./pages/genres/GenreManagement";
 import AgentDashboard from "./pages/agent/AgentDashboard";
 import AgentOnboarding from "./pages/agent/AgentOnboarding";
@@ -180,6 +181,14 @@ const AppRoutes = () => {
               <ProtectedRoute requiredRoles={ADMIN_ROLES}>
                 <CustomLayout>
                   <PaymentManagement />
+                </CustomLayout>
+              </ProtectedRoute>
+            } />
+
+            <Route path="/settings" element={
+              <ProtectedRoute requiredRoles={ADMIN_ROLES}>
+                <CustomLayout>
+                  <Settings />
                 </CustomLayout>
               </ProtectedRoute>
             } />

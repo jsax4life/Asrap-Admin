@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, User, Save, UserCheck, Mail, Phone, Shield } from 'lucide-react';
 
+import { useAuth } from '@/hooks/useAuth';
 // Mock data for user detail
 const mockUserDetail = {
   id: 1,
@@ -19,6 +20,7 @@ const mockUserDetail = {
 };
 
 const EditUser = () => {
+  const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -129,7 +131,7 @@ const EditUser = () => {
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm">Administrateur système</span>
+            <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
           </div>
         </div>
       </div>

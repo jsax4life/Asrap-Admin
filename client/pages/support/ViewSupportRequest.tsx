@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Send, User } from 'lucide-react';
 
+import { useAuth } from '@/hooks/useAuth';
 // Mock data for a single support request
 const mockSupportRequestDetail = {
   id: 1,
@@ -14,6 +15,7 @@ const mockSupportRequestDetail = {
 };
 
 const ViewSupportRequest = () => {
+  const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [replyMessage, setReplyMessage] = useState('');
@@ -60,7 +62,7 @@ const ViewSupportRequest = () => {
             <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm">Administrateur système</span>
+            <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
           </div>
         </div>
       </div>
