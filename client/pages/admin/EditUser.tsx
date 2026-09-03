@@ -6,14 +6,14 @@ import { ArrowLeft, Calendar, User, Save, UserCheck, Mail, Phone, Shield } from 
 const mockUserDetail = {
   id: 1,
   name: 'Bashir Muhammad',
-  userType: 'Admin User',
+  userType: 'Utilisateur administrateur',
   email: 'hasmad6806@gmail.com',
   phoneNumber: '+234 7068061724',
-  role: 'Support Admin',
-  accessLevel: 'Dashboard, Analytics, Help and Support',
+  role: 'Administrateur du support',
+  accessLevel: 'Tableau de bord, Analytique, Aide et assistance',
   password: 'david@124)(',
   avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=200',
-  status: 'Active',
+  status: 'Actif',
   lastLogin: '10/02/2023 9.00AM',
   createdAt: '2023-01-15',
 };
@@ -35,19 +35,19 @@ const EditUser = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const userTypeOptions = [
-    'Admin User',
-    'Payment Agent',
-    'Support Staff',
-    'Moderator',
-    'Analyst',
+    'Utilisateur administrateur',
+    'Agent de paiement',
+    'Personnel de support',
+    'Modérateur',
+    'Analyste',
   ];
 
   const accessLevelOptions = [
-    'Dashboard, Analytics, Help and Support',
-    'Dashboard, Analytics',
-    'Dashboard only',
-    'Full Access',
-    'Read Only',
+    'Tableau de bord, Analytique, Aide et assistance',
+    'Tableau de bord, Analytique',
+    'Tableau de bord uniquement',
+    'Accès complet',
+    'Lecture seule',
   ];
 
   const handleInputChange = (field: string, value: string) => {
@@ -68,17 +68,17 @@ const EditUser = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.userType) newErrors.userType = 'User type is required';
-    if (!formData.email) newErrors.email = 'Email is required';
-    if (!formData.phoneNumber) newErrors.phoneNumber = 'Phone number is required';
-    if (!formData.role) newErrors.role = 'Role is required';
-    if (!formData.accessLevel) newErrors.accessLevel = 'Access level is required';
-    if (!formData.password) newErrors.password = 'Password is required';
+    if (!formData.name) newErrors.name = 'Le nom est requis';
+    if (!formData.userType) newErrors.userType = 'Le type d\'utilisateur est requis';
+    if (!formData.email) newErrors.email = 'L\'e-mail est requis';
+    if (!formData.phoneNumber) newErrors.phoneNumber = 'Le numéro de téléphone est requis';
+    if (!formData.role) newErrors.role = 'Le rôle est requis';
+    if (!formData.accessLevel) newErrors.accessLevel = 'Le niveau d\'accès est requis';
+    if (!formData.password) newErrors.password = 'Le mot de passe est requis';
 
-    // Email validation
+    // Validation de l'e-mail
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Veuillez saisir une adresse e-mail valide';
     }
 
     setErrors(newErrors);
@@ -115,13 +115,13 @@ const EditUser = () => {
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">Date: 03/02/2023</span>
+              <span className="text-sm">Date : 03/02/2023</span>
             </div>
           </div>
 
           {/* Center - Page Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Admin Users</h1>
+            <h1 className="text-2xl font-bold text-white">Utilisateurs administrateurs</h1>
           </div>
 
           {/* Right side - Profile */}
@@ -129,7 +129,7 @@ const EditUser = () => {
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm">System Admin</span>
+            <span className="text-white text-sm">Administrateur système</span>
           </div>
         </div>
       </div>
@@ -142,11 +142,11 @@ const EditUser = () => {
           className="text-asra-red hover:text-red-400 text-sm font-medium mb-6 flex items-center space-x-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Admin Users list</span>
+          <span>Retour à la liste des utilisateurs administrateurs</span>
         </button>
 
         {/* Form Title */}
-        <h2 className="text-3xl font-bold text-white mb-8">Edit User</h2>
+        <h2 className="text-3xl font-bold text-white mb-8">Modifier l'utilisateur</h2>
 
         {/* Avatar Section */}
         <div className="mb-8">
@@ -156,7 +156,7 @@ const EditUser = () => {
                 {formData.avatar ? (
                   <img
                     src={URL.createObjectURL(formData.avatar)}
-                    alt="Avatar preview"
+                    alt="Aperçu de l'avatar"
                     className="w-full h-full rounded-full object-cover"
                   />
                 ) : (
@@ -177,10 +177,10 @@ const EditUser = () => {
             </div>
             <div>
               <label htmlFor="avatar" className="text-white text-lg font-medium">
-                Change avatar
+                Changer l'avatar
               </label>
               <p className="text-asra-gray-400 text-sm mt-1">
-                Click on the avatar to upload a new image
+                Cliquez sur l'avatar pour téléverser une nouvelle image
               </p>
             </div>
           </div>
@@ -194,7 +194,7 @@ const EditUser = () => {
               {/* User Type */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  User Type <span className="text-asra-red">*</span>
+                  Type d'utilisateur <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -204,7 +204,7 @@ const EditUser = () => {
                       errors.userType ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
                   >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Select...</option>
+                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Sélectionner...</option>
                     {userTypeOptions.map((option) => (
                       <option key={option} value={option} className="text-white bg-asra-gray-800">
                         {option}
@@ -221,14 +221,14 @@ const EditUser = () => {
               {/* Email */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Email <span className="text-asra-red">*</span>
+                  E-mail <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    placeholder="Enter the email address"
+                    placeholder="Entrez l'adresse e-mail"
                     className={`w-full px-4 py-3 pl-12 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                       errors.email ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
@@ -243,13 +243,13 @@ const EditUser = () => {
               {/* Role */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Role <span className="text-asra-red">*</span>
+                  Rôle <span className="text-asra-red">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.role}
                   onChange={(e) => handleInputChange('role', e.target.value)}
-                  placeholder="Enter the role"
+                  placeholder="Entrez le rôle"
                   className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                     errors.role ? 'border-red-500' : 'border-asra-gray-700'
                   }`}
@@ -265,13 +265,13 @@ const EditUser = () => {
               {/* Name */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Name of user <span className="text-asra-red">*</span>
+                  Nom de l'utilisateur <span className="text-asra-red">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  placeholder="Enter the name"
+                  placeholder="Entrez le nom"
                   className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                     errors.name ? 'border-red-500' : 'border-asra-gray-700'
                   }`}
@@ -284,7 +284,7 @@ const EditUser = () => {
               {/* Phone Number */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Phone number <span className="text-asra-red">*</span>
+                  Numéro de téléphone <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -306,7 +306,7 @@ const EditUser = () => {
               {/* Access Level */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Access Level <span className="text-asra-red">*</span>
+                  Niveau d'accès <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -316,7 +316,7 @@ const EditUser = () => {
                       errors.accessLevel ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
                   >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Select...</option>
+                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Sélectionner...</option>
                     {accessLevelOptions.map((option) => (
                       <option key={option} value={option} className="text-white bg-asra-gray-800">
                         {option}
@@ -334,16 +334,16 @@ const EditUser = () => {
 
           {/* Password Section */}
           <div className="border-t border-asra-gray-700 pt-8">
-            <h3 className="text-lg font-semibold text-white mb-4">Account Credentials</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">Identifiants du compte</h3>
             <div>
               <label className="block text-white text-sm font-medium mb-2">
-                Password <span className="text-asra-red">*</span>
+                Mot de passe <span className="text-asra-red">*</span>
               </label>
               <input
                 type="password"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                placeholder="Enter new password"
+                placeholder="Entrez le nouveau mot de passe"
                 className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                   errors.password ? 'border-red-500' : 'border-asra-gray-700'
                 }`}
@@ -361,7 +361,7 @@ const EditUser = () => {
               className="bg-asra-red hover:bg-red-600 text-white px-12 py-4 rounded-lg text-lg font-medium transition-colors flex items-center space-x-2"
             >
               <Save className="w-6 h-6" />
-              <span>Save Changes</span>
+              <span>Enregistrer les modifications</span>
             </button>
           </div>
         </form>

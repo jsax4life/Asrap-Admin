@@ -4,8 +4,8 @@ export default function OnboardUser() {
   return (
     <OnboardClientForm
       clientType="user"
-      title="Onboard a Listener"
-      subtitle="Register a new listener on Asrapa and help them choose a subscription plan."
+      title="Intégrer un auditeur"
+      subtitle="Inscrivez un nouvel auditeur sur Asrapa et aidez-le à choisir un forfait d'abonnement."
     />
   );
 }

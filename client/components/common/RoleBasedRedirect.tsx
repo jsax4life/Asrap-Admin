@@ -8,7 +8,7 @@ export function RoleBasedRedirect() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-asra-dark flex items-center justify-center">
-        <div className="text-white text-lg">Loading...</div>
+        <div className="text-white text-lg">Chargement...</div>
       </div>
     );
   }

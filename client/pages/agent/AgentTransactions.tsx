@@ -13,16 +13,22 @@ const STATUS_STYLES = {
 };
 
 const PAYMENT_LABELS = {
-  cash: 'Cash',
+  cash: 'Espèces',
   mobile_money: 'Mobile Money',
-  bank_transfer: 'Bank Transfer',
-  card: 'Card',
+  bank_transfer: 'Virement bancaire',
+  card: 'Carte',
 };
 
 const CLIENT_TYPE_LABELS = {
-  user: 'Listener',
-  artist: 'Artist',
-  advertiser: 'Advertiser',
+  user: 'Auditeur',
+  artist: 'Artiste',
+  advertiser: 'Annonceur',
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  completed: 'Terminée',
+  pending: 'En attente',
+  failed: 'Échouée',
 };
 
 export default function AgentTransactions() {
@@ -54,16 +60,16 @@ export default function AgentTransactions() {
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
-            <p className="text-asra-gray-6 text-sm">Total Collected</p>
-            <p className="text-white text-2xl font-bold">₦{summary.totalCollected.toLocaleString()}</p>
+            <p className="text-asra-gray-6 text-sm">Total encaissé</p>
+            <p className="text-white text-2xl font-bold">{summary.totalCollected.toLocaleString('fr-FR')} FCFA</p>
           </div>
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
             <p className="text-asra-gray-6 text-sm">Transactions</p>
             <p className="text-white text-2xl font-bold">{summary.transactionCount}</p>
           </div>
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
-            <p className="text-asra-gray-6 text-sm">Est. Commission</p>
-            <p className="text-white text-2xl font-bold">₦{summary.estimatedCommission.toLocaleString()}</p>
+            <p className="text-asra-gray-6 text-sm">Commission est.</p>
+            <p className="text-white text-2xl font-bold">{summary.estimatedCommission.toLocaleString('fr-FR')} FCFA</p>
           </div>
         </div>
 
@@ -77,13 +83,13 @@ export default function AgentTransactions() {
               <table className="w-full min-w-[700px]">
                 <thead>
                   <tr className="border-b border-asra-gray-2">
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Transaction ID</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">ID transaction</th>
                     <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Client</th>
                     <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Type</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Plan</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Amount</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Payment</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Status</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Forfait</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Montant</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Paiement</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Statut</th>
                     <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Date</th>
                   </tr>
                 </thead>
@@ -94,11 +100,11 @@ export default function AgentTransactions() {
                       <td className="px-6 py-4 text-white text-sm">{tx.clientName}</td>
                       <td className="px-6 py-4 text-asra-gray-6 text-sm">{CLIENT_TYPE_LABELS[tx.clientType]}</td>
                       <td className="px-6 py-4 text-white text-sm">{SUBSCRIPTION_PLANS[tx.plan].label}</td>
-                      <td className="px-6 py-4 text-white text-sm font-medium">₦{tx.amount.toLocaleString()}</td>
+                      <td className="px-6 py-4 text-white text-sm font-medium">{tx.amount.toLocaleString('fr-FR')} FCFA</td>
                       <td className="px-6 py-4 text-asra-gray-6 text-sm">{PAYMENT_LABELS[tx.paymentMethod]}</td>
                       <td className="px-6 py-4">
                         <span className={`text-xs px-2 py-1 rounded-full capitalize ${STATUS_STYLES[tx.status]}`}>
-                          {tx.status}
+                          {STATUS_LABELS[tx.status] ?? tx.status}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-asra-gray-6 text-sm">
@@ -119,7 +125,7 @@ export default function AgentTransactions() {
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <span className="text-white text-sm">Page {currentPage} of {totalPages}</span>
+                <span className="text-white text-sm">Page {currentPage} sur {totalPages}</span>
                 <button
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}

@@ -55,53 +55,53 @@ export const REFRESH_TOKEN_KEY = "asra_refresh_token";
 
 // User Roles
 export const USER_ROLES: Record<UserRole, string> = {
-  super_admin: "Super Admin",
-  admin: "Admin",
-  moderator: "Moderator",
-  analyst: "Analyst",
-  payment_agent: "Payment Agent",
+  super_admin: "Super administrateur",
+  admin: "Administrateur",
+  moderator: "Modérateur",
+  analyst: "Analyste",
+  payment_agent: "Agent de paiement",
 };
 
 // Menu Items Configuration
 export const MENU_ITEMS: MenuItem[] = [
   {
     id: "dashboard",
-    label: "Dashboard",
+    label: "Tableau de bord",
     icon: "Home",
     path: "/dashboard",
     roles: ["super_admin", "admin", "moderator", "analyst"],
   },
   {
     id: "analytics",
-    label: "Analytics",
+    label: "Analytique",
     icon: "BarChart3",
     path: "/analytics",
     roles: ["super_admin", "admin", "analyst"],
   },
   {
     id: "music-upload",
-    label: "Music Upload Approval",
+    label: "Approbation des téléversements",
     icon: "Upload",
     path: "/music-upload",
     roles: ["super_admin", "admin", "moderator"],
   },
   {
     id: "genre-management",
-    label: "Genre Management",
+    label: "Gestion des genres",
     icon: "Tags",
     path: "/genre-management",
     roles: ["super_admin", "admin", "moderator"],
   },
   {
     id: "playlist-management",
-    label: "Asrapa Playlist Management",
+    label: "Gestion des playlists AsraPa",
     icon: "Music2",
     path: "/playlist-management",
     roles: ["super_admin", "admin", "moderator"],
   },
   {
     id: "artist-management",
-    label: "Artist/User Management",
+    label: "Gestion des artistes/utilisateurs",
     icon: "Users",
     path: "/artist-management",
     roles: ["super_admin", "admin", "moderator"],
@@ -115,14 +115,14 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "payments",
-    label: "Payment",
+    label: "Paiements",
     icon: "Banknote",
     path: "/payments",
     roles: ["super_admin", "admin"],
   },
   {
     id: "admin-users",
-    label: "Admin Users",
+    label: "Utilisateurs admin",
     icon: "UserCircle",
     path: "/admin-users",
     roles: ["super_admin"],
@@ -133,28 +133,28 @@ export const MENU_ITEMS: MenuItem[] = [
 export const AGENT_MENU_ITEMS: MenuItem[] = [
   {
     id: "agent-dashboard",
-    label: "Dashboard",
+    label: "Tableau de bord",
     icon: "Home",
     path: "/agent/dashboard",
     roles: ["payment_agent"],
   },
   {
     id: "agent-onboarding",
-    label: "Onboard Clients",
+    label: "Intégrer des clients",
     icon: "UserPlus",
     path: "/agent/onboarding",
     roles: ["payment_agent"],
   },
   {
     id: "agent-clients",
-    label: "My Clients",
+    label: "Mes clients",
     icon: "Users",
     path: "/agent/clients",
     roles: ["payment_agent"],
   },
   {
     id: "agent-subscriptions",
-    label: "Subscriptions",
+    label: "Abonnements",
     icon: "CreditCard",
     path: "/agent/subscriptions",
     roles: ["payment_agent"],
@@ -171,14 +171,14 @@ export const AGENT_MENU_ITEMS: MenuItem[] = [
 export const AGENT_ACCOUNT_MENU_ITEMS: MenuItem[] = [
   {
     id: "agent-help",
-    label: "Help & Support",
+    label: "Aide et assistance",
     icon: "HelpCircle",
     path: "/agent/help",
     roles: ["payment_agent"],
   },
   {
     id: "agent-logout",
-    label: "Log Out",
+    label: "Se déconnecter",
     icon: "LogOut",
     path: "/logout",
     roles: ["payment_agent"],
@@ -190,17 +190,17 @@ export const SUBSCRIPTION_PLANS: Record<
   SubscriptionPlan,
   { label: string; price: number; clientTypes: string[] }
 > = {
-  free: { label: "Free", price: 0, clientTypes: ["user"] },
-  premium: { label: "Premium (Listener)", price: 1500, clientTypes: ["user"] },
-  family: { label: "Family Plan", price: 3500, clientTypes: ["user"] },
-  artist_pro: { label: "Artist Pro", price: 5000, clientTypes: ["artist"] },
+  free: { label: "Gratuit", price: 0, clientTypes: ["user"] },
+  premium: { label: "Premium (Auditeur)", price: 1500, clientTypes: ["user"] },
+  family: { label: "Formule Famille", price: 3500, clientTypes: ["user"] },
+  artist_pro: { label: "Artiste Pro", price: 5000, clientTypes: ["artist"] },
   advertiser_starter: {
-    label: "Advertiser Starter",
+    label: "Annonceur Starter",
     price: 10000,
     clientTypes: ["advertiser"],
   },
   advertiser_pro: {
-    label: "Advertiser Pro",
+    label: "Annonceur Pro",
     price: 25000,
     clientTypes: ["advertiser"],
   },
@@ -209,21 +209,21 @@ export const SUBSCRIPTION_PLANS: Record<
 export const ACCOUNT_MENU_ITEMS: MenuItem[] = [
   {
     id: "settings",
-    label: "Settings",
+    label: "Paramètres",
     icon: "Settings",
     path: "/settings",
     roles: ["super_admin", "admin", "moderator", "analyst"],
   },
   {
     id: "help-support",
-    label: "Help & Support",
+    label: "Aide et assistance",
     icon: "HelpCircle",
     path: "/help-support",
     roles: ["super_admin", "admin", "moderator", "analyst"],
   },
   {
     id: "logout",
-    label: "Log Out",
+    label: "Se déconnecter",
     icon: "LogOut",
     path: "/logout",
     roles: ["super_admin", "admin", "moderator", "analyst"],

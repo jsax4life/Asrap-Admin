@@ -9,37 +9,37 @@ import { Plus } from 'lucide-react';
 
 // Mock data for analytics
 const analyticsMetrics = [
-  { label: 'Plays', value: '1.5M', trend: 'up' },
-  { label: 'Avg. Daily listeners', value: '1.5M', trend: 'up' },
-  { label: 'Subscribers', value: '1.5M', trend: 'up' },
-  { label: 'Likes', value: '1.5M', trend: 'up' },
-  { label: 'Downloads', value: '1.5M', trend: 'up' },
+  { label: 'Écoutes', value: '1.5M', trend: 'up' },
+  { label: 'Auditeurs quotidiens moy.', value: '1.5M', trend: 'up' },
+  { label: 'Abonnés', value: '1.5M', trend: 'up' },
+  { label: "Mentions J'aime", value: '1.5M', trend: 'up' },
+  { label: 'Téléchargements', value: '1.5M', trend: 'up' },
 ];
 
 const reportMetrics = [
-  { label: 'Users', value: '2.5M', trend: 'up' },
-  { label: 'Subscribed users', value: '1.5M', trend: 'up' },
-  { label: 'New users', value: '500K', trend: 'up' },
-  { label: 'Old users', value: '1.5M', trend: 'up' },
-  { label: 'Failed subscriptions', value: '1K', trend: 'down' },
+  { label: 'Utilisateurs', value: '2.5M', trend: 'up' },
+  { label: 'Utilisateurs abonnés', value: '1.5M', trend: 'up' },
+  { label: 'Nouveaux utilisateurs', value: '500K', trend: 'up' },
+  { label: 'Anciens utilisateurs', value: '1.5M', trend: 'up' },
+  { label: 'Abonnements échoués', value: '1K', trend: 'down' },
 ];
 
 const dailyData = [
-  { label: 'Last 7 days', value: 0 },
-  { label: 'Monday', value: 0 },
-  { label: 'Tuesday', value: 0 },
-  { label: 'Wednesday', value: 0 },
-  { label: 'Thursday', value: 0 },
-  { label: 'Friday', value: 0 },
-  { label: 'Saturday', value: 0 },
-  { label: 'Sunday', value: 0 },
+  { label: '7 derniers jours', value: 0 },
+  { label: 'Lundi', value: 0 },
+  { label: 'Mardi', value: 0 },
+  { label: 'Mercredi', value: 0 },
+  { label: 'Jeudi', value: 0 },
+  { label: 'Vendredi', value: 0 },
+  { label: 'Samedi', value: 0 },
+  { label: 'Dimanche', value: 0 },
 ];
 
 const subscriptionMetrics = [
-  { label: 'Started signup', value: 0 },
-  { label: 'Completed sign up', value: 0 },
-  { label: 'Started subscription', value: 0 },
-  { label: 'Completed subscrip..', value: 0 },
+  { label: 'Inscription commencée', value: 0 },
+  { label: 'Inscription terminée', value: 0 },
+  { label: 'Abonnement commencé', value: 0 },
+  { label: 'Abonnement terminé..', value: 0 },
 ];
 
 // Mock chart data
@@ -54,11 +54,11 @@ const chartData = [
 ];
 
 export default function Analytics() {
-  const [selectedFilter, setSelectedFilter] = useState('All');
-  const [selectedMetric, setSelectedMetric] = useState('Plays');
-  const [selectedTimeframe, setSelectedTimeframe] = useState('Last 7 days');
-  const [selectedReportMetric, setSelectedReportMetric] = useState('Users');
-  const [selectedReportTimeframe, setSelectedReportTimeframe] = useState('Last 7 days');
+  const [selectedFilter, setSelectedFilter] = useState('Tout');
+  const [selectedMetric, setSelectedMetric] = useState('Écoutes');
+  const [selectedTimeframe, setSelectedTimeframe] = useState('7 derniers jours');
+  const [selectedReportMetric, setSelectedReportMetric] = useState('Utilisateurs');
+  const [selectedReportTimeframe, setSelectedReportTimeframe] = useState('7 derniers jours');
 
   return (
     <div className="space-y-8">
@@ -66,12 +66,12 @@ export default function Analytics() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-white text-xl lg:text-2xl font-bold">
-            All your analytics at a glance
+            Toutes vos statistiques en un coup d'œil
           </h2>
           <FilterDropdown
             value={selectedFilter}
             onChange={setSelectedFilter}
-            options={['All', 'Music', 'Users', 'Revenue']}
+            options={['Tout', 'Musique', 'Utilisateurs', 'Revenus']}
             icon="A"
           />
         </div>
@@ -93,12 +93,12 @@ export default function Analytics() {
           <FilterDropdown
             value={selectedMetric}
             onChange={setSelectedMetric}
-            options={['Plays', 'Listeners', 'Downloads', 'Revenue']}
+            options={['Écoutes', 'Auditeurs', 'Téléchargements', 'Revenus']}
           />
           <FilterDropdown
             value={selectedTimeframe}
             onChange={setSelectedTimeframe}
-            options={['Last 7 days', 'Last 30 days', 'Last 3 months', 'Last year']}
+            options={['7 derniers jours', '30 derniers jours', '3 derniers mois', 'L\'an dernier']}
           />
         </div>
 
@@ -110,9 +110,9 @@ export default function Analytics() {
               filterDropdown={
                 <div className="flex items-center gap-3 mb-4">
                   <FilterDropdown
-                    value="By songs"
+                    value="Par titres"
                     onChange={() => {}}
-                    options={['By songs', 'By artists', 'By albums']}
+                    options={['Par titres', 'Par artistes', 'Par albums']}
                   />
                   <div className="w-8 h-8 bg-asra-gray-2 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-bold">O</span>
@@ -131,7 +131,7 @@ export default function Analytics() {
       {/* Reports Section */}
       <div className="space-y-6">
         <h2 className="text-white text-xl lg:text-2xl font-bold">
-          All your reports at a glance
+          Tous vos rapports en un coup d'œil
         </h2>
 
         {/* Report Metric Cards */}
@@ -151,19 +151,19 @@ export default function Analytics() {
           <FilterDropdown
             value={selectedReportMetric}
             onChange={setSelectedReportMetric}
-            options={['Users', 'Subscriptions', 'Revenue', 'Engagement']}
+            options={['Utilisateurs', 'Abonnements', 'Revenus', 'Engagement']}
           />
           <FilterDropdown
             value={selectedReportTimeframe}
             onChange={setSelectedReportTimeframe}
-            options={['Last 7 days', 'Last 30 days', 'Last 3 months', 'Last year']}
+            options={['7 derniers jours', '30 derniers jours', '3 derniers mois', 'L\'an dernier']}
           />
         </div>
 
         {/* Subscription Metrics and Chart */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
           <div className="space-y-4">
-            <h3 className="text-white text-lg font-semibold">Subscription Metrics</h3>
+            <h3 className="text-white text-lg font-semibold">Statistiques d'abonnement</h3>
             <div className="space-y-3">
               {subscriptionMetrics.map((metric, index) => (
                 <div key={index} className="flex justify-between items-center">

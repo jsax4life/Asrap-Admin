@@ -16,16 +16,16 @@ import { getPostLoginPath } from '@/lib/roles';
 
 const changePasswordSchema = z
   .object({
-    currentPassword: z.string().min(1, 'Current password is required'),
-    newPassword: z.string().min(8, 'New password must be at least 8 characters'),
-    confirmPassword: z.string().min(1, 'Please confirm your new password'),
+    currentPassword: z.string().min(1, 'Le mot de passe actuel est requis'),
+    newPassword: z.string().min(8, 'Le nouveau mot de passe doit comporter au moins 8 caractères'),
+    confirmPassword: z.string().min(1, 'Veuillez confirmer votre nouveau mot de passe'),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: 'Passwords do not match',
+    message: 'Les mots de passe ne correspondent pas',
     path: ['confirmPassword'],
   })
   .refine((data) => data.currentPassword !== data.newPassword, {
-    message: 'New password must be different from the temporary password',
+    message: 'Le nouveau mot de passe doit être différent du mot de passe temporaire',
     path: ['newPassword'],
   });
 
@@ -57,14 +57,14 @@ export const ChangePassword = () => {
       const updatedUser = user ? { ...user, mustChangePassword: false } : null;
       useAuthStore.setState({ user: updatedUser });
 
-      toast.success('Password updated successfully');
+      toast.success('Mot de passe mis à jour avec succès');
       if (updatedUser) {
         navigate(getPostLoginPath(updatedUser), { replace: true });
       } else {
         navigate('/login', { replace: true });
       }
     } catch (error: any) {
-      toast.error(error.message || 'Failed to change password');
+      toast.error(error.message || 'Échec du changement de mot de passe');
     } finally {
       setIsLoading(false);
     }
@@ -77,23 +77,23 @@ export const ChangePassword = () => {
           <div className="w-14 h-14 bg-asra-red/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <ShieldCheck className="w-7 h-7 text-asra-red" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Set Your New Password</h1>
+          <h1 className="text-2xl font-bold text-white mb-2">Définissez votre nouveau mot de passe</h1>
           <p className="text-asra-gray-6 text-sm">
-            Your account was created by an administrator. For security, you must change your
-            temporary password before continuing.
+            Votre compte a été créé par un administrateur. Pour des raisons de sécurité, vous devez
+            changer votre mot de passe temporaire avant de continuer.
           </p>
         </div>
 
         {user && (
           <p className="text-center text-asra-gray-6 text-sm">
-            Signed in as <span className="text-white">{user.email}</span>
+            Connecté en tant que <span className="text-white">{user.email}</span>
           </p>
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="currentPassword" className="text-white">
-              Temporary / current password
+              Mot de passe temporaire / actuel
             </Label>
             <div className="relative">
               <Input
@@ -117,7 +117,7 @@ export const ChangePassword = () => {
 
           <div className="space-y-2">
             <Label htmlFor="newPassword" className="text-white">
-              New password
+              Nouveau mot de passe
             </Label>
             <div className="relative">
               <Input
@@ -141,7 +141,7 @@ export const ChangePassword = () => {
 
           <div className="space-y-2">
             <Label htmlFor="confirmPassword" className="text-white">
-              Confirm new password
+              Confirmer le nouveau mot de passe
             </Label>
             <Input
               id="confirmPassword"
@@ -162,10 +162,10 @@ export const ChangePassword = () => {
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Updating...
+                Mise à jour...
               </>
             ) : (
-              'Update password & continue'
+              'Mettre à jour le mot de passe et continuer'
             )}
           </Button>
         </form>

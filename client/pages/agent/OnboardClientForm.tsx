@@ -17,10 +17,10 @@ interface OnboardClientFormProps {
 }
 
 const PAYMENT_METHODS = [
-  { value: 'cash', label: 'Cash' },
+  { value: 'cash', label: 'Espèces' },
   { value: 'mobile_money', label: 'Mobile Money' },
-  { value: 'bank_transfer', label: 'Bank Transfer' },
-  { value: 'card', label: 'Card' },
+  { value: 'bank_transfer', label: 'Virement bancaire' },
+  { value: 'card', label: 'Carte' },
 ] as const;
 
 export function OnboardClientForm({ clientType, title, subtitle }: OnboardClientFormProps) {
@@ -55,25 +55,25 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.fullName || !form.email || !form.phone) {
-      toast.error('Please fill in all required fields');
+      toast.error('Veuillez remplir tous les champs obligatoires');
       return;
     }
     if (clientType === 'artist' && !form.stageName) {
-      toast.error('Stage name is required for artists');
+      toast.error('Le nom de scène est obligatoire pour les artistes');
       return;
     }
     if (clientType === 'advertiser' && !form.companyName) {
-      toast.error('Company name is required for advertisers');
+      toast.error('Le nom de l\'entreprise est obligatoire pour les annonceurs');
       return;
     }
 
     setLoading(true);
     try {
       await agentService.onboardClient(form);
-      toast.success(`${title} onboarded successfully!`);
+      toast.success(`${title} intégré avec succès !`);
       navigate('/agent/clients');
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Failed to onboard client. Please try again.';
+      const message = error instanceof Error ? error.message : 'Échec de l\'intégration du client. Veuillez réessayer.';
       toast.error(message);
     } finally {
       setLoading(false);
@@ -90,28 +90,28 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
           className="text-asra-red hover:text-red-400 text-sm font-medium mb-6 flex items-center gap-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to onboarding options
+          Retour aux options d'intégration
         </button>
 
         <p className="text-asra-gray-6 mb-8">{subtitle}</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-            <h3 className="text-white font-bold">Personal Information</h3>
+            <h3 className="text-white font-bold">Informations personnelles</h3>
 
             <div className="space-y-2">
-              <Label className="text-white">Full Name *</Label>
+              <Label className="text-white">Nom complet *</Label>
               <Input
                 value={form.fullName}
                 onChange={(e) => update('fullName', e.target.value)}
-                placeholder="Enter client's full name"
+                placeholder="Saisissez le nom complet du client"
                 className="bg-asra-gray-2 border-asra-gray-5 text-white"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-white">Email *</Label>
+                <Label className="text-white">E-mail *</Label>
                 <Input
                   type="email"
                   value={form.email}
@@ -121,7 +121,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-white">Phone Number *</Label>
+                <Label className="text-white">Numéro de téléphone *</Label>
                 <Input
                   value={form.phone}
                   onChange={(e) => update('phone', e.target.value)}
@@ -133,7 +133,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-white">Date of Birth</Label>
+                <Label className="text-white">Date de naissance</Label>
                 <Input
                   type="date"
                   value={form.dateOfBirth}
@@ -142,11 +142,11 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-white">Location / City</Label>
+                <Label className="text-white">Lieu / Ville</Label>
                 <Input
                   value={form.location}
                   onChange={(e) => update('location', e.target.value)}
-                  placeholder="e.g. Lagos, Abuja"
+                  placeholder="ex. Lagos, Abuja"
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
@@ -155,13 +155,13 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
           {clientType === 'artist' && (
             <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-              <h3 className="text-white font-bold">Artist Details</h3>
+              <h3 className="text-white font-bold">Détails de l'artiste</h3>
               <div className="space-y-2">
-                <Label className="text-white">Stage Name *</Label>
+                <Label className="text-white">Nom de scène *</Label>
                 <Input
                   value={form.stageName}
                   onChange={(e) => update('stageName', e.target.value)}
-                  placeholder="Artist or band name"
+                  placeholder="Nom de l'artiste ou du groupe"
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
@@ -170,7 +170,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
                 <Input
                   value={form.genre}
                   onChange={(e) => update('genre', e.target.value)}
-                  placeholder="e.g. Afrobeats, Hip-Hop"
+                  placeholder="ex. Afrobeats, Hip-Hop"
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
@@ -179,22 +179,22 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
           {clientType === 'advertiser' && (
             <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-              <h3 className="text-white font-bold">Business Details</h3>
+              <h3 className="text-white font-bold">Détails de l'entreprise</h3>
               <div className="space-y-2">
-                <Label className="text-white">Company Name *</Label>
+                <Label className="text-white">Nom de l'entreprise *</Label>
                 <Input
                   value={form.companyName}
                   onChange={(e) => update('companyName', e.target.value)}
-                  placeholder="Business or brand name"
+                  placeholder="Nom de l'entreprise ou de la marque"
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-white">Business Type</Label>
+                <Label className="text-white">Type d'entreprise</Label>
                 <Input
                   value={form.businessType}
                   onChange={(e) => update('businessType', e.target.value)}
-                  placeholder="e.g. Restaurant, Retail, Events"
+                  placeholder="ex. Restaurant, Commerce, Événementiel"
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
@@ -202,7 +202,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
           )}
 
           <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-            <h3 className="text-white font-bold">Subscription Plan</h3>
+            <h3 className="text-white font-bold">Forfait d'abonnement</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {availablePlans.map(([key, plan]) => (
                 <button
@@ -217,7 +217,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
                 >
                   <p className="text-white font-medium">{plan.label}</p>
                   <p className="text-asra-gray-6 text-sm">
-                    {plan.price === 0 ? 'Free' : `₦${plan.price.toLocaleString()}/month`}
+                    {plan.price === 0 ? 'Gratuit' : `${plan.price.toLocaleString('fr-FR')} FCFA/mois`}
                   </p>
                 </button>
               ))}
@@ -225,7 +225,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
             {selectedPlan && selectedPlan.price > 0 && (
               <div className="space-y-2">
-                <Label className="text-white">Payment Method</Label>
+                <Label className="text-white">Mode de paiement</Label>
                 <select
                   value={form.paymentMethod}
                   onChange={(e) => update('paymentMethod', e.target.value)}
@@ -242,11 +242,11 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
           </section>
 
           <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-            <h3 className="text-white font-bold">Notes (optional)</h3>
+            <h3 className="text-white font-bold">Notes (facultatif)</h3>
             <textarea
               value={form.notes}
               onChange={(e) => update('notes', e.target.value)}
-              placeholder="Any additional notes about this client..."
+              placeholder="Toute note supplémentaire concernant ce client..."
               rows={3}
               className="w-full bg-asra-gray-2 text-white px-3 py-2 rounded-lg border border-asra-gray-5 resize-none"
             />
@@ -254,8 +254,8 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
           {selectedPlan && selectedPlan.price > 0 && (
             <div className="bg-asra-gray-1 rounded-lg p-4 border border-asra-red/30 flex justify-between items-center">
-              <span className="text-asra-gray-6">Total to collect</span>
-              <span className="text-white text-xl font-bold">₦{selectedPlan.price.toLocaleString()}</span>
+              <span className="text-asra-gray-6">Total à encaisser</span>
+              <span className="text-white text-xl font-bold">{selectedPlan.price.toLocaleString('fr-FR')} FCFA</span>
             </div>
           )}
 
@@ -267,10 +267,10 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
             {loading ? (
               <>
                 <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Processing...
+                Traitement en cours...
               </>
             ) : (
-              `Complete Onboarding`
+              `Finaliser l'intégration`
             )}
           </Button>
         </form>

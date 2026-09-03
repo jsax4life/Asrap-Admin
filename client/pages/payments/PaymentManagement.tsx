@@ -1,319 +1,61 @@
 import { useState } from 'react';
 import { Search, Calendar, User, ChevronLeft, ChevronRight, DollarSign, TrendingUp, Building, Users, ArrowUp, ArrowDown } from 'lucide-react';
 
-// Mock data for payment overview
+// Aperçu des paiements (à connecter au service backend)
 const mockPaymentOverview = {
-  totalMonthlyRevenue: 50000,
-  totalAnnualRevenue: 500000,
-  earningsFromSubscription: 300000,
-  earningsFromArtists: 100000,
-  totalPayoutsToArtists: 100000,
-  subscriptionFromAgents: 100000,
+  totalMonthlyRevenue: 0,
+  totalAnnualRevenue: 0,
+  earningsFromSubscription: 0,
+  outstandingBalances: 0,
+  earningsFromArtists: 0,
+  totalPayoutsToArtists: 0,
+  subscriptionFromAgents: 0,
 };
 
-// Mock data for payment history
-const mockPaymentHistory = [
-  {
-    id: 1,
-    transactionId: 'PAY-000001',
-    transactionDate: '2023-01-15',
-    paymentType: 'Artist Subscription',
-    paymentAmount: 500,
-    paymentSource: "John Doe's Subscription",
-    paymentStatus: 'Completed',
-  },
-  {
-    id: 2,
-    transactionId: 'PAY-000001',
-    transactionDate: '2023-01-20',
-    paymentType: 'Listener Subscription',
-    paymentAmount: 200,
-    paymentSource: 'Premium Plan',
-    paymentStatus: 'Completed',
-  },
-  {
-    id: 3,
-    transactionId: 'PAY-000001',
-    transactionDate: '2023-02-05',
-    paymentType: 'Promotion',
-    paymentAmount: 300,
-    paymentSource: "Valentine's Day Campaign",
-    paymentStatus: 'Completed',
-  },
-  {
-    id: 4,
-    transactionId: 'PAY-000001',
-    transactionDate: '2023-02-10',
-    paymentType: 'Advertising',
-    paymentAmount: 150,
-    paymentSource: 'Ad Campaign XYZ',
-    paymentStatus: 'Completed',
-  },
-];
+// Historique des paiements (à connecter au service backend)
+const mockPaymentHistory: {
+  id: number;
+  transactionId: string;
+  transactionDate: string;
+  paymentType: string;
+  paymentAmount: number;
+  paymentSource: string;
+  paymentStatus: string;
+}[] = [];
 
-// Mock data for Payment In history
-const mockPaymentInHistory = [
-  {
-    id: 1,
-    paymentId: 'PAY-000001',
-    paymentDate: '2023-01-15',
-    paymentType: 'Artist Subscription',
-    paymentAmount: 500,
-    paymentSource: "John Doe's Subscription",
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 2,
-    paymentId: 'PAY-000002',
-    paymentDate: '2023-01-20',
-    paymentType: 'Listener Subscription',
-    paymentAmount: 300,
-    paymentSource: 'Premium Plan',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 3,
-    paymentId: 'PAY-000003',
-    paymentDate: '2023-02-05',
-    paymentType: 'Promotion',
-    paymentAmount: 200,
-    paymentSource: "Valentine's Day Campaign",
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 4,
-    paymentId: 'PAY-000004',
-    paymentDate: '2023-02-10',
-    paymentType: 'Advertising',
-    paymentAmount: 150,
-    paymentSource: 'Ad Campaign XYZ',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 5,
-    paymentId: 'PAY-000005',
-    paymentDate: '2023-03-03',
-    paymentType: 'Artist Subscription',
-    paymentAmount: 550,
-    paymentSource: "Jane Smith's Subscription",
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 6,
-    paymentId: 'PAY-000006',
-    paymentDate: '2023-02-10',
-    paymentType: 'Listener Subscription',
-    paymentAmount: 210,
-    paymentSource: 'Family Plan',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 7,
-    paymentId: 'PAY-000007',
-    paymentDate: '2023-03-12',
-    paymentType: 'Promotion',
-    paymentAmount: 400,
-    paymentSource: 'Spring Sale',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 8,
-    paymentId: 'PAY-000008',
-    paymentDate: '2023-04-02',
-    paymentType: 'Advertising',
-    paymentAmount: 180,
-    paymentSource: 'Ad Campaign ABC',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 9,
-    paymentId: 'PAY-000009',
-    paymentDate: '2023-04-08',
-    paymentType: 'Artist Subscription',
-    paymentAmount: 500,
-    paymentSource: "Mike Johnson's Subscription",
-    paymentStatus: 'Completed'
-  }
-];
+// Historique des paiements entrants (à connecter au service backend)
+const mockPaymentInHistory: {
+  id: number;
+  paymentId: string;
+  paymentDate: string;
+  paymentType: string;
+  paymentAmount: number;
+  paymentSource: string;
+  paymentStatus: string;
+}[] = [];
 
-// Mock data for Payment Out history
-const mockPaymentOutHistory = [
-  {
-    id: 1,
-    payoutId: 'PAY-000001',
-    payoutDate: '2023-01-15',
-    artistName: 'Ayomide Ibrahim Balogun',
-    paymentAmount: 500,
-    paymentType: 'Payout',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 2,
-    payoutId: 'PAY-000002',
-    payoutDate: '2023-01-20',
-    artistName: 'Jane Smith',
-    paymentAmount: 300,
-    paymentType: 'Payout',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 3,
-    payoutId: 'PAY-000003',
-    payoutDate: '2023-02-05',
-    artistName: 'Robert Johnson',
-    paymentAmount: 200,
-    paymentType: 'Payout',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 4,
-    payoutId: 'PAY-000004',
-    payoutDate: '2023-02-10',
-    artistName: 'Emily White',
-    paymentAmount: 150,
-    paymentType: 'Payout',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 5,
-    payoutId: 'PAY-000005',
-    payoutDate: '2023-03-03',
-    artistName: 'Michael Brown',
-    paymentAmount: 550,
-    paymentType: 'Payout',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 6,
-    payoutId: 'PAY-000006',
-    payoutDate: '2023-02-10',
-    artistName: 'Adekunle Gold',
-    paymentAmount: 210,
-    paymentType: 'Payout',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 7,
-    payoutId: 'PAY-000007',
-    payoutDate: '2023-03-12',
-    artistName: 'Simisola Adekunle',
-    paymentAmount: 400,
-    paymentType: 'Payout',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 8,
-    payoutId: 'PAY-000008',
-    payoutDate: '2023-04-02',
-    artistName: 'Adesua Walington',
-    paymentAmount: 180,
-    paymentType: 'Payout',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 9,
-    payoutId: 'PAY-000009',
-    payoutDate: '2023-04-08',
-    artistName: 'Bella Shrumda',
-    paymentAmount: 500,
-    paymentType: 'Payout',
-    paymentStatus: 'Completed'
-  }
-];
+// Historique des paiements sortants (à connecter au service backend)
+const mockPaymentOutHistory: {
+  id: number;
+  payoutId: string;
+  payoutDate: string;
+  artistName: string;
+  paymentAmount: number;
+  paymentType: string;
+  paymentStatus: string;
+}[] = [];
 
-// Mock data for Payment from Agent history
-const mockPaymentAgentHistory = [
-  {
-    id: 1,
-    paymentId: 'PAY-000001',
-    paymentDate: '2023-01-15',
-    paymentType: 'Artist Subscription',
-    paymentAmount: 500,
-    payerEmail: 'Johndoe@gmail.com',
-    agentName: 'Agent Danjuma',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 2,
-    paymentId: 'PAY-000002',
-    paymentDate: '2023-01-20',
-    paymentType: 'Listener Subscription',
-    paymentAmount: 300,
-    payerEmail: 'Johndoe@gmail.com',
-    agentName: 'Agent Danladi',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 3,
-    paymentId: 'PAY-000003',
-    paymentDate: '2023-02-05',
-    paymentType: 'Promotion',
-    paymentAmount: 200,
-    payerEmail: 'Johndoe@gmail.com',
-    agentName: 'Agent Ganna',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 4,
-    paymentId: 'PAY-000004',
-    paymentDate: '2023-02-10',
-    paymentType: 'Advertising',
-    paymentAmount: 150,
-    payerEmail: 'Johndoe@gmail.com',
-    agentName: 'Agent Kolo',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 5,
-    paymentId: 'PAY-000005',
-    paymentDate: '2023-03-03',
-    paymentType: 'Artist Subscription',
-    paymentAmount: 550,
-    payerEmail: 'Johndoe@gmail.com',
-    agentName: 'Agent Nma',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 6,
-    paymentId: 'PAY-000006',
-    paymentDate: '2023-02-10',
-    paymentType: 'Listener Subscription',
-    paymentAmount: 210,
-    payerEmail: 'Johndoe@gmail.com',
-    agentName: 'Agent Ndagi',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 7,
-    paymentId: 'PAY-000007',
-    paymentDate: '2023-03-12',
-    paymentType: 'Promotion',
-    paymentAmount: 400,
-    payerEmail: 'Johndoe@gmail.com',
-    agentName: 'Agent Danganna',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 8,
-    paymentId: 'PAY-000008',
-    paymentDate: '2023-04-02',
-    paymentType: 'Advertising',
-    paymentAmount: 180,
-    payerEmail: 'Johndoe@gmail.com',
-    agentName: 'Agent Halima',
-    paymentStatus: 'Completed'
-  },
-  {
-    id: 9,
-    paymentId: 'PAY-000009',
-    paymentDate: '2023-04-08',
-    paymentType: 'Artist Subscription',
-    paymentAmount: 500,
-    payerEmail: 'Johndoe@gmail.com',
-    agentName: 'Agent Sule',
-    paymentStatus: 'Completed'
-  }
-];
+// Historique des paiements reçus des agents (à connecter au service backend)
+const mockPaymentAgentHistory: {
+  id: number;
+  paymentId: string;
+  paymentDate: string;
+  paymentType: string;
+  paymentAmount: number;
+  payerEmail: string;
+  agentName: string;
+  paymentStatus: string;
+}[] = [];
 
 const PaymentManagement = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'payment-in' | 'payment-out' | 'payment-agents'>('overview');
@@ -323,18 +65,16 @@ const PaymentManagement = () => {
   const [selectedYear, setSelectedYear] = useState('2023');
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return `${new Intl.NumberFormat('fr-FR', {
       minimumFractionDigits: 0,
-    }).format(amount);
+    }).format(amount)} FCFA`;
   };
 
   const formatCurrencyCompact = (amount: number) => {
     if (amount >= 1000000) {
-      return `$${(amount / 1000000).toFixed(1)}M`;
+      return `${(amount / 1000000).toFixed(1)}M FCFA`;
     } else if (amount >= 1000) {
-      return `$${(amount / 1000).toFixed(0)}k`;
+      return `${(amount / 1000).toFixed(0)}k FCFA`;
     }
     return formatCurrency(amount);
   };
@@ -365,7 +105,7 @@ const PaymentManagement = () => {
 
           {/* Center - Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Payment</h1>
+            <h1 className="text-2xl font-bold text-white">Paiement</h1>
           </div>
 
           {/* Right side - Search and Profile */}
@@ -374,7 +114,7 @@ const PaymentManagement = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Rechercher"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-64"
@@ -384,7 +124,7 @@ const PaymentManagement = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">System Admin</span>
+              <span className="text-white text-sm">Administrateur système</span>
             </div>
           </div>
         </div>
@@ -402,7 +142,7 @@ const PaymentManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Payment Overview
+            Aperçu des paiements
           </button>
           <button
             onClick={() => setActiveTab('payment-in')}
@@ -412,7 +152,7 @@ const PaymentManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Payment In
+            Paiements entrants
           </button>
           <button
             onClick={() => setActiveTab('payment-out')}
@@ -422,7 +162,7 @@ const PaymentManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Payment Out
+            Paiements sortants
           </button>
           <button
             onClick={() => setActiveTab('payment-agents')}
@@ -432,7 +172,7 @@ const PaymentManagement = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Payment In From Agents
+            Paiements entrants des agents
           </button>
         </div>
 
@@ -459,21 +199,21 @@ const PaymentManagement = () => {
                           onChange={(e) => setSelectedMonth(e.target.value)}
                           className="bg-white text-gray-900 text-sm rounded-full px-4 py-2 border-0 focus:outline-none focus:ring-2 focus:ring-asra-red"
                         >
-                          <option value="January">January</option>
-                          <option value="February">February</option>
-                          <option value="March">March</option>
-                          <option value="April">April</option>
-                          <option value="May">May</option>
-                          <option value="June">June</option>
-                          <option value="July">July</option>
-                          <option value="August">August</option>
-                          <option value="September">September</option>
-                          <option value="October">October</option>
-                          <option value="November">November</option>
-                          <option value="December">December</option>
+                          <option value="January">Janvier</option>
+                          <option value="February">Février</option>
+                          <option value="March">Mars</option>
+                          <option value="April">Avril</option>
+                          <option value="May">Mai</option>
+                          <option value="June">Juin</option>
+                          <option value="July">Juillet</option>
+                          <option value="August">Août</option>
+                          <option value="September">Septembre</option>
+                          <option value="October">Octobre</option>
+                          <option value="November">Novembre</option>
+                          <option value="December">Décembre</option>
                         </select>
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Total Monthly Revenue</div>
+                      <div className="text-asra-gray-400 text-sm">Revenu mensuel total</div>
                     </div>
                   </div>
                 </div>
@@ -499,7 +239,7 @@ const PaymentManagement = () => {
                           <option value="2021">2021</option>
                         </select>
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Total Annual Revenue</div>
+                      <div className="text-asra-gray-400 text-sm">Revenu annuel total</div>
                     </div>
                   </div>
                 </div>
@@ -514,7 +254,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrency(mockPaymentOverview.earningsFromSubscription)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Earnings from Subscription</div>
+                      <div className="text-asra-gray-400 text-sm">Revenus des abonnements</div>
                     </div>
                   </div>
                 </div>
@@ -529,7 +269,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrency(mockPaymentOverview.outstandingBalances)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Outstanding Balances</div>
+                      <div className="text-asra-gray-400 text-sm">Soldes impayés</div>
                     </div>
                   </div>
                 </div>
@@ -547,7 +287,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrencyCompact(mockPaymentOverview.earningsFromArtists)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Earnings from Artists</div>
+                      <div className="text-asra-gray-400 text-sm">Revenus des artistes</div>
                     </div>
                   </div>
                 </div>
@@ -562,7 +302,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrencyCompact(mockPaymentOverview.totalPayoutsToArtists)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Total Payouts to Artists</div>
+                      <div className="text-asra-gray-400 text-sm">Total des versements aux artistes</div>
                     </div>
                   </div>
                 </div>
@@ -577,7 +317,7 @@ const PaymentManagement = () => {
                       <div className="text-3xl font-bold text-white mb-3">
                         {formatCurrencyCompact(mockPaymentOverview.subscriptionFromAgents)}
                       </div>
-                      <div className="text-asra-gray-400 text-sm">Subscription from Agents</div>
+                      <div className="text-asra-gray-400 text-sm">Abonnements via les agents</div>
                     </div>
                   </div>
                 </div>
@@ -587,9 +327,12 @@ const PaymentManagement = () => {
             {/* Payment History */}
             <div className="bg-asra-gray-900 rounded-lg p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-white">Payment History</h3>
-                <button className="text-asra-red hover:text-red-400 text-sm font-medium">
-                  See all
+                <h3 className="text-xl font-bold text-white">Historique des paiements</h3>
+                <button
+                  onClick={() => setActiveTab('payment-in')}
+                  className="text-asra-red hover:text-red-400 text-sm font-medium"
+                >
+                  Voir tout
                 </button>
               </div>
 
@@ -598,25 +341,25 @@ const PaymentManagement = () => {
                   <thead className="bg-asra-gray-800">
                     <tr>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        S/N
+                        N°
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Transaction ID
+                        ID de transaction
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Transaction Date
+                        Date de transaction
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Payment Type
+                        Type de paiement
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Payment Amount
+                        Montant
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Payment Source/Description
+                        Source/Description du paiement
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                        Payment Status
+                        Statut du paiement
                       </th>
                     </tr>
                   </thead>
@@ -648,6 +391,13 @@ const PaymentManagement = () => {
                         </td>
                       </tr>
                     ))}
+                    {filteredPayments.length === 0 && (
+                      <tr>
+                        <td colSpan={7} className="px-6 py-8 text-center text-sm text-asra-gray-400">
+                          Aucune transaction pour le moment
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -661,19 +411,20 @@ const PaymentManagement = () => {
                     className="bg-asra-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-asra-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                   >
                     <ChevronLeft className="w-4 h-4" />
-                    <span>Previous</span>
+                    <span>Précédent</span>
                   </button>
                   <button
                     onClick={() => setCurrentPage(currentPage + 1)}
                     className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
                   >
-                    <span>Next</span>
+                    <span>Suivant</span>
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
                 <div className="text-asra-gray-400 text-sm">
                   Page {currentPage}
                 </div>
+
               </div>
             </div>
           </div>
@@ -683,9 +434,9 @@ const PaymentManagement = () => {
             {activeTab === 'payment-in' && (
               <div className="bg-asra-gray-900 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold text-white">Payment In</h3>
+                  <h3 className="text-xl font-bold text-white">Paiements entrants</h3>
                   <button className="text-asra-red hover:text-red-400 text-sm font-medium">
-                    See all
+                    Voir tout
                   </button>
                 </div>
                 <div className="overflow-x-auto">
@@ -693,25 +444,25 @@ const PaymentManagement = () => {
                     <thead className="bg-asra-gray-800">
                       <tr>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          S/N
+                          N°
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Payment Date
+                          Date de paiement
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Payment ID
+                          ID de paiement
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Payment Type
+                          Type de paiement
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Payment Amount
+                          Montant
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Payment Source/Description
+                          Source/Description du paiement
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Payment Status
+                          Statut du paiement
                         </th>
                       </tr>
                     </thead>
@@ -743,6 +494,13 @@ const PaymentManagement = () => {
                           </td>
                         </tr>
                       ))}
+                      {mockPaymentInHistory.length === 0 && (
+                        <tr>
+                          <td colSpan={7} className="px-6 py-8 text-center text-sm text-asra-gray-400">
+                            Aucun paiement entrant pour le moment
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -754,13 +512,13 @@ const PaymentManagement = () => {
                       className="bg-asra-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-asra-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                     >
                       <ChevronLeft className="w-4 h-4" />
-                      <span>Previous</span>
+                      <span>Précédent</span>
                     </button>
                     <button
                       onClick={() => setCurrentPage(prev => prev + 1)}
                       className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
                     >
-                      <span>Next</span>
+                      <span>Suivant</span>
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -774,9 +532,9 @@ const PaymentManagement = () => {
         {activeTab === 'payment-out' && (
           <div className="bg-asra-gray-900 rounded-lg p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Payment Out</h3>
+              <h3 className="text-xl font-bold text-white">Paiements sortants</h3>
               <button className="text-asra-red hover:text-red-400 text-sm font-medium">
-                See all
+                Voir tout
               </button>
             </div>
             <div className="overflow-x-auto">
@@ -784,25 +542,25 @@ const PaymentManagement = () => {
                 <thead className="bg-asra-gray-800">
                   <tr>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      S/N
+                      N°
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payout Date
+                      Date de versement
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payout ID
+                      ID de versement
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Artist Name
+                      Nom de l'artiste
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payment Amount
+                      Montant
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payment Type
+                      Type de paiement
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payment Status
+                      Statut du paiement
                     </th>
                   </tr>
                 </thead>
@@ -834,6 +592,13 @@ const PaymentManagement = () => {
                       </td>
                     </tr>
                   ))}
+                  {mockPaymentOutHistory.length === 0 && (
+                    <tr>
+                      <td colSpan={7} className="px-6 py-8 text-center text-sm text-asra-gray-400">
+                        Aucun paiement sortant pour le moment
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -845,13 +610,13 @@ const PaymentManagement = () => {
                   className="bg-asra-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-asra-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                 >
                   <ChevronLeft className="w-4 h-4" />
-                  <span>Previous</span>
+                  <span>Précédent</span>
                 </button>
                 <button
                   onClick={() => setCurrentPage(prev => prev + 1)}
                   className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
                 >
-                  <span>Next</span>
+                  <span>Suivant</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
@@ -865,9 +630,9 @@ const PaymentManagement = () => {
         {activeTab === 'payment-agents' && (
           <div className="bg-asra-gray-900 rounded-lg p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Payment from Agent</h3>
+              <h3 className="text-xl font-bold text-white">Paiements des agents</h3>
               <button className="text-asra-red hover:text-red-400 text-sm font-medium">
-                See all
+                Voir tout
               </button>
             </div>
             <div className="overflow-x-auto">
@@ -875,28 +640,28 @@ const PaymentManagement = () => {
                 <thead className="bg-asra-gray-800">
                   <tr>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      S/N
+                      N°
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payment Date
+                      Date de paiement
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payment ID
+                      ID de paiement
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payment Type
+                      Type de paiement
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payment Amount
+                      Montant
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payer Email
+                      E-mail du payeur
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payed by (Agent Name)
+                      Payé par (nom de l'agent)
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                      Payment Status
+                      Statut du paiement
                     </th>
                   </tr>
                 </thead>
@@ -931,6 +696,13 @@ const PaymentManagement = () => {
                       </td>
                     </tr>
                   ))}
+                  {mockPaymentAgentHistory.length === 0 && (
+                    <tr>
+                      <td colSpan={8} className="px-6 py-8 text-center text-sm text-asra-gray-400">
+                        Aucun paiement reçu d'agent pour le moment
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -942,13 +714,13 @@ const PaymentManagement = () => {
                   className="bg-asra-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-asra-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                 >
                   <ChevronLeft className="w-4 h-4" />
-                  <span>Previous</span>
+                  <span>Précédent</span>
                 </button>
                 <button
                   onClick={() => setCurrentPage(prev => prev + 1)}
                   className="bg-asra-red text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
                 >
-                  <span>Next</span>
+                  <span>Suivant</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>

@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { AGENT_MENU_ITEMS, AGENT_ACCOUNT_MENU_ITEMS, ICON_MAP } from '@/constants';
 import { User } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
+import asrapaLogo from '@/assets/images/asrapa-logo-white.png';
 
 interface AgentSidebarProps {
   isOpen?: boolean;
@@ -58,11 +59,11 @@ export function AgentSidebar({ isOpen = true, onClose, user }: AgentSidebarProps
 
         <div className="h-[150px] border-b border-asra-gray-2 flex flex-col items-center justify-center px-10">
           <img
-            src="https://api.builder.io/api/v1/image/assets/TEMP/2f1510a347aa5bfec3416f59e81b157d9997dfa5?width=464"
+            src={asrapaLogo}
             alt="Asrapa"
-            className="w-[232px] h-[52px]"
+            className="h-24 w-auto object-contain"
           />
-          <span className="text-asra-red text-xs font-bold uppercase tracking-widest mt-1">Agent Portal</span>
+          <span className="text-asra-red text-xs font-bold uppercase tracking-widest mt-1">Portail Agent</span>
         </div>
 
         <div className="flex-1 px-8 lg:px-12 py-8 flex flex-col justify-between overflow-y-auto">
@@ -92,7 +93,7 @@ export function AgentSidebar({ isOpen = true, onClose, user }: AgentSidebarProps
           </div>
 
           <div className="space-y-6 mt-12 lg:mt-40">
-            <div className="text-asra-gray-6 text-base font-bold tracking-[0.13px]">YOUR ACCOUNT</div>
+            <div className="text-asra-gray-6 text-base font-bold tracking-[0.13px]">VOTRE COMPTE</div>
 
             <nav className="space-y-6">
               {AGENT_ACCOUNT_MENU_ITEMS.map((item) => {

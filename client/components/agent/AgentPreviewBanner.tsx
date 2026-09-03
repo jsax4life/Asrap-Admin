@@ -15,13 +15,13 @@ export function AgentPreviewBanner() {
   return (
     <div className="bg-amber-600 text-white px-4 py-2 flex items-center justify-between text-sm">
       <span>
-        <strong>Preview mode</strong> — UI only, mock data. No backend connection required.
+        <strong>Mode aperçu</strong> — Interface uniquement, données fictives. Aucune connexion au serveur requise.
       </span>
       <button
         onClick={handleExit}
         className="flex items-center gap-1 hover:underline font-medium"
       >
-        Exit preview <X className="w-4 h-4" />
+        Quitter l'aperçu <X className="w-4 h-4" />
       </button>
     </div>
   );

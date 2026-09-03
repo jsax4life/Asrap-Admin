@@ -15,8 +15,8 @@ import { LoginRequest } from '@/types';
 import { getPostLoginPath } from '@/lib/roles';
 
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().email('Veuillez saisir une adresse e-mail valide'),
+  password: z.string().min(6, 'Le mot de passe doit comporter au moins 6 caractères'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -43,14 +43,14 @@ export const Login = () => {
     
     try {
       await login(data as LoginRequest);
-      toast.success('Login successful!');
+      toast.success('Connexion réussie !');
       const currentUser = useAuthStore.getState().user;
       const redirectTo = currentUser
         ? getPostLoginPath(currentUser)
         : from;
       navigate(redirectTo, { replace: true });
     } catch (error: any) {
-      toast.error(error.message || 'Login failed. Please try again.');
+      toast.error(error.message || 'Échec de la connexion. Veuillez réessayer.');
     } finally {
       setIsLoading(false);
     }
@@ -60,14 +60,14 @@ export const Login = () => {
     <AuthLayout>
       <div className="space-y-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-2">Welcome Back</h1>
-          <p className="text-asra-gray-6">Sign in to your admin or agent account</p>
+          <h1 className="text-2xl font-bold text-white mb-2">Content de vous revoir</h1>
+          <p className="text-asra-gray-6">Connectez-vous à votre compte administrateur ou agent</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email" className="text-white">
-              Email Address
+              Adresse e-mail
             </Label>
             <Input
               id="email"
@@ -83,13 +83,13 @@ export const Login = () => {
 
           <div className="space-y-2">
             <Label htmlFor="password" className="text-white">
-              Password
+              Mot de passe
             </Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Enter your password"
+                placeholder="Entrez votre mot de passe"
                 className="bg-asra-gray-2 border-asra-gray-5 text-white placeholder:text-asra-gray-6 pr-10"
                 {...register('password')}
               />
@@ -118,17 +118,17 @@ export const Login = () => {
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Signing in...
+                Connexion en cours...
               </>
             ) : (
-              'Sign In'
+              'Se connecter'
             )}
           </Button>
         </form>
 
         <div className="text-center">
           <button className="text-asra-gray-6 hover:text-white text-sm">
-            Forgot your password?
+            Mot de passe oublié ?
           </button>
         </div>
       </div>

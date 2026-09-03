@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import { MENU_ITEMS, ACCOUNT_MENU_ITEMS, ICON_MAP, APP_NAME } from '@/constants';
 import { User } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
+import asrapaLogo from '@/assets/images/asrapa-logo-white.png';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -59,10 +60,10 @@ export function Sidebar({ isOpen = true, onClose, user }: SidebarProps) {
         </button>
 
         <div className="h-[150px] border-b border-asra-gray-2 flex items-center justify-center px-10">
-          <img 
-            src="https://api.builder.io/api/v1/image/assets/TEMP/2f1510a347aa5bfec3416f59e81b157d9997dfa5?width=464" 
-            alt={APP_NAME} 
-            className="w-[232px] h-[52px]"
+          <img
+            src={asrapaLogo}
+            alt={APP_NAME}
+            className="h-24 w-auto object-contain"
           />
         </div>
         
@@ -102,7 +103,7 @@ export function Sidebar({ isOpen = true, onClose, user }: SidebarProps) {
 
           <div className="space-y-6 mt-12 lg:mt-40">
             <div className="text-asra-gray-6 text-base font-bold tracking-[0.13px]">
-              YOUR ACCOUNT
+              VOTRE COMPTE
             </div>
             
             <nav className="space-y-6">

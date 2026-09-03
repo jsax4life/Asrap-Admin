@@ -15,6 +15,13 @@ const STATUS_STYLES = {
   none: 'bg-asra-gray-2 text-asra-gray-6',
 };
 
+const STATUS_LABELS: Record<string, string> = {
+  active: 'Actif',
+  pending: 'En attente',
+  expired: 'Expiré',
+  none: 'Aucun',
+};
+
 export default function AgentSubscriptions() {
   const navigate = useNavigate();
   const [clients, setClients] = useState<AgentClient[]>([]);
@@ -36,14 +43,14 @@ export default function AgentSubscriptions() {
   });
 
   const tabs = [
-    { key: 'active' as const, label: 'Active', count: clients.filter((c) => c.subscriptionStatus === 'active').length },
-    { key: 'pending' as const, label: 'Pending', count: clients.filter((c) => c.subscriptionStatus === 'pending').length },
-    { key: 'expired' as const, label: 'No Plan / Expired', count: clients.filter((c) => c.subscriptionStatus === 'expired' || c.subscriptionStatus === 'none').length },
+    { key: 'active' as const, label: 'Actifs', count: clients.filter((c) => c.subscriptionStatus === 'active').length },
+    { key: 'pending' as const, label: 'En attente', count: clients.filter((c) => c.subscriptionStatus === 'pending').length },
+    { key: 'expired' as const, label: 'Sans forfait / Expiré', count: clients.filter((c) => c.subscriptionStatus === 'expired' || c.subscriptionStatus === 'none').length },
   ];
 
   return (
     <div className="min-h-screen bg-asra-dark">
-      <AgentPageHeader title="Subscriptions" />
+      <AgentPageHeader title="Abonnements" />
 
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
@@ -67,7 +74,7 @@ export default function AgentSubscriptions() {
             className="bg-asra-red hover:bg-asra-red/90 text-white"
           >
             <Plus className="w-4 h-4 mr-2" />
-            New Subscription
+            Nouvel abonnement
           </Button>
         </div>
 
@@ -85,7 +92,7 @@ export default function AgentSubscriptions() {
                     <p className="text-asra-gray-6 text-sm">{client.email}</p>
                   </div>
                   <span className={`text-xs px-2 py-1 rounded-full capitalize ${STATUS_STYLES[client.subscriptionStatus]}`}>
-                    {client.subscriptionStatus}
+                    {STATUS_LABELS[client.subscriptionStatus] ?? client.subscriptionStatus}
                   </span>
                 </div>
 
@@ -94,11 +101,11 @@ export default function AgentSubscriptions() {
                   <span className="text-white text-sm">
                     {client.subscriptionPlan
                       ? SUBSCRIPTION_PLANS[client.subscriptionPlan].label
-                      : 'No plan selected'}
+                      : 'Aucun forfait sélectionné'}
                   </span>
                   {client.subscriptionPlan && (
                     <span className="text-asra-gray-6 text-sm ml-auto">
-                      ₦{SUBSCRIPTION_PLANS[client.subscriptionPlan].price.toLocaleString()}/mo
+                      {SUBSCRIPTION_PLANS[client.subscriptionPlan].price.toLocaleString()} FCFA/mois
                     </span>
                   )}
                 </div>
@@ -109,28 +116,28 @@ export default function AgentSubscriptions() {
                     onClick={() => navigate('/agent/onboarding')}
                     className="w-full bg-asra-red hover:bg-asra-red/90 text-white"
                   >
-                    Set Up Subscription
+                    Configurer l'abonnement
                   </Button>
                 )}
               </div>
             ))}
             {filtered.length === 0 && (
-              <p className="text-asra-gray-6 col-span-full text-center py-12">No subscriptions in this category</p>
+              <p className="text-asra-gray-6 col-span-full text-center py-12">Aucun abonnement dans cette catégorie</p>
             )}
           </div>
         )}
 
         <div className="mt-8 bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2">
-          <h3 className="text-white font-bold mb-4">Available Plans</h3>
+          <h3 className="text-white font-bold mb-4">Forfaits disponibles</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {Object.entries(SUBSCRIPTION_PLANS).map(([key, plan]) => (
               <div key={key} className="bg-asra-gray-2 rounded-lg p-4">
                 <p className="text-white font-medium">{plan.label}</p>
                 <p className="text-asra-red font-bold">
-                  {plan.price === 0 ? 'Free' : `₦${plan.price.toLocaleString()}/mo`}
+                  {plan.price === 0 ? 'Gratuit' : `${plan.price.toLocaleString()} FCFA/mois`}
                 </p>
                 <p className="text-asra-gray-6 text-xs mt-1 capitalize">
-                  For: {plan.clientTypes.join(', ')}
+                  Pour : {plan.clientTypes.join(', ')}
                 </p>
               </div>
             ))}

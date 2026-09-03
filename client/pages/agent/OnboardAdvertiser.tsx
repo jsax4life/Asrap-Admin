@@ -4,8 +4,8 @@ export default function OnboardAdvertiser() {
   return (
     <OnboardClientForm
       clientType="advertiser"
-      title="Onboard an Advertiser"
-      subtitle="Register a business on Asrapa and set up their advertising subscription."
+      title="Intégrer un annonceur"
+      subtitle="Inscrivez une entreprise sur Asrapa et configurez son abonnement publicitaire."
     />
   );
 }

@@ -18,7 +18,7 @@ export function DataTable<T>({
   sortConfig,
   onSort,
   className,
-  emptyMessage = 'No data available',
+  emptyMessage = 'Aucune donnée disponible',
 }: DataTableProps<T>) {
   const handleSort = (key: string) => {
     if (onSort) {

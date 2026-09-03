@@ -78,24 +78,24 @@ export const AudioPlayer = ({
       setIsPlaying(false);
       
       const audioError = audio.error;
-      let errorMessage = 'Unable to play audio';
-      
+      let errorMessage = 'Impossible de lire l\'audio';
+
       if (audioError) {
         switch (audioError.code) {
           case MediaError.MEDIA_ERR_ABORTED:
-            errorMessage = 'Audio playback was aborted';
+            errorMessage = 'La lecture audio a été interrompue';
             break;
           case MediaError.MEDIA_ERR_NETWORK:
-            errorMessage = 'Network error while loading audio. Please check your connection or try refreshing the page.';
+            errorMessage = 'Erreur réseau lors du chargement de l\'audio. Veuillez vérifier votre connexion ou actualiser la page.';
             break;
           case MediaError.MEDIA_ERR_DECODE:
-            errorMessage = 'Audio file is corrupted or in an unsupported format';
+            errorMessage = 'Le fichier audio est corrompu ou dans un format non pris en charge';
             break;
           case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            errorMessage = 'Audio format not supported or URL is invalid. The presigned URL may have expired.';
+            errorMessage = 'Format audio non pris en charge ou URL invalide. Le lien signé a peut-être expiré.';
             break;
           default:
-            errorMessage = 'Unable to play audio. The file may be corrupted or the URL may have expired.';
+            errorMessage = 'Impossible de lire l\'audio. Le fichier est peut-être corrompu ou le lien a expiré.';
         }
       }
       
@@ -112,7 +112,7 @@ export const AudioPlayer = ({
       
       // Provide more specific message for potential CORS issues
       if (isCorsError && !audioError) {
-        errorMessage = 'CORS error: Unable to load audio from S3. Please contact support if this persists.';
+        errorMessage = 'Erreur CORS : impossible de charger l\'audio depuis S3. Veuillez contacter le support si le problème persiste.';
       }
       
       setError(errorMessage);
@@ -138,7 +138,7 @@ export const AudioPlayer = ({
         // Audio hasn't started loading after 5 seconds - likely CORS or network issue
         const isS3Url = audioUrl.includes('s3.') || audioUrl.includes('amazonaws.com');
         if (isS3Url && !audio.error) {
-          setError('Unable to load audio. This may be a CORS configuration issue with the S3 bucket. Please contact support.');
+          setError('Impossible de charger l\'audio. Il pourrait s\'agir d\'un problème de configuration CORS du bucket S3. Veuillez contacter le support.');
           setIsLoading(false);
         }
       }
@@ -190,7 +190,7 @@ export const AudioPlayer = ({
         console.error('Play error:', err);
         setIsLoading(false);
         setIsPlaying(false);
-        setError(err.message || 'Failed to play audio. Please try again.');
+        setError(err.message || 'Échec de la lecture audio. Veuillez réessayer.');
       }
     }
   };

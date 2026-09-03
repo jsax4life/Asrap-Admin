@@ -21,9 +21,9 @@ const formatDate = (dateString: string): string => {
 // Helper function to format status display
 const formatStatus = (status: string): string => {
   const statusMap: Record<string, string> = {
-    'pending': 'Pending',
-    'approved': 'Approved',
-    'rejected': 'Rejected',
+    'pending': 'En attente',
+    'approved': 'Approuvé',
+    'rejected': 'Rejeté',
   };
   return statusMap[status] || status;
 };
@@ -77,7 +77,7 @@ export default function MusicUploadApproval() {
         setTotalResults(response.totalResults);
       } catch (err: any) {
         console.error('Error fetching music uploads:', err);
-        setError(err.message || 'Failed to load music uploads');
+        setError(err.message || 'Échec du chargement des téléversements musicaux');
       } finally {
         setLoading(false);
       }
@@ -108,17 +108,17 @@ export default function MusicUploadApproval() {
   const columns: TableColumn<MusicUploadItem>[] = [
     {
       key: 'artistId' as keyof MusicUploadItem,
-      label: 'Artist Id',
+      label: 'ID Artiste',
       sortable: true,
     },
     {
       key: 'artistName' as keyof MusicUploadItem,
-      label: 'Name of Artist',
+      label: 'Nom de l\'artiste',
       sortable: true,
     },
     {
       key: 'uploadType' as keyof MusicUploadItem,
-      label: 'Upload Type',
+      label: 'Type de téléversement',
       sortable: true,
       render: (value: string) => (
         <span className="capitalize">{value}</span>
@@ -126,7 +126,7 @@ export default function MusicUploadApproval() {
     },
     {
       key: 'title' as keyof MusicUploadItem,
-      label: 'Name of Song/Album/Ep',
+      label: 'Nom de la chanson/l\'album/l\'EP',
       sortable: true,
     },
     {
@@ -136,13 +136,13 @@ export default function MusicUploadApproval() {
     },
     {
       key: 'dateSent' as keyof MusicUploadItem,
-      label: 'Date sent',
+      label: 'Date d\'envoi',
       sortable: true,
       render: (value: string) => formatDate(value),
     },
     {
       key: 'status' as keyof MusicUploadItem,
-      label: 'Status',
+      label: 'Statut',
       sortable: true,
       render: (value: string) => {
         const statusColors: Record<string, string> = {
@@ -170,7 +170,7 @@ export default function MusicUploadApproval() {
           onClick={() => navigate(`/music-upload/${item._id}`)}
         >
           <Eye className="w-4 h-4 mr-1" />
-          View
+          Voir
         </Button>
       ),
     },
@@ -202,8 +202,8 @@ export default function MusicUploadApproval() {
         <div className="flex items-center justify-between">
           {/* Left Side - Date and Title */}
           <div className="space-y-2">
-            <div className="text-white text-sm">Date: 03/02/2023</div>
-            <h1 className="text-white text-3xl font-bold">Music Upload Approval</h1>
+            <div className="text-white text-sm">Date : 03/02/2023</div>
+            <h1 className="text-white text-3xl font-bold">Approbation des téléversements musicaux</h1>
           </div>
 
           {/* Center - Search Bar */}
@@ -212,7 +212,7 @@ export default function MusicUploadApproval() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-asra-gray-6 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search by song/album title, artist name, or genre"
+                placeholder="Rechercher par titre de chanson/album, nom d'artiste ou genre"
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
@@ -233,7 +233,7 @@ export default function MusicUploadApproval() {
               </div>
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
             </div>
-            <span className="text-white text-sm font-medium">System Admin</span>
+            <span className="text-white text-sm font-medium">Administrateur système</span>
           </div>
         </div>
       </div>
@@ -243,56 +243,56 @@ export default function MusicUploadApproval() {
         {/* Filters */}
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-            <label className="text-white text-sm font-medium">Upload Type:</label>
+            <label className="text-white text-sm font-medium">Type de téléversement :</label>
             <select
               value={uploadType}
               onChange={(e) => handleFilterChange('uploadType', e.target.value)}
               className="px-3 py-2 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white focus:outline-none focus:border-asra-red"
             >
-              <option value="">All</option>
-              <option value="song">Song</option>
+              <option value="">Tous</option>
+              <option value="song">Chanson</option>
               <option value="album">Album</option>
             </select>
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-white text-sm font-medium">Status:</label>
+            <label className="text-white text-sm font-medium">Statut :</label>
             <select
               value={status}
               onChange={(e) => handleFilterChange('status', e.target.value)}
               className="px-3 py-2 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white focus:outline-none focus:border-asra-red"
             >
-              <option value="">All</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
+              <option value="">Tous</option>
+              <option value="pending">En attente</option>
+              <option value="approved">Approuvé</option>
+              <option value="rejected">Rejeté</option>
             </select>
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-white text-sm font-medium">Sort By:</label>
+            <label className="text-white text-sm font-medium">Trier par :</label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
               className="px-3 py-2 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white focus:outline-none focus:border-asra-red"
             >
               <option value="createdAt">Date</option>
-              <option value="title">Title</option>
-              <option value="artistName">Artist</option>
+              <option value="title">Titre</option>
+              <option value="artistName">Artiste</option>
               <option value="genre">Genre</option>
-              <option value="status">Status</option>
+              <option value="status">Statut</option>
             </select>
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-white text-sm font-medium">Order:</label>
+            <label className="text-white text-sm font-medium">Ordre :</label>
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
               className="px-3 py-2 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white focus:outline-none focus:border-asra-red"
             >
-              <option value="desc">Descending</option>
-              <option value="asc">Ascending</option>
+              <option value="desc">Décroissant</option>
+              <option value="asc">Croissant</option>
             </select>
           </div>
         </div>
@@ -308,7 +308,7 @@ export default function MusicUploadApproval() {
         {loading ? (
           <div className="flex items-center justify-center min-h-[400px]">
             <Loader2 className="w-8 h-8 text-asra-red animate-spin" />
-            <span className="ml-3 text-white">Loading music uploads...</span>
+            <span className="ml-3 text-white">Chargement des téléversements musicaux...</span>
           </div>
         ) : (
           <>
@@ -332,7 +332,7 @@ export default function MusicUploadApproval() {
                   onClick={() => setCurrentPage(currentPage - 1)}
                 >
                   <ChevronLeft className="w-4 h-4 mr-1" />
-                  Previous
+                  Précédent
                 </Button>
                 <Button
                   variant="outline"
@@ -341,13 +341,13 @@ export default function MusicUploadApproval() {
                   disabled={currentPage >= totalPages || loading}
                   onClick={() => setCurrentPage(currentPage + 1)}
                 >
-                  Next
+                  Suivant
                   <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
               </div>
-              
+
               <div className="text-asra-gray-6 text-sm">
-                Page {currentPage} of {totalPages} ({totalResults} total results)
+                Page {currentPage} sur {totalPages} ({totalResults} résultats au total)
               </div>
             </div>
           </>

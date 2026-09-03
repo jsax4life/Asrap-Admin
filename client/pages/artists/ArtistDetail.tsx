@@ -1,228 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Calendar, User, Edit3, Play, Loader2 } from 'lucide-react';
+import { ArrowLeft, Search, Calendar, User, Edit3, Loader2 } from 'lucide-react';
 import { artistService, type ArtistDetailData } from '@/services/artistService';
-
-// Mock data for artist detail
-const mockArtistDetail = {
-  id: '52166565161',
-  name: 'Wizkid',
-  realName: 'Ayodeji Ibrahim Balogun',
-  monthlyListeners: 5865865,
-  likes: 5865865,
-  songsCount: 914,
-  totalDuration: '2hr 01 min',
-  avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=200',
-  verified: true,
-  bio: `Wizkid, born Ayodeji Ibrahim Balogun on July 16, 1990, in Lagos, Nigeria, is a globally acclaimed Nigerian singer, songwriter, and record producer. He is widely regarded as one of the most influential figures in contemporary African music and a key ambassador of the Afrobeats genre.
-
-Wizkid's musical journey began in his early teens when he started performing in church and local talent shows. His breakthrough came in 2010 with the release of "Holla at Your Boy," the lead single from his debut studio album "Superstar" (2011). The album established him as a rising star in the Nigerian music scene.
-
-However, it was his 2016 hit single "Ojuelegba" that catapulted him to international fame. The song, which tells the story of his humble beginnings in the Ojuelegba area of Lagos, resonated with audiences worldwide and caught the attention of international artists.
-
-Wizkid's global breakthrough came with his collaboration with Canadian rapper Drake on "One Dance" (2016), which topped charts in multiple countries and became one of the best-selling singles of all time. This collaboration opened doors for more international partnerships, including work with artists like Ty Dolla $ign, Major Lazer, and Beyoncé.
-
-In 2020, Wizkid released his fourth studio album "Made in Lagos," which received critical acclaim and commercial success. The album's lead single "Essence" featuring Tems became a global hit and further solidified his position as a leading figure in Afrobeats.
-
-Throughout his career, Wizkid has received numerous awards and recognitions, including multiple BET Awards, MTV Africa Music Awards, and an Apple Music Award for Artist of the Year - Africa. He has also been credited with popularizing Afrobeats on the global stage and inspiring a new generation of African artists.
-
-Wizkid's influence extends beyond music; he has become a cultural icon and fashion trendsetter, known for his distinctive style and charismatic personality. His success has paved the way for other African artists to gain international recognition and has contributed significantly to the global acceptance of African music.`,
-  dateOfBirth: '16 July 1990',
-  homeTown: 'Lagos, Nigeria',
-  genre: 'Afrobeats',
-  albums: [
-    {
-      id: '1',
-      title: 'Made in Lagos',
-      year: 2020,
-      type: 'Album',
-      coverArt: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=200',
-      songsCount: 14,
-      duration: '47:23',
-      status: 'Published',
-      plays: 1250000,
-    },
-    {
-      id: '2',
-      title: 'Soundman Vol. 2',
-      year: 2019,
-      type: 'EP',
-      coverArt: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=200',
-      songsCount: 8,
-      duration: '28:45',
-      status: 'Published',
-      plays: 980000,
-    },
-    {
-      id: '3',
-      title: 'Sounds from the Other Side',
-      year: 2017,
-      type: 'Album',
-      coverArt: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=200',
-      songsCount: 12,
-      duration: '42:18',
-      status: 'Published',
-      plays: 850000,
-    },
-    {
-      id: '4',
-      title: 'Superstar',
-      year: 2011,
-      type: 'Album',
-      coverArt: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=200',
-      songsCount: 18,
-      duration: '65:32',
-      status: 'Published',
-      plays: 720000,
-    },
-  ],
-  songs: [
-    {
-      id: '1',
-      title: 'Essence',
-      album: 'Made in Lagos',
-      year: 2020,
-      duration: '3:45',
-      status: 'Published',
-      plays: 1250000,
-      genre: 'Afrobeats',
-      uploadedDate: '2020-10-30',
-    },
-    {
-      id: '2',
-      title: 'Joro',
-      album: 'Made in Lagos',
-      year: 2020,
-      duration: '3:15',
-      status: 'Published',
-      plays: 980000,
-      genre: 'Afrobeats',
-      uploadedDate: '2020-10-30',
-    },
-    {
-      id: '3',
-      title: 'Fever',
-      album: 'Made in Lagos',
-      year: 2020,
-      duration: '4:12',
-      status: 'Published',
-      plays: 850000,
-      genre: 'Afrobeats',
-      uploadedDate: '2020-10-30',
-    },
-    {
-      id: '4',
-      title: 'Ginger',
-      album: 'Made in Lagos',
-      year: 2020,
-      duration: '3:28',
-      status: 'Published',
-      plays: 720000,
-      genre: 'Afrobeats',
-      uploadedDate: '2020-10-30',
-    },
-    {
-      id: '5',
-      title: 'No Stress',
-      album: 'Made in Lagos',
-      year: 2020,
-      duration: '3:22',
-      status: 'Published',
-      plays: 650000,
-      genre: 'Afrobeats',
-      uploadedDate: '2020-10-30',
-    },
-    {
-      id: '6',
-      title: 'Ojuelegba',
-      album: 'Sounds from the Other Side',
-      year: 2017,
-      duration: '3:58',
-      status: 'Published',
-      plays: 1200000,
-      genre: 'Afrobeats',
-      uploadedDate: '2017-07-14',
-    },
-    {
-      id: '7',
-      title: 'Holla at Your Boy',
-      album: 'Superstar',
-      year: 2011,
-      duration: '3:45',
-      status: 'Published',
-      plays: 800000,
-      genre: 'Afrobeats',
-      uploadedDate: '2011-01-01',
-    },
-    {
-      id: '8',
-      title: 'Pakurumo',
-      album: 'Superstar',
-      year: 2011,
-      duration: '3:32',
-      status: 'Published',
-      plays: 750000,
-      genre: 'Afrobeats',
-      uploadedDate: '2011-01-01',
-    },
-  ],
-  videos: [
-    {
-      id: '1',
-      title: 'Essence (feat Tems)',
-      year: 2021,
-      thumbnail: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=300',
-      duration: '4:08',
-      views: 125000000,
-      status: 'Published',
-    },
-    {
-      id: '2',
-      title: 'Joro',
-      year: 2020,
-      thumbnail: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=300',
-      duration: '3:15',
-      views: 85000000,
-      status: 'Published',
-    },
-    {
-      id: '3',
-      title: 'Fever',
-      year: 2020,
-      thumbnail: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=300',
-      duration: '4:12',
-      views: 72000000,
-      status: 'Published',
-    },
-    {
-      id: '4',
-      title: 'Ginger',
-      year: 2020,
-      thumbnail: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=300',
-      duration: '3:28',
-      views: 65000000,
-      status: 'Published',
-    },
-    {
-      id: '5',
-      title: 'Ojuelegba',
-      year: 2017,
-      thumbnail: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=300',
-      duration: '3:58',
-      views: 95000000,
-      status: 'Published',
-    },
-    {
-      id: '6',
-      title: 'Holla at Your Boy',
-      year: 2011,
-      thumbnail: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=300',
-      duration: '3:45',
-      views: 45000000,
-      status: 'Published',
-    },
-  ],
-};
 
 const ArtistDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -241,7 +20,7 @@ const ArtistDetail = () => {
         const res = await artistService.getArtistDetail(id);
         setArtist(res.data);
       } catch (e: any) {
-        setError(e.message || 'Failed to load artist');
+        setError(e.message || 'Échec du chargement de l\'artiste');
       } finally {
         setLoading(false);
       }
@@ -265,7 +44,7 @@ const ArtistDetail = () => {
     return (
       <div className="min-h-screen bg-asra-dark flex items-center justify-center">
         <Loader2 className="w-6 h-6 text-asra-red animate-spin" />
-        <span className="ml-3 text-white">Loading artist...</span>
+        <span className="ml-3 text-white">Chargement de l'artiste...</span>
       </div>
     );
   }
@@ -273,7 +52,7 @@ const ArtistDetail = () => {
   if (error || !artist) {
     return (
       <div className="min-h-screen bg-asra-dark flex items-center justify-center">
-        <div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded">{error || 'Artist not found'}</div>
+        <div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded">{error || 'Artiste introuvable'}</div>
       </div>
     );
   }
@@ -290,7 +69,7 @@ const ArtistDetail = () => {
               className="flex items-center space-x-2 text-asra-gray-400 hover:text-white transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span>Go Back</span>
+              <span>Retour</span>
             </button>
           </div>
 
@@ -300,7 +79,7 @@ const ArtistDetail = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Rechercher"
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-64"
               />
             </div>
@@ -308,7 +87,7 @@ const ArtistDetail = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">System Admin</span>
+              <span className="text-white text-sm">Administrateur système</span>
             </div>
           </div>
         </div>
@@ -324,7 +103,7 @@ const ArtistDetail = () => {
               <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
                 <span className="text-green-500 text-xs">✓</span>
               </div>
-              <span>Verified Artist</span>
+              <span>Artiste vérifié</span>
             </div>
           )}
           
@@ -344,15 +123,15 @@ const ArtistDetail = () => {
               <div className="w-4 h-4 bg-asra-red rounded flex items-center justify-center">
                 <span className="text-white text-xs font-bold">S</span>
               </div>
-              <span>{formatNumber(artist.statistics.monthlyListeners || 0)} Monthly listeners</span>
+              <span>{formatNumber(artist.statistics.monthlyListeners || 0)} auditeurs mensuels</span>
             </div>
             <div className="w-1 h-1 bg-asra-gray-400 rounded-full"></div>
             <div className="flex items-center space-x-2">
-              <span>{formatNumber(artist.statistics.likes || 0)} likes</span>
+              <span>{formatNumber(artist.statistics.likes || 0)} mentions J'aime</span>
             </div>
             <div className="w-1 h-1 bg-asra-gray-400 rounded-full"></div>
             <div className="flex items-center space-x-2">
-              <span>{artist.statistics.songs} songs, {artist.statistics.totalDurationFormatted}</span>
+              <span>{artist.statistics.songs} titres, {artist.statistics.totalDurationFormatted}</span>
             </div>
           </div>
         </div>
@@ -367,7 +146,7 @@ const ArtistDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            About
+            À propos
           </button>
           <button
             onClick={() => setActiveTab('albums')}
@@ -377,7 +156,7 @@ const ArtistDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Albums, EPs and Songs Uploads
+            Albums, EPs et titres téléversés
           </button>
           <button
             onClick={() => setActiveTab('videos')}
@@ -387,7 +166,7 @@ const ArtistDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Videos
+            Vidéos
           </button>
           <button
             onClick={() => setActiveTab('tagged')}
@@ -397,7 +176,7 @@ const ArtistDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Tagged on
+            Mentions
           </button>
         </div>
 
@@ -405,19 +184,19 @@ const ArtistDetail = () => {
         {activeTab === 'about' && (
           <div className="max-w-4xl mx-auto">
             <div className="bg-asra-gray-900 rounded-lg p-8">
-              <h3 className="text-xl font-bold text-white mb-6">Biography</h3>
+              <h3 className="text-xl font-bold text-white mb-6">Biographie</h3>
               <div className="text-asra-gray-300 leading-relaxed mb-8 whitespace-pre-line">
-                {artist.bio || 'No biography provided.'}
+                {artist.bio || 'Aucune biographie fournie.'}
               </div>
-              
+
               {/* Key Information */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Date of Birth</h4>
+                  <h4 className="text-lg font-semibold text-white mb-2">Date de naissance</h4>
                   <p className="text-asra-gray-300">—</p>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Home Town</h4>
+                  <h4 className="text-lg font-semibold text-white mb-2">Ville d'origine</h4>
                   <p className="text-asra-gray-300">{artist.hometown || '—'}</p>
                 </div>
                 <div>
@@ -429,7 +208,7 @@ const ArtistDetail = () => {
               {/* Edit Bio Button */}
               <button className="bg-asra-red text-white px-6 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors flex items-center space-x-2">
                 <Edit3 className="w-5 h-5" />
-                <span>Edit Bio</span>
+                <span>Modifier la biographie</span>
               </button>
             </div>
           </div>
@@ -461,20 +240,20 @@ const ArtistDetail = () => {
                         <span className="bg-asra-red text-white px-2 py-1 rounded text-xs">{album.type}</span>
                       </div>
                       <div className="text-sm text-asra-gray-300">
-                        {album.songCount} songs • {album.durationFormatted}
+                        {album.songCount} titres • {album.durationFormatted}
                       </div>
                       <div className="text-sm text-asra-gray-400">
-                        {formatNumber(album.plays)} plays
+                        {formatNumber(album.plays)} écoutes
                       </div>
                       <div className="flex items-center justify-between">
-                        <button 
+                        <button
                           className="text-asra-red hover:text-red-400 text-sm font-medium"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleAlbumClick(album._id);
                           }}
                         >
-                          View Details
+                          Voir les détails
                         </button>
                       </div>
                     </div>
@@ -485,7 +264,7 @@ const ArtistDetail = () => {
 
             {/* Songs Section */}
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Songs</h3>
+              <h3 className="text-2xl font-bold text-white mb-6">Titres</h3>
               <div className="bg-asra-gray-900 rounded-lg overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full">
@@ -495,28 +274,28 @@ const ArtistDetail = () => {
                           #
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Title
+                          Titre
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
                           Album
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Year
+                          Année
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Duration
+                          Durée
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Status
+                          Statut
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Plays
+                          Écoutes
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
                           Genre
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
-                          Uploaded
+                          Téléversé
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
                           Action
@@ -568,7 +347,7 @@ const ArtistDetail = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <button className="text-asra-red hover:text-red-400 text-sm font-medium">
-                              View
+                              Voir
                             </button>
                           </td>
                         </tr>
@@ -583,35 +362,9 @@ const ArtistDetail = () => {
 
         {activeTab === 'videos' && (
           <div className="max-w-7xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-6">Videos</h3>
-            <div className="overflow-x-auto">
-              <div className="flex space-x-6 pb-4">
-                {mockArtistDetail.videos.map((video) => (
-                  <div key={video.id} className="flex-shrink-0 w-64">
-                    <div className="bg-asra-gray-900 rounded-lg overflow-hidden hover:bg-asra-gray-800 transition-colors cursor-pointer group">
-                      <div className="relative">
-                        <img
-                          src={video.thumbnail}
-                          alt={video.title}
-                          className="w-full h-36 object-cover"
-                        />
-                        <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                          {video.duration}
-                        </div>
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                          <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Play className="w-6 h-6 text-black ml-1" />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="p-4">
-                        <h4 className="text-white font-medium text-sm mb-1 line-clamp-2">{video.title}</h4>
-                        <p className="text-asra-gray-400 text-xs">{video.year}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <h3 className="text-2xl font-bold text-white mb-6">Vidéos</h3>
+            <div className="bg-asra-gray-900 rounded-lg p-8">
+              <p className="text-asra-gray-400">Contenu à venir...</p>
             </div>
           </div>
         )}
@@ -619,8 +372,8 @@ const ArtistDetail = () => {
         {activeTab === 'tagged' && (
           <div className="max-w-4xl mx-auto">
             <div className="bg-asra-gray-900 rounded-lg p-8">
-              <h3 className="text-xl font-bold text-white mb-6">Tagged on</h3>
-              <p className="text-asra-gray-400">Content coming soon...</p>
+              <h3 className="text-xl font-bold text-white mb-6">Mentions</h3>
+              <p className="text-asra-gray-400">Contenu à venir...</p>
             </div>
           </div>
         )}

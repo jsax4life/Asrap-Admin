@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { APP_NAME } from '@/constants';
+import asrapaLogo from '@/assets/images/asrapa-logo-white.png';
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -12,10 +13,10 @@ export const AuthLayout = ({ children }: AuthLayoutProps) => {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <img 
-            src="https://api.builder.io/api/v1/image/assets/TEMP/2f1510a347aa5bfec3416f59e81b157d9997dfa5?width=464" 
-            alt={APP_NAME} 
-            className="w-[232px] h-[52px] mx-auto"
+          <img
+            src={asrapaLogo}
+            alt={APP_NAME}
+            className="h-24 w-auto object-contain mx-auto"
           />
         </div>
         
