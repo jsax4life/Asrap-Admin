@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, Loader2, ShieldCheck } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { AuthLayout } from '@/layouts/AuthLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,29 +15,34 @@ import { useAuthStore } from '@/store/authStore';
 import { authService } from '@/services/authService';
 import { getPostLoginPath } from '@/lib/roles';
 
-const changePasswordSchema = z
-  .object({
-    currentPassword: z.string().min(1, 'Le mot de passe actuel est requis'),
-    newPassword: z.string().min(8, 'Le nouveau mot de passe doit comporter au moins 8 caractères'),
-    confirmPassword: z.string().min(1, 'Veuillez confirmer votre nouveau mot de passe'),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: 'Les mots de passe ne correspondent pas',
-    path: ['confirmPassword'],
-  })
-  .refine((data) => data.currentPassword !== data.newPassword, {
-    message: 'Le nouveau mot de passe doit être différent du mot de passe temporaire',
-    path: ['newPassword'],
-  });
-
-type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
-
 export const ChangePassword = () => {
+  const { t } = useTranslation('auth');
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const changePasswordSchema = useMemo(
+    () =>
+      z
+        .object({
+          currentPassword: z.string().min(1, t('changePassword.validation.currentPasswordRequired')),
+          newPassword: z.string().min(8, t('changePassword.validation.newPasswordTooShort')),
+          confirmPassword: z.string().min(1, t('changePassword.validation.confirmPasswordRequired')),
+        })
+        .refine((data) => data.newPassword === data.confirmPassword, {
+          message: t('changePassword.validation.passwordsDoNotMatch'),
+          path: ['confirmPassword'],
+        })
+        .refine((data) => data.currentPassword !== data.newPassword, {
+          message: t('changePassword.validation.newPasswordMustDiffer'),
+          path: ['newPassword'],
+        }),
+    [t]
+  );
+
+  type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
 
   const {
     register,
@@ -57,14 +63,14 @@ export const ChangePassword = () => {
       const updatedUser = user ? { ...user, mustChangePassword: false } : null;
       useAuthStore.setState({ user: updatedUser });
 
-      toast.success('Mot de passe mis à jour avec succès');
+      toast.success(t('changePassword.updateSuccess'));
       if (updatedUser) {
         navigate(getPostLoginPath(updatedUser), { replace: true });
       } else {
         navigate('/login', { replace: true });
       }
     } catch (error: any) {
-      toast.error(error.message || 'Échec du changement de mot de passe');
+      toast.error(error.message || t('changePassword.updateError'));
     } finally {
       setIsLoading(false);
     }
@@ -77,23 +83,22 @@ export const ChangePassword = () => {
           <div className="w-14 h-14 bg-asra-red/20 rounded-full flex items-center justify-center mx-auto mb-4">
             <ShieldCheck className="w-7 h-7 text-asra-red" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2">Définissez votre nouveau mot de passe</h1>
+          <h1 className="text-2xl font-bold text-white mb-2">{t('changePassword.heading')}</h1>
           <p className="text-asra-gray-6 text-sm">
-            Votre compte a été créé par un administrateur. Pour des raisons de sécurité, vous devez
-            changer votre mot de passe temporaire avant de continuer.
+            {t('changePassword.subheading')}
           </p>
         </div>
 
         {user && (
           <p className="text-center text-asra-gray-6 text-sm">
-            Connecté en tant que <span className="text-white">{user.email}</span>
+            {t('changePassword.loggedInAs')} <span className="text-white">{user.email}</span>
           </p>
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="currentPassword" className="text-white">
-              Mot de passe temporaire / actuel
+              {t('changePassword.currentPasswordLabel')}
             </Label>
             <div className="relative">
               <Input
@@ -117,7 +122,7 @@ export const ChangePassword = () => {
 
           <div className="space-y-2">
             <Label htmlFor="newPassword" className="text-white">
-              Nouveau mot de passe
+              {t('changePassword.newPasswordLabel')}
             </Label>
             <div className="relative">
               <Input
@@ -141,7 +146,7 @@ export const ChangePassword = () => {
 
           <div className="space-y-2">
             <Label htmlFor="confirmPassword" className="text-white">
-              Confirmer le nouveau mot de passe
+              {t('changePassword.confirmPasswordLabel')}
             </Label>
             <Input
               id="confirmPassword"
@@ -162,10 +167,10 @@ export const ChangePassword = () => {
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Mise à jour...
+                {t('changePassword.submitButtonLoading')}
               </>
             ) : (
-              'Mettre à jour le mot de passe et continuer'
+              t('changePassword.submitButton')
             )}
           </Button>
         </form>

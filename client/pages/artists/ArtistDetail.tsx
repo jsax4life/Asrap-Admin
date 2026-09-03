@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, Calendar, User, Edit3, Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { artistService, type ArtistDetailData } from '@/services/artistService';
 
 import { useAuth } from '@/hooks/useAuth';
 const ArtistDetail = () => {
+  const { t } = useTranslation('artists');
   const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const ArtistDetail = () => {
         const res = await artistService.getArtistDetail(id);
         setArtist(res.data);
       } catch (e: any) {
-        setError(e.message || 'Échec du chargement de l\'artiste');
+        setError(e.message || t('detail.errorLoadFailed'));
       } finally {
         setLoading(false);
       }
@@ -46,7 +48,7 @@ const ArtistDetail = () => {
     return (
       <div className="min-h-screen bg-asra-dark flex items-center justify-center">
         <Loader2 className="w-6 h-6 text-asra-red animate-spin" />
-        <span className="ml-3 text-white">Chargement de l'artiste...</span>
+        <span className="ml-3 text-white">{t('detail.loadingArtist')}</span>
       </div>
     );
   }
@@ -54,7 +56,7 @@ const ArtistDetail = () => {
   if (error || !artist) {
     return (
       <div className="min-h-screen bg-asra-dark flex items-center justify-center">
-        <div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded">{error || 'Artiste introuvable'}</div>
+        <div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded">{error || t('detail.notFound')}</div>
       </div>
     );
   }
@@ -71,7 +73,7 @@ const ArtistDetail = () => {
               className="flex items-center space-x-2 text-asra-gray-400 hover:text-white transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span>Retour</span>
+              <span>{t('shared.back')}</span>
             </button>
           </div>
 
@@ -81,7 +83,7 @@ const ArtistDetail = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-asra-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Rechercher"
+                placeholder={t('shared.searchPlaceholder')}
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-64"
               />
             </div>
@@ -89,7 +91,7 @@ const ArtistDetail = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
+              <span className="text-white text-sm">{user?.name || t('shared.defaultAdminName')}</span>
             </div>
           </div>
         </div>
@@ -105,7 +107,7 @@ const ArtistDetail = () => {
               <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
                 <span className="text-green-500 text-xs">✓</span>
               </div>
-              <span>Artiste vérifié</span>
+              <span>{t('detail.verifiedArtist')}</span>
             </div>
           )}
           
@@ -131,15 +133,15 @@ const ArtistDetail = () => {
               <div className="w-4 h-4 bg-asra-red rounded flex items-center justify-center">
                 <span className="text-white text-xs font-bold">S</span>
               </div>
-              <span>{formatNumber(artist.statistics.monthlyListeners || 0)} auditeurs mensuels</span>
+              <span>{t('detail.monthlyListeners', { count: formatNumber(artist.statistics.monthlyListeners || 0) })}</span>
             </div>
             <div className="w-1 h-1 bg-asra-gray-400 rounded-full"></div>
             <div className="flex items-center space-x-2">
-              <span>{formatNumber(artist.statistics.likes || 0)} mentions J'aime</span>
+              <span>{t('detail.likes', { count: formatNumber(artist.statistics.likes || 0) })}</span>
             </div>
             <div className="w-1 h-1 bg-asra-gray-400 rounded-full"></div>
             <div className="flex items-center space-x-2">
-              <span>{artist.statistics.songs} titres, {artist.statistics.totalDurationFormatted}</span>
+              <span>{t('detail.songsAndDuration', { count: artist.statistics.songs, duration: artist.statistics.totalDurationFormatted })}</span>
             </div>
           </div>
         </div>
@@ -154,7 +156,7 @@ const ArtistDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            À propos
+            {t('detail.tabs.about')}
           </button>
           <button
             onClick={() => setActiveTab('albums')}
@@ -164,7 +166,7 @@ const ArtistDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Albums, EPs et titres téléversés
+            {t('detail.tabs.albums')}
           </button>
           <button
             onClick={() => setActiveTab('videos')}
@@ -174,7 +176,7 @@ const ArtistDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Vidéos
+            {t('detail.tabs.videos')}
           </button>
           <button
             onClick={() => setActiveTab('tagged')}
@@ -184,7 +186,7 @@ const ArtistDetail = () => {
                 : 'text-asra-gray-400 border-transparent hover:text-white'
             }`}
           >
-            Mentions
+            {t('detail.tabs.tagged')}
           </button>
         </div>
 
@@ -192,31 +194,31 @@ const ArtistDetail = () => {
         {activeTab === 'about' && (
           <div className="max-w-4xl mx-auto">
             <div className="bg-asra-gray-900 rounded-lg p-8">
-              <h3 className="text-xl font-bold text-white mb-6">Biographie</h3>
+              <h3 className="text-xl font-bold text-white mb-6">{t('detail.biography')}</h3>
               <div className="text-asra-gray-300 leading-relaxed mb-8 whitespace-pre-line">
-                {artist.bio || 'Aucune biographie fournie.'}
+                {artist.bio || t('detail.noBio')}
               </div>
 
               {/* Key Information */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Date de naissance</h4>
-                  <p className="text-asra-gray-300">—</p>
+                  <h4 className="text-lg font-semibold text-white mb-2">{t('detail.birthDate')}</h4>
+                  <p className="text-asra-gray-300">{t('detail.notAvailable')}</p>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Ville d'origine</h4>
-                  <p className="text-asra-gray-300">{artist.hometown || '—'}</p>
+                  <h4 className="text-lg font-semibold text-white mb-2">{t('detail.hometown')}</h4>
+                  <p className="text-asra-gray-300">{artist.hometown || t('detail.notAvailable')}</p>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Genre</h4>
-                  <p className="text-asra-gray-300">{artist.genre || '—'}</p>
+                  <h4 className="text-lg font-semibold text-white mb-2">{t('detail.genre')}</h4>
+                  <p className="text-asra-gray-300">{artist.genre || t('detail.notAvailable')}</p>
                 </div>
               </div>
 
               {/* Edit Bio Button */}
               <button className="bg-asra-red text-white px-6 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors flex items-center space-x-2">
                 <Edit3 className="w-5 h-5" />
-                <span>Modifier la biographie</span>
+                <span>{t('detail.editBio')}</span>
               </button>
             </div>
           </div>

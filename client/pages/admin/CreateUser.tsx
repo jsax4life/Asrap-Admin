@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, User, Upload, UserCheck, Mail, Phone, Shield, Loader2, RefreshCw, Copy } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { adminAgentService } from '@/services/adminAgentService';
 import { generateTemporaryPassword } from '@/lib/password';
 
 import { useAuth } from '@/hooks/useAuth';
 const CreateUser = () => {
+  const { t } = useTranslation('admin');
   const { user } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -34,11 +36,11 @@ const CreateUser = () => {
   ];
 
   const userTypeLabels: Record<string, string> = {
-    'Admin User': 'Utilisateur administrateur',
-    'Payment Agent': 'Agent de paiement',
-    'Support Staff': 'Personnel de support',
-    'Moderator': 'Modérateur',
-    'Analyst': 'Analyste',
+    'Admin User': t('createUser.userTypeLabels.adminUser'),
+    'Payment Agent': t('createUser.userTypeLabels.paymentAgent'),
+    'Support Staff': t('createUser.userTypeLabels.supportStaff'),
+    'Moderator': t('createUser.userTypeLabels.moderator'),
+    'Analyst': t('createUser.userTypeLabels.analyst'),
   };
 
   const accessLevelOptions = [
@@ -50,11 +52,11 @@ const CreateUser = () => {
   ];
 
   const accessLevelLabels: Record<string, string> = {
-    'Super Admin': 'Super administrateur',
-    'Admin': 'Administrateur',
-    'Moderator': 'Modérateur',
-    'Analyst': 'Analyste',
-    'Viewer': 'Lecteur',
+    'Super Admin': t('createUser.accessLevelLabels.superAdmin'),
+    'Admin': t('createUser.accessLevelLabels.admin'),
+    'Moderator': t('createUser.accessLevelLabels.moderator'),
+    'Analyst': t('createUser.accessLevelLabels.analyst'),
+    'Viewer': t('createUser.accessLevelLabels.viewer'),
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -82,22 +84,22 @@ const CreateUser = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.userType) newErrors.userType = 'Le type d\'utilisateur est requis';
-    if (!formData.email) newErrors.email = 'L\'e-mail est requis';
-    if (!formData.role) newErrors.role = 'Le rôle est requis';
-    if (!formData.name) newErrors.name = 'Le nom est requis';
-    if (!formData.phoneNumber) newErrors.phoneNumber = 'Le numéro de téléphone est requis';
-    if (!isPaymentAgent && !formData.accessLevel) newErrors.accessLevel = 'Le niveau d\'accès est requis';
+    if (!formData.userType) newErrors.userType = t('createUser.errors.userTypeRequired');
+    if (!formData.email) newErrors.email = t('createUser.errors.emailRequired');
+    if (!formData.role) newErrors.role = t('createUser.errors.roleRequired');
+    if (!formData.name) newErrors.name = t('createUser.errors.nameRequired');
+    if (!formData.phoneNumber) newErrors.phoneNumber = t('createUser.errors.phoneNumberRequired');
+    if (!isPaymentAgent && !formData.accessLevel) newErrors.accessLevel = t('createUser.errors.accessLevelRequired');
     if (isPaymentAgent && !formData.temporaryPassword) {
-      newErrors.temporaryPassword = 'Le mot de passe temporaire est requis pour les agents';
+      newErrors.temporaryPassword = t('createUser.errors.temporaryPasswordRequiredForAgent');
     }
     if (isPaymentAgent && formData.temporaryPassword && formData.temporaryPassword.length < 8) {
-      newErrors.temporaryPassword = 'Le mot de passe temporaire doit comporter au moins 8 caractères';
+      newErrors.temporaryPassword = t('createUser.errors.temporaryPasswordTooShort');
     }
 
     // Validation de l'e-mail
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Veuillez saisir une adresse e-mail valide';
+      newErrors.email = t('createUser.errors.emailInvalid');
     }
 
     setErrors(newErrors);
@@ -107,13 +109,13 @@ const CreateUser = () => {
   const handleGeneratePassword = () => {
     const password = generateTemporaryPassword();
     handleInputChange('temporaryPassword', password);
-    toast.success('Mot de passe temporaire généré');
+    toast.success(t('createUser.toasts.temporaryPasswordGenerated'));
   };
 
   const handleCopyPassword = async () => {
     if (!formData.temporaryPassword) return;
     await navigator.clipboard.writeText(formData.temporaryPassword);
-    toast.success('Mot de passe copié dans le presse-papiers');
+    toast.success(t('createUser.toasts.passwordCopied'));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -137,10 +139,10 @@ const CreateUser = () => {
           temporaryPassword: formData.temporaryPassword,
           department: 'field_agents',
         });
-        toast.success('Agent de paiement créé. Partagez le mot de passe temporaire en toute sécurité avec l\'agent.');
+        toast.success(t('createUser.toasts.agentCreated'));
         navigate('/admin-users?tab=payment-agents');
       } catch (error: unknown) {
-        const message = error instanceof Error ? error.message : 'Échec de la création de l\'agent de paiement';
+        const message = error instanceof Error ? error.message : t('createUser.toasts.agentCreateFailed');
         toast.error(message);
       } finally {
         setIsSubmitting(false);
@@ -171,13 +173,13 @@ const CreateUser = () => {
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">Date : 03/02/2023</span>
+              <span className="text-sm">{t('createUser.dateLabel')}</span>
             </div>
           </div>
 
           {/* Center - Page Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Utilisateurs administrateurs</h1>
+            <h1 className="text-2xl font-bold text-white">{t('createUser.pageTitle')}</h1>
           </div>
 
           {/* Right side - Profile */}
@@ -185,7 +187,7 @@ const CreateUser = () => {
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
+            <span className="text-white text-sm">{user?.name || t('createUser.defaultUserName')}</span>
           </div>
         </div>
       </div>
@@ -198,11 +200,11 @@ const CreateUser = () => {
           className="text-asra-red hover:text-red-400 text-sm font-medium mb-6 flex items-center space-x-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Retour à la liste des utilisateurs administrateurs</span>
+          <span>{t('createUser.backLink')}</span>
         </button>
 
         {/* Form Title */}
-        <h2 className="text-3xl font-bold text-white mb-8">Créer de nouveaux utilisateurs</h2>
+        <h2 className="text-3xl font-bold text-white mb-8">{t('createUser.formTitle')}</h2>
 
         {/* Avatar Section */}
         <div className="mb-8">
@@ -212,7 +214,7 @@ const CreateUser = () => {
                 {formData.avatar ? (
                   <img
                     src={URL.createObjectURL(formData.avatar)}
-                    alt="Aperçu de l'avatar"
+                    alt={t('createUser.avatar.previewAlt')}
                     className="w-full h-full rounded-full object-cover"
                   />
                 ) : (
@@ -229,10 +231,10 @@ const CreateUser = () => {
             </div>
             <div>
               <label htmlFor="avatar" className="text-white text-lg font-medium">
-                Choisir un avatar <span className="text-asra-red">*</span>
+                {t('createUser.avatar.label')} <span className="text-asra-red">*</span>
               </label>
               <p className="text-asra-gray-400 text-sm mt-1">
-                Cliquez sur l'avatar pour téléverser une nouvelle image
+                {t('createUser.avatar.hint')}
               </p>
             </div>
           </div>
@@ -246,7 +248,7 @@ const CreateUser = () => {
               {/* User Type */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Type d'utilisateur <span className="text-asra-red">*</span>
+                  {t('createUser.form.userType')} <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -256,7 +258,7 @@ const CreateUser = () => {
                       errors.userType ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
                   >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Sélectionner...</option>
+                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">{t('createUser.form.selectPlaceholder')}</option>
                     {userTypeOptions.map((option) => (
                       <option key={option} value={option} className="text-white bg-asra-gray-800">
                         {userTypeLabels[option] || option}
@@ -270,8 +272,7 @@ const CreateUser = () => {
                 )}
                 {isPaymentAgent && (
                   <p className="text-asra-gray-400 text-sm mt-2">
-                    Les agents de paiement ne peuvent pas s'auto-inscrire. Ils se connectent avec le mot de passe
-                    temporaire défini ici et doivent le changer dès la première connexion avant d'utiliser le portail agent.
+                    {t('createUser.form.paymentAgentHint')}
                   </p>
                 )}
               </div>
@@ -279,14 +280,14 @@ const CreateUser = () => {
               {/* Email */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  E-mail <span className="text-asra-red">*</span>
+                  {t('createUser.form.email')} <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    placeholder="Entrez l'adresse e-mail"
+                    placeholder={t('createUser.form.emailPlaceholder')}
                     className={`w-full px-4 py-3 pl-12 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                       errors.email ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
@@ -301,13 +302,13 @@ const CreateUser = () => {
               {/* Role */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Rôle <span className="text-asra-red">*</span>
+                  {t('createUser.form.role')} <span className="text-asra-red">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.role}
                   onChange={(e) => handleInputChange('role', e.target.value)}
-                  placeholder="Entrez le rôle"
+                  placeholder={t('createUser.form.rolePlaceholder')}
                   readOnly={isPaymentAgent}
                   className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                     errors.role ? 'border-red-500' : 'border-asra-gray-700'
@@ -321,14 +322,14 @@ const CreateUser = () => {
               {isPaymentAgent && (
                 <div>
                   <label className="block text-white text-sm font-medium mb-2">
-                    Mot de passe temporaire <span className="text-asra-red">*</span>
+                    {t('createUser.form.temporaryPassword')} <span className="text-asra-red">*</span>
                   </label>
                   <div className="flex gap-2">
                     <input
                       type="text"
                       value={formData.temporaryPassword}
                       onChange={(e) => handleInputChange('temporaryPassword', e.target.value)}
-                      placeholder="L'agent le changera à la première connexion"
+                      placeholder={t('createUser.form.temporaryPasswordPlaceholder')}
                       className={`flex-1 px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red font-mono ${
                         errors.temporaryPassword ? 'border-red-500' : 'border-asra-gray-700'
                       }`}
@@ -337,17 +338,17 @@ const CreateUser = () => {
                       type="button"
                       onClick={handleGeneratePassword}
                       className="px-4 py-3 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white hover:border-asra-red transition-colors flex items-center gap-2 whitespace-nowrap"
-                      title="Générer un mot de passe"
+                      title={t('createUser.form.generateTitle')}
                     >
                       <RefreshCw className="w-4 h-4" />
-                      Générer
+                      {t('createUser.form.generateButton')}
                     </button>
                     <button
                       type="button"
                       onClick={handleCopyPassword}
                       disabled={!formData.temporaryPassword}
                       className="px-4 py-3 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white hover:border-asra-red transition-colors disabled:opacity-50"
-                      title="Copier le mot de passe"
+                      title={t('createUser.form.copyTitle')}
                     >
                       <Copy className="w-4 h-4" />
                     </button>
@@ -356,7 +357,7 @@ const CreateUser = () => {
                     <p className="text-red-500 text-sm mt-1">{errors.temporaryPassword}</p>
                   )}
                   <p className="text-asra-gray-400 text-sm mt-1">
-                    Cliquez sur Générer pour un mot de passe sécurisé. Partagez-le avec l'agent — il ne sera plus affiché ensuite.
+                    {t('createUser.form.temporaryPasswordHint')}
                   </p>
                 </div>
               )}
@@ -367,13 +368,13 @@ const CreateUser = () => {
               {/* Name */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Nom de l'utilisateur <span className="text-asra-red">*</span>
+                  {t('createUser.form.name')} <span className="text-asra-red">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  placeholder="Entrez le nom"
+                  placeholder={t('createUser.form.namePlaceholder')}
                   className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                     errors.name ? 'border-red-500' : 'border-asra-gray-700'
                   }`}
@@ -386,14 +387,14 @@ const CreateUser = () => {
               {/* Phone Number */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Numéro de téléphone <span className="text-asra-red">*</span>
+                  {t('createUser.form.phoneNumber')} <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type="tel"
                     value={formData.phoneNumber}
                     onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
-                    placeholder="+234"
+                    placeholder={t('createUser.form.phoneNumberPlaceholder')}
                     className={`w-full px-4 py-3 pl-12 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                       errors.phoneNumber ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
@@ -409,7 +410,7 @@ const CreateUser = () => {
               {!isPaymentAgent && (
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Niveau d'accès <span className="text-asra-red">*</span>
+                  {t('createUser.form.accessLevel')} <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -419,7 +420,7 @@ const CreateUser = () => {
                       errors.accessLevel ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
                   >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Sélectionner...</option>
+                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">{t('createUser.form.selectPlaceholder')}</option>
                     {accessLevelOptions.map((option) => (
                       <option key={option} value={option} className="text-white bg-asra-gray-800">
                         {accessLevelLabels[option] || option}
@@ -444,7 +445,7 @@ const CreateUser = () => {
               className="bg-asra-red hover:bg-red-600 disabled:opacity-60 text-white px-12 py-4 rounded-lg text-lg font-medium transition-colors flex items-center gap-2"
             >
               {isSubmitting && <Loader2 className="w-5 h-5 animate-spin" />}
-              {isSubmitting ? 'Création...' : 'Créer'}
+              {isSubmitting ? t('createUser.submit.submitting') : t('createUser.submit.submit')}
             </button>
           </div>
         </form>

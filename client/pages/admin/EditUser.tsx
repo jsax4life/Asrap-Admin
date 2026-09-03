@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, User, Save, UserCheck, Mail, Phone, Shield } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/hooks/useAuth';
 // Mock data for user detail
@@ -20,6 +21,7 @@ const mockUserDetail = {
 };
 
 const EditUser = () => {
+  const { t } = useTranslation('admin');
   const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -70,17 +72,17 @@ const EditUser = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name) newErrors.name = 'Le nom est requis';
-    if (!formData.userType) newErrors.userType = 'Le type d\'utilisateur est requis';
-    if (!formData.email) newErrors.email = 'L\'e-mail est requis';
-    if (!formData.phoneNumber) newErrors.phoneNumber = 'Le numéro de téléphone est requis';
-    if (!formData.role) newErrors.role = 'Le rôle est requis';
-    if (!formData.accessLevel) newErrors.accessLevel = 'Le niveau d\'accès est requis';
-    if (!formData.password) newErrors.password = 'Le mot de passe est requis';
+    if (!formData.name) newErrors.name = t('editUser.errors.nameRequired');
+    if (!formData.userType) newErrors.userType = t('editUser.errors.userTypeRequired');
+    if (!formData.email) newErrors.email = t('editUser.errors.emailRequired');
+    if (!formData.phoneNumber) newErrors.phoneNumber = t('editUser.errors.phoneNumberRequired');
+    if (!formData.role) newErrors.role = t('editUser.errors.roleRequired');
+    if (!formData.accessLevel) newErrors.accessLevel = t('editUser.errors.accessLevelRequired');
+    if (!formData.password) newErrors.password = t('editUser.errors.passwordRequired');
 
     // Validation de l'e-mail
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Veuillez saisir une adresse e-mail valide';
+      newErrors.email = t('editUser.errors.emailInvalid');
     }
 
     setErrors(newErrors);

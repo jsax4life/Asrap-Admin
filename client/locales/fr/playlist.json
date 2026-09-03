@@ -1,0 +1,34 @@
+{
+  "management": {
+    "header": {
+      "date": "Date : 03/02/2023",
+      "title": "Gestionnaire de playlists Asrapa",
+      "searchPlaceholder": "Rechercher",
+      "defaultUser": "Administrateur système"
+    },
+    "newPlaylist": "Nouvelle playlist",
+    "emptyState": {
+      "message": "Aucune playlist ne correspond à votre recherche",
+      "clearSearch": "Effacer la recherche"
+    }
+  },
+  "detail": {
+    "goBack": "Retour",
+    "searchPlaceholder": "Rechercher",
+    "defaultUser": "Administrateur système",
+    "banner": {
+      "line1": "VOICI",
+      "line2": "Wizkid"
+    },
+    "addToPlaylist": "Ajouter à la playlist",
+    "publicPlaylist": "PLAYLIST PUBLIQUE",
+    "likes": "mentions J'aime",
+    "songsAndDuration": "{{songCount}} chansons, {{duration}}",
+    "columns": {
+      "title": "TITRE",
+      "album": "ALBUM",
+      "dateAdded": "DATE D'AJOUT",
+      "duration": "DURÉE"
+    }
+  }
+}

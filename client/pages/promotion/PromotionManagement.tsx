@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import { 
   Search, 
@@ -57,16 +58,17 @@ const statusColors = {
   Draft: 'bg-gray-500'
 };
 
-const statusLabels: Record<string, string> = {
-  Active: 'Actif',
-  Paused: 'En pause',
-  Completed: 'Terminé',
-  Draft: 'Brouillon'
-};
-
 const PromotionManagement = () => {
+  const { t } = useTranslation('promotion');
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const statusLabels: Record<string, string> = {
+    Active: t('status.active'),
+    Paused: t('status.paused'),
+    Completed: t('status.completed'),
+    Draft: t('status.draft'),
+  };
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
@@ -137,13 +139,13 @@ const PromotionManagement = () => {
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">Date : 03/02/2023</span>
+              <span className="text-sm">{t('header.date')}</span>
             </div>
           </div>
 
           {/* Center - Page Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Gestion des promotions</h1>
+            <h1 className="text-2xl font-bold text-white">{t('header.title')}</h1>
           </div>
 
           {/* Right side - Search and Profile */}
@@ -152,7 +154,7 @@ const PromotionManagement = () => {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Rechercher des campagnes..."
+                placeholder={t('header.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-64 px-4 py-2 pl-10 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red"
@@ -165,7 +167,7 @@ const PromotionManagement = () => {
               <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
+              <span className="text-white text-sm">{user?.name || t('header.defaultAdminName')}</span>
             </div>
           </div>
         </div>
@@ -181,7 +183,7 @@ const PromotionManagement = () => {
               className="bg-asra-red hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2"
             >
               <Plus className="w-5 h-5" />
-              <span>Créer une campagne</span>
+              <span>{t('actions.createCampaign')}</span>
             </button>
 
             <div className="flex items-center space-x-2">
@@ -211,11 +213,11 @@ const PromotionManagement = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-4 py-2 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white focus:outline-none focus:border-asra-red"
             >
-              <option value="all">Tous les statuts</option>
-              <option value="Active">Actif</option>
-              <option value="Paused">En pause</option>
-              <option value="Completed">Terminé</option>
-              <option value="Draft">Brouillon</option>
+              <option value="all">{t('filters.allStatuses')}</option>
+              <option value="Active">{t('status.active')}</option>
+              <option value="Paused">{t('status.paused')}</option>
+              <option value="Completed">{t('status.completed')}</option>
+              <option value="Draft">{t('status.draft')}</option>
             </select>
 
             <select
@@ -223,11 +225,11 @@ const PromotionManagement = () => {
               onChange={(e) => setTypeFilter(e.target.value)}
               className="px-4 py-2 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white focus:outline-none focus:border-asra-red"
             >
-              <option value="all">Tous les types</option>
-              <option value="Event Promotion">Promotion d'événement</option>
-              <option value="Artist Promotion">Promotion d'artiste</option>
-              <option value="Album Promotion">Promotion d'album</option>
-              <option value="Seasonal Promotion">Promotion saisonnière</option>
+              <option value="all">{t('filters.allTypes')}</option>
+              <option value="Event Promotion">{t('filters.eventPromotion')}</option>
+              <option value="Artist Promotion">{t('filters.artistPromotion')}</option>
+              <option value="Album Promotion">{t('filters.albumPromotion')}</option>
+              <option value="Seasonal Promotion">{t('filters.seasonalPromotion')}</option>
             </select>
 
             <select
@@ -235,10 +237,10 @@ const PromotionManagement = () => {
               onChange={(e) => setSortBy(e.target.value)}
               className="px-4 py-2 bg-asra-gray-800 border border-asra-gray-700 rounded-lg text-white focus:outline-none focus:border-asra-red"
             >
-              <option value="createdAt">Trier par date</option>
-              <option value="name">Trier par nom</option>
-              <option value="budget">Trier par budget</option>
-              <option value="reach">Trier par portée</option>
+              <option value="createdAt">{t('filters.sortByDate')}</option>
+              <option value="name">{t('filters.sortByName')}</option>
+              <option value="budget">{t('filters.sortByBudget')}</option>
+              <option value="reach">{t('filters.sortByReach')}</option>
             </select>
           </div>
         </div>
@@ -248,7 +250,7 @@ const PromotionManagement = () => {
           <div className="bg-asra-gray-900 rounded-lg p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-asra-gray-400 text-sm font-medium">Total des campagnes</p>
+                <p className="text-asra-gray-400 text-sm font-medium">{t('stats.totalCampaigns')}</p>
                 <p className="text-2xl font-bold text-white">{mockCampaigns.length}</p>
               </div>
               <div className="w-12 h-12 bg-asra-red/20 rounded-lg flex items-center justify-center">
@@ -260,7 +262,7 @@ const PromotionManagement = () => {
           <div className="bg-asra-gray-900 rounded-lg p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-asra-gray-400 text-sm font-medium">Campagnes actives</p>
+                <p className="text-asra-gray-400 text-sm font-medium">{t('stats.activeCampaigns')}</p>
                 <p className="text-2xl font-bold text-white">
                   {mockCampaigns.filter(c => c.status === 'Active').length}
                 </p>
@@ -274,7 +276,7 @@ const PromotionManagement = () => {
           <div className="bg-asra-gray-900 rounded-lg p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-asra-gray-400 text-sm font-medium">Budget total</p>
+                <p className="text-asra-gray-400 text-sm font-medium">{t('stats.totalBudget')}</p>
                 <p className="text-2xl font-bold text-white">
                   {mockCampaigns.reduce((sum, c) => sum + parseInt(c.budget.replace('$', '').replace(',', '')), 0).toLocaleString('fr-FR')} FCFA
                 </p>
@@ -288,7 +290,7 @@ const PromotionManagement = () => {
           <div className="bg-asra-gray-900 rounded-lg p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-asra-gray-400 text-sm font-medium">Portée totale</p>
+                <p className="text-asra-gray-400 text-sm font-medium">{t('stats.totalReach')}</p>
                 <p className="text-2xl font-bold text-white">
                   {mockCampaigns.reduce((sum, c) => sum + parseInt(c.reach.replace('K', '')), 0)}K
                 </p>
@@ -324,26 +326,26 @@ const PromotionManagement = () => {
                 {/* Campaign Metrics */}
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
-                    <p className="text-asra-gray-400 text-xs">Budget</p>
+                    <p className="text-asra-gray-400 text-xs">{t('card.budget')}</p>
                     <p className="text-white font-semibold">{campaign.budget}</p>
                   </div>
                   <div>
-                    <p className="text-asra-gray-400 text-xs">Dépensé</p>
+                    <p className="text-asra-gray-400 text-xs">{t('card.spent')}</p>
                     <p className="text-white font-semibold">{campaign.spent}</p>
                   </div>
                   <div>
-                    <p className="text-asra-gray-400 text-xs">Portée</p>
+                    <p className="text-asra-gray-400 text-xs">{t('card.reach')}</p>
                     <p className="text-white font-semibold">{campaign.reach}</p>
                   </div>
                   <div>
-                    <p className="text-asra-gray-400 text-xs">Engagement</p>
+                    <p className="text-asra-gray-400 text-xs">{t('card.engagement')}</p>
                     <p className="text-white font-semibold">{campaign.engagement}</p>
                   </div>
                 </div>
 
                 {/* Platforms */}
                 <div className="mb-4">
-                  <p className="text-asra-gray-400 text-xs mb-2">Plateformes</p>
+                  <p className="text-asra-gray-400 text-xs mb-2">{t('card.platforms')}</p>
                   <div className="flex flex-wrap gap-1">
                     {campaign.platforms.map((platform, index) => (
                       <span key={index} className="px-2 py-1 bg-asra-gray-800 text-asra-gray-300 text-xs rounded">
@@ -383,7 +385,7 @@ const PromotionManagement = () => {
                         : 'bg-green-500 hover:bg-green-600 text-white'
                     }`}
                   >
-                    {campaign.status === 'Active' ? 'Mettre en pause' : 'Reprendre'}
+                    {campaign.status === 'Active' ? t('card.pause') : t('card.resume')}
                   </button>
                 </div>
               </div>
@@ -395,13 +397,13 @@ const PromotionManagement = () => {
               <table className="w-full">
                 <thead className="bg-asra-gray-800">
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Campagne</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Type</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Statut</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Budget</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Portée</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Engagement</th>
-                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">Actions</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('table.campaign')}</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('table.type')}</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('table.status')}</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('table.budget')}</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('table.reach')}</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('table.engagement')}</th>
+                    <th className="px-6 py-4 text-left text-sm font-medium text-asra-gray-300">{t('table.actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-asra-gray-700">
@@ -456,17 +458,17 @@ const PromotionManagement = () => {
         {filteredCampaigns.length === 0 && (
           <div className="text-center py-12">
             <Megaphone className="w-16 h-16 text-asra-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-white mb-2">Aucune campagne trouvée</h3>
+            <h3 className="text-lg font-semibold text-white mb-2">{t('emptyState.title')}</h3>
             <p className="text-asra-gray-400 mb-6">
               {searchQuery || statusFilter !== 'all' || typeFilter !== 'all'
-                ? 'Essayez d\'ajuster vos filtres pour voir plus de résultats.'
-                : 'Commencez par créer votre première campagne de promotion.'}
+                ? t('emptyState.filtered')
+                : t('emptyState.notFiltered')}
             </p>
             <button
               onClick={handleCreateCampaign}
               className="bg-asra-red hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
             >
-              Créer une campagne
+              {t('actions.createCampaign')}
             </button>
           </div>
         )}

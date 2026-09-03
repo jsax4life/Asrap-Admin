@@ -1,8 +1,10 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { AGENT_MENU_ITEMS, AGENT_ACCOUNT_MENU_ITEMS, ICON_MAP } from '@/constants';
 import { User } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 import asrapaLogo from '@/assets/images/asrapa-logo-white.png';
 
 interface AgentSidebarProps {
@@ -15,6 +17,7 @@ export function AgentSidebar({ isOpen = true, onClose, user }: AgentSidebarProps
   const navigate = useNavigate();
   const location = useLocation();
   const { logout } = useAuth();
+  const { t } = useTranslation('common');
 
   const handleMenuClick = (path: string) => {
     if (path === '/logout') {
@@ -57,18 +60,19 @@ export function AgentSidebar({ isOpen = true, onClose, user }: AgentSidebarProps
           <X className="w-6 h-6" />
         </button>
 
-        <div className="h-[150px] border-b border-asra-gray-2 flex flex-col items-center justify-center px-10">
+        <div className="h-[150px] border-b border-asra-gray-2 flex flex-col items-center justify-center gap-2 px-10">
           <img
             src={asrapaLogo}
             alt="Asrapa"
-            className="h-24 w-auto object-contain"
+            className="h-20 w-auto object-contain"
           />
-          <span className="text-asra-red text-xs font-bold uppercase tracking-widest mt-1">Portail Agent</span>
+          <span className="text-asra-red text-xs font-bold uppercase tracking-widest">{t('sidebar.agentPortalTag')}</span>
+          <LanguageToggle />
         </div>
 
         <div className="flex-1 px-8 lg:px-12 py-8 flex flex-col justify-between overflow-y-auto">
           <div className="space-y-6">
-            <div className="text-asra-gray-6 text-base font-bold tracking-[0.13px]">MENU</div>
+            <div className="text-asra-gray-6 text-base font-bold tracking-[0.13px]">{t('sidebar.menuSection')}</div>
 
             <nav className="space-y-6">
               {AGENT_MENU_ITEMS.map((item) => {
@@ -84,7 +88,7 @@ export function AgentSidebar({ isOpen = true, onClose, user }: AgentSidebarProps
                     }`}
                   >
                     <IconComponent className="w-6 h-6 flex-shrink-0" strokeWidth={isActive ? 1.87 : 1.5} />
-                    <span className="text-base font-bold tracking-[0.13px]">{item.label}</span>
+                    <span className="text-base font-bold tracking-[0.13px]">{t(`menu.${item.id}`, item.label)}</span>
                     {isActive && <div className="w-1 h-6 bg-white ml-auto -mr-8 lg:-mr-12" />}
                   </button>
                 );
@@ -93,7 +97,7 @@ export function AgentSidebar({ isOpen = true, onClose, user }: AgentSidebarProps
           </div>
 
           <div className="space-y-6 mt-12 lg:mt-40">
-            <div className="text-asra-gray-6 text-base font-bold tracking-[0.13px]">VOTRE COMPTE</div>
+            <div className="text-asra-gray-6 text-base font-bold tracking-[0.13px]">{t('sidebar.accountSection')}</div>
 
             <nav className="space-y-6">
               {AGENT_ACCOUNT_MENU_ITEMS.map((item) => {
@@ -109,7 +113,7 @@ export function AgentSidebar({ isOpen = true, onClose, user }: AgentSidebarProps
                     }`}
                   >
                     <IconComponent className="w-6 h-6 flex-shrink-0" strokeWidth={isActive ? 1.87 : 1.5} />
-                    <span className="text-base font-bold tracking-[0.13px]">{item.label}</span>
+                    <span className="text-base font-bold tracking-[0.13px]">{t(`menu.${item.id}`, item.label)}</span>
                     {isActive && <div className="w-1 h-6 bg-white ml-auto -mr-8 lg:-mr-12" />}
                   </button>
                 );

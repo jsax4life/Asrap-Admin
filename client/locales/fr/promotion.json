@@ -1,0 +1,58 @@
+{
+  "header": {
+    "title": "Gestion des promotions",
+    "date": "Date : 03/02/2023",
+    "searchPlaceholder": "Rechercher des campagnes...",
+    "defaultAdminName": "Administrateur système"
+  },
+  "actions": {
+    "createCampaign": "Créer une campagne"
+  },
+  "filters": {
+    "allStatuses": "Tous les statuts",
+    "allTypes": "Tous les types",
+    "sortByDate": "Trier par date",
+    "sortByName": "Trier par nom",
+    "sortByBudget": "Trier par budget",
+    "sortByReach": "Trier par portée",
+    "eventPromotion": "Promotion d'événement",
+    "artistPromotion": "Promotion d'artiste",
+    "albumPromotion": "Promotion d'album",
+    "seasonalPromotion": "Promotion saisonnière"
+  },
+  "status": {
+    "active": "Actif",
+    "paused": "En pause",
+    "completed": "Terminé",
+    "draft": "Brouillon"
+  },
+  "stats": {
+    "totalCampaigns": "Total des campagnes",
+    "activeCampaigns": "Campagnes actives",
+    "totalBudget": "Budget total",
+    "totalReach": "Portée totale"
+  },
+  "card": {
+    "budget": "Budget",
+    "spent": "Dépensé",
+    "reach": "Portée",
+    "engagement": "Engagement",
+    "platforms": "Plateformes",
+    "pause": "Mettre en pause",
+    "resume": "Reprendre"
+  },
+  "table": {
+    "campaign": "Campagne",
+    "type": "Type",
+    "status": "Statut",
+    "budget": "Budget",
+    "reach": "Portée",
+    "engagement": "Engagement",
+    "actions": "Actions"
+  },
+  "emptyState": {
+    "title": "Aucune campagne trouvée",
+    "filtered": "Essayez d'ajuster vos filtres pour voir plus de résultats.",
+    "notFiltered": "Commencez par créer votre première campagne de promotion."
+  }
+}

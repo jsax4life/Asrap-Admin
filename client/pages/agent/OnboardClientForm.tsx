@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { AgentPageHeader } from '@/components/agent/AgentPageHeader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,15 +17,16 @@ interface OnboardClientFormProps {
   subtitle: string;
 }
 
-const PAYMENT_METHODS = [
-  { value: 'cash', label: 'Espèces' },
-  { value: 'mobile_money', label: 'Mobile Money' },
-  { value: 'bank_transfer', label: 'Virement bancaire' },
-  { value: 'card', label: 'Carte' },
-] as const;
-
 export function OnboardClientForm({ clientType, title, subtitle }: OnboardClientFormProps) {
+  const { t } = useTranslation('agent');
   const navigate = useNavigate();
+
+  const PAYMENT_METHODS = [
+    { value: 'cash', label: t('onboardForm.paymentMethods.cash') },
+    { value: 'mobile_money', label: t('onboardForm.paymentMethods.mobile_money') },
+    { value: 'bank_transfer', label: t('onboardForm.paymentMethods.bank_transfer') },
+    { value: 'card', label: t('onboardForm.paymentMethods.card') },
+  ] as const;
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<OnboardingFormData>({
     fullName: '',
@@ -55,25 +57,25 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.fullName || !form.email || !form.phone) {
-      toast.error('Veuillez remplir tous les champs obligatoires');
+      toast.error(t('onboardForm.errors.requiredFields'));
       return;
     }
     if (clientType === 'artist' && !form.stageName) {
-      toast.error('Le nom de scène est obligatoire pour les artistes');
+      toast.error(t('onboardForm.errors.stageNameRequired'));
       return;
     }
     if (clientType === 'advertiser' && !form.companyName) {
-      toast.error('Le nom de l\'entreprise est obligatoire pour les annonceurs');
+      toast.error(t('onboardForm.errors.companyNameRequired'));
       return;
     }
 
     setLoading(true);
     try {
       await agentService.onboardClient(form);
-      toast.success(`${title} intégré avec succès !`);
+      toast.success(t('onboardForm.successToast', { title }));
       navigate('/agent/clients');
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Échec de l\'intégration du client. Veuillez réessayer.';
+      const message = error instanceof Error ? error.message : t('onboardForm.errors.genericFailure');
       toast.error(message);
     } finally {
       setLoading(false);
@@ -90,42 +92,42 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
           className="text-asra-red hover:text-red-400 text-sm font-medium mb-6 flex items-center gap-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          Retour aux options d'intégration
+          {t('onboardForm.backToOptions')}
         </button>
 
         <p className="text-asra-gray-6 mb-8">{subtitle}</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-            <h3 className="text-white font-bold">Informations personnelles</h3>
+            <h3 className="text-white font-bold">{t('onboardForm.sections.personalInfo')}</h3>
 
             <div className="space-y-2">
-              <Label className="text-white">Nom complet *</Label>
+              <Label className="text-white">{t('onboardForm.fields.fullName')}</Label>
               <Input
                 value={form.fullName}
                 onChange={(e) => update('fullName', e.target.value)}
-                placeholder="Saisissez le nom complet du client"
+                placeholder={t('onboardForm.fields.fullNamePlaceholder')}
                 className="bg-asra-gray-2 border-asra-gray-5 text-white"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-white">E-mail *</Label>
+                <Label className="text-white">{t('onboardForm.fields.email')}</Label>
                 <Input
                   type="email"
                   value={form.email}
                   onChange={(e) => update('email', e.target.value)}
-                  placeholder="email@example.com"
+                  placeholder={t('onboardForm.fields.emailPlaceholder')}
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-white">Numéro de téléphone *</Label>
+                <Label className="text-white">{t('onboardForm.fields.phone')}</Label>
                 <Input
                   value={form.phone}
                   onChange={(e) => update('phone', e.target.value)}
-                  placeholder="+234 800 000 0000"
+                  placeholder={t('onboardForm.fields.phonePlaceholder')}
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
@@ -133,7 +135,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-white">Date de naissance</Label>
+                <Label className="text-white">{t('onboardForm.fields.dob')}</Label>
                 <Input
                   type="date"
                   value={form.dateOfBirth}
@@ -142,11 +144,11 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-white">Lieu / Ville</Label>
+                <Label className="text-white">{t('onboardForm.fields.location')}</Label>
                 <Input
                   value={form.location}
                   onChange={(e) => update('location', e.target.value)}
-                  placeholder="ex. Lagos, Abuja"
+                  placeholder={t('onboardForm.fields.locationPlaceholder')}
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
@@ -155,22 +157,22 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
           {clientType === 'artist' && (
             <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-              <h3 className="text-white font-bold">Détails de l'artiste</h3>
+              <h3 className="text-white font-bold">{t('onboardForm.sections.artistDetails')}</h3>
               <div className="space-y-2">
-                <Label className="text-white">Nom de scène *</Label>
+                <Label className="text-white">{t('onboardForm.fields.stageName')}</Label>
                 <Input
                   value={form.stageName}
                   onChange={(e) => update('stageName', e.target.value)}
-                  placeholder="Nom de l'artiste ou du groupe"
+                  placeholder={t('onboardForm.fields.stageNamePlaceholder')}
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-white">Genre</Label>
+                <Label className="text-white">{t('onboardForm.fields.genre')}</Label>
                 <Input
                   value={form.genre}
                   onChange={(e) => update('genre', e.target.value)}
-                  placeholder="ex. Afrobeats, Hip-Hop"
+                  placeholder={t('onboardForm.fields.genrePlaceholder')}
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
@@ -179,22 +181,22 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
           {clientType === 'advertiser' && (
             <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-              <h3 className="text-white font-bold">Détails de l'entreprise</h3>
+              <h3 className="text-white font-bold">{t('onboardForm.sections.businessDetails')}</h3>
               <div className="space-y-2">
-                <Label className="text-white">Nom de l'entreprise *</Label>
+                <Label className="text-white">{t('onboardForm.fields.companyName')}</Label>
                 <Input
                   value={form.companyName}
                   onChange={(e) => update('companyName', e.target.value)}
-                  placeholder="Nom de l'entreprise ou de la marque"
+                  placeholder={t('onboardForm.fields.companyNamePlaceholder')}
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-white">Type d'entreprise</Label>
+                <Label className="text-white">{t('onboardForm.fields.businessType')}</Label>
                 <Input
                   value={form.businessType}
                   onChange={(e) => update('businessType', e.target.value)}
-                  placeholder="ex. Restaurant, Commerce, Événementiel"
+                  placeholder={t('onboardForm.fields.businessTypePlaceholder')}
                   className="bg-asra-gray-2 border-asra-gray-5 text-white"
                 />
               </div>
@@ -202,7 +204,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
           )}
 
           <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-            <h3 className="text-white font-bold">Forfait d'abonnement</h3>
+            <h3 className="text-white font-bold">{t('onboardForm.sections.subscriptionPlan')}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {availablePlans.map(([key, plan]) => (
                 <button
@@ -215,9 +217,9 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
                       : 'border-asra-gray-2 hover:border-asra-gray-5'
                   }`}
                 >
-                  <p className="text-white font-medium">{plan.label}</p>
+                  <p className="text-white font-medium">{t(`subscriptionPlans.${key}`, { ns: 'common' })}</p>
                   <p className="text-asra-gray-6 text-sm">
-                    {plan.price === 0 ? 'Gratuit' : `${plan.price.toLocaleString('fr-FR')} FCFA/mois`}
+                    {plan.price === 0 ? t('onboardForm.free') : `${plan.price.toLocaleString('fr-FR')} ${t('onboardForm.priceSuffix')}`}
                   </p>
                 </button>
               ))}
@@ -225,7 +227,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
             {selectedPlan && selectedPlan.price > 0 && (
               <div className="space-y-2">
-                <Label className="text-white">Mode de paiement</Label>
+                <Label className="text-white">{t('onboardForm.paymentMethod')}</Label>
                 <select
                   value={form.paymentMethod}
                   onChange={(e) => update('paymentMethod', e.target.value)}
@@ -242,11 +244,11 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
           </section>
 
           <section className="bg-asra-gray-1 rounded-lg p-6 border border-asra-gray-2 space-y-4">
-            <h3 className="text-white font-bold">Notes (facultatif)</h3>
+            <h3 className="text-white font-bold">{t('onboardForm.sections.notes')}</h3>
             <textarea
               value={form.notes}
               onChange={(e) => update('notes', e.target.value)}
-              placeholder="Toute note supplémentaire concernant ce client..."
+              placeholder={t('onboardForm.notesPlaceholder')}
               rows={3}
               className="w-full bg-asra-gray-2 text-white px-3 py-2 rounded-lg border border-asra-gray-5 resize-none"
             />
@@ -254,7 +256,7 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
 
           {selectedPlan && selectedPlan.price > 0 && (
             <div className="bg-asra-gray-1 rounded-lg p-4 border border-asra-red/30 flex justify-between items-center">
-              <span className="text-asra-gray-6">Total à encaisser</span>
+              <span className="text-asra-gray-6">{t('onboardForm.totalToCollect')}</span>
               <span className="text-white text-xl font-bold">{selectedPlan.price.toLocaleString('fr-FR')} FCFA</span>
             </div>
           )}
@@ -267,10 +269,10 @@ export function OnboardClientForm({ clientType, title, subtitle }: OnboardClient
             {loading ? (
               <>
                 <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Traitement en cours...
+                {t('onboardForm.processing')}
               </>
             ) : (
-              `Finaliser l'intégration`
+              t('onboardForm.submit')
             )}
           </Button>
         </form>

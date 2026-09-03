@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PlaylistCard } from '@/components/playlist/PlaylistCard';
 import { Button } from '@/components/ui/button';
 import { Plus, Search } from 'lucide-react';
@@ -120,6 +121,7 @@ const playlists = [
 ];
 
 export default function PlaylistManagement() {
+  const { t } = useTranslation('playlist');
   const { user } = useAuth();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
@@ -145,8 +147,8 @@ export default function PlaylistManagement() {
         <div className="flex items-center justify-between">
           {/* Left Side - Date and Title */}
           <div className="space-y-2">
-            <div className="text-white text-sm">Date : 03/02/2023</div>
-            <h1 className="text-white text-3xl font-bold">Gestionnaire de playlists Asrapa</h1>
+            <div className="text-white text-sm">{t('management.header.date')}</div>
+            <h1 className="text-white text-3xl font-bold">{t('management.header.title')}</h1>
           </div>
 
           {/* Center - Search Bar */}
@@ -155,7 +157,7 @@ export default function PlaylistManagement() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-asra-gray-6 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Rechercher"
+                placeholder={t('management.header.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-asra-gray-1 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 focus:outline-none focus:border-asra-red"
@@ -170,7 +172,7 @@ export default function PlaylistManagement() {
               className="bg-asra-red hover:bg-asra-red/90 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Nouvelle playlist
+              {t('management.newPlaylist')}
             </Button>
 
             {/* User Profile */}
@@ -183,7 +185,7 @@ export default function PlaylistManagement() {
                 </div>
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
               </div>
-              <span className="text-white text-sm font-medium">{user?.name || 'Administrateur système'}</span>
+              <span className="text-white text-sm font-medium">{user?.name || t('management.header.defaultUser')}</span>
             </div>
           </div>
         </div>
@@ -207,14 +209,14 @@ export default function PlaylistManagement() {
         {filteredPlaylists.length === 0 && (
           <div className="text-center py-12">
             <div className="text-asra-gray-6 text-lg mb-4">
-              Aucune playlist ne correspond à votre recherche
+              {t('management.emptyState.message')}
             </div>
             <Button
               onClick={() => setSearchQuery('')}
               variant="outline"
               className="border-asra-gray-5 text-white hover:bg-asra-gray-2"
             >
-              Effacer la recherche
+              {t('management.emptyState.clearSearch')}
             </Button>
           </div>
         )}

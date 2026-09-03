@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import {
   Users,
   UserPlus,
@@ -22,6 +23,7 @@ const formatCurrency = (amount: number) =>
 
 export default function AgentDashboard() {
   const navigate = useNavigate();
+  const { t } = useTranslation('agent');
   const [stats, setStats] = useState<AgentDashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,22 +37,22 @@ export default function AgentDashboard() {
 
   const quickActions = [
     {
-      title: 'Intégrer un auditeur',
-      description: 'Inscrire un nouvel utilisateur et configurer son abonnement',
+      title: t('dashboard.quickActions.onboardUser.title'),
+      description: t('dashboard.quickActions.onboardUser.description'),
       icon: Headphones,
       path: '/agent/onboard/user',
       color: 'bg-blue-600',
     },
     {
-      title: 'Intégrer un artiste',
-      description: 'Aider un artiste à rejoindre Asrapa et à s\'abonner à Artist Pro',
+      title: t('dashboard.quickActions.onboardArtist.title'),
+      description: t('dashboard.quickActions.onboardArtist.description'),
       icon: Mic2,
       path: '/agent/onboard/artist',
       color: 'bg-purple-600',
     },
     {
-      title: 'Intégrer un annonceur',
-      description: 'Inscrire une entreprise pour faire de la publicité sur Asrapa',
+      title: t('dashboard.quickActions.onboardAdvertiser.title'),
+      description: t('dashboard.quickActions.onboardAdvertiser.description'),
       icon: Building2,
       path: '/agent/onboard/advertiser',
       color: 'bg-amber-600',
@@ -67,16 +69,16 @@ export default function AgentDashboard() {
 
   return (
     <div className="min-h-screen bg-asra-dark">
-      <AgentPageHeader title="Tableau de bord de l'agent" />
+      <AgentPageHeader title={t('dashboard.header.title')} />
 
       <div className="p-6 space-y-8">
         <div>
-          <h2 className="text-white text-lg font-bold mb-4">Aperçu du jour</h2>
+          <h2 className="text-white text-lg font-bold mb-4">{t('dashboard.overview')}</h2>
           <div className="flex flex-wrap gap-4">
-            <MetricCard icon={Users} value={String(stats?.totalClients ?? 0)} label="Total de clients aidés" />
-            <MetricCard icon={UserPlus} value={String(stats?.onboardedToday ?? 0)} label="Intégrés aujourd'hui" />
-            <MetricCard icon={CreditCard} value={String(stats?.activeSubscriptions ?? 0)} label="Abonnements actifs" />
-            <MetricCard icon={Banknote} value={formatCurrency(stats?.monthlyCommission ?? 0)} label="Commission ce mois-ci" />
+            <MetricCard icon={Users} value={String(stats?.totalClients ?? 0)} label={t('dashboard.metrics.totalClients')} />
+            <MetricCard icon={UserPlus} value={String(stats?.onboardedToday ?? 0)} label={t('dashboard.metrics.onboardedToday')} />
+            <MetricCard icon={CreditCard} value={String(stats?.activeSubscriptions ?? 0)} label={t('dashboard.metrics.activeSubscriptions')} />
+            <MetricCard icon={Banknote} value={formatCurrency(stats?.monthlyCommission ?? 0)} label={t('dashboard.metrics.monthlyCommission')} />
           </div>
         </div>
 
@@ -84,28 +86,28 @@ export default function AgentDashboard() {
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
             <div className="flex items-center gap-3 mb-2">
               <Headphones className="w-5 h-5 text-blue-400" />
-              <span className="text-asra-gray-6 text-sm">Auditeurs</span>
+              <span className="text-asra-gray-6 text-sm">{t('dashboard.breakdown.listeners')}</span>
             </div>
             <p className="text-white text-2xl font-bold">{stats?.usersOnboarded}</p>
           </div>
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
             <div className="flex items-center gap-3 mb-2">
               <Mic2 className="w-5 h-5 text-purple-400" />
-              <span className="text-asra-gray-6 text-sm">Artistes</span>
+              <span className="text-asra-gray-6 text-sm">{t('dashboard.breakdown.artists')}</span>
             </div>
             <p className="text-white text-2xl font-bold">{stats?.artistsOnboarded}</p>
           </div>
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-asra-gray-2">
             <div className="flex items-center gap-3 mb-2">
               <Building2 className="w-5 h-5 text-amber-400" />
-              <span className="text-asra-gray-6 text-sm">Annonceurs</span>
+              <span className="text-asra-gray-6 text-sm">{t('dashboard.breakdown.advertisers')}</span>
             </div>
             <p className="text-white text-2xl font-bold">{stats?.advertisersOnboarded}</p>
           </div>
         </div>
 
         <div>
-          <h2 className="text-white text-lg font-bold mb-4">Actions rapides</h2>
+          <h2 className="text-white text-lg font-bold mb-4">{t('dashboard.quickActions.title')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {quickActions.map((action) => (
               <button
@@ -119,7 +121,7 @@ export default function AgentDashboard() {
                 <h3 className="text-white font-bold mb-2">{action.title}</h3>
                 <p className="text-asra-gray-6 text-sm mb-4">{action.description}</p>
                 <span className="text-asra-red text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Commencer <ArrowRight className="w-4 h-4" />
+                  {t('dashboard.quickActions.start')} <ArrowRight className="w-4 h-4" />
                 </span>
               </button>
             ))}
@@ -129,13 +131,13 @@ export default function AgentDashboard() {
         {stats && stats.pendingOnboardings > 0 && (
           <div className="bg-asra-gray-1 rounded-lg p-5 border border-amber-600/30">
             <p className="text-amber-400 font-medium">
-              Vous avez {stats.pendingOnboardings} intégration{stats.pendingOnboardings > 1 ? 's' : ''} en attente à finaliser
+              {t('dashboard.pendingBanner', { count: stats.pendingOnboardings })}
             </p>
             <button
               onClick={() => navigate('/agent/clients')}
               className="text-asra-red text-sm mt-2 hover:underline"
             >
-              Voir les clients en attente →
+              {t('dashboard.viewPendingClients')}
             </button>
           </div>
         )}

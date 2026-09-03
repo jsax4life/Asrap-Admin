@@ -1,11 +1,13 @@
+import { useTranslation } from 'react-i18next';
 import { OnboardClientForm } from './OnboardClientForm';
 
 export default function OnboardUser() {
+  const { t } = useTranslation('agent');
   return (
     <OnboardClientForm
       clientType="user"
-      title="Intégrer un auditeur"
-      subtitle="Inscrivez un nouvel auditeur sur Asrapa et aidez-le à choisir un forfait d'abonnement."
+      title={t('onboardForm.user.title')}
+      subtitle={t('onboardForm.user.subtitle')}
     />
   );
 }

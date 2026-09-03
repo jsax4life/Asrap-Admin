@@ -1,0 +1,129 @@
+{
+  "status": {
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "rejected": "Rejeté"
+  },
+  "approval": {
+    "header": {
+      "date": "Date : 03/02/2023",
+      "title": "Approbation des téléversements musicaux",
+      "searchPlaceholder": "Rechercher par titre de chanson/album, nom d'artiste ou genre",
+      "defaultUser": "Administrateur système"
+    },
+    "filters": {
+      "uploadType": "Type de téléversement :",
+      "uploadTypeAll": "Tous",
+      "uploadTypeSong": "Chanson",
+      "uploadTypeAlbum": "Album",
+      "status": "Statut :",
+      "statusAll": "Tous",
+      "sortBy": "Trier par :",
+      "sortByDate": "Date",
+      "sortByTitle": "Titre",
+      "sortByArtist": "Artiste",
+      "sortByGenre": "Genre",
+      "sortByStatus": "Statut",
+      "order": "Ordre :",
+      "orderDesc": "Décroissant",
+      "orderAsc": "Croissant"
+    },
+    "columns": {
+      "artistId": "ID Artiste",
+      "artistName": "Nom de l'artiste",
+      "uploadType": "Type de téléversement",
+      "title": "Nom de la chanson/l'album/l'EP",
+      "genre": "Genre",
+      "dateSent": "Date d'envoi",
+      "status": "Statut",
+      "action": "Action"
+    },
+    "viewButton": "Voir",
+    "loading": "Chargement des téléversements musicaux...",
+    "errorLoading": "Échec du chargement des téléversements musicaux",
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "summary": "Page {{currentPage}} sur {{totalPages}} ({{totalResults}} résultats au total)"
+    }
+  },
+  "detail": {
+    "defaultApproveComment": "Approuvé pour publication",
+    "invalidId": "ID de téléversement invalide",
+    "errorLoadingDetail": "Échec du chargement des détails du téléversement",
+    "loading": "Chargement des détails du téléversement...",
+    "notFound": "Téléversement introuvable",
+    "goBack": "Retour",
+    "tabs": {
+      "songs": "Chansons",
+      "audio": "Audio",
+      "lyrics": "Paroles"
+    },
+    "albumSongsTitle": "Chansons de l'album ({{count}})",
+    "info": {
+      "artist": "Artiste :",
+      "fullName": "Nom complet :",
+      "genre": "Genre :",
+      "uploadType": "Type de téléversement :",
+      "dateSent": "Date d'envoi :",
+      "status": "Statut :",
+      "duration": "Durée :",
+      "collaborators": "Collaborateurs :",
+      "content": "Contenu :",
+      "explicit": "Explicite",
+      "streams": "Écoutes :",
+      "downloads": "Téléchargements :",
+      "songCount": "Nombre de chansons :",
+      "caption": "Légende :"
+    },
+    "comment": {
+      "label": "Laisser un commentaire",
+      "requiredToReject": " (requis pour refuser)",
+      "requiredToChangeStatus": " (requis pour changer le statut)",
+      "placeholder": "Saisissez votre commentaire ici..."
+    },
+    "currentStatus": "Statut actuel : ",
+    "previousComment": "Commentaire précédent : ",
+    "actions": {
+      "processing": "Traitement...",
+      "approve": "Approuver",
+      "decline": "Refuser",
+      "declineReject": "Refuser / Rejeter"
+    },
+    "noLyrics": "Aucune parole disponible pour ce téléversement",
+    "editLyrics": "Modifier les paroles",
+    "editLyricsComingSoon": "Fonctionnalité de modification des paroles bientôt disponible !",
+    "toasts": {
+      "approveSuccess": "Musique approuvée avec succès !",
+      "approveError": "Échec de l'approbation de la musique",
+      "declineSuccess": "Musique refusée avec succès !",
+      "declineError": "Échec du refus de la musique",
+      "rejectReasonRequiredApproved": "Veuillez fournir un motif de rejet pour ce téléversement approuvé",
+      "rejectReasonRequired": "Veuillez fournir un motif de refus"
+    }
+  },
+  "success": {
+    "unknownSong": "Chanson inconnue",
+    "unknownArtist": "Artiste inconnu",
+    "approvedTitle": "Musique approuvée !",
+    "declinedTitle": "Musique refusée !",
+    "by": "par",
+    "approvedMessage": "La musique a été approuvée avec succès et sera disponible sur la plateforme.",
+    "declinedMessage": "La musique a été refusée et l'artiste sera informé de vos commentaires.",
+    "backToUploads": "Retour aux téléversements",
+    "goToDashboard": "Aller au tableau de bord"
+  },
+  "audioPlayer": {
+    "errors": {
+      "cannotPlay": "Impossible de lire l'audio",
+      "aborted": "La lecture audio a été interrompue",
+      "network": "Erreur réseau lors du chargement de l'audio. Veuillez vérifier votre connexion ou actualiser la page.",
+      "decode": "Le fichier audio est corrompu ou dans un format non pris en charge",
+      "notSupported": "Format audio non pris en charge ou URL invalide. Le lien signé a peut-être expiré.",
+      "generic": "Impossible de lire l'audio. Le fichier est peut-être corrompu ou le lien a expiré.",
+      "cors": "Erreur CORS : impossible de charger l'audio depuis S3. Veuillez contacter le support si le problème persiste.",
+      "corsTimeout": "Impossible de charger l'audio. Il pourrait s'agir d'un problème de configuration CORS du bucket S3. Veuillez contacter le support.",
+      "playFailed": "Échec de la lecture audio. Veuillez réessayer."
+    }
+  }
+}

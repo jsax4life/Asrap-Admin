@@ -1,8 +1,10 @@
 import { Shield, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 
 export default function Unauthorized() {
+  const { t } = useTranslation('settings');
   const navigate = useNavigate();
 
   return (
@@ -10,9 +12,9 @@ export default function Unauthorized() {
       <div className="text-center max-w-md">
         <div className="mb-8">
           <Shield className="w-24 h-24 text-asra-red mx-auto mb-4" />
-          <h1 className="text-3xl font-bold text-white mb-2">Accès refusé</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">{t('unauthorized.title')}</h1>
           <p className="text-asra-gray-6">
-            Vous n'avez pas la permission d'accéder à cette page. Veuillez contacter votre administrateur si vous pensez qu'il s'agit d'une erreur.
+            {t('unauthorized.message')}
           </p>
         </div>
 
@@ -21,7 +23,7 @@ export default function Unauthorized() {
           className="bg-asra-red hover:bg-asra-red/90 text-white"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Retour
+          {t('unauthorized.backButton')}
         </Button>
       </div>
     </div>

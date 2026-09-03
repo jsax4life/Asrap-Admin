@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "title": "Paramètres",
+    "defaultUserName": "Administrateur système",
+    "accountInfoTitle": "Informations du compte",
+    "nameLabel": "Nom",
+    "emailLabel": "E-mail",
+    "roleLabel": "Rôle",
+    "emptyValue": "—",
+    "comingSoon": "Contenu à venir..."
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Oups ! Page introuvable",
+    "backHome": "Retour à l'accueil"
+  },
+  "unauthorized": {
+    "title": "Accès refusé",
+    "message": "Vous n'avez pas la permission d'accéder à cette page. Veuillez contacter votre administrateur si vous pensez qu'il s'agit d'une erreur.",
+    "backButton": "Retour"
+  }
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Headphones, Mic2, Building2, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { AgentPageHeader } from '@/components/agent/AgentPageHeader';
 import { SUBSCRIPTION_PLANS } from '@/constants';
 import { agentService } from '@/services/agentService';
@@ -12,19 +13,6 @@ const CLIENT_TYPE_ICONS = {
   advertiser: Building2,
 };
 
-const CLIENT_TYPE_LABELS = {
-  user: 'Auditeur',
-  artist: 'Artiste',
-  advertiser: 'Annonceur',
-};
-
-const STATUS_LABELS: Record<string, string> = {
-  active: 'Actif',
-  pending: 'En attente',
-  expired: 'Expiré',
-  none: 'Aucun',
-};
-
 const STATUS_STYLES = {
   active: 'bg-green-500/20 text-green-400',
   pending: 'bg-amber-500/20 text-amber-400',
@@ -33,12 +21,26 @@ const STATUS_STYLES = {
 };
 
 export default function AgentClients() {
+  const { t } = useTranslation('agent');
   const [clients, setClients] = useState<AgentClient[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState<ClientType | 'all'>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8;
+
+  const CLIENT_TYPE_LABELS: Record<ClientType, string> = {
+    user: t('clients.types.user'),
+    artist: t('clients.types.artist'),
+    advertiser: t('clients.types.advertiser'),
+  };
+
+  const STATUS_LABELS: Record<string, string> = {
+    active: t('clients.status.active'),
+    pending: t('clients.status.pending'),
+    expired: t('clients.status.expired'),
+    none: t('clients.status.none'),
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -58,11 +60,11 @@ export default function AgentClients() {
   return (
     <div className="min-h-screen bg-asra-dark">
       <AgentPageHeader
-        title="Mes clients"
+        title={t('clients.header.title')}
         showSearch
         searchValue={search}
         onSearchChange={(v) => { setSearch(v); setCurrentPage(1); }}
-        searchPlaceholder="Rechercher par nom, e-mail ou téléphone"
+        searchPlaceholder={t('clients.header.searchPlaceholder')}
       />
 
       <div className="p-6">
@@ -77,7 +79,7 @@ export default function AgentClients() {
                   : 'bg-asra-gray-1 text-asra-gray-6 hover:text-white border border-asra-gray-2'
               }`}
             >
-              {type === 'all' ? 'Tous les clients' : CLIENT_TYPE_LABELS[type]}
+              {type === 'all' ? t('clients.filters.all') : CLIENT_TYPE_LABELS[type]}
             </button>
           ))}
         </div>
@@ -92,11 +94,11 @@ export default function AgentClients() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-asra-gray-2">
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Client</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Type</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Forfait</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Statut</th>
-                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">Intégré le</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('clients.table.client')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('clients.table.type')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('clients.table.plan')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('clients.table.status')}</th>
+                    <th className="text-left text-asra-gray-6 text-sm font-medium px-6 py-4">{t('clients.table.onboardedAt')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -135,13 +137,13 @@ export default function AgentClients() {
                 </tbody>
               </table>
               {paginatedClients.length === 0 && (
-                <p className="text-asra-gray-6 text-center py-12">Aucun client trouvé</p>
+                <p className="text-asra-gray-6 text-center py-12">{t('clients.empty')}</p>
               )}
             </div>
 
             {totalPages > 1 && (
               <div className="flex items-center justify-between mt-4">
-                <p className="text-asra-gray-6 text-sm">{clients.length} clients au total</p>
+                <p className="text-asra-gray-6 text-sm">{t('clients.pagination.totalCount', { count: clients.length })}</p>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
@@ -151,7 +153,7 @@ export default function AgentClients() {
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <span className="text-white text-sm">
-                    Page {currentPage} sur {totalPages}
+                    {t('clients.pagination.page', { current: currentPage, total: totalPages })}
                   </span>
                   <button
                     onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}

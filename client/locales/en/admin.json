@@ -1,0 +1,166 @@
+{
+  "usersList": {
+    "searchPlaceholder": "Search by name or email",
+    "newUserButton": "New user",
+    "defaultUserName": "System administrator",
+    "title": "Admin users",
+    "tabs": {
+      "users": "Users",
+      "paymentAgents": "Payment agent"
+    },
+    "table": {
+      "number": "No.",
+      "name": "Name",
+      "role": "Role",
+      "lastLogin": "Last login",
+      "email": "Email",
+      "status": "Status",
+      "password": "Password",
+      "manage": "Manage",
+      "view": "View",
+      "statusActive": "Active",
+      "statusInactive": "Inactive",
+      "passwordToChange": "To change",
+      "passwordSet": "Set",
+      "never": "Never"
+    },
+    "emptyUsers": "No admin users yet.",
+    "emptyPaymentAgentsBefore": "No payment agents yet. Click",
+    "emptyPaymentAgentsAfter": "to create one.",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "pageOf": "Page {{current}} of {{total}}"
+    }
+  },
+  "createUser": {
+    "defaultUserName": "System administrator",
+    "dateLabel": "Date: 03/02/2023",
+    "pageTitle": "Admin users",
+    "backLink": "Back to admin users list",
+    "formTitle": "Create new users",
+    "avatar": {
+      "label": "Choose an avatar",
+      "hint": "Click the avatar to upload a new image",
+      "previewAlt": "Avatar preview"
+    },
+    "userTypeLabels": {
+      "adminUser": "Admin user",
+      "paymentAgent": "Payment agent",
+      "supportStaff": "Support staff",
+      "moderator": "Moderator",
+      "analyst": "Analyst"
+    },
+    "accessLevelLabels": {
+      "superAdmin": "Super admin",
+      "admin": "Admin",
+      "moderator": "Moderator",
+      "analyst": "Analyst",
+      "viewer": "Viewer"
+    },
+    "form": {
+      "userType": "User type",
+      "selectPlaceholder": "Select...",
+      "paymentAgentHint": "Payment agents cannot self-register. They sign in with the temporary password set here and must change it on first login before using the agent portal.",
+      "email": "Email",
+      "emailPlaceholder": "Enter the email address",
+      "role": "Role",
+      "rolePlaceholder": "Enter the role",
+      "temporaryPassword": "Temporary password",
+      "temporaryPasswordPlaceholder": "The agent will change it on first login",
+      "generateButton": "Generate",
+      "generateTitle": "Generate a password",
+      "copyTitle": "Copy the password",
+      "temporaryPasswordHint": "Click Generate for a secure password. Share it with the agent — it won't be shown again afterward.",
+      "name": "User's name",
+      "namePlaceholder": "Enter the name",
+      "phoneNumber": "Phone number",
+      "phoneNumberPlaceholder": "+234",
+      "accessLevel": "Access level"
+    },
+    "submit": {
+      "submitting": "Creating...",
+      "submit": "Create"
+    },
+    "errors": {
+      "userTypeRequired": "User type is required",
+      "emailRequired": "Email is required",
+      "roleRequired": "Role is required",
+      "nameRequired": "Name is required",
+      "phoneNumberRequired": "Phone number is required",
+      "accessLevelRequired": "Access level is required",
+      "temporaryPasswordRequiredForAgent": "Temporary password is required for agents",
+      "temporaryPasswordTooShort": "Temporary password must be at least 8 characters long",
+      "emailInvalid": "Please enter a valid email address"
+    },
+    "toasts": {
+      "temporaryPasswordGenerated": "Temporary password generated",
+      "passwordCopied": "Password copied to clipboard",
+      "agentCreated": "Payment agent created. Securely share the temporary password with the agent.",
+      "agentCreateFailed": "Failed to create the payment agent"
+    }
+  },
+  "editUser": {
+    "defaultUserName": "System administrator",
+    "dateLabel": "Date: 03/02/2023",
+    "pageTitle": "Admin users",
+    "backLink": "Back to admin users list",
+    "formTitle": "Edit user",
+    "avatar": {
+      "label": "Change avatar",
+      "hint": "Click the avatar to upload a new image",
+      "previewAlt": "Avatar preview"
+    },
+    "form": {
+      "userType": "User type",
+      "selectPlaceholder": "Select...",
+      "email": "Email",
+      "emailPlaceholder": "Enter the email address",
+      "role": "Role",
+      "rolePlaceholder": "Enter the role",
+      "name": "User's name",
+      "namePlaceholder": "Enter the name",
+      "phoneNumber": "Phone number",
+      "phoneNumberPlaceholder": "+234",
+      "accessLevel": "Access level"
+    },
+    "credentials": {
+      "title": "Account credentials",
+      "password": "Password",
+      "passwordPlaceholder": "Enter the new password"
+    },
+    "saveChanges": "Save changes",
+    "errors": {
+      "nameRequired": "Name is required",
+      "userTypeRequired": "User type is required",
+      "emailRequired": "Email is required",
+      "phoneNumberRequired": "Phone number is required",
+      "roleRequired": "Role is required",
+      "accessLevelRequired": "Access level is required",
+      "passwordRequired": "Password is required",
+      "emailInvalid": "Please enter a valid email address"
+    }
+  },
+  "viewUser": {
+    "defaultUserName": "System administrator",
+    "dateLabel": "Date: 03/02/2023",
+    "pageTitle": "Admin users",
+    "backLink": "Back to admin users list",
+    "printButton": "Print",
+    "userNameLabel": "User's name",
+    "fields": {
+      "userType": "User type",
+      "email": "Email",
+      "phoneNumber": "Phone number",
+      "role": "Role",
+      "accessLevel": "Access level"
+    },
+    "credentials": {
+      "title": "Account credentials",
+      "password": "Password"
+    },
+    "editButton": "Edit details",
+    "deleteButton": "Delete account",
+    "passwordCopiedLog": "Password copied to clipboard"
+  }
+}

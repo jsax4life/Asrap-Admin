@@ -1,0 +1,63 @@
+{
+  "sidebar": {
+    "menuSection": "MENU",
+    "accountSection": "YOUR ACCOUNT",
+    "agentPortalTag": "Agent Portal"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "analytics": "Analytics",
+    "music-upload": "Upload Approval",
+    "genre-management": "Genre Management",
+    "playlist-management": "AsraPa Playlist Management",
+    "artist-management": "Artist/User Management",
+    "promotion": "Promotion",
+    "payments": "Payments",
+    "admin-users": "Admin Users",
+    "settings": "Settings",
+    "help-support": "Help & Support",
+    "logout": "Log out",
+    "agent-dashboard": "Dashboard",
+    "agent-onboarding": "Onboard Clients",
+    "agent-clients": "My Clients",
+    "agent-subscriptions": "Subscriptions",
+    "agent-transactions": "Transactions",
+    "agent-help": "Help & Support",
+    "agent-logout": "Log out"
+  },
+  "roles": {
+    "super_admin": "Super Admin",
+    "admin": "Admin",
+    "moderator": "Moderator",
+    "analyst": "Analyst",
+    "payment_agent": "Payment Agent"
+  },
+  "subscriptionPlans": {
+    "free": "Free",
+    "premium": "Premium (Listener)",
+    "family": "Family Plan",
+    "artist_pro": "Artist Pro",
+    "advertiser_starter": "Advertiser Starter",
+    "advertiser_pro": "Advertiser Pro"
+  },
+  "header": {
+    "defaultUserName": "System Admin",
+    "search": "Search",
+    "date": "Date:"
+  },
+  "pageTitles": {
+    "/dashboard": "Dashboard",
+    "/analytics": "Analytics",
+    "/music-upload": "Track Approval",
+    "/playlist-management": "Asrapa Playlist Manager",
+    "/artist-management": "Artist/User Management",
+    "/payments": "Payments",
+    "/users": "User Management",
+    "/artists": "Artist Management",
+    "/songs": "Track Management",
+    "/admin-users": "Admin Users",
+    "/admin-users/create": "Create New User",
+    "/help-support": "Help & Support",
+    "/promotion": "Promotion Management"
+  }
+}

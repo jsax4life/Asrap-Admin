@@ -1,0 +1,63 @@
+{
+  "sidebar": {
+    "menuSection": "MENU",
+    "accountSection": "VOTRE COMPTE",
+    "agentPortalTag": "Portail Agent"
+  },
+  "menu": {
+    "dashboard": "Tableau de bord",
+    "analytics": "Analytique",
+    "music-upload": "Approbation des téléversements",
+    "genre-management": "Gestion des genres",
+    "playlist-management": "Gestion des playlists AsraPa",
+    "artist-management": "Gestion des artistes/utilisateurs",
+    "promotion": "Promotion",
+    "payments": "Paiements",
+    "admin-users": "Utilisateurs admin",
+    "settings": "Paramètres",
+    "help-support": "Aide et assistance",
+    "logout": "Se déconnecter",
+    "agent-dashboard": "Tableau de bord",
+    "agent-onboarding": "Intégrer des clients",
+    "agent-clients": "Mes clients",
+    "agent-subscriptions": "Abonnements",
+    "agent-transactions": "Transactions",
+    "agent-help": "Aide et assistance",
+    "agent-logout": "Se déconnecter"
+  },
+  "roles": {
+    "super_admin": "Super administrateur",
+    "admin": "Administrateur",
+    "moderator": "Modérateur",
+    "analyst": "Analyste",
+    "payment_agent": "Agent de paiement"
+  },
+  "subscriptionPlans": {
+    "free": "Gratuit",
+    "premium": "Premium (Auditeur)",
+    "family": "Formule Famille",
+    "artist_pro": "Artiste Pro",
+    "advertiser_starter": "Annonceur Starter",
+    "advertiser_pro": "Annonceur Pro"
+  },
+  "header": {
+    "defaultUserName": "Administrateur système",
+    "search": "Rechercher",
+    "date": "Date :"
+  },
+  "pageTitles": {
+    "/dashboard": "Tableau de bord",
+    "/analytics": "Analytique",
+    "/music-upload": "Validation des morceaux",
+    "/playlist-management": "Gestionnaire de playlists Asrapa",
+    "/artist-management": "Gestion des artistes/utilisateurs",
+    "/payments": "Paiement",
+    "/users": "Gestion des utilisateurs",
+    "/artists": "Gestion des artistes",
+    "/songs": "Gestion des morceaux",
+    "/admin-users": "Utilisateurs admin",
+    "/admin-users/create": "Créer un nouvel utilisateur",
+    "/help-support": "Aide et assistance",
+    "/promotion": "Gestion des promotions"
+  }
+}

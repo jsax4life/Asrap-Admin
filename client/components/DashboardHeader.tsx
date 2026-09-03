@@ -1,5 +1,6 @@
 import { Search, Menu, User as UserIcon } from "lucide-react";
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { User } from '@/types';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 
@@ -10,40 +11,9 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
   const location = useLocation();
-  
-  // Get page title based on current route
-  const getPageTitle = () => {
-    switch (location.pathname) {
-      case '/dashboard':
-        return 'Tableau de bord';
-      case '/analytics':
-        return 'Analytique';
-      case '/music-upload':
-        return 'Validation des morceaux';
-      case '/playlist-management':
-        return 'Gestionnaire de playlists Asrapa';
-      case '/artist-management':
-        return 'Gestion des artistes/utilisateurs';
-      case '/payments':
-        return 'Paiement';
-      case '/users':
-        return 'Gestion des utilisateurs';
-      case '/artists':
-        return 'Gestion des artistes';
-      case '/songs':
-        return 'Gestion des morceaux';
-      case '/admin-users':
-        return 'Utilisateurs admin';
-      case '/admin-users/create':
-        return 'Créer un nouvel utilisateur';
-      case '/help-support':
-        return 'Aide et assistance';
-      case '/promotion':
-        return 'Gestion des promotions';
-      default:
-        return 'Tableau de bord';
-    }
-  };
+  const { t } = useTranslation('common');
+
+  const pageTitle = t(`pageTitles.${location.pathname}`, t('pageTitles./dashboard'));
   return (
     <div className="mb-8 lg:mb-16">
       <div className="flex items-center justify-between mb-6 lg:mb-8">
@@ -54,7 +24,7 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
           >
             <Menu className="w-6 h-6" />
           </button>
-          <span className="text-asra-gray-7 text-sm lg:text-base font-bold tracking-[0.13px]">Date :</span>
+          <span className="text-asra-gray-7 text-sm lg:text-base font-bold tracking-[0.13px]">{t('header.date')}</span>
           <span className="text-asra-gray-7 text-sm lg:text-base font-bold tracking-[0.13px]">03/02/2023</span>
         </div>
         
@@ -75,19 +45,19 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
             <div className="absolute bottom-0.5 right-0.5 lg:bottom-1 lg:right-1 w-[5px] h-[5px] lg:w-[6px] lg:h-[6px] bg-green-500 rounded-full"></div>
           </div>
           <span className="text-asra-gray-7 text-sm lg:text-xl font-bold hidden sm:inline">
-            {user?.name || "Administrateur système"}
+            {user?.name || t('header.defaultUserName')}
           </span>
         </div>
       </div>
 
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-        <h1 className="text-white text-2xl lg:text-[32px] font-bold leading-9">{getPageTitle()}</h1>
-        
+        <h1 className="text-white text-2xl lg:text-[32px] font-bold leading-9">{pageTitle}</h1>
+
         <div className="flex items-center gap-4 bg-asra-gray-7/16 rounded-lg px-4 lg:px-8 py-3 lg:py-4 w-full lg:w-[518px]">
           <Search className="w-5 h-5 lg:w-6 lg:h-6 text-asra-gray-7 flex-shrink-0" />
           <input
             type="text"
-            placeholder="Rechercher"
+            placeholder={t('header.search')}
             className="bg-transparent text-asra-gray-7 text-sm outline-none flex-1 placeholder:text-asra-gray-7"
           />
         </div>
