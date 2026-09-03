@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, User, Save, UserCheck, Mail, Phone, Shield } from 
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 // Mock data for user detail
 const mockUserDetail = {
   id: 1,
@@ -119,21 +120,25 @@ const EditUser = () => {
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">Date : 03/02/2023</span>
+              <span className="text-sm">{t('editUser.dateLabel')}</span>
             </div>
           </div>
 
           {/* Center - Page Title */}
           <div className="flex-1 flex justify-center">
-            <h1 className="text-2xl font-bold text-white">Utilisateurs administrateurs</h1>
+            <h1 className="text-2xl font-bold text-white">{t('editUser.pageTitle')}</h1>
           </div>
 
           {/* Right side - Profile */}
-          <div className="flex items-center space-x-2">
+          <LanguageToggle />
+          <div
+            onClick={() => navigate('/settings')}
+            className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+          >
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
+            <span className="text-white text-sm">{user?.name || t('editUser.defaultUserName')}</span>
           </div>
         </div>
       </div>
@@ -146,11 +151,11 @@ const EditUser = () => {
           className="text-asra-red hover:text-red-400 text-sm font-medium mb-6 flex items-center space-x-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Retour à la liste des utilisateurs administrateurs</span>
+          <span>{t('editUser.backLink')}</span>
         </button>
 
         {/* Form Title */}
-        <h2 className="text-3xl font-bold text-white mb-8">Modifier l'utilisateur</h2>
+        <h2 className="text-3xl font-bold text-white mb-8">{t('editUser.formTitle')}</h2>
 
         {/* Avatar Section */}
         <div className="mb-8">
@@ -160,7 +165,7 @@ const EditUser = () => {
                 {formData.avatar ? (
                   <img
                     src={URL.createObjectURL(formData.avatar)}
-                    alt="Aperçu de l'avatar"
+                    alt={t('editUser.avatar.previewAlt')}
                     className="w-full h-full rounded-full object-cover"
                   />
                 ) : (
@@ -181,10 +186,10 @@ const EditUser = () => {
             </div>
             <div>
               <label htmlFor="avatar" className="text-white text-lg font-medium">
-                Changer l'avatar
+                {t('editUser.avatar.label')}
               </label>
               <p className="text-asra-gray-400 text-sm mt-1">
-                Cliquez sur l'avatar pour téléverser une nouvelle image
+                {t('editUser.avatar.hint')}
               </p>
             </div>
           </div>
@@ -198,7 +203,7 @@ const EditUser = () => {
               {/* User Type */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Type d'utilisateur <span className="text-asra-red">*</span>
+                  {t('editUser.form.userType')} <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -208,7 +213,7 @@ const EditUser = () => {
                       errors.userType ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
                   >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Sélectionner...</option>
+                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">{t('editUser.form.selectPlaceholder')}</option>
                     {userTypeOptions.map((option) => (
                       <option key={option} value={option} className="text-white bg-asra-gray-800">
                         {option}
@@ -225,14 +230,14 @@ const EditUser = () => {
               {/* Email */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  E-mail <span className="text-asra-red">*</span>
+                  {t('editUser.form.email')} <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    placeholder="Entrez l'adresse e-mail"
+                    placeholder={t('editUser.form.emailPlaceholder')}
                     className={`w-full px-4 py-3 pl-12 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                       errors.email ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
@@ -247,13 +252,13 @@ const EditUser = () => {
               {/* Role */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Rôle <span className="text-asra-red">*</span>
+                  {t('editUser.form.role')} <span className="text-asra-red">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.role}
                   onChange={(e) => handleInputChange('role', e.target.value)}
-                  placeholder="Entrez le rôle"
+                  placeholder={t('editUser.form.rolePlaceholder')}
                   className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                     errors.role ? 'border-red-500' : 'border-asra-gray-700'
                   }`}
@@ -269,13 +274,13 @@ const EditUser = () => {
               {/* Name */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Nom de l'utilisateur <span className="text-asra-red">*</span>
+                  {t('editUser.form.name')} <span className="text-asra-red">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  placeholder="Entrez le nom"
+                  placeholder={t('editUser.form.namePlaceholder')}
                   className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                     errors.name ? 'border-red-500' : 'border-asra-gray-700'
                   }`}
@@ -288,14 +293,14 @@ const EditUser = () => {
               {/* Phone Number */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Numéro de téléphone <span className="text-asra-red">*</span>
+                  {t('editUser.form.phoneNumber')} <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type="tel"
                     value={formData.phoneNumber}
                     onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
-                    placeholder="+234"
+                    placeholder={t('editUser.form.phoneNumberPlaceholder')}
                     className={`w-full px-4 py-3 pl-12 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                       errors.phoneNumber ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
@@ -310,7 +315,7 @@ const EditUser = () => {
               {/* Access Level */}
               <div>
                 <label className="block text-white text-sm font-medium mb-2">
-                  Niveau d'accès <span className="text-asra-red">*</span>
+                  {t('editUser.form.accessLevel')} <span className="text-asra-red">*</span>
                 </label>
                 <div className="relative">
                   <select
@@ -320,7 +325,7 @@ const EditUser = () => {
                       errors.accessLevel ? 'border-red-500' : 'border-asra-gray-700'
                     }`}
                   >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">Sélectionner...</option>
+                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">{t('editUser.form.selectPlaceholder')}</option>
                     {accessLevelOptions.map((option) => (
                       <option key={option} value={option} className="text-white bg-asra-gray-800">
                         {option}
@@ -338,16 +343,16 @@ const EditUser = () => {
 
           {/* Password Section */}
           <div className="border-t border-asra-gray-700 pt-8">
-            <h3 className="text-lg font-semibold text-white mb-4">Identifiants du compte</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">{t('editUser.credentials.title')}</h3>
             <div>
               <label className="block text-white text-sm font-medium mb-2">
-                Mot de passe <span className="text-asra-red">*</span>
+                {t('editUser.credentials.password')} <span className="text-asra-red">*</span>
               </label>
               <input
                 type="password"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                placeholder="Entrez le nouveau mot de passe"
+                placeholder={t('editUser.credentials.passwordPlaceholder')}
                 className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
                   errors.password ? 'border-red-500' : 'border-asra-gray-700'
                 }`}
@@ -365,7 +370,7 @@ const EditUser = () => {
               className="bg-asra-red hover:bg-red-600 text-white px-12 py-4 rounded-lg text-lg font-medium transition-colors flex items-center space-x-2"
             >
               <Save className="w-6 h-6" />
-              <span>Enregistrer les modifications</span>
+              <span>{t('editUser.saveChanges')}</span>
             </button>
           </div>
         </form>

@@ -1,6 +1,7 @@
 import { Calendar, User, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 
 interface AgentPageHeaderProps {
   title: string;
@@ -61,6 +62,7 @@ export function AgentPageHeader({
               />
             </div>
           )}
+          <LanguageToggle />
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />

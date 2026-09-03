@@ -78,39 +78,38 @@ class AuthService {
     }
   }
 
+  private mapAdminToUser(admin: AdminProfileResponse['data']): User {
+    return {
+      id: admin.id || admin._id,
+      email: admin.email,
+      name: admin.fullName || `${admin.firstName} ${admin.lastName}`,
+      role: admin.role as any,
+      avatar: admin.profilePicture?.url || undefined,
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      department: admin.department,
+      permissions: admin.permissions,
+      isEmailVerified: admin.isEmailVerified,
+      isActive: admin.isActive,
+      phoneNumber: admin.phoneNumber,
+      passwordChangedAt: admin.passwordChangedAt,
+      updatedAt: admin.updatedAt,
+      loginAttempts: admin.loginAttempts,
+      fullName: admin.fullName,
+      isLocked: admin.isLocked,
+      createdAt: admin.createdAt,
+      lastLogin: admin.lastLoginAt,
+      lastLoginAt: admin.lastLoginAt,
+      mustChangePassword: admin.mustChangePassword ?? false,
+    };
+  }
+
   async getProfile(): Promise<User> {
     try {
       const response = await apiClient.get<AdminProfileResponse>(API_ENDPOINTS.AUTH.PROFILE) as any; // Temporary fix - apiClient returns wrong type
-      
+
       if (response.status === 'success' && response.data) {
-        const admin = response.data;
-        
-        // Transform API response to match frontend User type
-        const user: User = {
-          id: admin.id || admin._id,
-          email: admin.email,
-          name: admin.fullName || `${admin.firstName} ${admin.lastName}`,
-          role: admin.role as any,
-          avatar: admin.profilePicture?.url || undefined,
-          firstName: admin.firstName,
-          lastName: admin.lastName,
-          department: admin.department,
-          permissions: admin.permissions,
-          isEmailVerified: admin.isEmailVerified,
-          isActive: admin.isActive,
-          phoneNumber: admin.phoneNumber,
-          passwordChangedAt: admin.passwordChangedAt,
-          updatedAt: admin.updatedAt,
-          loginAttempts: admin.loginAttempts,
-          fullName: admin.fullName,
-          isLocked: admin.isLocked,
-          createdAt: admin.createdAt,
-          lastLogin: admin.lastLoginAt,
-          lastLoginAt: admin.lastLoginAt,
-          mustChangePassword: admin.mustChangePassword ?? false,
-        };
-        
-        return user;
+        return this.mapAdminToUser(response.data);
       }
 
       throw new Error(response.message || 'Failed to fetch profile');
@@ -122,6 +121,44 @@ class AuthService {
         url: API_ENDPOINTS.AUTH.PROFILE,
       });
       throw new Error(error.response?.data?.message || error.message || 'Failed to fetch profile');
+    }
+  }
+
+  async updateProfile(data: { firstName?: string; lastName?: string; phoneNumber?: string }): Promise<User> {
+    try {
+      const response = await apiClient.patch<AdminProfileResponse>(
+        API_ENDPOINTS.AUTH.UPDATE_PROFILE,
+        data
+      ) as any;
+
+      if (response.status === 'success' && response.data) {
+        return this.mapAdminToUser(response.data);
+      }
+
+      throw new Error(response.message || 'Failed to update profile');
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || error.message || 'Failed to update profile');
+    }
+  }
+
+  async uploadAvatar(file: File): Promise<User> {
+    try {
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      const response = await apiClient.post<AdminProfileResponse>(
+        API_ENDPOINTS.AUTH.UPLOAD_AVATAR,
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      ) as any;
+
+      if (response.status === 'success' && response.data) {
+        return this.mapAdminToUser(response.data);
+      }
+
+      throw new Error(response.message || 'Failed to upload avatar');
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || error.message || 'Failed to upload avatar');
     }
   }
 

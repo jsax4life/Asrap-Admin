@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, User, Printer, Copy, Edit, Trash2 } from 'lucide-r
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 // Mock data for user detail
 const mockUserDetail = {
   id: 1,
@@ -77,7 +78,11 @@ const ViewUser = () => {
           </div>
 
           {/* Right side - Profile */}
-          <div className="flex items-center space-x-2">
+          <LanguageToggle />
+          <div
+            onClick={() => navigate('/settings')}
+            className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+          >
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>

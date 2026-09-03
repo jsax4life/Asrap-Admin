@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { adminAgentService, PaymentAgentListItem } from '@/services/adminAgentService';
 
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 // Utilisateurs admin non-agents (API à connecter)
 const mockAdminUsers: {
   id: number;
@@ -155,7 +156,11 @@ const AdminUsers = () => {
               <Plus className="w-4 h-4" />
               <span>{t('usersList.newUserButton')}</span>
             </button>
-            <div className="flex items-center space-x-2">
+            <LanguageToggle />
+            <div
+              onClick={() => navigate('/settings')}
+              className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+            >
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>

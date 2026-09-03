@@ -7,6 +7,7 @@ import { DataTable } from '@/components/common/DataTable';
 import { TableColumn } from '@/types';
 
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 // Mock data for the specific playlist
 const playlistData = {
   id: '2',
@@ -200,7 +201,11 @@ export default function PlaylistDetail() {
         </div>
 
         {/* User Profile */}
-        <div className="flex items-center gap-3">
+        <LanguageToggle />
+        <div
+          onClick={() => navigate('/settings')}
+          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+        >
           <div className="relative w-8 h-8">
             <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
               <div className="w-6 h-6 bg-asra-gray-1 rounded flex items-center justify-center">

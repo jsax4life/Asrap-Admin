@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { artistService, type ArtistItem } from '@/services/artistService';
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -159,7 +160,11 @@ const ArtistManagement = () => {
                 className="bg-asra-gray-800 text-white pl-10 pr-4 py-2 rounded-lg border border-asra-gray-700 focus:outline-none focus:border-asra-red w-64"
               />
             </div>
-            <div className="flex items-center space-x-2">
+            <LanguageToggle />
+            <div
+              onClick={() => navigate('/settings')}
+              className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+            >
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>

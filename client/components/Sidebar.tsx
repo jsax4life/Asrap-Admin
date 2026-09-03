@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { MENU_ITEMS, ACCOUNT_MENU_ITEMS, ICON_MAP, APP_NAME } from '@/constants';
 import { User } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
-import { LanguageToggle } from '@/components/common/LanguageToggle';
 import asrapaLogo from '@/assets/images/asrapa-logo-white.png';
 
 interface SidebarProps {
@@ -62,13 +61,12 @@ export function Sidebar({ isOpen = true, onClose, user }: SidebarProps) {
           <X className="w-6 h-6" />
         </button>
 
-        <div className="h-[150px] border-b border-asra-gray-2 flex flex-col items-center justify-center gap-2 px-10">
+        <div className="h-[150px] border-b border-asra-gray-2 flex items-center justify-center px-10">
           <img
             src={asrapaLogo}
             alt={APP_NAME}
-            className="h-20 w-auto object-contain"
+            className="h-24 w-auto object-contain"
           />
-          <LanguageToggle />
         </div>
 
         <div className="flex-1 px-8 lg:px-12 py-8 flex flex-col justify-between overflow-y-auto">
