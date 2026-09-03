@@ -10,6 +10,7 @@ import { TableColumn } from '@/types';
 import { musicUploadService, MusicUploadItem, MusicUploadFilters } from '@/services/musicUploadService';
 
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 // Helper function to format date
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -228,7 +229,11 @@ export default function MusicUploadApproval() {
           </div>
 
           {/* Right Side - User Profile */}
-          <div className="flex items-center gap-3">
+          <LanguageToggle />
+          <div
+            onClick={() => navigate('/settings')}
+            className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+          >
             <div className="relative w-8 h-8">
               <div className="w-full h-full bg-white rounded-full flex items-center justify-center border border-white">
                 <div className="w-6 h-6 bg-green-500 rounded flex items-center justify-center">

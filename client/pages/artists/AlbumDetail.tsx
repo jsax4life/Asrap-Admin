@@ -4,6 +4,7 @@ import { ArrowLeft, Search, User, Play, Heart, Share, MoreHorizontal, Clock } fr
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 // Mock data for album detail
 const mockAlbumDetail = {
   id: '1',
@@ -181,7 +182,11 @@ const AlbumDetail = () => {
           </div>
 
           {/* Right side - Profile */}
-          <div className="flex items-center space-x-2">
+          <LanguageToggle />
+          <div
+            onClick={() => navigate('/settings')}
+            className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+          >
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center relative">
               <User className="w-4 h-4 text-white" />
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-asra-dark"></div>

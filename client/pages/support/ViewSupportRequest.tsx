@@ -4,6 +4,7 @@ import { ArrowLeft, Send, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 // Mock data for a single support request
 const mockSupportRequestDetail = {
   id: 1,
@@ -60,7 +61,11 @@ const ViewSupportRequest = () => {
           </div>
 
           {/* Right side - Profile */}
-          <div className="flex items-center space-x-2">
+          <LanguageToggle />
+          <div
+            onClick={() => navigate('/settings')}
+            className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+          >
             <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>

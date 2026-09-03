@@ -1,8 +1,9 @@
 import { Search, Menu, User as UserIcon } from "lucide-react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { User } from '@/types';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 
 interface DashboardHeaderProps {
   onMenuClick?: () => void;
@@ -29,24 +30,27 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
         </div>
         
         <div className="flex items-center gap-2 lg:gap-3">
+          <LanguageToggle />
           <ThemeToggle />
-          <div className="relative w-8 h-8 lg:w-[38px] lg:h-[38px]">
-            {user?.avatar ? (
-              <img
-                src={user.avatar}
-                alt={user.name}
-                className="w-full h-full rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full rounded-full bg-asra-red flex items-center justify-center">
-                <UserIcon className="w-1/2 h-1/2 text-white" />
-              </div>
-            )}
-            <div className="absolute bottom-0.5 right-0.5 lg:bottom-1 lg:right-1 w-[5px] h-[5px] lg:w-[6px] lg:h-[6px] bg-green-500 rounded-full"></div>
-          </div>
-          <span className="text-asra-gray-7 text-sm lg:text-xl font-bold hidden sm:inline">
-            {user?.name || t('header.defaultUserName')}
-          </span>
+          <Link to="/settings" className="flex items-center gap-2 lg:gap-3 hover:opacity-80 transition-opacity">
+            <div className="relative w-8 h-8 lg:w-[38px] lg:h-[38px]">
+              {user?.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt={user.name}
+                  className="w-full h-full rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full rounded-full bg-asra-red flex items-center justify-center">
+                  <UserIcon className="w-1/2 h-1/2 text-white" />
+                </div>
+              )}
+              <div className="absolute bottom-0.5 right-0.5 lg:bottom-1 lg:right-1 w-[5px] h-[5px] lg:w-[6px] lg:h-[6px] bg-green-500 rounded-full"></div>
+            </div>
+            <span className="text-asra-gray-7 text-sm lg:text-xl font-bold hidden sm:inline">
+              {user?.name || t('header.defaultUserName')}
+            </span>
+          </Link>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Plus, Search } from 'lucide-react';
 
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 // Mock data for playlists
 const playlists = [
   {
@@ -176,7 +177,11 @@ export default function PlaylistManagement() {
             </Button>
 
             {/* User Profile */}
-            <div className="flex items-center gap-3">
+            <LanguageToggle />
+            <div
+              onClick={() => navigate('/settings')}
+              className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+            >
               <div className="relative w-8 h-8">
                 <div className="w-full h-full bg-white rounded-full flex items-center justify-center border border-white">
                   <div className="w-6 h-6 bg-green-500 rounded flex items-center justify-center">

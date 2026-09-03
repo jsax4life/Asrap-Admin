@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageToggle } from '@/components/common/LanguageToggle';
 import { 
   Search, 
   Calendar, 
@@ -163,7 +164,11 @@ const PromotionManagement = () => {
             </div>
 
             {/* Profile */}
-            <div className="flex items-center space-x-2">
+            <LanguageToggle />
+            <div
+              onClick={() => navigate('/settings')}
+              className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+            >
               <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { AGENT_MENU_ITEMS, AGENT_ACCOUNT_MENU_ITEMS, ICON_MAP } from '@/constants';
 import { User } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
-import { LanguageToggle } from '@/components/common/LanguageToggle';
 import asrapaLogo from '@/assets/images/asrapa-logo-white.png';
 
 interface AgentSidebarProps {
@@ -60,14 +59,13 @@ export function AgentSidebar({ isOpen = true, onClose, user }: AgentSidebarProps
           <X className="w-6 h-6" />
         </button>
 
-        <div className="h-[150px] border-b border-asra-gray-2 flex flex-col items-center justify-center gap-2 px-10">
+        <div className="h-[150px] border-b border-asra-gray-2 flex flex-col items-center justify-center gap-1 px-10">
           <img
             src={asrapaLogo}
             alt="Asrapa"
             className="h-20 w-auto object-contain"
           />
           <span className="text-asra-red text-xs font-bold uppercase tracking-widest">{t('sidebar.agentPortalTag')}</span>
-          <LanguageToggle />
         </div>
 
         <div className="flex-1 px-8 lg:px-12 py-8 flex flex-col justify-between overflow-y-auto">

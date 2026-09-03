@@ -289,6 +289,8 @@ export const API_ENDPOINTS = {
     LOGOUT: "/admin/auth/logout",
     REFRESH: "/admin/auth/refresh",
     PROFILE: "/admin/auth/me",
+    UPDATE_PROFILE: "/admin/auth/me",
+    UPLOAD_AVATAR: "/admin/auth/me/avatar",
     CHANGE_PASSWORD: "/admin/auth/change-password",
   },
   USERS: {
