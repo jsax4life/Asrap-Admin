@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Calendar, User, Eye } from 'lucide-react';
 
+import { useAuth } from '@/hooks/useAuth';
 // Demandes d'assistance (à connecter au service backend)
 const mockSupportRequests: {
   id: number;
@@ -14,6 +15,7 @@ const mockSupportRequests: {
 }[] = [];
 
 const HelpSupport = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'all' | 'answered' | 'pending'>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -106,7 +108,7 @@ const HelpSupport = () => {
               <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">Administrateur système</span>
+              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
             </div>
           </div>
         </div>

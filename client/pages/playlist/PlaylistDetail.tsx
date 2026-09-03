@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
 import { TableColumn } from '@/types';
 
+import { useAuth } from '@/hooks/useAuth';
 // Mock data for the specific playlist
 const playlistData = {
   id: '2',
@@ -98,6 +99,7 @@ const songs = [
 type Song = typeof songs[0];
 
 export default function PlaylistDetail() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -205,7 +207,7 @@ export default function PlaylistDetail() {
             </div>
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
           </div>
-          <span className="text-white text-sm font-medium">Administrateur système</span>
+          <span className="text-white text-sm font-medium">{user?.name || 'Administrateur système'}</span>
         </div>
       </div>
 

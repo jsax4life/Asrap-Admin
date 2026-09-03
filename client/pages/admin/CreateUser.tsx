@@ -5,7 +5,9 @@ import { toast } from 'react-hot-toast';
 import { adminAgentService } from '@/services/adminAgentService';
 import { generateTemporaryPassword } from '@/lib/password';
 
+import { useAuth } from '@/hooks/useAuth';
 const CreateUser = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     avatar: null as File | null,
@@ -183,7 +185,7 @@ const CreateUser = () => {
             <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>
-            <span className="text-white text-sm">Administrateur système</span>
+            <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
           </div>
         </div>
       </div>

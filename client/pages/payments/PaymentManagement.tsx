@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Search, Calendar, User, ChevronLeft, ChevronRight, DollarSign, TrendingUp, Building, Users, ArrowUp, ArrowDown } from 'lucide-react';
+import { Search, Calendar, User, ChevronLeft, ChevronRight, Banknote, TrendingUp, Building, Users, ArrowUp, ArrowDown } from 'lucide-react';
 
+import { useAuth } from '@/hooks/useAuth';
 // Aperçu des paiements (à connecter au service backend)
 const mockPaymentOverview = {
   totalMonthlyRevenue: 0,
@@ -58,6 +59,7 @@ const mockPaymentAgentHistory: {
 }[] = [];
 
 const PaymentManagement = () => {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'overview' | 'payment-in' | 'payment-out' | 'payment-agents'>('overview');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -124,7 +126,7 @@ const PaymentManagement = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">Administrateur système</span>
+              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
             </div>
           </div>
         </div>
@@ -187,7 +189,7 @@ const PaymentManagement = () => {
                 <div className="bg-asra-gray-1 rounded-lg p-6">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-asra-red rounded-full flex items-center justify-center flex-shrink-0">
-                      <DollarSign className="w-6 h-6 text-white" />
+                      <Banknote className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
                       <div className="text-3xl font-bold text-white mb-3">
@@ -222,7 +224,7 @@ const PaymentManagement = () => {
                 <div className="bg-asra-gray-1 rounded-lg p-6">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-asra-red rounded-full flex items-center justify-center flex-shrink-0">
-                      <DollarSign className="w-6 h-6 text-white" />
+                      <Banknote className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
                       <div className="text-3xl font-bold text-white mb-3">
@@ -248,7 +250,7 @@ const PaymentManagement = () => {
                 <div className="bg-asra-gray-1 rounded-lg p-6">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-asra-red rounded-full flex items-center justify-center flex-shrink-0">
-                      <DollarSign className="w-6 h-6 text-white" />
+                      <Banknote className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
                       <div className="text-3xl font-bold text-white mb-3">
@@ -281,7 +283,7 @@ const PaymentManagement = () => {
                 <div className="bg-asra-gray-1 rounded-lg p-6">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-asra-red rounded-full flex items-center justify-center flex-shrink-0">
-                      <DollarSign className="w-6 h-6 text-white" />
+                      <Banknote className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
                       <div className="text-3xl font-bold text-white mb-3">

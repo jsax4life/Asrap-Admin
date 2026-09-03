@@ -7,21 +7,21 @@ import { AnalyticsLineChart } from '@/components/analytics/AnalyticsLineChart';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 
-// Mock data for analytics
-const analyticsMetrics = [
-  { label: 'Écoutes', value: '1.5M', trend: 'up' },
-  { label: 'Auditeurs quotidiens moy.', value: '1.5M', trend: 'up' },
-  { label: 'Abonnés', value: '1.5M', trend: 'up' },
-  { label: "Mentions J'aime", value: '1.5M', trend: 'up' },
-  { label: 'Téléchargements', value: '1.5M', trend: 'up' },
+// Statistiques (à connecter au service backend)
+const analyticsMetrics: { label: string; value: string; trend: 'up' | 'down' }[] = [
+  { label: 'Écoutes', value: '0', trend: 'up' },
+  { label: 'Auditeurs quotidiens moy.', value: '0', trend: 'up' },
+  { label: 'Abonnés', value: '0', trend: 'up' },
+  { label: "Mentions J'aime", value: '0', trend: 'up' },
+  { label: 'Téléchargements', value: '0', trend: 'up' },
 ];
 
-const reportMetrics = [
-  { label: 'Utilisateurs', value: '2.5M', trend: 'up' },
-  { label: 'Utilisateurs abonnés', value: '1.5M', trend: 'up' },
-  { label: 'Nouveaux utilisateurs', value: '500K', trend: 'up' },
-  { label: 'Anciens utilisateurs', value: '1.5M', trend: 'up' },
-  { label: 'Abonnements échoués', value: '1K', trend: 'down' },
+const reportMetrics: { label: string; value: string; trend: 'up' | 'down' }[] = [
+  { label: 'Utilisateurs', value: '0', trend: 'up' },
+  { label: 'Utilisateurs abonnés', value: '0', trend: 'up' },
+  { label: 'Nouveaux utilisateurs', value: '0', trend: 'up' },
+  { label: 'Anciens utilisateurs', value: '0', trend: 'up' },
+  { label: 'Abonnements échoués', value: '0', trend: 'down' },
 ];
 
 const dailyData = [
@@ -42,15 +42,15 @@ const subscriptionMetrics = [
   { label: 'Abonnement terminé..', value: 0 },
 ];
 
-// Mock chart data
+// Données du graphique (à connecter au service backend)
 const chartData = [
-  { day: 'Mon', value: 500000 },
-  { day: 'Tue', value: 750000 },
-  { day: 'Wed', value: 600000 },
-  { day: 'Thu', value: 800563 },
-  { day: 'Fri', value: 900000 },
-  { day: 'Sat', value: 700000 },
-  { day: 'Sun', value: 650000 },
+  { day: 'Lun', value: 0 },
+  { day: 'Mar', value: 0 },
+  { day: 'Mer', value: 0 },
+  { day: 'Jeu', value: 0 },
+  { day: 'Ven', value: 0 },
+  { day: 'Sam', value: 0 },
+  { day: 'Dim', value: 0 },
 ];
 
 export default function Analytics() {

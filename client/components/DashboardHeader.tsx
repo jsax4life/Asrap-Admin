@@ -1,4 +1,4 @@
-import { Search, Menu } from "lucide-react";
+import { Search, Menu, User as UserIcon } from "lucide-react";
 import { useLocation } from 'react-router-dom';
 import { User } from '@/types';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
@@ -61,15 +61,21 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
         <div className="flex items-center gap-2 lg:gap-3">
           <ThemeToggle />
           <div className="relative w-8 h-8 lg:w-[38px] lg:h-[38px]">
-            <img
-              src={user?.avatar || "https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=75"}
-              alt={user?.name || "Admin"}
-              className="w-full h-full rounded-full"
-            />
+            {user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.name}
+                className="w-full h-full rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full rounded-full bg-asra-red flex items-center justify-center">
+                <UserIcon className="w-1/2 h-1/2 text-white" />
+              </div>
+            )}
             <div className="absolute bottom-0.5 right-0.5 lg:bottom-1 lg:right-1 w-[5px] h-[5px] lg:w-[6px] lg:h-[6px] bg-green-500 rounded-full"></div>
           </div>
           <span className="text-asra-gray-7 text-sm lg:text-xl font-bold hidden sm:inline">
-            {user?.name || "System Admin"}
+            {user?.name || "Administrateur système"}
           </span>
         </div>
       </div>

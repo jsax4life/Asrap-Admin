@@ -3,7 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, Calendar, User, Edit3, Loader2 } from 'lucide-react';
 import { artistService, type ArtistDetailData } from '@/services/artistService';
 
+import { useAuth } from '@/hooks/useAuth';
 const ArtistDetail = () => {
+  const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'about' | 'albums' | 'videos' | 'tagged'>('about');
@@ -87,7 +89,7 @@ const ArtistDetail = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">Administrateur système</span>
+              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
             </div>
           </div>
         </div>
@@ -110,11 +112,17 @@ const ArtistDetail = () => {
           {/* Artist Avatar with Green Glow */}
           <div className="relative inline-block mb-6">
             <div className="absolute inset-0 bg-green-500 rounded-full blur-lg opacity-30 scale-110"></div>
-            <img
-              src={artist.profilePicture || ''}
-              alt={artist.stageName}
-              className="relative w-48 h-48 rounded-full object-cover border-4 border-green-500"
-            />
+            {artist.profilePicture ? (
+              <img
+                src={artist.profilePicture}
+                alt={artist.stageName}
+                className="relative w-48 h-48 rounded-full object-cover border-4 border-green-500"
+              />
+            ) : (
+              <div className="relative w-48 h-48 rounded-full bg-asra-gray-800 border-4 border-green-500 flex items-center justify-center">
+                <User className="w-20 h-20 text-asra-gray-6" />
+              </div>
+            )}
           </div>
 
           {/* Stats Bar */}

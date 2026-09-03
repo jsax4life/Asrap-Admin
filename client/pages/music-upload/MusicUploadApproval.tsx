@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, Eye, Search, Loader2 } from 'lucide-react';
 import { TableColumn } from '@/types';
 import { musicUploadService, MusicUploadItem, MusicUploadFilters } from '@/services/musicUploadService';
 
+import { useAuth } from '@/hooks/useAuth';
 // Helper function to format date
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -29,6 +30,7 @@ const formatStatus = (status: string): string => {
 };
 
 export default function MusicUploadApproval() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -233,7 +235,7 @@ export default function MusicUploadApproval() {
               </div>
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
             </div>
-            <span className="text-white text-sm font-medium">Administrateur système</span>
+            <span className="text-white text-sm font-medium">{user?.name || 'Administrateur système'}</span>
           </div>
         </div>
       </div>

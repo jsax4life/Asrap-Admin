@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, Calendar, User, ChevronLeft, ChevronRight, Loader2, Ban, RotateCcw, Trash2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { artistService, type ArtistItem } from '@/services/artistService';
+import { useAuth } from '@/hooks/useAuth';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,6 +30,7 @@ const mockUsers: {
 }[] = [];
 
 const ArtistManagement = () => {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'artists' | 'users'>('artists');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -159,7 +161,7 @@ const ArtistManagement = () => {
               <div className="w-8 h-8 bg-asra-red rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white text-sm">Administrateur système</span>
+              <span className="text-white text-sm">{user?.name || 'Administrateur système'}</span>
             </div>
           </div>
         </div>
