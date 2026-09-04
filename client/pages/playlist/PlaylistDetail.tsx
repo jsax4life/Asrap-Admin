@@ -1,104 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, MoreHorizontal, Clock, Plus, Search } from 'lucide-react';
+import { ArrowLeft, Clock, Plus, Search, Loader2, X } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
 import { TableColumn } from '@/types';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 import { useAuth } from '@/hooks/useAuth';
 import { LanguageToggle } from '@/components/common/LanguageToggle';
-// Mock data for the specific playlist
-const playlistData = {
-  id: '2',
-  title: 'This is Wizkid',
-  description: 'Hits to boost your mood and fill you with happiness!',
-  image: 'https://api.builder.io/api/v1/image/assets/TEMP/5cfb76ba25d6351d27d525c323f0a49d59c44167?width=300',
-  banner: 'THIS IS Wizkid',
-  isPublic: true,
-  likes: '5,865,865',
-  songCount: 34,
-  duration: '2hr 01 min',
-  createdBy: 'Asrapa',
-};
+import { playlistService, Playlist, PlaylistSongItem } from '@/services/playlistService';
+import { songService, SongItem } from '@/services/songService';
 
-// Mock data for songs in the playlist
-const songs = [
-  {
-    id: '1',
-    number: 1,
-    title: 'Money & Love',
-    artist: 'Wizkid',
-    album: 'More Love Less Ego',
-    dateAdded: '11 November 2022',
-    duration: '2:12',
-  },
-  {
-    id: '2',
-    number: 2,
-    title: 'Balance',
-    artist: 'Wizkid',
-    album: 'More Love Less Ego',
-    dateAdded: '11 November 2022',
-    duration: '2:12',
-  },
-  {
-    id: '3',
-    number: 3,
-    title: 'Bad to Me',
-    artist: 'Wizkid',
-    album: 'More Love Less Ego',
-    dateAdded: '11 November 2022',
-    duration: '2:12',
-  },
-  {
-    id: '4',
-    number: 4,
-    title: '2 Sugar',
-    artist: 'Wizkid feat. Ayra Starr',
-    album: 'More Love Less Ego',
-    dateAdded: '11 November 2022',
-    duration: '2:12',
-  },
-  {
-    id: '5',
-    number: 5,
-    title: 'Everyday',
-    artist: 'Wizkid',
-    album: 'More Love Less Ego',
-    dateAdded: '11 November 2022',
-    duration: '2:12',
-  },
-  {
-    id: '6',
-    number: 6,
-    title: 'Slip N Slide',
-    artist: 'Wizkid, Skillibeng, Shenseea',
-    album: 'More Love Less Ego',
-    dateAdded: '11 November 2022',
-    duration: '2:12',
-  },
-  {
-    id: '7',
-    number: 7,
-    title: 'Deep',
-    artist: 'Wizkid',
-    album: 'More Love Less Ego',
-    dateAdded: '11 November 2022',
-    duration: '2:12',
-  },
-  {
-    id: '8',
-    number: 8,
-    title: 'Flower Pads',
-    artist: 'Wizkid',
-    album: 'More Love Less Ego',
-    dateAdded: '11 November 2022',
-    duration: '2:12',
-  },
-];
+function formatDuration(seconds?: number): string {
+  const total = Math.max(0, Math.floor(seconds || 0));
+  const minutes = Math.floor(total / 60);
+  const secs = total % 60;
+  return `${minutes}:${String(secs).padStart(2, '0')}`;
+}
 
-type Song = typeof songs[0];
+function formatTotalDuration(seconds: number): string {
+  const total = Math.max(0, Math.floor(seconds));
+  const hours = Math.floor(total / 3600);
+  const minutes = Math.floor((total % 3600) / 60);
+  if (hours > 0) return `${hours}h ${minutes}min`;
+  return `${minutes}min`;
+}
+
+function artistLabel(artist?: SongItem['artist'] | PlaylistSongItem['artist']): string {
+  if (!artist) return '';
+  return artist.stageName || artist.name || '';
+}
 
 export default function PlaylistDetail() {
   const { t } = useTranslation('playlist');
@@ -106,36 +45,101 @@ export default function PlaylistDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const [playlist, setPlaylist] = useState<Playlist | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const [addOpen, setAddOpen] = useState(false);
+  const [catalogSongs, setCatalogSongs] = useState<SongItem[]>([]);
+  const [catalogLoading, setCatalogLoading] = useState(false);
+  const [songSearch, setSongSearch] = useState('');
+  const [addingSongId, setAddingSongId] = useState<string | null>(null);
+
+  const loadPlaylist = async () => {
+    if (!id) return;
+    setLoading(true);
+    try {
+      const data = await playlistService.getPlaylist(id);
+      setPlaylist(data);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t('detail.errors.loadFailed'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPlaylist();
+  }, [id]);
+
   const handleGoBack = () => {
     navigate('/playlist-management');
   };
 
-  const handleAddToPlaylist = () => {
-    // TODO: Implement add to playlist functionality
-    console.log('Add to playlist');
+  const openAddDialog = async () => {
+    setAddOpen(true);
+    if (catalogSongs.length > 0) return;
+    setCatalogLoading(true);
+    try {
+      const songs = await songService.listSongs();
+      setCatalogSongs(songs);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t('detail.errors.catalogLoadFailed'));
+    } finally {
+      setCatalogLoading(false);
+    }
   };
 
-  const columns: TableColumn<Song>[] = [
-    {
-      key: 'number',
-      label: '#',
-      render: (value: number) => (
-        <span className="text-asra-gray-6 text-sm">{value}</span>
-      ),
-    },
+  const playlistSongIds = new Set((playlist?.songs || []).map((s) => s._id));
+
+  const filteredCatalogSongs = catalogSongs.filter(
+    (song) =>
+      !playlistSongIds.has(song._id) &&
+      (song.title.toLowerCase().includes(songSearch.toLowerCase()) ||
+        artistLabel(song.artist).toLowerCase().includes(songSearch.toLowerCase()))
+  );
+
+  const handleAddSong = async (songId: string) => {
+    if (!id) return;
+    setAddingSongId(songId);
+    try {
+      const updated = await playlistService.addSongs(id, [songId]);
+      setPlaylist(updated);
+      toast.success(t('detail.success.songAdded'));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t('detail.errors.addSongFailed'));
+    } finally {
+      setAddingSongId(null);
+    }
+  };
+
+  const handleRemoveSong = async (songId: string) => {
+    if (!id) return;
+    try {
+      await playlistService.removeSong(id, songId);
+      await loadPlaylist();
+      toast.success(t('detail.success.songRemoved'));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t('detail.errors.removeSongFailed'));
+    }
+  };
+
+  const songs = playlist?.songs || [];
+  const totalDurationSeconds = songs.reduce((sum, s) => sum + (s.duration || 0), 0);
+
+  const columns: TableColumn<PlaylistSongItem>[] = [
     {
       key: 'title',
       label: t('detail.columns.title'),
       render: (_, song) => (
         <div className="flex items-center gap-3">
           <img
-            src={playlistData.image}
+            src={song.coverPhotoUrl || playlist?.coverImageUrl || ''}
             alt={song.title}
-            className="w-10 h-10 rounded object-cover"
+            className="w-10 h-10 rounded object-cover bg-asra-gray-2"
           />
           <div>
             <div className="text-white text-sm font-medium">{song.title}</div>
-            <div className="text-asra-gray-6 text-xs">{song.artist}</div>
+            <div className="text-asra-gray-6 text-xs">{artistLabel(song.artist)}</div>
           </div>
         </div>
       ),
@@ -143,37 +147,53 @@ export default function PlaylistDetail() {
     {
       key: 'album',
       label: t('detail.columns.album'),
-      render: (value: string) => (
-        <span className="text-asra-gray-6 text-sm">{value}</span>
-      ),
-    },
-    {
-      key: 'dateAdded',
-      label: t('detail.columns.dateAdded'),
-      render: (value: string) => (
-        <span className="text-asra-gray-6 text-sm">{value}</span>
+      render: (_, song) => (
+        <span className="text-asra-gray-6 text-sm">{song.album?.title || '—'}</span>
       ),
     },
     {
       key: 'duration',
       label: t('detail.columns.duration'),
-      render: (value: string) => (
+      render: (_, song) => (
         <div className="flex items-center gap-1">
           <Clock className="w-3 h-3 text-asra-gray-6" />
-          <span className="text-asra-gray-6 text-sm">{value}</span>
+          <span className="text-asra-gray-6 text-sm">{formatDuration(song.duration)}</span>
         </div>
       ),
     },
     {
-      key: 'id',
+      key: '_id',
       label: '',
-      render: () => (
-        <button className="text-asra-gray-6 hover:text-white transition-colors">
-          <MoreHorizontal className="w-4 h-4" />
+      render: (_, song) => (
+        <button
+          onClick={() => handleRemoveSong(song._id)}
+          className="text-asra-gray-6 hover:text-red-400 transition-colors"
+          title={t('detail.removeSong')}
+        >
+          <X className="w-4 h-4" />
         </button>
       ),
     },
   ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-asra-red to-black flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-white animate-spin" />
+      </div>
+    );
+  }
+
+  if (!playlist) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-asra-red to-black flex flex-col items-center justify-center gap-4">
+        <p className="text-white">{t('detail.errors.loadFailed')}</p>
+        <Button onClick={handleGoBack} className="bg-white text-asra-red hover:bg-white/90">
+          {t('detail.goBack')}
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-asra-red to-black">
@@ -187,18 +207,6 @@ export default function PlaylistDetail() {
           <ArrowLeft className="w-4 h-4" />
           {t('detail.goBack')}
         </button>
-
-        {/* Search Bar */}
-        <div className="flex-1 max-w-md mx-8">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white w-4 h-4" />
-            <input
-              type="text"
-              placeholder={t('detail.searchPlaceholder')}
-              className="w-full pl-10 pr-4 py-2 bg-asra-red/80 border border-asra-red rounded-lg text-white placeholder:text-white/80 focus:outline-none focus:border-white"
-            />
-          </div>
-        </div>
 
         {/* User Profile */}
         <LanguageToggle />
@@ -223,35 +231,23 @@ export default function PlaylistDetail() {
         {/* Left Column - Playlist Cover */}
         <div className="lg:col-span-1">
           <div className="relative">
-            <div className="aspect-[3/4] bg-asra-red rounded-lg overflow-hidden">
-              {/* Asrapa Logo */}
-              <div className="absolute top-6 left-6 z-10">
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-asra-red text-lg font-bold">S</span>
-                </div>
-              </div>
-              
-              {/* Banner Text */}
-              <div className="absolute top-6 left-16 right-6 z-10">
-                <div className="text-white text-sm font-bold leading-tight">
-                  <div>{t('detail.banner.line1')}</div>
-                  <div className="text-lg">{t('detail.banner.line2')}</div>
-                </div>
-              </div>
-              
-              {/* Artist Image */}
-              <div className="absolute bottom-6 left-6 right-6">
+            <div className="aspect-square bg-asra-red rounded-lg overflow-hidden">
+              {playlist.coverImageUrl ? (
                 <img
-                  src={playlistData.image}
-                  alt={playlistData.title}
-                  className="w-full h-40 object-cover rounded"
+                  src={playlist.coverImageUrl}
+                  alt={playlist.title}
+                  className="w-full h-full object-cover"
                 />
-              </div>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="text-white/60 text-sm">{t('detail.noCover')}</span>
+                </div>
+              )}
             </div>
-            
+
             {/* Add to Playlist Button */}
             <Button
-              onClick={handleAddToPlaylist}
+              onClick={openAddDialog}
               className="w-full mt-4 bg-asra-red hover:bg-asra-red/90 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -263,32 +259,102 @@ export default function PlaylistDetail() {
         {/* Right Column - Playlist Information */}
         <div className="lg:col-span-2 flex flex-col justify-center space-y-6">
           <div>
-            <div className="text-white text-sm mb-3 font-medium">{t('detail.publicPlaylist')}</div>
-            <h1 className="text-white text-5xl font-bold mb-6 leading-tight">{playlistData.title}</h1>
-            <p className="text-white text-lg mb-8 leading-relaxed">{playlistData.description}</p>
+            <div className="text-white text-sm mb-3 font-medium">
+              {playlist.isPublic ? t('detail.publicPlaylist') : t('detail.privatePlaylist')}
+            </div>
+            <h1 className="text-white text-5xl font-bold mb-6 leading-tight">{playlist.title}</h1>
+            {playlist.description && (
+              <p className="text-white text-lg mb-8 leading-relaxed">{playlist.description}</p>
+            )}
           </div>
 
-          <div className="flex items-center gap-3 text-sm">
+          <div className="flex items-center gap-3 text-sm flex-wrap">
             <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
               <span className="text-asra-red text-xs font-bold">S</span>
             </div>
-            <span className="text-white font-medium">{playlistData.createdBy}</span>
+            <span className="text-white font-medium">AsraPa</span>
             <span className="text-white text-lg">•</span>
-            <span className="text-white">{playlistData.likes} {t('detail.likes')}</span>
-            <span className="text-white text-lg">•</span>
-            <span className="text-white">{t('detail.songsAndDuration', { songCount: playlistData.songCount, duration: playlistData.duration })}</span>
+            <span className="text-white">
+              {t('detail.songsAndDuration', {
+                songCount: songs.length,
+                duration: formatTotalDuration(totalDurationSeconds),
+              })}
+            </span>
           </div>
         </div>
       </div>
 
       {/* Songs Table */}
       <div className="bg-black/50 backdrop-blur-sm rounded-lg border border-asra-gray-5 overflow-hidden mx-6 mb-8">
-        <DataTable
-          data={songs}
-          columns={columns}
-          className="min-w-full"
-        />
+        {songs.length > 0 ? (
+          <DataTable data={songs} columns={columns} className="min-w-full" />
+        ) : (
+          <p className="text-center text-white/70 py-12">{t('detail.emptySongs')}</p>
+        )}
       </div>
+
+      <Dialog open={addOpen} onOpenChange={setAddOpen}>
+        <DialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-white">{t('detail.addDialog.title')}</DialogTitle>
+            <DialogDescription className="text-asra-gray-6">
+              {t('detail.addDialog.description')}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-asra-gray-6 w-4 h-4" />
+            <input
+              type="text"
+              value={songSearch}
+              onChange={(e) => setSongSearch(e.target.value)}
+              placeholder={t('detail.searchPlaceholder')}
+              className="w-full pl-10 pr-4 py-2 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 caret-white focus:outline-none focus:border-asra-red"
+            />
+          </div>
+
+          <div className="max-h-80 overflow-y-auto space-y-1">
+            {catalogLoading ? (
+              <div className="flex justify-center py-8">
+                <Loader2 className="w-6 h-6 text-asra-red animate-spin" />
+              </div>
+            ) : filteredCatalogSongs.length === 0 ? (
+              <p className="text-center text-asra-gray-6 py-8 text-sm">{t('detail.addDialog.empty')}</p>
+            ) : (
+              filteredCatalogSongs.map((song) => (
+                <div
+                  key={song._id}
+                  className="flex items-center justify-between gap-3 px-2 py-2 rounded-lg hover:bg-asra-gray-2"
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <img
+                      src={song.coverPhotoUrl || ''}
+                      alt={song.title}
+                      className="w-9 h-9 rounded object-cover bg-asra-gray-2 flex-shrink-0"
+                    />
+                    <div className="min-w-0">
+                      <div className="text-white text-sm font-medium truncate">{song.title}</div>
+                      <div className="text-asra-gray-6 text-xs truncate">{artistLabel(song.artist)}</div>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={() => handleAddSong(song._id)}
+                    disabled={addingSongId === song._id}
+                    className="bg-asra-red hover:bg-asra-red/90 text-white flex-shrink-0"
+                  >
+                    {addingSongId === song._id ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Plus className="w-3.5 h-3.5" />
+                    )}
+                  </Button>
+                </div>
+              ))
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

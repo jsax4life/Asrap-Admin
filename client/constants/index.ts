@@ -341,6 +341,15 @@ export const API_ENDPOINTS = {
     ADMIN_UPDATE: "/admin/genres/:genreId",
     ADMIN_DELETE: "/admin/genres/:genreId",
   },
+  PLAYLISTS: {
+    LIST: "/admin/playlists",
+    DETAIL: "/admin/playlists/:playlistId",
+    CREATE: "/admin/playlists",
+    UPDATE: "/admin/playlists/:playlistId",
+    DELETE: "/admin/playlists/:playlistId",
+    ADD_SONGS: "/admin/playlists/:playlistId/songs",
+    REMOVE_SONG: "/admin/playlists/:playlistId/songs/:songId",
+  },
 } as const;
 
 // Theme configuration

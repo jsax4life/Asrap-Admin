@@ -10,6 +10,28 @@
     "emptyState": {
       "message": "Aucune playlist ne correspond à votre recherche",
       "clearSearch": "Effacer la recherche"
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les playlists",
+      "titleRequired": "Le titre est obligatoire",
+      "createFailed": "Impossible de créer la playlist"
+    },
+    "success": {
+      "created": "Playlist créée"
+    },
+    "createDialog": {
+      "title": "Nouvelle playlist",
+      "description": "Créez une nouvelle playlist éditoriale pour le catalogue AsraPa.",
+      "titleLabel": "Titre",
+      "titlePlaceholder": "ex : Découvertes de la semaine",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Courte description affichée aux auditeurs",
+      "coverImageLabel": "Image de couverture",
+      "coverImageUpload": "Téléverser une image de couverture",
+      "isPublicLabel": "Playlist publique",
+      "cancel": "Annuler",
+      "submit": "Créer la playlist",
+      "submitting": "Création…"
     }
   },
   "detail": {
@@ -22,13 +44,32 @@
     },
     "addToPlaylist": "Ajouter à la playlist",
     "publicPlaylist": "PLAYLIST PUBLIQUE",
+    "privatePlaylist": "PLAYLIST PRIVÉE",
     "likes": "mentions J'aime",
     "songsAndDuration": "{{songCount}} chansons, {{duration}}",
+    "noCover": "Aucune image de couverture",
+    "emptySongs": "Aucun titre dans cette playlist pour l'instant",
+    "removeSong": "Retirer de la playlist",
     "columns": {
       "title": "TITRE",
       "album": "ALBUM",
       "dateAdded": "DATE D'AJOUT",
       "duration": "DURÉE"
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger cette playlist",
+      "catalogLoadFailed": "Impossible de charger le catalogue de titres",
+      "addSongFailed": "Impossible d'ajouter le titre",
+      "removeSongFailed": "Impossible de retirer le titre"
+    },
+    "success": {
+      "songAdded": "Titre ajouté à la playlist",
+      "songRemoved": "Titre retiré de la playlist"
+    },
+    "addDialog": {
+      "title": "Ajouter des titres",
+      "description": "Recherchez dans le catalogue AsraPa et ajoutez des titres à cette playlist.",
+      "empty": "Aucun titre correspondant trouvé"
     }
   }
 }

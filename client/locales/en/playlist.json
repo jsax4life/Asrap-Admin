@@ -10,6 +10,28 @@
     "emptyState": {
       "message": "No playlist matches your search",
       "clearSearch": "Clear search"
+    },
+    "errors": {
+      "loadFailed": "Failed to load playlists",
+      "titleRequired": "Title is required",
+      "createFailed": "Failed to create playlist"
+    },
+    "success": {
+      "created": "Playlist created"
+    },
+    "createDialog": {
+      "title": "New playlist",
+      "description": "Create a new editorial playlist for the AsraPa catalogue.",
+      "titleLabel": "Title",
+      "titlePlaceholder": "e.g. Discover Weekly",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Short description shown to listeners",
+      "coverImageLabel": "Cover image",
+      "coverImageUpload": "Upload a cover image",
+      "isPublicLabel": "Public playlist",
+      "cancel": "Cancel",
+      "submit": "Create playlist",
+      "submitting": "Creating…"
     }
   },
   "detail": {
@@ -22,13 +44,32 @@
     },
     "addToPlaylist": "Add to playlist",
     "publicPlaylist": "PUBLIC PLAYLIST",
+    "privatePlaylist": "PRIVATE PLAYLIST",
     "likes": "likes",
     "songsAndDuration": "{{songCount}} songs, {{duration}}",
+    "noCover": "No cover image",
+    "emptySongs": "No songs in this playlist yet",
+    "removeSong": "Remove from playlist",
     "columns": {
       "title": "TITLE",
       "album": "ALBUM",
       "dateAdded": "DATE ADDED",
       "duration": "DURATION"
+    },
+    "errors": {
+      "loadFailed": "Failed to load this playlist",
+      "catalogLoadFailed": "Failed to load the song catalogue",
+      "addSongFailed": "Failed to add song",
+      "removeSongFailed": "Failed to remove song"
+    },
+    "success": {
+      "songAdded": "Song added to playlist",
+      "songRemoved": "Song removed from playlist"
+    },
+    "addDialog": {
+      "title": "Add songs",
+      "description": "Search the AsraPa catalogue and add tracks to this playlist.",
+      "empty": "No matching songs found"
     }
   }
 }
