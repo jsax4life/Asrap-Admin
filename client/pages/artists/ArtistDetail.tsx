@@ -220,6 +220,39 @@ const ArtistDetail = () => {
                 </div>
               </div>
 
+              {/* Artist Type (Independent / Labelled) */}
+              <div className="mb-8">
+                <h4 className="text-lg font-semibold text-white mb-2">{t('detail.artistType')}</h4>
+                {artist.artistType ? (
+                  <span className={`inline-block text-xs px-2 py-1 rounded-full ${
+                    artist.artistType === 'labelled'
+                      ? 'bg-amber-500/20 text-amber-400'
+                      : 'bg-blue-500/20 text-blue-400'
+                  }`}>
+                    {artist.artistType === 'labelled' ? t('detail.artistTypeLabelled') : t('detail.artistTypeIndependent')}
+                  </span>
+                ) : (
+                  <p className="text-asra-gray-300">{t('detail.notAvailable')}</p>
+                )}
+
+                {artist.artistType === 'labelled' && (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                    <div>
+                      <h4 className="text-sm font-semibold text-white mb-1">{t('detail.labelName')}</h4>
+                      <p className="text-asra-gray-300 text-sm">{artist.labelName || t('detail.notAvailable')}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-white mb-1">{t('detail.labelManagerName')}</h4>
+                      <p className="text-asra-gray-300 text-sm">{artist.labelManagerName || t('detail.notAvailable')}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-white mb-1">{t('detail.labelManagerContact')}</h4>
+                      <p className="text-asra-gray-300 text-sm">{artist.labelManagerContact || t('detail.notAvailable')}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Edit Bio Button */}
               <button className="bg-asra-red text-white px-6 py-3 rounded-lg font-medium hover:bg-red-600 transition-colors flex items-center space-x-2">
                 <Edit3 className="w-5 h-5" />
