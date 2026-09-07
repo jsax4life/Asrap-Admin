@@ -49,8 +49,11 @@ function getErrorMessage(error: unknown, fallback: string): string {
 class GenreService {
   async listGenres(): Promise<Genre[]> {
     try {
+      // Admin management needs deactivated genres too (to allow re-adding a
+      // duplicate name, which reactivates it instead of failing) — the public
+      // GENRES.LIST endpoint only returns active genres.
       const response = (await apiClient.get<{ genres: Genre[] }>(
-        API_ENDPOINTS.GENRES.LIST
+        API_ENDPOINTS.GENRES.ADMIN_LIST
       )) as unknown as GenresListResponse;
 
       if (response.status !== 'success' || !response.data?.genres) {

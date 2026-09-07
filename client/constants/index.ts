@@ -337,6 +337,7 @@ export const API_ENDPOINTS = {
   },
   GENRES: {
     LIST: "/genres",
+    ADMIN_LIST: "/admin/genres",
     ADMIN_CREATE: "/admin/genres",
     ADMIN_UPDATE: "/admin/genres/:genreId",
     ADMIN_DELETE: "/admin/genres/:genreId",
