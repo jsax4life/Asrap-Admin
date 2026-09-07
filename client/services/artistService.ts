@@ -23,6 +23,7 @@ export interface ArtistItem {
   isDeleted?: boolean;
   isActive?: boolean;
   createdAt: string;
+  artistType?: 'independent' | 'labelled';
 }
 
 export interface ArtistListResponse {
@@ -80,6 +81,10 @@ export interface ArtistDetailData {
   socialMedia: Record<string, string>;
   statistics: ArtistStatistics;
   createdAt: string;
+  artistType?: 'independent' | 'labelled';
+  labelName?: string | null;
+  labelManagerName?: string | null;
+  labelManagerContact?: string | null;
   albumsAndEPs: { count: number; items: ArtistAlbumItem[] };
   songs: { count: number; items: ArtistSongItem[] };
   videos: { count: number; items: any[] };

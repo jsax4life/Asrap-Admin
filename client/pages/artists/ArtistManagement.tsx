@@ -266,7 +266,7 @@ const ArtistManagement = () => {
         {/* Table */}
         <div className="bg-asra-gray-900 rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[900px]">
+            <table className="w-full min-w-[1050px]">
               <thead className="bg-asra-gray-800">
                 <tr>
                   {activeTab === 'artists' ? (
@@ -279,6 +279,9 @@ const ArtistManagement = () => {
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
                         {t('management.table.status')}
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
+                        {t('management.table.artistType')}
                       </th>
                       <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">
                         {t('management.table.followers')}
@@ -318,7 +321,7 @@ const ArtistManagement = () => {
                 {activeTab === 'artists' ? (
                   artists.length === 0 && !loading ? (
                     <tr>
-                      <td colSpan={7} className="px-6 py-12 text-center text-asra-gray-400 text-sm">
+                      <td colSpan={8} className="px-6 py-12 text-center text-asra-gray-400 text-sm">
                         {statusFilter === 'active' ? t('management.table.noArtistsActive') : t('management.table.noArtistsDeactivated')}
                       </td>
                     </tr>
@@ -357,6 +360,19 @@ const ArtistManagement = () => {
                         }`}>
                           {deactivated ? t('management.table.statusDeactivated') : t('management.table.statusActive')}
                         </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {artist.artistType ? (
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            artist.artistType === 'labelled'
+                              ? 'bg-amber-500/20 text-amber-400'
+                              : 'bg-blue-500/20 text-blue-400'
+                          }`}>
+                            {artist.artistType === 'labelled' ? t('management.table.artistTypeLabelled') : t('management.table.artistTypeIndependent')}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-asra-gray-6">{t('detail.notAvailable')}</span>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
                         {formatNumber(artist.followers || 0)}
