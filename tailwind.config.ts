@@ -68,7 +68,7 @@ export default {
             8: "#404040",
             9: "#1A1A1A",
           },
-          red: "#C40505",
+          red: "#FF0000",
         },
       },
       borderRadius: {
