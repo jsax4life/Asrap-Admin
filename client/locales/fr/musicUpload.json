@@ -44,15 +44,16 @@
     "errorLoading": "Échec du chargement des téléversements musicaux",
     "deleteDialog": {
       "title": "Retirer ce téléversement",
-      "description": "Êtes-vous sûr de vouloir retirer définitivement « {{title}} » du catalogue ? Cette action est irréversible.",
+      "description": "Êtes-vous sûr de vouloir supprimer définitivement « {{title}} » ? Il sera retiré des playlists, des sessions de groupe et des bibliothèques des utilisateurs, et les fichiers audio/image seront supprimés du stockage. Cette action est irréversible.",
+      "albumWarning_one": "Cela supprimera également le titre de cet album.",
+      "albumWarning_other": "Cela supprimera également les {{count}} titres de cet album.",
       "cancel": "Annuler",
-      "confirm": "Retirer",
+      "confirm": "Supprimer définitivement",
       "deleting": "Suppression..."
     },
     "toasts": {
-      "deleteSuccess": "« {{title}} » a été retiré du catalogue.",
-      "deleteError": "Échec du retrait du téléversement",
-      "deleteComingSoon": "Le retrait de titres arrive très prochainement. Réessayez plus tard."
+      "deleteSuccess": "« {{title}} » a été supprimé définitivement.",
+      "deleteError": "Échec de la suppression du téléversement"
     },
     "pagination": {
       "previous": "Précédent",

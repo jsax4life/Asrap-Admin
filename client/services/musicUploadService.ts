@@ -129,6 +129,13 @@ export interface UpdateLyricsResponse {
 export interface DeleteMusicUploadResponse {
   status: string;
   message: string;
+  data: {
+    songId?: string;
+    albumId?: string;
+    title: string;
+    deleted: boolean;
+    songsDeleted?: number;
+  };
 }
 
 class MusicUploadService {
@@ -231,11 +238,15 @@ class MusicUploadService {
   }
 
   /**
-   * Permanently remove a music upload (song or album) from the catalog
+   * Permanently remove a music upload (song or album/EP) from the catalog.
+   * Songs and albums are hard-deleted via distinct endpoints on the backend.
    */
-  async deleteMusicUpload(id: string): Promise<DeleteMusicUploadResponse> {
+  async deleteMusicUpload(id: string, uploadType: 'song' | 'album'): Promise<DeleteMusicUploadResponse> {
+    const url = uploadType === 'album'
+      ? `/admin/music-uploads/albums/${id}`
+      : `/admin/music-uploads/songs/${id}`;
+
     try {
-      const url = `/admin/music-uploads/${id}`;
       const response = await apiClient.delete<DeleteMusicUploadResponse>(url) as any;
 
       if (response.status === 'success') {
@@ -245,7 +256,7 @@ class MusicUploadService {
       throw new Error(response.message || 'Failed to remove upload');
     } catch (error: any) {
       console.error('Error removing music upload:', {
-        url: `/admin/music-uploads/${id}`,
+        url,
         error: error.message,
         response: error.response?.data,
         statusCode: error.response?.status,

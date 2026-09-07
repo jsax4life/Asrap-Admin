@@ -44,15 +44,16 @@
     "errorLoading": "Failed to load music uploads",
     "deleteDialog": {
       "title": "Remove this upload",
-      "description": "Are you sure you want to permanently remove \"{{title}}\" from the catalog? This action cannot be undone.",
+      "description": "Are you sure you want to permanently delete \"{{title}}\"? It will be removed from playlists, group sessions, and user libraries, and its audio/cover files will be deleted from storage. This action cannot be undone.",
+      "albumWarning_one": "This will also delete the track in this album.",
+      "albumWarning_other": "This will also delete the {{count}} tracks in this album.",
       "cancel": "Cancel",
-      "confirm": "Remove",
+      "confirm": "Delete permanently",
       "deleting": "Removing..."
     },
     "toasts": {
-      "deleteSuccess": "\"{{title}}\" has been removed from the catalog.",
-      "deleteError": "Failed to remove the upload",
-      "deleteComingSoon": "Removing uploads is coming very soon. Please try again later."
+      "deleteSuccess": "\"{{title}}\" has been permanently deleted.",
+      "deleteError": "Failed to delete the upload"
     },
     "pagination": {
       "previous": "Previous",

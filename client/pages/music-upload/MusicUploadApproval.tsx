@@ -229,15 +229,14 @@ export default function MusicUploadApproval() {
 
     setIsDeleting(true);
     try {
-      const response = await musicUploadService.deleteMusicUpload(deleteTarget._id);
+      const response = await musicUploadService.deleteMusicUpload(deleteTarget._id, deleteTarget.uploadType);
       toast.success(response.message || t('approval.toasts.deleteSuccess', { title: deleteTarget.title }));
       setData((prev) => prev.filter((item) => item._id !== deleteTarget._id));
       setTotalResults((prev) => Math.max(0, prev - 1));
       setDeleteTarget(null);
     } catch (error: any) {
       console.error('Error removing music upload:', error);
-      const notReady = error?.statusCode === 404 || error?.statusCode === 501;
-      toast.error(notReady ? t('approval.toasts.deleteComingSoon') : (error?.message || t('approval.toasts.deleteError')));
+      toast.error(error?.message || t('approval.toasts.deleteError'));
     } finally {
       setIsDeleting(false);
     }
@@ -411,8 +410,15 @@ export default function MusicUploadApproval() {
         <AlertDialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white">
           <AlertDialogHeader>
             <AlertDialogTitle>{t('approval.deleteDialog.title')}</AlertDialogTitle>
-            <AlertDialogDescription className="text-asra-gray-6">
-              {t('approval.deleteDialog.description', { title: deleteTarget?.title })}
+            <AlertDialogDescription className="text-asra-gray-6 space-y-2">
+              <span className="block">
+                {t('approval.deleteDialog.description', { title: deleteTarget?.title })}
+              </span>
+              {deleteTarget?.uploadType === 'album' && (
+                <span className="block text-amber-400 font-medium">
+                  {t('approval.deleteDialog.albumWarning', { count: deleteTarget?.songCount ?? 0 })}
+                </span>
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
