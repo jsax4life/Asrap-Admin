@@ -35,7 +35,7 @@
   },
   "list": {
     "searchPlaceholder": "Search genres",
-    "activeCount": "{{count}} active",
+    "count": "{{count}} genres",
     "columns": {
       "genre": "Genre",
       "description": "Description",
@@ -43,7 +43,8 @@
       "actions": "Actions"
     },
     "status": {
-      "active": "Active"
+      "active": "Active",
+      "inactive": "Inactive"
     },
     "editTitle": "Edit genre",
     "deleteTitle": "Delete genre",

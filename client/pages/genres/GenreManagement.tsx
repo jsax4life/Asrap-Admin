@@ -296,7 +296,7 @@ export default function GenreManagement() {
                 className="w-full pl-10 pr-4 py-2 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white placeholder:text-asra-gray-6 caret-white focus:outline-none focus:border-asra-red"
               />
             </div>
-            <span className="text-asra-gray-6 text-sm whitespace-nowrap">{t('list.activeCount', { count: filteredGenres.length })}</span>
+            <span className="text-asra-gray-6 text-sm whitespace-nowrap">{t('list.count', { count: filteredGenres.length })}</span>
           </div>
 
           {loading ? (
@@ -334,7 +334,11 @@ export default function GenreManagement() {
                         {genre.description || '—'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">{t('list.status.active')}</span>
+                        {genre.isActive === false ? (
+                          <span className="text-xs px-2 py-1 rounded-full bg-asra-gray-2 text-asra-gray-6">{t('list.status.inactive')}</span>
+                        ) : (
+                          <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">{t('list.status.active')}</span>
+                        )}
                       </td>
                       <td className="px-6 py-4 text-right whitespace-nowrap sticky right-0 bg-asra-gray-1 group-hover:bg-asra-gray-2/40">
                         <div className="flex items-center justify-end gap-1">

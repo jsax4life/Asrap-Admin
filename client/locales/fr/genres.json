@@ -35,7 +35,7 @@
   },
   "list": {
     "searchPlaceholder": "Rechercher des genres",
-    "activeCount": "{{count}} actifs",
+    "count": "{{count}} genres",
     "columns": {
       "genre": "Genre",
       "description": "Description",
@@ -43,7 +43,8 @@
       "actions": "Actions"
     },
     "status": {
-      "active": "Actif"
+      "active": "Actif",
+      "inactive": "Inactif"
     },
     "editTitle": "Modifier le genre",
     "deleteTitle": "Supprimer le genre",
