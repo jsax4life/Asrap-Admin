@@ -92,14 +92,23 @@
     },
     "noLyrics": "Aucune parole disponible pour ce téléversement",
     "editLyrics": "Modifier les paroles",
-    "editLyricsComingSoon": "Fonctionnalité de modification des paroles bientôt disponible !",
+    "editLyricsComingSoon": "La sauvegarde des paroles arrive très prochainement. Réessayez plus tard.",
+    "editLyricsDialog": {
+      "title": "Modifier les paroles",
+      "placeholder": "Saisissez les paroles ici...",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "saving": "Enregistrement..."
+    },
     "toasts": {
       "approveSuccess": "Musique approuvée avec succès !",
       "approveError": "Échec de l'approbation de la musique",
       "declineSuccess": "Musique refusée avec succès !",
       "declineError": "Échec du refus de la musique",
       "rejectReasonRequiredApproved": "Veuillez fournir un motif de rejet pour ce téléversement approuvé",
-      "rejectReasonRequired": "Veuillez fournir un motif de refus"
+      "rejectReasonRequired": "Veuillez fournir un motif de refus",
+      "lyricsSaveSuccess": "Paroles enregistrées avec succès !",
+      "lyricsSaveError": "Échec de l'enregistrement des paroles"
     }
   },
   "success": {

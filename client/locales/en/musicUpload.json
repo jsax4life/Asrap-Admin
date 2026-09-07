@@ -92,14 +92,23 @@
     },
     "noLyrics": "No lyrics available for this upload",
     "editLyrics": "Edit lyrics",
-    "editLyricsComingSoon": "Lyrics editing feature coming soon!",
+    "editLyricsComingSoon": "Saving lyrics is coming very soon. Please try again later.",
+    "editLyricsDialog": {
+      "title": "Edit lyrics",
+      "placeholder": "Enter the lyrics here...",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving..."
+    },
     "toasts": {
       "approveSuccess": "Music approved successfully!",
       "approveError": "Failed to approve music",
       "declineSuccess": "Music declined successfully!",
       "declineError": "Failed to decline music",
       "rejectReasonRequiredApproved": "Please provide a reason for rejecting this approved upload",
-      "rejectReasonRequired": "Please provide a reason for declining"
+      "rejectReasonRequired": "Please provide a reason for declining",
+      "lyricsSaveSuccess": "Lyrics saved successfully!",
+      "lyricsSaveError": "Failed to save lyrics"
     }
   },
   "success": {

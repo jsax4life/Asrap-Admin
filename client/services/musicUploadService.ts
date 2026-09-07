@@ -117,6 +117,15 @@ export interface UpdateStatusResponse {
   };
 }
 
+export interface UpdateLyricsResponse {
+  status: string;
+  message: string;
+  data: {
+    _id: string;
+    lyrics: string;
+  };
+}
+
 class MusicUploadService {
   /**
    * Get all music uploads with filters and pagination
@@ -186,6 +195,33 @@ class MusicUploadService {
       });
       
       throw new Error(error.response?.data?.message || error.message || 'Failed to update upload status');
+    }
+  }
+
+  /**
+   * Update the lyrics of a song upload
+   */
+  async updateLyrics(id: string, lyrics: string): Promise<UpdateLyricsResponse> {
+    try {
+      const url = `/admin/music-uploads/${id}/lyrics`;
+      const response = await apiClient.patch<UpdateLyricsResponse>(url, { lyrics }) as any;
+
+      if (response.status === 'success') {
+        return response;
+      }
+
+      throw new Error(response.message || 'Failed to update lyrics');
+    } catch (error: any) {
+      console.error('Error updating lyrics:', {
+        url: `/admin/music-uploads/${id}/lyrics`,
+        error: error.message,
+        response: error.response?.data,
+        statusCode: error.response?.status,
+      });
+
+      const updateError = new Error(error.response?.data?.message || error.message || 'Failed to update lyrics');
+      (updateError as Error & { statusCode?: number }).statusCode = error.response?.status;
+      throw updateError;
     }
   }
 }

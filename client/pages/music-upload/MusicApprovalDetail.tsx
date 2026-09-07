@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AudioPlayer } from '@/components/music-upload/AudioPlayer';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -44,6 +45,9 @@ export default function MusicApprovalDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [uploadData, setUploadData] = useState<MusicUploadDetail | null>(null);
+  const [isEditingLyrics, setIsEditingLyrics] = useState(false);
+  const [editedLyrics, setEditedLyrics] = useState('');
+  const [isSavingLyrics, setIsSavingLyrics] = useState(false);
 
   // Helper function to format status display
   const formatStatus = (status: string): string => {
@@ -157,6 +161,38 @@ export default function MusicApprovalDetail() {
 
   const handleGoBack = () => {
     navigate('/music-upload');
+  };
+
+  const openEditLyrics = () => {
+    if (!uploadData || !isSong(uploadData)) return;
+    setEditedLyrics(uploadData.lyrics || '');
+    setIsEditingLyrics(true);
+  };
+
+  const handleSaveLyrics = async () => {
+    if (!id) return;
+
+    setIsSavingLyrics(true);
+    try {
+      const response = await musicUploadService.updateLyrics(id, editedLyrics.trim());
+
+      if (response.status === 'success') {
+        toast.success(response.message || t('detail.toasts.lyricsSaveSuccess'));
+        setIsEditingLyrics(false);
+        await fetchUploadDetail();
+      } else {
+        throw new Error(response.message || t('detail.toasts.lyricsSaveError'));
+      }
+    } catch (error: any) {
+      console.error('Save lyrics error:', error);
+      if (error.statusCode === 404 || error.statusCode === 501) {
+        toast(t('detail.editLyricsComingSoon'));
+      } else {
+        toast.error(error.message || t('detail.toasts.lyricsSaveError'));
+      }
+    } finally {
+      setIsSavingLyrics(false);
+    }
   };
 
   // Loading state
@@ -485,7 +521,7 @@ export default function MusicApprovalDetail() {
             {/* Edit Lyrics Button */}
             <Button
               className="w-full bg-asra-red hover:bg-asra-red/90 text-white"
-              onClick={() => toast(t('detail.editLyricsComingSoon'))}
+              onClick={openEditLyrics}
             >
               {t('detail.editLyrics')}
             </Button>
@@ -576,6 +612,38 @@ export default function MusicApprovalDetail() {
         </div>
         )
       )}
+
+      {/* Edit Lyrics Dialog */}
+      <Dialog open={isEditingLyrics} onOpenChange={(open) => !open && !isSavingLyrics && setIsEditingLyrics(false)}>
+        <DialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>{t('detail.editLyricsDialog.title')}</DialogTitle>
+          </DialogHeader>
+          <Textarea
+            value={editedLyrics}
+            onChange={(e) => setEditedLyrics(e.target.value)}
+            placeholder={t('detail.editLyricsDialog.placeholder')}
+            className="bg-asra-gray-2 border-asra-gray-5 text-white placeholder:text-asra-gray-6 min-h-[300px]"
+          />
+          <DialogFooter>
+            <Button
+              variant="outline"
+              disabled={isSavingLyrics}
+              onClick={() => setIsEditingLyrics(false)}
+              className="border-asra-gray-5 text-white hover:bg-asra-gray-2"
+            >
+              {t('detail.editLyricsDialog.cancel')}
+            </Button>
+            <Button
+              onClick={handleSaveLyrics}
+              disabled={isSavingLyrics}
+              className="bg-asra-red hover:bg-asra-red/90 text-white"
+            >
+              {isSavingLyrics ? t('detail.editLyricsDialog.saving') : t('detail.editLyricsDialog.save')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
