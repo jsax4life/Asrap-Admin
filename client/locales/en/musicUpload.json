@@ -39,8 +39,22 @@
       "action": "Action"
     },
     "viewButton": "View",
+    "removeButton": "Remove",
     "loading": "Loading music uploads...",
     "errorLoading": "Failed to load music uploads",
+    "deleteDialog": {
+      "title": "Remove this upload",
+      "description": "Are you sure you want to permanently delete \"{{title}}\"? It will be removed from playlists, group sessions, and user libraries, and its audio/cover files will be deleted from storage. This action cannot be undone.",
+      "albumWarning_one": "This will also delete the track in this album.",
+      "albumWarning_other": "This will also delete the {{count}} tracks in this album.",
+      "cancel": "Cancel",
+      "confirm": "Delete permanently",
+      "deleting": "Removing..."
+    },
+    "toasts": {
+      "deleteSuccess": "\"{{title}}\" has been permanently deleted.",
+      "deleteError": "Failed to delete the upload"
+    },
     "pagination": {
       "previous": "Previous",
       "next": "Next",
