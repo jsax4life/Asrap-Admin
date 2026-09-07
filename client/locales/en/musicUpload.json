@@ -39,8 +39,21 @@
       "action": "Action"
     },
     "viewButton": "View",
+    "removeButton": "Remove",
     "loading": "Loading music uploads...",
     "errorLoading": "Failed to load music uploads",
+    "deleteDialog": {
+      "title": "Remove this upload",
+      "description": "Are you sure you want to permanently remove \"{{title}}\" from the catalog? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Remove",
+      "deleting": "Removing..."
+    },
+    "toasts": {
+      "deleteSuccess": "\"{{title}}\" has been removed from the catalog.",
+      "deleteError": "Failed to remove the upload",
+      "deleteComingSoon": "Removing uploads is coming very soon. Please try again later."
+    },
     "pagination": {
       "previous": "Previous",
       "next": "Next",

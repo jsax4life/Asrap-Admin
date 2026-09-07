@@ -1,11 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-hot-toast';
 import { DataTable } from '@/components/common/DataTable';
 import { Pagination } from '@/components/common/Pagination';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight, Eye, Search, Loader2 } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { ChevronLeft, ChevronRight, Eye, Trash2, Search, Loader2 } from 'lucide-react';
 import { TableColumn } from '@/types';
 import { musicUploadService, MusicUploadItem, MusicUploadFilters } from '@/services/musicUploadService';
 
@@ -32,6 +43,8 @@ export default function MusicUploadApproval() {
   const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
+  const [deleteTarget, setDeleteTarget] = useState<MusicUploadItem | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Helper function to format status display
   const formatStatus = (status: string): string => {
@@ -169,14 +182,25 @@ export default function MusicUploadApproval() {
       key: '_id' as keyof MusicUploadItem,
       label: t('approval.columns.action'),
       render: (_, item) => (
-        <Button
-          size="sm"
-          className="bg-asra-red hover:bg-asra-red/90 text-white"
-          onClick={() => navigate(`/music-upload/${item._id}`)}
-        >
-          <Eye className="w-4 h-4 mr-1" />
-          {t('approval.viewButton')}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            className="bg-asra-red hover:bg-asra-red/90 text-white"
+            onClick={() => navigate(`/music-upload/${item._id}`)}
+          >
+            <Eye className="w-4 h-4 mr-1" />
+            {t('approval.viewButton')}
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            className="border-red-500 text-red-400 hover:bg-red-500/20 hover:text-red-300"
+            onClick={() => setDeleteTarget(item)}
+          >
+            <Trash2 className="w-4 h-4 mr-1" />
+            {t('approval.removeButton')}
+          </Button>
+        </div>
       ),
     },
   ];
@@ -197,6 +221,25 @@ export default function MusicUploadApproval() {
     } else {
       setSortBy(newSortBy);
       setSortOrder('desc'); // Default to desc for new column
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteTarget) return;
+
+    setIsDeleting(true);
+    try {
+      const response = await musicUploadService.deleteMusicUpload(deleteTarget._id);
+      toast.success(response.message || t('approval.toasts.deleteSuccess', { title: deleteTarget.title }));
+      setData((prev) => prev.filter((item) => item._id !== deleteTarget._id));
+      setTotalResults((prev) => Math.max(0, prev - 1));
+      setDeleteTarget(null);
+    } catch (error: any) {
+      console.error('Error removing music upload:', error);
+      const notReady = error?.statusCode === 404 || error?.statusCode === 501;
+      toast.error(notReady ? t('approval.toasts.deleteComingSoon') : (error?.message || t('approval.toasts.deleteError')));
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -362,6 +405,33 @@ export default function MusicUploadApproval() {
           </>
         )}
       </div>
+
+      {/* Remove Confirmation Dialog */}
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && !isDeleting && setDeleteTarget(null)}>
+        <AlertDialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('approval.deleteDialog.title')}</AlertDialogTitle>
+            <AlertDialogDescription className="text-asra-gray-6">
+              {t('approval.deleteDialog.description', { title: deleteTarget?.title })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel
+              disabled={isDeleting}
+              className="bg-asra-gray-2 border-asra-gray-2 text-white hover:bg-asra-gray-800"
+            >
+              {t('approval.deleteDialog.cancel')}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDelete}
+              disabled={isDeleting}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {isDeleting ? t('approval.deleteDialog.deleting') : t('approval.deleteDialog.confirm')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

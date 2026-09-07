@@ -126,6 +126,11 @@ export interface UpdateLyricsResponse {
   };
 }
 
+export interface DeleteMusicUploadResponse {
+  status: string;
+  message: string;
+}
+
 class MusicUploadService {
   /**
    * Get all music uploads with filters and pagination
@@ -222,6 +227,33 @@ class MusicUploadService {
       const updateError = new Error(error.response?.data?.message || error.message || 'Failed to update lyrics');
       (updateError as Error & { statusCode?: number }).statusCode = error.response?.status;
       throw updateError;
+    }
+  }
+
+  /**
+   * Permanently remove a music upload (song or album) from the catalog
+   */
+  async deleteMusicUpload(id: string): Promise<DeleteMusicUploadResponse> {
+    try {
+      const url = `/admin/music-uploads/${id}`;
+      const response = await apiClient.delete<DeleteMusicUploadResponse>(url) as any;
+
+      if (response.status === 'success') {
+        return response;
+      }
+
+      throw new Error(response.message || 'Failed to remove upload');
+    } catch (error: any) {
+      console.error('Error removing music upload:', {
+        url: `/admin/music-uploads/${id}`,
+        error: error.message,
+        response: error.response?.data,
+        statusCode: error.response?.status,
+      });
+
+      const deleteError = new Error(error.response?.data?.message || error.message || 'Failed to remove upload');
+      (deleteError as Error & { statusCode?: number }).statusCode = error.response?.status;
+      throw deleteError;
     }
   }
 }
