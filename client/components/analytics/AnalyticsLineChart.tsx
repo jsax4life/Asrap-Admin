@@ -97,7 +97,7 @@ export const AnalyticsLineChart = ({ data, className }: AnalyticsLineChartProps)
           <path
             d={pathData}
             fill="none"
-            stroke="#C40505"
+            stroke="#FF0000"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -110,7 +110,7 @@ export const AnalyticsLineChart = ({ data, className }: AnalyticsLineChartProps)
               cx={point.x}
               cy={point.y}
               r="4"
-              fill="#C40505"
+              fill="#FF0000"
               className="cursor-pointer hover:r-6 transition-all duration-200"
               onMouseEnter={() => setHoveredPoint(point)}
               onMouseLeave={() => setHoveredPoint(null)}
