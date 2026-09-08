@@ -48,6 +48,7 @@
     "likes": "likes",
     "songsAndDuration": "{{songCount}} songs, {{duration}}",
     "noCover": "No cover image",
+    "editCover": "Edit cover",
     "emptySongs": "No songs in this playlist yet",
     "removeSong": "Remove from playlist",
     "columns": {
@@ -60,11 +61,14 @@
       "loadFailed": "Failed to load this playlist",
       "catalogLoadFailed": "Failed to load the song catalogue",
       "addSongFailed": "Failed to add song",
-      "removeSongFailed": "Failed to remove song"
+      "removeSongFailed": "Failed to remove song",
+      "coverInvalidType": "Select an image file (JPEG, PNG, WebP)",
+      "coverUpdateFailed": "Failed to update the cover"
     },
     "success": {
       "songAdded": "Song added to playlist",
-      "songRemoved": "Song removed from playlist"
+      "songRemoved": "Song removed from playlist",
+      "coverUpdated": "Cover updated"
     },
     "addDialog": {
       "title": "Add songs",

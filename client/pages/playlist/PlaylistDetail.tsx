@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Clock, Plus, Search, Loader2, X } from 'lucide-react';
+import { ArrowLeft, Clock, Plus, Search, Loader2, X, ImageUp } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
@@ -53,6 +53,7 @@ export default function PlaylistDetail() {
   const [catalogLoading, setCatalogLoading] = useState(false);
   const [songSearch, setSongSearch] = useState('');
   const [addingSongId, setAddingSongId] = useState<string | null>(null);
+  const [coverUploading, setCoverUploading] = useState(false);
 
   const loadPlaylist = async () => {
     if (!id) return;
@@ -109,6 +110,28 @@ export default function PlaylistDetail() {
       toast.error(error instanceof Error ? error.message : t('detail.errors.addSongFailed'));
     } finally {
       setAddingSongId(null);
+    }
+  };
+
+  const handleCoverChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file || !id) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error(t('detail.errors.coverInvalidType'));
+      return;
+    }
+
+    setCoverUploading(true);
+    try {
+      const updated = await playlistService.updatePlaylist(id, { coverImage: file });
+      setPlaylist(updated);
+      toast.success(t('detail.success.coverUpdated'));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t('detail.errors.coverUpdateFailed'));
+    } finally {
+      setCoverUploading(false);
     }
   };
 
@@ -231,7 +254,7 @@ export default function PlaylistDetail() {
         {/* Left Column - Playlist Cover */}
         <div className="lg:col-span-1">
           <div className="relative">
-            <div className="aspect-square bg-asra-red rounded-lg overflow-hidden">
+            <div className="aspect-square bg-asra-red rounded-lg overflow-hidden relative group">
               {playlist.coverImageUrl ? (
                 <img
                   src={playlist.coverImageUrl}
@@ -243,6 +266,24 @@ export default function PlaylistDetail() {
                   <span className="text-white/60 text-sm">{t('detail.noCover')}</span>
                 </div>
               )}
+
+              <label className="absolute inset-0 flex items-center justify-center gap-2 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-white text-sm font-medium">
+                {coverUploading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <>
+                    <ImageUp className="w-5 h-5" />
+                    {t('detail.editCover')}
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  disabled={coverUploading}
+                  onChange={handleCoverChange}
+                />
+              </label>
             </div>
 
             {/* Add to Playlist Button */}

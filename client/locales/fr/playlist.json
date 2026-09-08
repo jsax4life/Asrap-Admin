@@ -48,6 +48,7 @@
     "likes": "mentions J'aime",
     "songsAndDuration": "{{songCount}} chansons, {{duration}}",
     "noCover": "Aucune image de couverture",
+    "editCover": "Modifier la couverture",
     "emptySongs": "Aucun titre dans cette playlist pour l'instant",
     "removeSong": "Retirer de la playlist",
     "columns": {
@@ -60,11 +61,14 @@
       "loadFailed": "Impossible de charger cette playlist",
       "catalogLoadFailed": "Impossible de charger le catalogue de titres",
       "addSongFailed": "Impossible d'ajouter le titre",
-      "removeSongFailed": "Impossible de retirer le titre"
+      "removeSongFailed": "Impossible de retirer le titre",
+      "coverInvalidType": "Sélectionnez un fichier image (JPEG, PNG, WebP)",
+      "coverUpdateFailed": "Échec de la mise à jour de la couverture"
     },
     "success": {
       "songAdded": "Titre ajouté à la playlist",
-      "songRemoved": "Titre retiré de la playlist"
+      "songRemoved": "Titre retiré de la playlist",
+      "coverUpdated": "Couverture mise à jour"
     },
     "addDialog": {
       "title": "Ajouter des titres",
