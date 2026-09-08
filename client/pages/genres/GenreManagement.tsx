@@ -430,7 +430,7 @@ export default function GenreManagement() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={closeEditDialog}
+                onClick={() => closeEditDialog()}
                 disabled={editSubmitting}
                 className="border-asra-gray-5 text-white hover:bg-asra-gray-2 hover:text-white"
               >
