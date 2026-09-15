@@ -87,6 +87,13 @@
       "action": "Supprimer définitivement",
       "deleted": "Playlist supprimée",
       "failed": "Impossible de supprimer la playlist"
+    },
+    "rename": {
+      "title": "Modifier le nom",
+      "description": "Changez le nom affiché de cette playlist.",
+      "label": "Nom de la playlist",
+      "updated": "Nom de la playlist modifié",
+      "failed": "Impossible de modifier le nom"
     }
   }
 }

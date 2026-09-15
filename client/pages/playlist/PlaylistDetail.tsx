@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Clock, Plus, Search, Loader2, X, ImagePlus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Clock, Plus, Search, Loader2, X, ImagePlus, Trash2, Pencil } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
@@ -51,6 +51,8 @@ export default function PlaylistDetail() {
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [renameOpen, setRenameOpen] = useState(false);
+  const [playlistName, setPlaylistName] = useState('');
   const [coverOpen, setCoverOpen] = useState(false);
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [coverPreview, setCoverPreview] = useState('');
@@ -64,6 +66,25 @@ export default function PlaylistDetail() {
     setCoverPreview(url);
     return () => URL.revokeObjectURL(url);
   }, [coverFile]);
+
+  const handleRename = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const title = playlistName.trim();
+    if (!id || !title || mutationPending.current) return;
+    mutationPending.current = true;
+    setSaving(true);
+    try {
+      const updated = await playlistService.updatePlaylist(id, { title });
+      setPlaylist(updated);
+      setRenameOpen(false);
+      toast.success(t('detail.rename.updated'));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t('detail.rename.failed'));
+    } finally {
+      mutationPending.current = false;
+      setSaving(false);
+    }
+  };
 
   const handleSaveCover = async () => {
     if (!id || !coverFile || mutationPending.current) return;
@@ -290,6 +311,10 @@ export default function PlaylistDetail() {
               )}
             </div>
 
+            <Button onClick={() => { setPlaylistName(playlist.title); setRenameOpen(true); }} disabled={saving}
+              className="w-full mt-4 bg-asra-red hover:bg-asra-red/90 text-white">
+              <Pencil className="w-4 h-4 mr-2" />{t('detail.rename.title')}
+            </Button>
             <Button onClick={() => setCoverOpen(true)} disabled={saving}
               className="w-full mt-4 bg-asra-red hover:bg-asra-red/90 text-white">
               <ImagePlus className="w-4 h-4 mr-2" />{t('detail.photo.edit')}
@@ -346,6 +371,29 @@ export default function PlaylistDetail() {
           <p className="text-center text-white/70 py-12">{t('detail.emptySongs')}</p>
         )}
       </div>
+
+      <Dialog open={renameOpen} onOpenChange={(open) => { if (!mutationPending.current) setRenameOpen(open); }}>
+        <DialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t('detail.rename.title')}</DialogTitle>
+            <DialogDescription className="text-asra-gray-6">{t('detail.rename.description')}</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleRename} className="space-y-4">
+            <label htmlFor="playlist-name" className="block text-sm font-medium">{t('detail.rename.label')}</label>
+            <input id="playlist-name" value={playlistName} onChange={(event) => setPlaylistName(event.target.value)}
+              required disabled={saving} autoFocus
+              className="w-full px-4 py-3 bg-asra-gray-2 border border-asra-gray-5 rounded-lg text-white focus:outline-none focus:border-asra-red" />
+            <DialogFooter>
+              <Button type="button" variant="outline" disabled={saving} onClick={() => setRenameOpen(false)}
+                className="bg-transparent text-white hover:bg-white/10 hover:text-white">{t('detail.photo.cancel')}</Button>
+              <Button type="submit" disabled={saving || !playlistName.trim() || playlistName.trim() === playlist.title}
+                className="bg-asra-red hover:bg-asra-red/90 text-white">
+                {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}{t('detail.photo.save')}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={coverOpen} onOpenChange={(open) => {
         if (mutationPending.current) return;

@@ -87,6 +87,13 @@
       "action": "Delete permanently",
       "deleted": "Playlist deleted",
       "failed": "Failed to delete playlist"
+    },
+    "rename": {
+      "title": "Change playlist name",
+      "description": "Change the displayed name of this playlist.",
+      "label": "Playlist name",
+      "updated": "Playlist name updated",
+      "failed": "Failed to update playlist name"
     }
   }
 }
