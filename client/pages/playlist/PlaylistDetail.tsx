@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Clock, Plus, Search, Loader2, X } from 'lucide-react';
+import { ArrowLeft, Clock, Plus, Search, Loader2, X, ImagePlus, Trash2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/common/DataTable';
@@ -12,7 +12,10 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from '@/components/ui/dialog';
+
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
 
 import { useAuth } from '@/hooks/useAuth';
 import { LanguageToggle } from '@/components/common/LanguageToggle';
@@ -47,6 +50,48 @@ export default function PlaylistDetail() {
 
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const [coverOpen, setCoverOpen] = useState(false);
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [coverPreview, setCoverPreview] = useState('');
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const mutationPending = useRef(false);
+
+  useEffect(() => {
+    if (!coverFile) { setCoverPreview(''); return; }
+    const url = URL.createObjectURL(coverFile);
+    setCoverPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [coverFile]);
+
+  const handleSaveCover = async () => {
+    if (!id || !coverFile || mutationPending.current) return;
+    mutationPending.current = true;
+    setSaving(true);
+    try {
+      const updated = await playlistService.updatePlaylist(id, { coverImage: coverFile });
+      setPlaylist(updated);
+      setCoverOpen(false);
+      setCoverFile(null);
+      toast.success(t('detail.photo.updated'));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t('detail.photo.failed'));
+    } finally { mutationPending.current = false; setSaving(false); }
+  };
+
+  const handleDeletePlaylist = async () => {
+    if (!id || mutationPending.current) return;
+    mutationPending.current = true;
+    setSaving(true);
+    try {
+      await playlistService.deletePlaylist(id);
+      toast.success(t('detail.delete.deleted'));
+      navigate('/playlist-management', { replace: true });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t('detail.delete.failed'));
+    } finally { mutationPending.current = false; setSaving(false); }
+  };
 
   const [addOpen, setAddOpen] = useState(false);
   const [catalogSongs, setCatalogSongs] = useState<SongItem[]>([]);
@@ -245,6 +290,15 @@ export default function PlaylistDetail() {
               )}
             </div>
 
+            <Button onClick={() => setCoverOpen(true)} disabled={saving}
+              className="w-full mt-4 bg-asra-red hover:bg-asra-red/90 text-white">
+              <ImagePlus className="w-4 h-4 mr-2" />{t('detail.photo.edit')}
+            </Button>
+            <Button onClick={() => setDeleteOpen(true)} disabled={saving}
+              variant="outline" className="w-full mt-3 border-white/40 bg-black/30 text-white hover:bg-black/50 hover:text-white">
+              <Trash2 className="w-4 h-4 mr-2" />{t('detail.delete.title')}
+            </Button>
+
             {/* Add to Playlist Button */}
             <Button
               onClick={openAddDialog}
@@ -292,6 +346,58 @@ export default function PlaylistDetail() {
           <p className="text-center text-white/70 py-12">{t('detail.emptySongs')}</p>
         )}
       </div>
+
+      <Dialog open={coverOpen} onOpenChange={(open) => {
+        if (mutationPending.current) return;
+        setCoverOpen(open);
+        if (!open) setCoverFile(null);
+      }}>
+        <DialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t('detail.photo.edit')}</DialogTitle>
+            <DialogDescription className="text-asra-gray-6">{t('detail.photo.help')}</DialogDescription>
+          </DialogHeader>
+          {(coverPreview || playlist.coverImageUrl) && <img src={coverPreview || playlist.coverImageUrl || ''}
+            alt={playlist.title} className="w-48 h-48 mx-auto rounded-lg object-cover" />}
+          <label htmlFor="playlist-cover-file">{t('detail.photo.choose')}</label>
+          <input id="playlist-cover-file" type="file" accept="image/jpeg,image/png,image/webp" disabled={saving}
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              event.target.value = '';
+              if (!file) return;
+              if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size === 0 || file.size > 5 * 1024 * 1024) {
+                setCoverFile(null);
+                toast.error(t('detail.photo.invalid'));
+                return;
+              }
+              setCoverFile(file);
+            }} />
+          {coverFile && <p className="text-sm break-all">{coverFile.name}</p>}
+          <DialogFooter>
+            <Button variant="outline" disabled={saving} onClick={() => { setCoverOpen(false); setCoverFile(null); }}
+              className="bg-transparent text-white hover:bg-white/10 hover:text-white">{t('detail.photo.cancel')}</Button>
+            <Button disabled={saving || !coverFile} onClick={handleSaveCover} className="bg-asra-red hover:bg-asra-red/90 text-white">
+              {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}{t('detail.photo.save')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={deleteOpen} onOpenChange={(open) => { if (!mutationPending.current) setDeleteOpen(open); }}>
+        <AlertDialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('detail.delete.title')}</AlertDialogTitle>
+            <AlertDialogDescription className="text-asra-gray-6">{t('detail.delete.confirm', { title: playlist.title })}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={saving} className="bg-transparent text-white hover:bg-white/10 hover:text-white">{t('detail.photo.cancel')}</AlertDialogCancel>
+            <AlertDialogAction disabled={saving} onClick={(event) => { event.preventDefault(); void handleDeletePlaylist(); }}
+              className="bg-asra-red hover:bg-asra-red/90 text-white">
+              {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}{t('detail.delete.action')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Dialog open={addOpen} onOpenChange={setAddOpen}>
         <DialogContent className="bg-asra-gray-1 border-asra-gray-2 text-white sm:max-w-lg">

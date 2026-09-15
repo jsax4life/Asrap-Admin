@@ -70,6 +70,23 @@
       "title": "Add songs",
       "description": "Search the AsraPa catalogue and add tracks to this playlist.",
       "empty": "No matching songs found"
+    },
+    "photo": {
+      "edit": "Change playlist photo",
+      "help": "Choose a square JPEG, PNG or WebP photo (maximum 5 MB). Check the preview before saving.",
+      "choose": "Choose a photo",
+      "cancel": "Cancel",
+      "save": "Save",
+      "updated": "Playlist photo updated",
+      "failed": "Failed to update photo",
+      "invalid": "Choose a non-empty JPEG, PNG or WebP image up to 5 MB."
+    },
+    "delete": {
+      "title": "Delete playlist",
+      "confirm": "Permanently delete the playlist “{{title}}”? This cannot be undone.",
+      "action": "Delete permanently",
+      "deleted": "Playlist deleted",
+      "failed": "Failed to delete playlist"
     }
   }
 }

@@ -70,6 +70,23 @@
       "title": "Ajouter des titres",
       "description": "Recherchez dans le catalogue AsraPa et ajoutez des titres à cette playlist.",
       "empty": "Aucun titre correspondant trouvé"
+    },
+    "photo": {
+      "edit": "Modifier la photo de la playlist",
+      "help": "Choisissez une photo carrée, au format JPEG, PNG ou WebP (5 Mo maximum). Vérifiez l’aperçu avant d’enregistrer.",
+      "choose": "Choisir une photo",
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "updated": "Photo de la playlist mise à jour",
+      "failed": "Impossible de modifier la photo",
+      "invalid": "Choisissez une image JPEG, PNG ou WebP non vide de 5 Mo maximum."
+    },
+    "delete": {
+      "title": "Supprimer la playlist",
+      "confirm": "Voulez-vous supprimer définitivement la playlist « {{title}} » ? Cette action est irréversible.",
+      "action": "Supprimer définitivement",
+      "deleted": "Playlist supprimée",
+      "failed": "Impossible de supprimer la playlist"
     }
   }
 }
