@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Calendar, User, ChevronLeft, ChevronRight, Loader2, Ban, RotateCcw, Trash2 } from 'lucide-react';
+import { Search, Calendar, User, ChevronLeft, ChevronRight, Loader2, Ban, RotateCcw, Trash2, MessageCircle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { artistService, type ArtistItem } from '@/services/artistService';
@@ -349,6 +349,18 @@ const ArtistManagement = () => {
                           <div>
                             <span className="text-sm font-medium text-white block">{artist.stageName}</span>
                             <span className="text-xs text-asra-gray-6">{artist.email}</span>
+                            {artist.whatsappNumber && (
+                              <a
+                                href={`https://wa.me/${artist.whatsappNumber.replace(/[^\d]/g, '')}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="flex items-center gap-1 text-xs text-green-400 hover:text-green-300 transition-colors"
+                              >
+                                <MessageCircle className="w-3 h-3" />
+                                {artist.whatsappNumber}
+                              </a>
+                            )}
                           </div>
                         </div>
                       </td>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Calendar, User, Edit3, Loader2 } from 'lucide-react';
+import { ArrowLeft, Search, Calendar, User, Edit3, Loader2, MessageCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { artistService, type ArtistDetailData } from '@/services/artistService';
 
@@ -217,6 +217,22 @@ const ArtistDetail = () => {
                 <div>
                   <h4 className="text-lg font-semibold text-white mb-2">{t('detail.genre')}</h4>
                   <p className="text-asra-gray-300">{artist.genre || t('detail.notAvailable')}</p>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-2">{t('detail.whatsapp')}</h4>
+                  {artist.whatsappNumber ? (
+                    <a
+                      href={`https://wa.me/${artist.whatsappNumber.replace(/[^\d]/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      {artist.whatsappNumber}
+                    </a>
+                  ) : (
+                    <p className="text-asra-gray-300">{t('detail.notAvailable')}</p>
+                  )}
                 </div>
               </div>
 
