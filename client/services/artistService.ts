@@ -20,6 +20,7 @@ export interface ArtistItem {
   songCount: number;
   genre: string | null;
   email: string;
+  whatsappNumber?: string | null;
   isDeleted?: boolean;
   isActive?: boolean;
   createdAt: string;
@@ -73,6 +74,7 @@ export interface ArtistDetailData {
   stageName: string;
   fullName: string;
   email: string;
+  whatsappNumber?: string | null;
   profilePicture: string | null;
   bannerImageUrl: string | null;
   bio: string | null;
