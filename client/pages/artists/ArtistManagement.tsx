@@ -348,6 +348,9 @@ const ArtistManagement = () => {
                           )}
                           <div>
                             <span className="text-sm font-medium text-white block">{artist.stageName}</span>
+                            {artist.fullName && (
+                              <span className="text-xs text-asra-gray-400 block">{artist.fullName}</span>
+                            )}
                             <span className="text-xs text-asra-gray-6">{artist.email}</span>
                             {artist.whatsappNumber && (
                               <a
