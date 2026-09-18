@@ -84,7 +84,12 @@
     }
   },
   "detail": {
+    "loading": "Loading album...",
     "loadingArtist": "Loading artist...",
+    "album": "Album",
+    "statusPublished": "Published",
+    "statusPending": "Pending",
+    "statusRejected": "Rejected",
     "errorLoadFailed": "Failed to load artist",
     "notFound": "Artist not found",
     "verifiedArtist": "Verified artist",
@@ -131,6 +136,14 @@
     "comingSoon": "Content coming soon..."
   },
   "albumDetail": {
+    "errors": {
+      "invalidId": "Invalid album ID",
+      "loadFailed": "Failed to load album",
+      "notFound": "Album not found"
+    },
+    "unknownArtist": "Unknown artist",
+    "playAlbum": "Play album",
+    "noTracks": "No tracks on this album",
     "plays": "{{count}} plays",
     "likes": "{{count}} likes",
     "songsAndDuration": "{{count}} songs, {{duration}}",
@@ -154,7 +167,12 @@
     },
     "details": {
       "title": "Album details",
-      "comingSoon": "Album details content coming soon..."
+      "comingSoon": "Album details content coming soon...",
+      "releaseDate": "Release date",
+      "genre": "Genre",
+      "uploaded": "Uploaded",
+      "moderationStatus": "Moderation status",
+      "caption": "Caption"
     }
   },
   "userDetail": {

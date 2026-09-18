@@ -84,7 +84,12 @@
     }
   },
   "detail": {
+    "loading": "Chargement de l'album...",
     "loadingArtist": "Chargement de l'artiste...",
+    "album": "Album",
+    "statusPublished": "Publié",
+    "statusPending": "En attente",
+    "statusRejected": "Refusé",
     "errorLoadFailed": "Échec du chargement de l'artiste",
     "notFound": "Artiste introuvable",
     "verifiedArtist": "Artiste vérifié",
@@ -131,6 +136,14 @@
     "comingSoon": "Contenu à venir..."
   },
   "albumDetail": {
+    "errors": {
+      "invalidId": "Identifiant d'album invalide",
+      "loadFailed": "Échec du chargement de l'album",
+      "notFound": "Album introuvable"
+    },
+    "unknownArtist": "Artiste inconnu",
+    "playAlbum": "Lire l'album",
+    "noTracks": "Aucun titre sur cet album",
     "plays": "{{count}} écoutes",
     "likes": "{{count}} mentions J'aime",
     "songsAndDuration": "{{count}} titres, {{duration}}",
@@ -154,7 +167,12 @@
     },
     "details": {
       "title": "Détails de l'album",
-      "comingSoon": "Le contenu des détails de l'album arrive bientôt..."
+      "comingSoon": "Le contenu des détails de l'album arrive bientôt...",
+      "releaseDate": "Date de sortie",
+      "genre": "Genre",
+      "uploaded": "Téléversé",
+      "moderationStatus": "Statut de modération",
+      "caption": "Légende"
     }
   },
   "userDetail": {

@@ -97,6 +97,44 @@ export interface ArtistDetailResponse {
   data: ArtistDetailData;
 }
 
+export interface AdminAlbumSongItem {
+  _id: string;
+  title: string;
+  duration: number;
+  durationFormatted: string;
+  coverPhotoUrl?: string | null;
+  songUrlPresigned?: string | null;
+  status: string;
+  streams?: number;
+  createdAt: string;
+}
+
+export interface AdminAlbumDetailData {
+  _id: string;
+  title: string;
+  coverPhotoUrl: string;
+  releaseDate: string;
+  caption?: string | null;
+  status: string;
+  genre?: string | null;
+  createdAt: string;
+  artist: {
+    _id: string;
+    stageName: string;
+    fullName?: string;
+    profilePicture?: string | null;
+  } | null;
+  songCount: number;
+  totalDuration: number;
+  totalDurationFormatted: string;
+  songs: AdminAlbumSongItem[];
+}
+
+export interface AdminAlbumDetailResponse {
+  status: string;
+  data: AdminAlbumDetailData;
+}
+
 interface ArtistActionResponse {
   status: string;
   message: string;
@@ -123,6 +161,17 @@ class ArtistService {
   async getArtistDetail(id: string): Promise<ArtistDetailResponse> {
     const response = await apiClient.get<ArtistDetailResponse>(`/admin/artists/${id}`) as any;
     return response;
+  }
+
+  async getAlbumDetail(albumId: string): Promise<AdminAlbumDetailData> {
+    const response = (await apiClient.get<AdminAlbumDetailData>(
+      `/admin/albums/${albumId}`
+    )) as unknown as AdminAlbumDetailResponse;
+
+    if (response.status !== 'success' || !response.data) {
+      throw new Error('Failed to load album');
+    }
+    return response.data;
   }
 
   async deactivateArtist(artistId: string): Promise<ArtistActionResponse> {

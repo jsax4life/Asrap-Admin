@@ -38,7 +38,7 @@ const ArtistDetail = () => {
   };
 
   const handleAlbumClick = (albumId: string) => {
-    navigate(`/album/${albumId}`);
+    navigate(`/album/${albumId}`, { state: { artistId: id } });
   };
 
   const formatNumber = (num: number) => {
