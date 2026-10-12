@@ -207,6 +207,10 @@ const ArtistDetail = () => {
               {/* Key Information */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div>
+                  <h4 className="text-lg font-semibold text-white mb-2">{t('detail.fullName')}</h4>
+                  <p className="text-asra-gray-300">{artist.fullName || t('detail.notAvailable')}</p>
+                </div>
+                <div>
                   <h4 className="text-lg font-semibold text-white mb-2">{t('detail.birthDate')}</h4>
                   <p className="text-asra-gray-300">{t('detail.notAvailable')}</p>
                 </div>
