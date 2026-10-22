@@ -2,7 +2,8 @@
   "sidebar": {
     "menuSection": "MENU",
     "accountSection": "YOUR ACCOUNT",
-    "agentPortalTag": "Agent Portal"
+    "agentPortalTag": "Agent Portal",
+    "newSection": "NEW"
   },
   "menu": {
     "dashboard": "Dashboard",
@@ -23,7 +24,10 @@
     "agent-subscriptions": "Subscriptions",
     "agent-transactions": "Transactions",
     "agent-help": "Help & Support",
-    "agent-logout": "Log out"
+    "agent-logout": "Log out",
+    "moderation": "Moderation",
+    "shorts-community": "Shorts and community",
+    "studio-ia": "AI Studio"
   },
   "roles": {
     "super_admin": "Super Admin",
@@ -58,6 +62,9 @@
     "/admin-users": "Admin Users",
     "/admin-users/create": "Create New User",
     "/help-support": "Help & Support",
-    "/promotion": "Promotion Management"
+    "/promotion": "Promotion Management",
+    "/moderation": "Moderation",
+    "/shorts-community": "Shorts and community",
+    "/studio-ia": "AI Studio"
   }
 }

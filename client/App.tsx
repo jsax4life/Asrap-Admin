@@ -24,6 +24,9 @@ import MusicApprovalDetail from "./pages/music-upload/MusicApprovalDetail";
 import MusicApprovalSuccess from "./pages/music-upload/MusicApprovalSuccess";
 import PlaylistManagement from "./pages/playlist/PlaylistManagement";
 import PlaylistDetail from "./pages/playlist/PlaylistDetail";
+import Moderation from "./pages/community/Moderation";
+import ShortsCommunity from "./pages/community/ShortsCommunity";
+import StudioIA from "./pages/community/StudioIA";
 import ArtistManagement from "./pages/artists/ArtistManagement";
 import ArtistDetail from "./pages/artists/ArtistDetail";
 import AlbumDetail from "./pages/artists/AlbumDetail";
@@ -142,6 +145,38 @@ const AppRoutes = () => {
           <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <PlaylistDetail />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/moderation" element={
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
+            <CustomLayout>
+              <Moderation />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/moderation/:tab" element={
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
+            <CustomLayout>
+              <Moderation />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/shorts-community" element={
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
+            <CustomLayout>
+              <ShortsCommunity />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/studio-ia" element={
+          <ProtectedRoute requiredRoles={ADMIN_ROLES}>
+            <CustomLayout>
+              <StudioIA />
             </CustomLayout>
           </ProtectedRoute>
         } />
