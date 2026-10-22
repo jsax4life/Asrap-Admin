@@ -22,6 +22,9 @@ import {
   Mic2,
   Building2,
   Tags,
+  Clapperboard,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 
 export const APP_NAME = "Asrapa";
@@ -126,6 +129,30 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: "UserCircle",
     path: "/admin-users",
     roles: ["super_admin"],
+  },
+  {
+    id: "moderation",
+    label: "Modération",
+    icon: "ShieldCheck",
+    path: "/moderation",
+    roles: ["super_admin", "admin", "moderator"],
+    section: "new",
+  },
+  {
+    id: "shorts-community",
+    label: "Shorts et communauté",
+    icon: "Clapperboard",
+    path: "/shorts-community",
+    roles: ["super_admin", "admin", "moderator", "analyst"],
+    section: "new",
+  },
+  {
+    id: "studio-ia",
+    label: "Studio IA",
+    icon: "Sparkles",
+    path: "/studio-ia",
+    roles: ["super_admin", "admin"],
+    section: "new",
   },
 ];
 
@@ -254,6 +281,9 @@ export const ICON_MAP = {
   Mic2,
   Building2,
   Tags,
+  Clapperboard,
+  ShieldCheck,
+  Sparkles,
 };
 
 // Table pagination
@@ -350,6 +380,25 @@ export const API_ENDPOINTS = {
     DELETE: "/admin/playlists/:playlistId",
     ADD_SONGS: "/admin/playlists/:playlistId/songs",
     REMOVE_SONG: "/admin/playlists/:playlistId/songs/:songId",
+  },
+  LANDING_STATS: "/settings/landing-stats",
+  MODERATION: {
+    QUEUE: "/admin/moderation/:queue",
+    DECIDE: "/admin/moderation/items/:itemId/decision",
+    LOG: "/admin/moderation/log",
+  },
+  COMMUNITY: {
+    STATS: "/admin/community/stats",
+    CHALLENGES: "/admin/community/challenges",
+    FEATURE_CHALLENGE: "/admin/community/challenges/:challengeId/feature",
+    TOP_SOUNDS: "/admin/community/top-sounds",
+    CREATORS: "/admin/community/creators",
+    FEATURE_CREATOR: "/admin/community/creators/:userId/feature",
+  },
+  STUDIO_IA: {
+    STATS: "/admin/studio-ia/stats",
+    SETTINGS: "/admin/studio-ia/settings",
+    GENERATIONS: "/admin/studio-ia/generations",
   },
 } as const;
 

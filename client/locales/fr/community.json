@@ -1,0 +1,211 @@
+{
+  "errors": {
+    "loadFailed": "Impossible de charger les données",
+    "actionFailed": "L'action n'a pas pu être enregistrée",
+    "apiUnavailable": "Le serveur ne permet pas encore cette action"
+  },
+  "moderation": {
+    "eyebrow": "MODÉRATION",
+    "title": "Tout ce qui attend une décision.",
+    "aside": "Trié par urgence · chaque décision est enregistrée",
+    "tabsLabel": "Files de modération",
+    "tabs": {
+      "signalements": "Signalements",
+      "defis": "Défis proposés",
+      "ia": "Vidéos IA"
+    },
+    "queueLabel": "File",
+    "previewLabel": "Aperçu de l'élément",
+    "kinds": {
+      "short": "Short",
+      "comment": "Commentaire",
+      "account": "Compte",
+      "challenge": "Défi",
+      "ai_video": "Vidéo IA"
+    },
+    "empty": {
+      "signalements": "Aucun signalement en attente",
+      "defis": "Aucun défi proposé en attente",
+      "ia": "Aucune vidéo IA à valider"
+    },
+    "notConnected": "La file s'affichera ici dès que le serveur sera connecté",
+    "noPreview": "Aperçu",
+    "previewTag": {
+      "signalements": "Short signalé",
+      "defis": "Défi proposé",
+      "ia": "Créé avec l’IA"
+    },
+    "previewEyebrow": {
+      "signalements": "SIGNALEMENT",
+      "defis": "DÉFI PROPOSÉ",
+      "ia": "VIDÉO IA À VALIDER"
+    },
+    "nothingSelected": "Rien à décider pour l'instant",
+    "fields": {
+      "account": "Compte",
+      "sound": "Titre utilisé",
+      "reason": "Motif",
+      "duration": "Durée",
+      "consent": "Accord de l’artiste",
+      "received": "Reçu"
+    },
+    "checklist": {
+      "signalements": "Le Short reste visible tant qu’aucune décision n’est prise, sauf si le filtre automatique l’a déjà masqué.",
+      "defis": "Vérifier la consigne écrite par l’artiste et l’extrait de 30 secondes choisi dans le titre.",
+      "ia": "À vérifier : la vidéo part bien de la vraie pochette, aucun visage d’une autre personne, mention « Créé avec l’IA » présente."
+    },
+    "challengeInstructions": "Consigne : {{instructions}}. Extrait de 30 secondes choisi dans le titre.",
+    "decisions": {
+      "keep": "Garder",
+      "hide": "Masquer",
+      "warn": "Avertir le compte",
+      "suspend": "Suspendre",
+      "approve": "Approuver",
+      "request_change": "Demander une modification",
+      "reject": "Refuser",
+      "publish": "Publier",
+      "request_version": "Demander une autre version"
+    },
+    "decisionSaved": "Décision enregistrée",
+    "logTitle": "Journal des décisions",
+    "log": {
+      "when": "Quand",
+      "admin": "Admin",
+      "item": "Élément",
+      "decision": "Décision",
+      "empty": "Aucune décision pour l'instant"
+    },
+    "logDecisions": {
+      "keep": "Gardé",
+      "hide": "Masqué",
+      "warn": "Averti",
+      "suspend": "Suspendu",
+      "approve": "Approuvé",
+      "request_change": "Modification demandée",
+      "reject": "Refusé",
+      "publish": "Publiée",
+      "request_version": "Autre version demandée"
+    }
+  },
+  "community": {
+    "eyebrow": "SHORTS ET COMMUNAUTÉ",
+    "title": "Est-ce que la communauté prend ?",
+    "platformTitle": "La plateforme aujourd'hui",
+    "platformSource": "API AsraPa · {{date}}",
+    "platform": {
+      "songs": "TITRES",
+      "artists": "ARTISTES",
+      "listeners": "AUDITEURS",
+      "cities": "VILLES"
+    },
+    "kpiLabel": "Indicateurs Shorts",
+    "kpi": {
+      "shortsPerDay": "SHORTS PUBLIÉS",
+      "shortsPerDayCaption": "par jour",
+      "creatorsRate": "SPECTATEURS QUI CRÉENT",
+      "creatorsRateCaption": "de ceux qui regardent",
+      "streamsFromShorts": "ÉCOUTES VENUES DES SHORTS",
+      "streamsFromShortsCaption": "titres complets lancés",
+      "retention": "RETOUR APRÈS 7 JOURS",
+      "retentionCaption": "utilisateurs fidèles"
+    },
+    "challengesTitle": "Défis",
+    "challengesToReview": "Défis à valider",
+    "challenges": {
+      "challenge": "Défi",
+      "artist": "Artiste",
+      "participations": "Participations",
+      "status": "Statut",
+      "empty": "Aucun défi pour l'instant",
+      "statuses": {
+        "pending": "À valider",
+        "active": "En cours"
+      }
+    },
+    "notConnected": "S'affichera ici dès que le serveur sera connecté",
+    "featureChallenge": "Mettre un défi à la une",
+    "challengeFeatured": "Défi mis à la une",
+    "topSoundsTitle": "Titres les plus utilisés en Shorts",
+    "cities": {
+      "all": "Tout",
+      "ndjamena": "N'Djamena",
+      "moundou": "Moundou",
+      "diaspora": "Diaspora"
+    },
+    "shortsCount_one": "{{formatted}} Short",
+    "shortsCount_other": "{{formatted}} Shorts",
+    "topSoundsPending": "Le classement réel s'affichera avec les premiers Shorts.",
+    "creatorsTitle": "Créateurs à mettre en avant",
+    "creatorsEmpty": "Aucun créateur à mettre en avant pour l'instant",
+    "feature": "Mettre en avant",
+    "creatorFeatured": "Créateur mis en avant",
+    "verify": "Vérifier"
+  },
+  "studio": {
+    "eyebrow": "STUDIO IA",
+    "title": "Ce que coûte et rapporte l'IA.",
+    "spendLabel": "Dépenses",
+    "kpi": {
+      "generations": "GÉNÉRATIONS",
+      "generationsCaption": "ce mois-ci",
+      "higgsfieldCost": "COÛT HIGGSFIELD",
+      "credits": "crédits",
+      "higgsfieldCostCaption": "payés à Higgsfield",
+      "creditsSold": "CRÉDITS VENDUS",
+      "creditsSoldCaption": "Airtel Money et Moov Money",
+      "alerts": "ALERTES",
+      "alertsCaption": "comptes au-dessus du plafond"
+    },
+    "packsTitle": "Packs de crédits",
+    "packs": {
+      "pack": "Pack",
+      "credits": "Crédits",
+      "price": "Prix",
+      "creditsOf": "Crédits du {{name}}",
+      "priceOf": "Prix du {{name}}",
+      "creditsPlaceholder": "[nombre]",
+      "pricePlaceholder": "[prix] FCFA"
+    },
+    "planCreditsTitle": "Crédits inclus dans les forfaits",
+    "plans": {
+      "title": "Titre",
+      "ep": "EP",
+      "album": "Album"
+    },
+    "planPrice": "{{price}} FCFA / an",
+    "planCreditsOf": "Crédits inclus dans le forfait {{plan}}",
+    "planCreditsPlaceholder": "[crédits]",
+    "rulesTitle": "Règles et plafonds",
+    "monthlyCap": "Plafond de générations par compte et par mois",
+    "rules": {
+      "requireAdminReview": "Validation par un admin avant publication",
+      "requireAiLabel": "Mention « Créé avec l'IA » obligatoire",
+      "requireArtistConsent": "Accord de l'artiste obligatoire avant génération",
+      "budgetAlert": "Alerte si le coût du mois dépasse le budget"
+    },
+    "save": "Enregistrer",
+    "saved": "Réglages enregistrés",
+    "historyTitle": "Historique des générations",
+    "historyAside": "Pour traiter une réclamation d'artiste",
+    "history": {
+      "date": "Date",
+      "artist": "Artiste",
+      "type": "Type",
+      "title": "Titre",
+      "credits": "Crédits",
+      "status": "Statut",
+      "empty": "Aucune génération pour l'instant"
+    },
+    "notConnected": "L'historique s'affichera ici dès que le serveur sera connecté",
+    "types": {
+      "animated_cover": "Pochette animée",
+      "promo_clip": "Clip promo"
+    },
+    "statuses": {
+      "generating": "En génération",
+      "pending_review": "À valider",
+      "rejected": "Refusée",
+      "published": "Publiée"
+    }
+  }
+}

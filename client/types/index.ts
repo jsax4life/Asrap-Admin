@@ -78,6 +78,7 @@ export interface MenuItem {
   icon: string;
   path: string;
   roles: UserRole[];
+  section?: 'new';
   children?: MenuItem[];
 }
 

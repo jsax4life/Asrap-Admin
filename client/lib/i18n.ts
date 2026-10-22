@@ -16,6 +16,7 @@ import frAgent from '@/locales/fr/agent.json';
 import frMusicUpload from '@/locales/fr/musicUpload.json';
 import frPlaylist from '@/locales/fr/playlist.json';
 import frSupport from '@/locales/fr/support.json';
+import frCommunity from '@/locales/fr/community.json';
 
 import enCommon from '@/locales/en/common.json';
 import enAuth from '@/locales/en/auth.json';
@@ -31,6 +32,7 @@ import enAgent from '@/locales/en/agent.json';
 import enMusicUpload from '@/locales/en/musicUpload.json';
 import enPlaylist from '@/locales/en/playlist.json';
 import enSupport from '@/locales/en/support.json';
+import enCommunity from '@/locales/en/community.json';
 
 export const LANGUAGE_STORAGE_KEY = 'asra_admin_language';
 
@@ -43,7 +45,7 @@ i18n
     ns: [
       'common', 'auth', 'settings', 'dashboard', 'analytics', 'genres',
       'payments', 'promotion', 'artists', 'admin', 'agent', 'musicUpload',
-      'playlist', 'support',
+      'playlist', 'support', 'community',
     ],
     defaultNS: 'common',
     resources: {
@@ -62,6 +64,7 @@ i18n
         musicUpload: frMusicUpload,
         playlist: frPlaylist,
         support: frSupport,
+        community: frCommunity,
       },
       en: {
         common: enCommon,
@@ -78,6 +81,7 @@ i18n
         musicUpload: enMusicUpload,
         playlist: enPlaylist,
         support: enSupport,
+        community: enCommunity,
       },
     },
     detection: {

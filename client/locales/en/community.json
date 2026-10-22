@@ -1,0 +1,211 @@
+{
+  "errors": {
+    "loadFailed": "Could not load data",
+    "actionFailed": "The action could not be saved",
+    "apiUnavailable": "The server does not support this action yet"
+  },
+  "moderation": {
+    "eyebrow": "MODERATION",
+    "title": "Everything waiting for a decision.",
+    "aside": "Sorted by urgency · every decision is logged",
+    "tabsLabel": "Moderation queues",
+    "tabs": {
+      "signalements": "Reports",
+      "defis": "Proposed challenges",
+      "ia": "AI videos"
+    },
+    "queueLabel": "Queue",
+    "previewLabel": "Item preview",
+    "kinds": {
+      "short": "Short",
+      "comment": "Comment",
+      "account": "Account",
+      "challenge": "Challenge",
+      "ai_video": "AI video"
+    },
+    "empty": {
+      "signalements": "No pending reports",
+      "defis": "No pending challenges",
+      "ia": "No AI video to review"
+    },
+    "notConnected": "The queue will appear here once the server is connected",
+    "noPreview": "Preview",
+    "previewTag": {
+      "signalements": "Reported Short",
+      "defis": "Proposed challenge",
+      "ia": "Made with AI"
+    },
+    "previewEyebrow": {
+      "signalements": "REPORT",
+      "defis": "PROPOSED CHALLENGE",
+      "ia": "AI VIDEO TO REVIEW"
+    },
+    "nothingSelected": "Nothing to decide right now",
+    "fields": {
+      "account": "Account",
+      "sound": "Track used",
+      "reason": "Reason",
+      "duration": "Duration",
+      "consent": "Artist consent",
+      "received": "Received"
+    },
+    "checklist": {
+      "signalements": "The Short stays visible until a decision is made, unless the automatic filter has already hidden it.",
+      "defis": "Check the instructions written by the artist and the 30-second excerpt chosen from the track.",
+      "ia": "Check: the video starts from the real cover, no one else's face, “Made with AI” label present."
+    },
+    "challengeInstructions": "Instructions: {{instructions}}. 30-second excerpt chosen from the track.",
+    "decisions": {
+      "keep": "Keep",
+      "hide": "Hide",
+      "warn": "Warn the account",
+      "suspend": "Suspend",
+      "approve": "Approve",
+      "request_change": "Request a change",
+      "reject": "Reject",
+      "publish": "Publish",
+      "request_version": "Request another version"
+    },
+    "decisionSaved": "Decision saved",
+    "logTitle": "Decision log",
+    "log": {
+      "when": "When",
+      "admin": "Admin",
+      "item": "Item",
+      "decision": "Decision",
+      "empty": "No decisions yet"
+    },
+    "logDecisions": {
+      "keep": "Kept",
+      "hide": "Hidden",
+      "warn": "Warned",
+      "suspend": "Suspended",
+      "approve": "Approved",
+      "request_change": "Change requested",
+      "reject": "Rejected",
+      "publish": "Published",
+      "request_version": "New version requested"
+    }
+  },
+  "community": {
+    "eyebrow": "SHORTS AND COMMUNITY",
+    "title": "Is the community taking off?",
+    "platformTitle": "The platform today",
+    "platformSource": "AsraPa API · {{date}}",
+    "platform": {
+      "songs": "TRACKS",
+      "artists": "ARTISTS",
+      "listeners": "LISTENERS",
+      "cities": "CITIES"
+    },
+    "kpiLabel": "Shorts indicators",
+    "kpi": {
+      "shortsPerDay": "SHORTS POSTED",
+      "shortsPerDayCaption": "per day",
+      "creatorsRate": "VIEWERS WHO CREATE",
+      "creatorsRateCaption": "of those who watch",
+      "streamsFromShorts": "PLAYS FROM SHORTS",
+      "streamsFromShortsCaption": "full tracks started",
+      "retention": "BACK AFTER 7 DAYS",
+      "retentionCaption": "loyal users"
+    },
+    "challengesTitle": "Challenges",
+    "challengesToReview": "Challenges to review",
+    "challenges": {
+      "challenge": "Challenge",
+      "artist": "Artist",
+      "participations": "Entries",
+      "status": "Status",
+      "empty": "No challenges yet",
+      "statuses": {
+        "pending": "To review",
+        "active": "Running"
+      }
+    },
+    "notConnected": "Will appear here once the server is connected",
+    "featureChallenge": "Feature a challenge",
+    "challengeFeatured": "Challenge featured",
+    "topSoundsTitle": "Tracks most used in Shorts",
+    "cities": {
+      "all": "All",
+      "ndjamena": "N'Djamena",
+      "moundou": "Moundou",
+      "diaspora": "Diaspora"
+    },
+    "shortsCount_one": "{{formatted}} Short",
+    "shortsCount_other": "{{formatted}} Shorts",
+    "topSoundsPending": "The real ranking will appear with the first Shorts.",
+    "creatorsTitle": "Creators to feature",
+    "creatorsEmpty": "No creators to feature yet",
+    "feature": "Feature",
+    "creatorFeatured": "Creator featured",
+    "verify": "Verify"
+  },
+  "studio": {
+    "eyebrow": "AI STUDIO",
+    "title": "What AI costs and earns.",
+    "spendLabel": "Spending",
+    "kpi": {
+      "generations": "GENERATIONS",
+      "generationsCaption": "this month",
+      "higgsfieldCost": "HIGGSFIELD COST",
+      "credits": "credits",
+      "higgsfieldCostCaption": "paid to Higgsfield",
+      "creditsSold": "CREDITS SOLD",
+      "creditsSoldCaption": "Airtel Money and Moov Money",
+      "alerts": "ALERTS",
+      "alertsCaption": "accounts above the cap"
+    },
+    "packsTitle": "Credit packs",
+    "packs": {
+      "pack": "Pack",
+      "credits": "Credits",
+      "price": "Price",
+      "creditsOf": "Credits for {{name}}",
+      "priceOf": "Price for {{name}}",
+      "creditsPlaceholder": "[number]",
+      "pricePlaceholder": "[price] FCFA"
+    },
+    "planCreditsTitle": "Credits included in plans",
+    "plans": {
+      "title": "Single",
+      "ep": "EP",
+      "album": "Album"
+    },
+    "planPrice": "{{price}} FCFA / year",
+    "planCreditsOf": "Credits included in the {{plan}} plan",
+    "planCreditsPlaceholder": "[credits]",
+    "rulesTitle": "Rules and caps",
+    "monthlyCap": "Generation cap per account per month",
+    "rules": {
+      "requireAdminReview": "Admin review before publishing",
+      "requireAiLabel": "“Made with AI” label required",
+      "requireArtistConsent": "Artist consent required before generating",
+      "budgetAlert": "Alert if the monthly cost exceeds the budget"
+    },
+    "save": "Save",
+    "saved": "Settings saved",
+    "historyTitle": "Generation history",
+    "historyAside": "To handle an artist complaint",
+    "history": {
+      "date": "Date",
+      "artist": "Artist",
+      "type": "Type",
+      "title": "Track",
+      "credits": "Credits",
+      "status": "Status",
+      "empty": "No generations yet"
+    },
+    "notConnected": "The history will appear here once the server is connected",
+    "types": {
+      "animated_cover": "Animated cover",
+      "promo_clip": "Promo clip"
+    },
+    "statuses": {
+      "generating": "Generating",
+      "pending_review": "To review",
+      "rejected": "Rejected",
+      "published": "Published"
+    }
+  }
+}

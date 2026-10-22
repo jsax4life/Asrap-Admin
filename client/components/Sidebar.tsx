@@ -19,9 +19,11 @@ export function Sidebar({ isOpen = true, onClose, user }: SidebarProps) {
   const { t } = useTranslation('common');
 
   // Filter menu items based on user role
-  const filteredMenuItems = MENU_ITEMS.filter(item => 
+  const filteredMenuItems = MENU_ITEMS.filter(item =>
     !user || item.roles.includes(user.role)
   );
+  const mainMenuItems = filteredMenuItems.filter(item => item.section !== 'new');
+  const newMenuItems = filteredMenuItems.filter(item => item.section === 'new');
 
   const handleMenuClick = (path: string) => {
     if (path === '/logout') {
@@ -33,7 +35,32 @@ export function Sidebar({ isOpen = true, onClose, user }: SidebarProps) {
   };
 
   const isActiveRoute = (path: string) => {
-    return location.pathname === path;
+    return location.pathname === path || (path === '/moderation' && location.pathname.startsWith('/moderation/'));
+  };
+
+  const renderMenuItem = (item: (typeof MENU_ITEMS)[number]) => {
+    const IconComponent = ICON_MAP[item.icon as keyof typeof ICON_MAP];
+    const isActive = isActiveRoute(item.path);
+
+    return (
+      <button
+        key={item.id}
+        onClick={() => handleMenuClick(item.path)}
+        className={`flex items-center gap-5 w-full text-left transition-colors ${
+          isActive
+            ? "text-white"
+            : "text-asra-gray-6 hover:text-white"
+        }`}
+      >
+        <IconComponent className="w-6 h-6 flex-shrink-0" strokeWidth={isActive ? 1.87 : 1.5} />
+        <span className="text-base font-bold tracking-[0.13px]">
+          {t(`menu.${item.id}`, item.label)}
+        </span>
+        {isActive && (
+          <div className="w-1 h-6 bg-white ml-auto -mr-8 lg:-mr-12" />
+        )}
+      </button>
+    );
   };
   return (
     <>
@@ -76,31 +103,19 @@ export function Sidebar({ isOpen = true, onClose, user }: SidebarProps) {
             </div>
 
             <nav className="space-y-6">
-              {filteredMenuItems.map((item) => {
-                const IconComponent = ICON_MAP[item.icon as keyof typeof ICON_MAP];
-                const isActive = isActiveRoute(item.path);
-
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => handleMenuClick(item.path)}
-                    className={`flex items-center gap-5 w-full text-left transition-colors ${
-                      isActive
-                        ? "text-white"
-                        : "text-asra-gray-6 hover:text-white"
-                    }`}
-                  >
-                    <IconComponent className="w-6 h-6 flex-shrink-0" strokeWidth={isActive ? 1.87 : 1.5} />
-                    <span className="text-base font-bold tracking-[0.13px]">
-                      {t(`menu.${item.id}`, item.label)}
-                    </span>
-                    {isActive && (
-                      <div className="w-1 h-6 bg-white ml-auto -mr-8 lg:-mr-12" />
-                    )}
-                  </button>
-                );
-              })}
+              {mainMenuItems.map(renderMenuItem)}
             </nav>
+
+            {newMenuItems.length > 0 && (
+              <>
+                <div className="pt-2 text-[#FF3B30] text-xs font-bold tracking-[0.18em]">
+                  {t('sidebar.newSection')}
+                </div>
+                <nav className="space-y-6">
+                  {newMenuItems.map(renderMenuItem)}
+                </nav>
+              </>
+            )}
           </div>
 
           <div className="space-y-6 mt-12 lg:mt-40">

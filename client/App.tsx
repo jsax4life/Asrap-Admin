@@ -24,6 +24,9 @@ import MusicApprovalDetail from "./pages/music-upload/MusicApprovalDetail";
 import MusicApprovalSuccess from "./pages/music-upload/MusicApprovalSuccess";
 import PlaylistManagement from "./pages/playlist/PlaylistManagement";
 import PlaylistDetail from "./pages/playlist/PlaylistDetail";
+import Moderation from "./pages/community/Moderation";
+import ShortsCommunity from "./pages/community/ShortsCommunity";
+import StudioIA from "./pages/community/StudioIA";
 import ArtistManagement from "./pages/artists/ArtistManagement";
 import ArtistDetail from "./pages/artists/ArtistDetail";
 import AlbumDetail from "./pages/artists/AlbumDetail";
@@ -54,6 +57,12 @@ import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "@/components/common/ProtectedRoute";
 import { RoleBasedRedirect } from "@/components/common/RoleBasedRedirect";
 import { ADMIN_ROLES, AGENT_ROLES } from "@/lib/roles";
+import { UserRole } from "@/types";
+
+// Same roles as the matching menu entries in constants/index.ts
+const MODERATION_ROLES: UserRole[] = ["super_admin", "admin", "moderator"];
+const COMMUNITY_ROLES: UserRole[] = ["super_admin", "admin", "moderator", "analyst"];
+const STUDIO_IA_ROLES: UserRole[] = ["super_admin", "admin"];
 
 // Hooks
 import { useTheme } from "@/hooks/useTheme";
@@ -142,6 +151,38 @@ const AppRoutes = () => {
           <ProtectedRoute requiredRoles={ADMIN_ROLES}>
             <CustomLayout>
               <PlaylistDetail />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/moderation" element={
+          <ProtectedRoute requiredRoles={MODERATION_ROLES}>
+            <CustomLayout>
+              <Moderation />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/moderation/:tab" element={
+          <ProtectedRoute requiredRoles={MODERATION_ROLES}>
+            <CustomLayout>
+              <Moderation />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/shorts-community" element={
+          <ProtectedRoute requiredRoles={COMMUNITY_ROLES}>
+            <CustomLayout>
+              <ShortsCommunity />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/studio-ia" element={
+          <ProtectedRoute requiredRoles={STUDIO_IA_ROLES}>
+            <CustomLayout>
+              <StudioIA />
             </CustomLayout>
           </ProtectedRoute>
         } />
