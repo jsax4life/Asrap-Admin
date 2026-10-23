@@ -27,7 +27,8 @@
     "agent-logout": "Log out",
     "moderation": "Moderation",
     "shorts-community": "Shorts and community",
-    "studio-ia": "AI Studio"
+    "studio-ia": "AI Studio",
+    "awards": "AsraPa Awards"
   },
   "roles": {
     "super_admin": "Super Admin",
@@ -65,6 +66,7 @@
     "/promotion": "Promotion Management",
     "/moderation": "Moderation",
     "/shorts-community": "Shorts and community",
-    "/studio-ia": "AI Studio"
+    "/studio-ia": "AI Studio",
+    "/awards": "AsraPa Awards"
   }
 }

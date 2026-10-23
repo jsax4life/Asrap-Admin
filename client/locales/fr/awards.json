@@ -1,0 +1,103 @@
+{
+  "eyebrow": "ASRAPA AWARDS",
+  "title": "Certifier seulement ce qui est vrai.",
+  "tabsLabel": "Rubriques Awards",
+  "tabs": {
+    "controle": "À contrôler",
+    "seuils": "Seuils",
+    "ceremonie": "Cérémonie"
+  },
+  "levels": {
+    "silver": "Argent",
+    "gold": "Or",
+    "platinum": "Platine",
+    "diamond": "Diamant"
+  },
+  "toFix": "[à fixer]",
+  "toDefine": "[à définir]",
+  "start": "[début]",
+  "end": "[fin]",
+  "notConnected": "S'affichera ici dès que le serveur sera connecté",
+  "errors": {
+    "loadFailed": "Impossible de charger les données",
+    "actionFailed": "L'action n'a pas pu être enregistrée",
+    "apiUnavailable": "Le serveur ne permet pas encore cette action"
+  },
+  "control": {
+    "listLabel": "Titres éligibles",
+    "listTitle": "Titres qui viennent de franchir un seuil",
+    "eligibleOn": "{{artist}} · éligible le {{date}}",
+    "empty": "Aucun titre n'a encore franchi de seuil",
+    "checkLabel": "Contrôle anti-fraude",
+    "checkEyebrow": "CONTRÔLE AVANT DISQUE D'{{level}}",
+    "nothingSelected": "Aucun titre à contrôler pour l'instant",
+    "signals": {
+      "qualified": "Écoutes qualifiées",
+      "qualifiedNote": "seuil {{level}} : {{threshold}}",
+      "topAccounts": "Part des 10 plus gros comptes",
+      "topAccountsNote": "trop concentré = suspect",
+      "recentAccounts": "Comptes créés récemment",
+      "recentAccountsNote": "créations en série ?",
+      "loop": "Écoute en boucle, jour et nuit",
+      "loopNote": "comptes signalés",
+      "cities": "Villes et pays",
+      "citiesNote": "répartition cohérente ?",
+      "discarded": "Écoutes écartées",
+      "discardedNote": "déjà retirées du calcul"
+    },
+    "certify": "Certifier",
+    "postpone": "Ajourner (contrôle complémentaire)",
+    "reject": "Refuser avec motif",
+    "footnote": "La décision est enregistrée au journal et envoyée à l'artiste ; un disque certifié entre au registre public.",
+    "decisionSaved": "Décision enregistrée",
+    "rejectTitle": "Refuser la certification",
+    "rejectHelp": "Le motif est envoyé à l'artiste et enregistré au journal.",
+    "reasonPlaceholder": "Motif du refus",
+    "cancel": "Annuler",
+    "confirmReject": "Refuser"
+  },
+  "thresholds": {
+    "qualifiedTitle": "Écoute qualifiée",
+    "minSeconds": "Durée minimale (secondes)",
+    "dailyCap": "Écoutes comptées par compte, par titre et par jour",
+    "observation": "Période d'observation : {{start}} → {{end}}",
+    "publishedTitle": "Seuils publiés",
+    "level": "Niveau",
+    "title": "Titre",
+    "album": "Album ou EP",
+    "rule": {
+      "gold": "2 × Argent",
+      "platinum": "2 × Or",
+      "diamond": "5 × Platine"
+    },
+    "silverTitleLabel": "Seuil Argent pour un titre",
+    "silverAlbumLabel": "Seuil Argent pour un album ou un EP",
+    "commitment": "Un seuil publié n'est jamais baissé pour un titre en cours. Une révision par an au plus.",
+    "publish": "Publier les seuils",
+    "alreadyPublished": "Seuils publiés",
+    "publishedToast": "Seuils publiés"
+  },
+  "ceremony": {
+    "prizesTitle": "Prix calculés",
+    "computedAt": "Calcul au {{date}}",
+    "prizes": {
+      "title": "Titre de l’année",
+      "artist": "Artiste de l’année",
+      "revelation": "Révélation de l’année",
+      "challenge": "Défi de l’année",
+      "short": "Short de l’année",
+      "diaspora": "Préféré de la diaspora",
+      "maquis": "Roi des maquis (proposé)"
+    },
+    "leader": "En tête : {{name}}",
+    "confidential": "Résultats confidentiels jusqu'à la cérémonie.",
+    "organisationTitle": "Organisation",
+    "dateVenue": "Date : {{date}} · Lieu : {{venue}}",
+    "defaultVenue": "N'Djamena [salle à fixer]",
+    "reference": "Période de référence : {{start}} → {{end}}",
+    "jury": "Prix du jury : {{prizes}}, présentés à part",
+    "guarantors": "Garants proposés : BUTDRA, Ministère de la Culture (à confirmer)",
+    "preparePlaques": "Préparer les plaques",
+    "plaquesToast": "Plaques en préparation"
+  }
+}

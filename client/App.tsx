@@ -27,6 +27,7 @@ import PlaylistDetail from "./pages/playlist/PlaylistDetail";
 import Moderation from "./pages/community/Moderation";
 import ShortsCommunity from "./pages/community/ShortsCommunity";
 import StudioIA from "./pages/community/StudioIA";
+import Awards from "./pages/community/Awards";
 import ArtistManagement from "./pages/artists/ArtistManagement";
 import ArtistDetail from "./pages/artists/ArtistDetail";
 import AlbumDetail from "./pages/artists/AlbumDetail";
@@ -186,6 +187,23 @@ const AppRoutes = () => {
             </CustomLayout>
           </ProtectedRoute>
         } />
+
+        <Route path="/awards" element={
+          <ProtectedRoute requiredRoles={STUDIO_IA_ROLES}>
+            <CustomLayout>
+              <Awards />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/awards/:tab" element={
+          <ProtectedRoute requiredRoles={STUDIO_IA_ROLES}>
+            <CustomLayout>
+              <Awards />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
         
         <Route path="/artist-management" element={
           <ProtectedRoute requiredRoles={ADMIN_ROLES}>
