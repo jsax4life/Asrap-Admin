@@ -1,0 +1,103 @@
+{
+  "eyebrow": "ASRAPA AWARDS",
+  "title": "Certify only what is true.",
+  "tabsLabel": "Awards sections",
+  "tabs": {
+    "controle": "To review",
+    "seuils": "Thresholds",
+    "ceremonie": "Ceremony"
+  },
+  "levels": {
+    "silver": "Silver",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "diamond": "Diamond"
+  },
+  "toFix": "[to set]",
+  "toDefine": "[to define]",
+  "start": "[start]",
+  "end": "[end]",
+  "notConnected": "Will appear here once the server is connected",
+  "errors": {
+    "loadFailed": "Could not load data",
+    "actionFailed": "The action could not be saved",
+    "apiUnavailable": "The server does not support this action yet"
+  },
+  "control": {
+    "listLabel": "Eligible tracks",
+    "listTitle": "Tracks that just crossed a threshold",
+    "eligibleOn": "{{artist}} · eligible on {{date}}",
+    "empty": "No track has crossed a threshold yet",
+    "checkLabel": "Fraud check",
+    "checkEyebrow": "CHECK BEFORE {{level}} RECORD",
+    "nothingSelected": "No track to review right now",
+    "signals": {
+      "qualified": "Qualified plays",
+      "qualifiedNote": "{{level}} threshold: {{threshold}}",
+      "topAccounts": "Share of the 10 biggest accounts",
+      "topAccountsNote": "too concentrated = suspicious",
+      "recentAccounts": "Recently created accounts",
+      "recentAccountsNote": "mass sign-ups?",
+      "loop": "Looped plays, day and night",
+      "loopNote": "flagged accounts",
+      "cities": "Cities and countries",
+      "citiesNote": "consistent spread?",
+      "discarded": "Discarded plays",
+      "discardedNote": "already removed from the count"
+    },
+    "certify": "Certify",
+    "postpone": "Postpone (further check)",
+    "reject": "Reject with reason",
+    "footnote": "The decision is logged and sent to the artist; a certified record enters the public registry.",
+    "decisionSaved": "Decision saved",
+    "rejectTitle": "Reject the certification",
+    "rejectHelp": "The reason is sent to the artist and logged.",
+    "reasonPlaceholder": "Reason for rejection",
+    "cancel": "Cancel",
+    "confirmReject": "Reject"
+  },
+  "thresholds": {
+    "qualifiedTitle": "Qualified play",
+    "minSeconds": "Minimum duration (seconds)",
+    "dailyCap": "Plays counted per account, per track, per day",
+    "observation": "Observation period: {{start}} → {{end}}",
+    "publishedTitle": "Published thresholds",
+    "level": "Level",
+    "title": "Track",
+    "album": "Album or EP",
+    "rule": {
+      "gold": "2 × Silver",
+      "platinum": "2 × Gold",
+      "diamond": "5 × Platinum"
+    },
+    "silverTitleLabel": "Silver threshold for a track",
+    "silverAlbumLabel": "Silver threshold for an album or EP",
+    "commitment": "A published threshold is never lowered for a track in progress. At most one revision per year.",
+    "publish": "Publish thresholds",
+    "alreadyPublished": "Thresholds published",
+    "publishedToast": "Thresholds published"
+  },
+  "ceremony": {
+    "prizesTitle": "Computed prizes",
+    "computedAt": "Computed on {{date}}",
+    "prizes": {
+      "title": "Track of the year",
+      "artist": "Artist of the year",
+      "revelation": "Breakthrough of the year",
+      "challenge": "Challenge of the year",
+      "short": "Short of the year",
+      "diaspora": "Diaspora favourite",
+      "maquis": "King of the maquis (proposed)"
+    },
+    "leader": "Leading: {{name}}",
+    "confidential": "Results confidential until the ceremony.",
+    "organisationTitle": "Organisation",
+    "dateVenue": "Date: {{date}} · Venue: {{venue}}",
+    "defaultVenue": "N'Djamena [venue to set]",
+    "reference": "Reference period: {{start}} → {{end}}",
+    "jury": "Jury prizes: {{prizes}}, presented separately",
+    "guarantors": "Proposed guarantors: BUTDRA, Ministry of Culture (to be confirmed)",
+    "preparePlaques": "Prepare the plaques",
+    "plaquesToast": "Plaques being prepared"
+  }
+}

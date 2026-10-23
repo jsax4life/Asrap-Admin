@@ -25,6 +25,7 @@ import {
   Clapperboard,
   ShieldCheck,
   Sparkles,
+  Award,
 } from "lucide-react";
 
 export const APP_NAME = "Asrapa";
@@ -151,6 +152,14 @@ export const MENU_ITEMS: MenuItem[] = [
     label: "Studio IA",
     icon: "Sparkles",
     path: "/studio-ia",
+    roles: ["super_admin", "admin"],
+    section: "new",
+  },
+  {
+    id: "awards",
+    label: "AsraPa Awards",
+    icon: "Award",
+    path: "/awards",
     roles: ["super_admin", "admin"],
     section: "new",
   },
@@ -284,6 +293,7 @@ export const ICON_MAP = {
   Clapperboard,
   ShieldCheck,
   Sparkles,
+  Award,
 };
 
 // Table pagination
@@ -394,6 +404,14 @@ export const API_ENDPOINTS = {
     TOP_SOUNDS: "/admin/community/top-sounds",
     CREATORS: "/admin/community/creators",
     FEATURE_CREATOR: "/admin/community/creators/:userId/feature",
+  },
+  AWARDS: {
+    ELIGIBLE: "/admin/awards/eligible",
+    DECIDE: "/admin/awards/eligible/:certificationId/decision",
+    SETTINGS: "/admin/awards/settings",
+    PUBLISH_THRESHOLDS: "/admin/awards/settings/publish",
+    CEREMONY: "/admin/awards/ceremony",
+    PREPARE_PLAQUES: "/admin/awards/ceremony/plaques",
   },
   STUDIO_IA: {
     STATS: "/admin/studio-ia/stats",

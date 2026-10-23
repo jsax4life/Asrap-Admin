@@ -124,7 +124,7 @@ function getErrorMessage(error: unknown, fallback: string): string {
   return fallback;
 }
 
-async function load<T>(url: string, key: string, params?: Record<string, unknown>): Promise<Loaded<T>> {
+export async function load<T>(url: string, key: string, params?: Record<string, unknown>): Promise<Loaded<T>> {
   try {
     const response = (await apiClient.get(url, { params })) as unknown as {
       status: string;
@@ -141,7 +141,7 @@ async function load<T>(url: string, key: string, params?: Record<string, unknown
   }
 }
 
-async function send(method: 'post' | 'patch', url: string, body: unknown): Promise<void> {
+export async function send(method: 'post' | 'patch', url: string, body: unknown): Promise<void> {
   try {
     const response = (await apiClient[method](url, body)) as unknown as { status: string; message?: string };
     if (response.status !== 'success') {
