@@ -22,7 +22,9 @@
       "statusInactive": "Inactif",
       "passwordToChange": "À changer",
       "passwordSet": "Défini",
-      "never": "Jamais"
+      "never": "Jamais",
+      "edit": "Modifier",
+      "delete": "Supprimer"
     },
     "emptyUsers": "Aucun utilisateur admin pour le moment.",
     "emptyPaymentAgentsBefore": "Aucun agent de paiement pour le moment. Cliquez sur",
@@ -31,7 +33,10 @@
       "previous": "Précédent",
       "next": "Suivant",
       "pageOf": "Page {{current}} sur {{total}}"
-    }
+    },
+    "confirmDelete": "Supprimer le compte admin de {{name}} ? Il ne pourra plus se connecter.",
+    "deleted": "Compte admin supprimé",
+    "deleteFailed": "Impossible de supprimer le compte admin"
   },
   "createUser": {
     "defaultUserName": "Administrateur système",

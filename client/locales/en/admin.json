@@ -22,7 +22,9 @@
       "statusInactive": "Inactive",
       "passwordToChange": "To change",
       "passwordSet": "Set",
-      "never": "Never"
+      "never": "Never",
+      "edit": "Edit",
+      "delete": "Delete"
     },
     "emptyUsers": "No admin users yet.",
     "emptyPaymentAgentsBefore": "No payment agents yet. Click",
@@ -31,7 +33,10 @@
       "previous": "Previous",
       "next": "Next",
       "pageOf": "Page {{current}} of {{total}}"
-    }
+    },
+    "confirmDelete": "Delete {{name}}'s admin account? They will no longer be able to sign in.",
+    "deleted": "Admin account deleted",
+    "deleteFailed": "Could not delete the admin account"
   },
   "createUser": {
     "defaultUserName": "System administrator",

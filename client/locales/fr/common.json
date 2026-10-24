@@ -35,7 +35,8 @@
     "admin": "Administrateur",
     "moderator": "Modérateur",
     "analyst": "Analyste",
-    "payment_agent": "Agent de paiement"
+    "payment_agent": "Agent de paiement",
+    "support": "Support"
   },
   "subscriptionPlans": {
     "free": "Gratuit",
