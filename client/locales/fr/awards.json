@@ -1,7 +1,7 @@
 {
-  "eyebrow": "ASRAPA AWARDS",
+  "eyebrow": "ASRAPA LEGEND",
   "title": "Distinguer seulement ce qui est vrai.",
-  "tabsLabel": "Rubriques Awards",
+  "tabsLabel": "Rubriques Legend",
   "tabs": {
     "controle": "À contrôler",
     "seuils": "Seuils",
@@ -61,7 +61,7 @@
     "submit": "Transmettre au comité",
     "extend": "Prolonger la vérification",
     "reject": "Refuser avec motif",
-    "footnote": "Validée par le comité, la distinction reçoit son numéro (AA-…) et entre au registre public. L'artiste est prévenu et la prime s'ajoute à son solde, dans la limite du fonds.",
+    "footnote": "Validée par le comité, la distinction reçoit son numéro (AL-…) et entre au registre public. L'artiste est prévenu et la prime s'ajoute à son solde, dans la limite du fonds.",
     "sanctions": "Fraude avérée : avertissement, gel des revenus, retrait des titres ; la distinction est retirée. Gel et retrait sont décidés par le fondateur.",
     "decisionSaved": "Décision enregistrée",
     "rejectTitle": "Refuser la distinction",

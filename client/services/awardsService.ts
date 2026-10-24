@@ -1,7 +1,7 @@
 import { API_ENDPOINTS } from '@/constants';
 import { load, send } from './communityService';
 
-// AsraPa Awards (distinctions Argent, Or, Platine, Diamant — règlement v1.1).
+// AsraPa Legend (distinctions Argent, Or, Platine, Diamant — règlement v1.1).
 // None of these admin routes exist on the server yet: a 404 means "not connected".
 
 export type AwardLevel = 'silver' | 'gold' | 'platinum' | 'diamond';

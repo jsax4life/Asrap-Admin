@@ -1,7 +1,7 @@
 {
-  "eyebrow": "ASRAPA AWARDS",
+  "eyebrow": "ASRAPA LEGEND",
   "title": "Award only what is true.",
-  "tabsLabel": "Awards sections",
+  "tabsLabel": "Legend sections",
   "tabs": {
     "controle": "To review",
     "seuils": "Thresholds",
@@ -61,7 +61,7 @@
     "submit": "Send to the committee",
     "extend": "Extend the review",
     "reject": "Reject with reason",
-    "footnote": "Once approved by the committee, the award gets its number (AA-…) and enters the public registry. The artist is notified and the bonus is added to their balance, within the limits of the fund.",
+    "footnote": "Once approved by the committee, the award gets its number (AL-…) and enters the public registry. The artist is notified and the bonus is added to their balance, within the limits of the fund.",
     "sanctions": "Proven fraud: warning, revenue freeze, track removal; the award is withdrawn. Freezes and removals are decided by the founder.",
     "decisionSaved": "Decision saved",
     "rejectTitle": "Reject the award",

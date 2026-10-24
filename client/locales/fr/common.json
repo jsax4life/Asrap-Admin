@@ -28,7 +28,7 @@
     "moderation": "Modération",
     "shorts-community": "Shorts et communauté",
     "studio-ia": "Studio IA",
-    "awards": "AsraPa Awards"
+    "awards": "AsraPa Legend"
   },
   "roles": {
     "super_admin": "Super administrateur",
@@ -68,6 +68,6 @@
     "/moderation": "Modération",
     "/shorts-community": "Shorts et communauté",
     "/studio-ia": "Studio IA",
-    "/awards": "AsraPa Awards"
+    "/awards": "AsraPa Legend"
   }
 }
