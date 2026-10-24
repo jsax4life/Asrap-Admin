@@ -17,6 +17,8 @@ import {
   Card,
   CardTitle,
   PillButton,
+  StatusBadge,
+  BadgeTone,
   DASH,
   formatCount,
 } from '@/components/community/CommunityUI';
@@ -26,13 +28,14 @@ import {
   AwardLevel,
   AwardDecision,
   AwardsSettings,
-  CeremonyData,
-  CeremonyPrize,
+  CommitteeMemberVote,
   EligibleCertification,
+  FundData,
+  PayoutStatus,
 } from '@/services/awardsService';
 
-type TabSlug = 'controle' | 'seuils' | 'ceremonie';
-const TABS: TabSlug[] = ['controle', 'seuils', 'ceremonie'];
+type TabSlug = 'controle' | 'seuils' | 'fonds';
+const TABS: TabSlug[] = ['controle', 'seuils', 'fonds'];
 
 const DISC_GRADIENT: Record<AwardLevel, string> = {
   silver: 'radial-gradient(circle at 35% 30%, #FFFFFF 0%, #C0C0C0 40%, #6E6E6E 100%)',
@@ -48,21 +51,53 @@ const LEVEL_COLOR: Record<AwardLevel, string> = {
   diamond: 'text-[#9BE7F5]',
 };
 
-// Gold = 2 × Silver, Platinum = 2 × Gold, Diamond = 5 × Platinum (rules, section 3).
-const LEVEL_MULTIPLIER: Record<AwardLevel, number> = { silver: 1, gold: 2, platinum: 4, diamond: 20 };
 const LEVELS: AwardLevel[] = ['silver', 'gold', 'platinum', 'diamond'];
 
-const PRIZES: CeremonyPrize[] = ['title', 'artist', 'revelation', 'challenge', 'short', 'diaspora', 'maquis'];
+const PAYOUT_TONE: Record<PayoutStatus, BadgeTone> = { to_pay: 'orange', paid: 'neutral', deferred: 'red' };
 
+const VERIFICATION_DAYS = 15;
+
+// Values of the AsraPa Awards rules v1.1, shown until the server sends its own settings.
 const DEFAULT_SETTINGS: AwardsSettings = {
-  minSeconds: 30,
-  dailyCapPerAccount: null,
-  observationStart: null,
-  observationEnd: null,
-  silverThresholdTitle: null,
-  silverThresholdAlbum: null,
+  minPlaysPerSubscriber: 3,
+  minArtistsPerPack: 3,
+  streamsPerSale: 10,
+  networkTriggerShare: 30,
+  networkMinShare: 10,
+  networkFloor: 3,
+  activeDays: 90,
+  activeAsraPoints: null,
+  thresholds: {
+    silver: { firstPeriod: 100, secondPeriod: 200 },
+    gold: { firstPeriod: 250, secondPeriod: 600 },
+    platinum: { firstPeriod: 500, secondPeriod: 1500 },
+    diamond: { firstPeriod: 1000, secondPeriod: 3000 },
+  },
+  primes: { silver: 15000, gold: 50000, platinum: 125000, diamond: 300000 },
   published: false,
 };
+
+type NumericSetting =
+  | 'minPlaysPerSubscriber'
+  | 'minArtistsPerPack'
+  | 'streamsPerSale'
+  | 'networkTriggerShare'
+  | 'networkMinShare'
+  | 'networkFloor'
+  | 'activeDays';
+
+const QUALIFIED_FIELDS: [NumericSetting, string][] = [
+  ['minPlaysPerSubscriber', 'minPlays'],
+  ['minArtistsPerPack', 'minArtists'],
+  ['streamsPerSale', 'streamsPerSale'],
+];
+
+const NETWORK_FIELDS: [NumericSetting, string][] = [
+  ['networkTriggerShare', 'networkTrigger'],
+  ['networkMinShare', 'networkShare'],
+  ['networkFloor', 'networkFloor'],
+  ['activeDays', 'activeDays'],
+];
 
 const inputClass =
   'h-[42px] px-3.5 rounded-full border border-white/[0.14] bg-black/40 text-white text-sm placeholder:text-[#8A8A8A] focus:outline-none focus:border-[#FF0000]';
@@ -72,6 +107,11 @@ function toNumber(value: string): number | null {
   if (!digits) return null;
   const n = Number(digits);
   return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+function daysLeft(iso: string | null | undefined): number | null {
+  if (!iso) return null;
+  return Math.max(0, Math.ceil((new Date(iso).getTime() - Date.now()) / 86_400_000));
 }
 
 function Disc({ level, size = 34 }: { level: AwardLevel; size?: number }) {
@@ -85,6 +125,16 @@ function Disc({ level, size = 34 }: { level: AwardLevel; size?: number }) {
   );
 }
 
+function Metric({ label, value, note }: { label: string; value: string; note: string }) {
+  return (
+    <div className="p-3 rounded-2xl bg-white/[0.04] flex flex-col gap-1">
+      <span className="text-xs text-[#C4C4C4]">{label}</span>
+      <b className="text-xl text-white tabular-nums">{value}</b>
+      <span className="text-xs text-[#C4C4C4]">{note}</span>
+    </div>
+  );
+}
+
 export default function Awards() {
   const { t, i18n } = useTranslation('awards');
   const { tab } = useParams<{ tab?: string }>();
@@ -94,21 +144,21 @@ export default function Awards() {
   const [eligible, setEligible] = useState<EligibleCertification[] | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [settings, setSettings] = useState<AwardsSettings>(DEFAULT_SETTINGS);
-  const [ceremony, setCeremony] = useState<CeremonyData | null>(null);
+  const [fund, setFund] = useState<FundData | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [rejectOpen, setRejectOpen] = useState(false);
   const [reason, setReason] = useState('');
 
   const loadAll = async () => {
     try {
-      const [e, s, c] = await Promise.all([
+      const [e, s, f] = await Promise.all([
         awardsService.getEligible(),
         awardsService.getSettings(),
-        awardsService.getCeremony(),
+        awardsService.getFund(),
       ]);
       setEligible(e.data);
-      if (s.data) setSettings(s.data);
-      setCeremony(c.data);
+      if (s.data) setSettings({ ...DEFAULT_SETTINGS, ...s.data });
+      setFund(f.data);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : t('errors.loadFailed'));
     }
@@ -150,28 +200,95 @@ export default function Awards() {
   };
 
   const formatDate = (iso?: string | null) => (iso ? new Date(iso).toLocaleDateString(locale) : null);
+  const count = (value: number | null | undefined) => formatCount(value, locale);
+  const fcfa = (value: number | null | undefined) => (value == null ? DASH : `${count(value)} FCFA`);
   const toFix = t('toFix');
-
-  const thresholdCell = (level: AwardLevel, base: number | null) => {
-    if (level === 'silver') return base === null ? toFix : formatCount(base, locale);
-    if (base !== null) return formatCount(base * LEVEL_MULTIPLIER[level], locale);
-    return t(`thresholds.rule.${level}`);
+  const toFill = t('toFill');
+  const daysLabel = (iso?: string | null) => {
+    const left = daysLeft(iso);
+    return t('control.daysLeft', { n: left ?? '[n]' });
   };
 
+  const requiredPoints =
+    settings.activeAsraPoints == null || settings.networkMinShare == null
+      ? null
+      : Math.max(settings.networkFloor ?? 0, Math.ceil((settings.networkMinShare / 100) * settings.activeAsraPoints));
+
   const signals = selected?.signals;
+  const controlLevel: AwardLevel = selected?.level ?? 'gold';
   const signalCards = [
-    { id: 'qualified', value: formatCount(signals?.qualifiedStreams, locale), note: t('control.signals.qualifiedNote', {
-        level: selected ? t(`levels.${selected.level}`) : t('levels.gold'),
-        threshold: signals?.threshold != null ? formatCount(signals.threshold, locale) : toFix,
-      }) },
-    { id: 'topAccounts', value: `${formatCount(signals?.topAccountsShare, locale)} %` },
-    { id: 'recentAccounts', value: `${formatCount(signals?.recentAccountsShare, locale)} %` },
-    { id: 'loop', value: formatCount(signals?.loopListeners, locale) },
-    { id: 'cities', value: formatCount(signals?.citiesCount, locale) },
-    { id: 'discarded', value: formatCount(signals?.discardedStreams, locale) },
+    {
+      id: 'qualified',
+      value: count(signals?.qualifiedListeners),
+      note: t('control.signals.qualifiedNote', {
+        level: t(`levels.${controlLevel}`),
+        threshold: count(signals?.threshold ?? settings.thresholds[controlLevel].firstPeriod),
+      }),
+    },
+    {
+      id: 'audience',
+      value: `${count(signals?.subscribers)} · ${count(signals?.phones)}`,
+      note: t('control.signals.audienceNote', { n: count(signals?.duplicatesRemoved) }),
+    },
+    {
+      id: 'offline',
+      value: `${count(signals?.offlineShare)} %`,
+      note: t('control.signals.offlineNote', { share: count(settings.networkTriggerShare) }),
+    },
+    {
+      id: 'network',
+      value: count(signals?.asraPointsSold),
+      note: t('control.signals.networkNote', {
+        required: signals?.asraPointsRequired != null ? count(signals.asraPointsRequired) : requiredPoints != null ? count(requiredPoints) : toFill,
+        share: count(settings.networkMinShare),
+        floor: count(settings.networkFloor),
+      }),
+    },
+    { id: 'concentration', value: `${count(signals?.concentrationShare)} %` },
+    { id: 'peaks', value: count(signals?.suddenPeaks) },
+    { id: 'selfPurchases', value: count(signals?.selfPurchases) },
+    { id: 'removed', value: count(signals?.removedSales) },
   ];
 
-  const controlLevel: AwardLevel = selected?.level ?? 'gold';
+  const committee: CommitteeMemberVote[] = selected?.committee?.length
+    ? selected.committee
+    : [
+        { memberName: t('control.member', { n: 1 }), vote: 'pending' },
+        { memberName: t('control.member', { n: 2 }), vote: 'pending' },
+        { memberName: t('control.diasporaMember'), vote: 'pending' },
+      ];
+
+  const setNumeric = (key: NumericSetting, value: string) =>
+    setSettings((p) => ({ ...p, [key]: toNumber(value) }));
+
+  const numericField = ([key, label]: [NumericSetting, string]) => (
+    <label key={key} className="flex flex-col gap-1.5 text-[13px] text-[#C4C4C4]">
+      {t(`thresholds.${label}`)}
+      <input
+        inputMode="numeric"
+        value={settings[key] ?? ''}
+        disabled={settings.published}
+        onChange={(e) => setNumeric(key, e.target.value)}
+        className={cn(inputClass, 'disabled:opacity-60')}
+      />
+    </label>
+  );
+
+  const fundCards: [string, number | null | undefined][] = [
+    ['revenue', fund?.revenue],
+    ['fund', fund?.fund],
+    ['reserve', fund?.reserve],
+    ['available', fund?.available],
+    ['paid', fund?.paid],
+    ['deferred', fund?.deferred],
+  ];
+
+  const benefits: [string, string][] = [
+    ['clip', t('fund.toPrice')],
+    ['radios', t('fund.toConfirm')],
+    ['documentary', t('fund.toPrice')],
+    ['trophy', t('fund.sponsorToConfirm')],
+  ];
 
   return (
     <PageShell>
@@ -213,9 +330,10 @@ export default function Awards() {
                   <span className="flex-grow flex flex-col gap-0.5 min-w-0">
                     <b className="text-sm text-white truncate">{c.songTitle} · {t(`levels.${c.level}`)}</b>
                     <span className="text-xs text-[#C4C4C4]">
-                      {t('control.eligibleOn', { artist: c.artistName, date: formatDate(c.eligibleAt) ?? DASH })}
+                      {t('control.reachedOn', { artist: c.artistName, date: formatDate(c.thresholdReachedAt) ?? DASH })}
                     </span>
                   </span>
+                  <span className="text-xs font-bold text-[#F0995A] tabular-nums">{daysLabel(c.verificationEndsAt)}</span>
                 </button>
               ))
             ) : (
@@ -227,63 +345,66 @@ export default function Awards() {
 
           <Card label={t('control.checkLabel')} className="flex-[2_1_520px] min-w-0 p-5 flex flex-col gap-3.5">
             <span className={cn('text-xs tracking-[0.18em]', LEVEL_COLOR[controlLevel])}>
-              {t('control.checkEyebrow', { level: t(`levels.${controlLevel}`).toUpperCase() })}
+              {t('control.checkEyebrow', {
+                level: t(`levels.${controlLevel}`).toUpperCase(),
+                days: daysLabel(selected?.verificationEndsAt),
+              })}
             </span>
             <h2 className="m-0 text-[22px] font-bold text-white">
               {selected ? `${selected.songTitle} · ${selected.artistName}` : t('control.nothingSelected')}
             </h2>
             <div className="grid gap-2.5 grid-cols-[repeat(auto-fit,minmax(180px,1fr))]">
               {signalCards.map((card) => (
-                <div key={card.id} className="p-3 rounded-2xl bg-white/[0.04] flex flex-col gap-1">
-                  <span className="text-xs text-[#C4C4C4]">{t(`control.signals.${card.id}`)}</span>
-                  <b className="text-xl text-white tabular-nums">{card.value}</b>
-                  <span className="text-xs text-[#C4C4C4]">{card.note ?? t(`control.signals.${card.id}Note`)}</span>
-                </div>
+                <Metric
+                  key={card.id}
+                  label={t(`control.signals.${card.id}`)}
+                  value={card.value}
+                  note={card.note ?? t(`control.signals.${card.id}Note`)}
+                />
               ))}
             </div>
+            <div className="flex flex-col gap-2">
+              <span className="text-[13px] text-[#C4C4C4]">{t('control.committeeTitle')}</span>
+              <div className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(150px,1fr))]">
+                {committee.map((member) => (
+                  <div key={member.memberName} className="px-3 py-2.5 rounded-[14px] bg-white/[0.04] flex flex-col gap-0.5">
+                    <b className="text-[13px] text-white">{member.memberName}</b>
+                    <span className="text-xs text-[#C4C4C4]">{t(`control.votes.${member.vote}`)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
             <div className="flex flex-wrap gap-2">
-              <PillButton className="px-5" disabled={!selected || submitting} onClick={() => decide('certify')}>
-                {t('control.certify')}
+              <PillButton className="px-5" disabled={!selected || submitting} onClick={() => decide('submit')}>
+                {t('control.submit')}
               </PillButton>
-              <PillButton variant="outline" disabled={!selected || submitting} onClick={() => decide('postpone')}>
-                {t('control.postpone')}
+              <PillButton variant="outline" disabled={!selected || submitting} onClick={() => decide('extend')}>
+                {t('control.extend')}
               </PillButton>
               <PillButton variant="outline" disabled={!selected || submitting} onClick={() => setRejectOpen(true)}>
                 {t('control.reject')}
               </PillButton>
             </div>
             <span className="text-xs text-[#C4C4C4]">{t('control.footnote')}</span>
+            <span className="text-xs text-[#C4C4C4]">{t('control.sanctions')}</span>
           </Card>
         </div>
       )}
 
       {active === 'seuils' && (
-        <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(min(380px,100%),1fr))]">
+        <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(min(360px,100%),1fr))]">
           <Card className="p-5 flex flex-col gap-3">
             <CardTitle>{t('thresholds.qualifiedTitle')}</CardTitle>
-            <label className="flex flex-col gap-1.5 text-[13px] text-[#C4C4C4]">
-              {t('thresholds.minSeconds')}
-              <input
-                inputMode="numeric"
-                value={settings.minSeconds ?? ''}
-                onChange={(e) => setSettings((p) => ({ ...p, minSeconds: toNumber(e.target.value) }))}
-                className={inputClass}
-              />
-            </label>
-            <label className="flex flex-col gap-1.5 text-[13px] text-[#C4C4C4]">
-              {t('thresholds.dailyCap')}
-              <input
-                inputMode="numeric"
-                value={settings.dailyCapPerAccount ?? ''}
-                onChange={(e) => setSettings((p) => ({ ...p, dailyCapPerAccount: toNumber(e.target.value) }))}
-                placeholder="[N]"
-                className={inputClass}
-              />
-            </label>
+            {QUALIFIED_FIELDS.map(numericField)}
+            <span className="text-xs text-[#C4C4C4]">{t('thresholds.qualifiedNote')}</span>
+          </Card>
+
+          <Card className="p-5 flex flex-col gap-3">
+            <CardTitle>{t('thresholds.networkTitle')}</CardTitle>
+            {NETWORK_FIELDS.map(numericField)}
             <span className="text-xs text-[#C4C4C4]">
-              {t('thresholds.observation', {
-                start: formatDate(settings.observationStart) ?? t('start'),
-                end: formatDate(settings.observationEnd) ?? t('end'),
+              {t('thresholds.activePoints', {
+                n: settings.activeAsraPoints != null ? count(settings.activeAsraPoints) : toFill,
               })}
             </span>
           </Card>
@@ -291,101 +412,110 @@ export default function Awards() {
           <Card className="p-5 flex flex-col gap-3">
             <CardTitle>{t('thresholds.publishedTitle')}</CardTitle>
             <div className="overflow-x-auto">
-              <div className="min-w-[380px] grid grid-cols-3 gap-x-3.5 gap-y-2.5 text-[13px] items-center">
+              <div className="min-w-[360px] grid grid-cols-4 gap-x-3.5 gap-y-2.5 text-[13px] items-center">
                 <span className="text-[#C4C4C4]">{t('thresholds.level')}</span>
-                <span className="text-[#C4C4C4]">{t('thresholds.title')}</span>
-                <span className="text-[#C4C4C4]">{t('thresholds.album')}</span>
+                <span className="text-[#C4C4C4]">{t('thresholds.firstPeriod')}</span>
+                <span className="text-[#C4C4C4]">{t('thresholds.secondPeriod')}</span>
+                <span className="text-[#C4C4C4]">{t('thresholds.prime')}</span>
                 {LEVELS.map((level) => (
                   <div key={level} className="contents">
                     <b className={LEVEL_COLOR[level]}>{t(`levels.${level}`)}</b>
-                    {level === 'silver' && !settings.published ? (
-                      <>
-                        <input
-                          inputMode="numeric"
-                          aria-label={t('thresholds.silverTitleLabel')}
-                          value={settings.silverThresholdTitle ?? ''}
-                          onChange={(e) => setSettings((p) => ({ ...p, silverThresholdTitle: toNumber(e.target.value) }))}
-                          placeholder={toFix}
-                          className={cn(inputClass, 'h-[38px]')}
-                        />
-                        <input
-                          inputMode="numeric"
-                          aria-label={t('thresholds.silverAlbumLabel')}
-                          value={settings.silverThresholdAlbum ?? ''}
-                          onChange={(e) => setSettings((p) => ({ ...p, silverThresholdAlbum: toNumber(e.target.value) }))}
-                          placeholder={toFix}
-                          className={cn(inputClass, 'h-[38px]')}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <span className="text-[#E0E0E0]">{thresholdCell(level, settings.silverThresholdTitle)}</span>
-                        <span className="text-[#E0E0E0]">{thresholdCell(level, settings.silverThresholdAlbum)}</span>
-                      </>
-                    )}
+                    <span className="text-[#E0E0E0] tabular-nums">{count(settings.thresholds[level]?.firstPeriod)}</span>
+                    <span className="text-[#E0E0E0] tabular-nums">{count(settings.thresholds[level]?.secondPeriod)}</span>
+                    <span className="text-[#E0E0E0] tabular-nums">{count(settings.primes[level])}</span>
                   </div>
                 ))}
               </div>
             </div>
+            <span className="text-xs text-[#C4C4C4]">{t('thresholds.tableNote')}</span>
             <div className="px-3 py-2.5 rounded-[14px] bg-[rgba(255,0,0,0.1)] border border-[rgba(255,0,0,0.35)] text-[13px] text-[#E0E0E0]">
               {t('thresholds.commitment')}
             </div>
-            <PillButton
-              className="self-start h-[42px]"
-              disabled={submitting || settings.published || settings.silverThresholdTitle === null}
-              onClick={() => runAction(() => awardsService.publishThresholds(settings), t('thresholds.publishedToast'))}
-            >
-              {settings.published ? t('thresholds.alreadyPublished') : t('thresholds.publish')}
-            </PillButton>
+            <div className="flex flex-wrap gap-2">
+              <PillButton
+                className="h-[42px]"
+                disabled={submitting || settings.published}
+                onClick={() => runAction(() => awardsService.publishThresholds(settings), t('thresholds.publishedToast'))}
+              >
+                {settings.published ? t('thresholds.alreadyPublished') : t('thresholds.publish')}
+              </PillButton>
+              <PillButton
+                variant="outline"
+                className="h-[42px]"
+                disabled={submitting || settings.published}
+                onClick={() => runAction(() => awardsService.saveSettings(settings), t('thresholds.savedToast'))}
+              >
+                {t('thresholds.save')}
+              </PillButton>
+            </div>
           </Card>
         </div>
       )}
 
-      {active === 'ceremonie' && (
+      {active === 'fonds' && (
         <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(min(380px,100%),1fr))]">
-          <Card className="p-5 flex flex-col gap-2.5">
-            <div className="flex justify-between items-baseline">
-              <CardTitle>{t('ceremony.prizesTitle')}</CardTitle>
+          <Card className="p-5 flex flex-col gap-3">
+            <div className="flex justify-between items-baseline gap-3 flex-wrap">
+              <CardTitle>{t('fund.title')}</CardTitle>
               <span className="text-xs text-[#C4C4C4]">
-                {t('ceremony.computedAt', { date: formatDate(ceremony?.computedAt) ?? DASH })}
+                {t('fund.period', {
+                  start: formatDate(fund?.periodStart) ?? t('start'),
+                  end: formatDate(fund?.periodEnd) ?? t('end'),
+                })}
               </span>
             </div>
-            {PRIZES.map((prize) => (
-              <div key={prize} className="flex items-center gap-3 py-[9px] border-b border-white/[0.07]">
-                <span className="flex-grow text-sm text-white">{t(`ceremony.prizes.${prize}`)}</span>
-                <span className="text-[13px] text-[#C4C4C4]">
-                  {t('ceremony.leader', { name: ceremony?.leaders[prize] || DASH })}
-                </span>
-              </div>
-            ))}
-            <span className="text-xs text-[#C4C4C4]">{t('ceremony.confidential')}</span>
+            <div className="grid gap-2.5 grid-cols-[repeat(auto-fit,minmax(150px,1fr))]">
+              {fundCards.map(([id, value]) => (
+                <Metric key={id} label={t(`fund.${id}`)} value={fcfa(value)} note={t(`fund.${id}Note`)} />
+              ))}
+            </div>
+            <div className="px-3 py-2.5 rounded-[14px] bg-[rgba(255,0,0,0.1)] border border-[rgba(255,0,0,0.35)] text-[13px] text-[#E0E0E0]">
+              {t('fund.rule')}
+            </div>
+          </Card>
+
+          <Card className="p-5 flex flex-col gap-2.5">
+            <CardTitle>{t('fund.payoutsTitle')}</CardTitle>
+            {fund && fund.payouts.length > 0 ? (
+              fund.payouts.map((p) => (
+                <div key={p._id} className="flex items-center gap-3 py-[9px] border-b border-white/[0.07]">
+                  <Disc level={p.level} size={28} />
+                  <span className="flex-grow flex flex-col gap-0.5 min-w-0">
+                    <span className="text-sm text-white truncate">{p.songTitle} · {t(`levels.${p.level}`)}</span>
+                    <span className="text-xs text-[#C4C4C4]">
+                      {t('fund.validatedOn', { artist: p.artistName, date: formatDate(p.validatedAt) ?? DASH })}
+                    </span>
+                  </span>
+                  <span className="flex flex-col items-end gap-1">
+                    <b className="text-[13px] text-white tabular-nums">{fcfa(p.amount)}</b>
+                    <StatusBadge tone={PAYOUT_TONE[p.status]}>{t(`fund.status.${p.status}`)}</StatusBadge>
+                  </span>
+                </div>
+              ))
+            ) : (
+              <span className="text-sm text-[#C4C4C4]">{fund ? t('fund.noPayouts') : t('notConnected')}</span>
+            )}
+            <span className="text-xs text-[#C4C4C4]">{t('fund.payoutsNote')}</span>
           </Card>
 
           <section className="p-5 rounded-3xl border border-[rgba(255,0,0,0.4)] flex flex-col gap-3 bg-[linear-gradient(140deg,rgba(204,0,0,0.25)_0%,rgba(28,24,23,0.95)_60%)]">
-            <CardTitle>{t('ceremony.organisationTitle')}</CardTitle>
+            <CardTitle>{t('fund.benefitsTitle')}</CardTitle>
             <div className="flex flex-col gap-2 text-sm text-[#E0E0E0]">
-              <span>
-                {t('ceremony.dateVenue', {
-                  date: formatDate(ceremony?.date) ?? toFix,
-                  venue: ceremony?.venue || t('ceremony.defaultVenue'),
-                })}
-              </span>
-              <span>
-                {t('ceremony.reference', {
-                  start: formatDate(ceremony?.referenceStart) ?? t('start'),
-                  end: formatDate(ceremony?.referenceEnd) ?? t('end'),
-                })}
-              </span>
-              <span>{t('ceremony.jury', { prizes: ceremony?.juryPrizes || t('toDefine') })}</span>
-              <span>{t('ceremony.guarantors')}</span>
+              {benefits.map(([id, status]) => (
+                <div key={id} className="flex justify-between gap-3">
+                  <span>{t(`fund.benefits.${id}`)}</span>
+                  <span className="text-[#C4C4C4] text-right">{status}</span>
+                </div>
+              ))}
+              <div className="flex justify-between gap-3">
+                <span>{t('fund.committee')}</span>
+                <span className="text-[#C4C4C4] text-right">
+                  {fund?.committee?.length
+                    ? fund.committee.map((m) => (m.diaspora ? `${m.name} (${t('fund.diaspora')})` : m.name)).join(', ')
+                    : t('fund.toAppoint')}
+                </span>
+              </div>
             </div>
-            <PillButton
-              className="self-start h-[42px]"
-              disabled={submitting}
-              onClick={() => runAction(() => awardsService.preparePlaques(), t('ceremony.plaquesToast'))}
-            >
-              {t('ceremony.preparePlaques')}
-            </PillButton>
           </section>
         </div>
       )}
