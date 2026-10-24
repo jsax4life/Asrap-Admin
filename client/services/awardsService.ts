@@ -1,20 +1,32 @@
 import { API_ENDPOINTS } from '@/constants';
 import { load, send } from './communityService';
 
-// AsraPa Awards (certifications Argent, Or, Platine, Diamant and the yearly ceremony).
+// AsraPa Awards (distinctions Argent, Or, Platine, Diamant — règlement v1.1).
 // None of these admin routes exist on the server yet: a 404 means "not connected".
 
 export type AwardLevel = 'silver' | 'gold' | 'platinum' | 'diamond';
-export type AwardDecision = 'certify' | 'postpone' | 'reject';
+export type AwardDecision = 'submit' | 'extend' | 'reject';
+export type CommitteeVote = 'pending' | 'approve' | 'reject';
+export type PayoutStatus = 'to_pay' | 'paid' | 'deferred';
 
 export interface AwardSignals {
-  qualifiedStreams: number | null;
+  qualifiedListeners: number | null;
+  subscribers: number | null;
+  phones: number | null;
+  duplicatesRemoved: number | null;
   threshold: number | null;
-  topAccountsShare: number | null;
-  recentAccountsShare: number | null;
-  loopListeners: number | null;
-  citiesCount: number | null;
-  discardedStreams: number | null;
+  offlineShare: number | null;
+  asraPointsSold: number | null;
+  asraPointsRequired: number | null;
+  concentrationShare: number | null;
+  suddenPeaks: number | null;
+  selfPurchases: number | null;
+  removedSales: number | null;
+}
+
+export interface CommitteeMemberVote {
+  memberName: string;
+  vote: CommitteeVote;
 }
 
 export interface EligibleCertification {
@@ -22,31 +34,57 @@ export interface EligibleCertification {
   level: AwardLevel;
   songTitle: string;
   artistName: string;
-  eligibleAt: string;
+  thresholdReachedAt: string;
+  verificationEndsAt: string | null;
   signals: AwardSignals;
+  committee?: CommitteeMemberVote[];
+}
+
+export interface LevelThreshold {
+  firstPeriod: number;
+  secondPeriod: number;
 }
 
 export interface AwardsSettings {
-  minSeconds: number | null;
-  dailyCapPerAccount: number | null;
-  observationStart: string | null;
-  observationEnd: string | null;
-  silverThresholdTitle: number | null;
-  silverThresholdAlbum: number | null;
+  minPlaysPerSubscriber: number | null;
+  minArtistsPerPack: number | null;
+  streamsPerSale: number | null;
+  networkTriggerShare: number | null;
+  networkMinShare: number | null;
+  networkFloor: number | null;
+  activeDays: number | null;
+  activeAsraPoints: number | null;
+  thresholds: Record<AwardLevel, LevelThreshold>;
+  primes: Record<AwardLevel, number>;
   published: boolean;
 }
 
-export type CeremonyPrize =
-  | 'title' | 'artist' | 'revelation' | 'challenge' | 'short' | 'diaspora' | 'maquis';
+export interface AwardPayout {
+  _id: string;
+  level: AwardLevel;
+  songTitle: string;
+  artistName: string;
+  validatedAt: string;
+  amount: number;
+  status: PayoutStatus;
+}
 
-export interface CeremonyData {
-  computedAt: string | null;
-  leaders: Partial<Record<CeremonyPrize, string | null>>;
-  date: string | null;
-  venue: string | null;
-  referenceStart: string | null;
-  referenceEnd: string | null;
-  juryPrizes: string | null;
+export interface CommitteeMember {
+  name: string;
+  diaspora: boolean;
+}
+
+export interface FundData {
+  periodStart: string | null;
+  periodEnd: string | null;
+  revenue: number | null;
+  fund: number | null;
+  reserve: number | null;
+  available: number | null;
+  paid: number | null;
+  deferred: number | null;
+  payouts: AwardPayout[];
+  committee: CommitteeMember[];
 }
 
 class AwardsService {
@@ -73,12 +111,8 @@ class AwardsService {
     return send('post', API_ENDPOINTS.AWARDS.PUBLISH_THRESHOLDS, settings);
   }
 
-  getCeremony() {
-    return load<CeremonyData>(API_ENDPOINTS.AWARDS.CEREMONY, 'ceremony');
-  }
-
-  preparePlaques() {
-    return send('post', API_ENDPOINTS.AWARDS.PREPARE_PLAQUES, {});
+  getFund() {
+    return load<FundData>(API_ENDPOINTS.AWARDS.FUND, 'fund');
   }
 }
 

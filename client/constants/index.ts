@@ -410,8 +410,7 @@ export const API_ENDPOINTS = {
     DECIDE: "/admin/awards/eligible/:certificationId/decision",
     SETTINGS: "/admin/awards/settings",
     PUBLISH_THRESHOLDS: "/admin/awards/settings/publish",
-    CEREMONY: "/admin/awards/ceremony",
-    PREPARE_PLAQUES: "/admin/awards/ceremony/plaques",
+    FUND: "/admin/awards/fund",
   },
   STUDIO_IA: {
     STATS: "/admin/studio-ia/stats",
