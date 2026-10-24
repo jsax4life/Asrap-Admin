@@ -4,7 +4,8 @@ import { cn } from '@/lib/utils';
 interface AnalyticsMetricCardProps {
   label: string;
   value: string;
-  trend: 'up' | 'down';
+  /** Omit when no real trend is known: the decorative chart and arrow are then hidden. */
+  trend?: 'up' | 'down';
   className?: string;
 }
 
@@ -31,7 +32,7 @@ export const AnalyticsMetricCard = ({
         </div>
         
         {/* Mini Chart */}
-        <div className="flex items-end justify-between h-8">
+        {trend && <div className="flex items-end justify-between h-8">
           <div className="flex items-end gap-1">
             {[
               'h-2', 'h-3', 'h-4', 'h-2', 'h-5', 'h-3', 'h-4'
@@ -57,7 +58,7 @@ export const AnalyticsMetricCard = ({
               <TrendingDown className="w-4 h-4" />
             )}
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );

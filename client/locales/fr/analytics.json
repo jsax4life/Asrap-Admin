@@ -2,7 +2,9 @@
   "sections": {
     "statsOverview": "Toutes vos statistiques en un coup d'œil",
     "reportsOverview": "Tous vos rapports en un coup d'œil",
-    "subscriptionStats": "Statistiques d'abonnement"
+    "subscriptionStats": "Statistiques d'abonnement",
+    "rankings": "Classements",
+    "catalogue": "Catalogue"
   },
   "metrics": {
     "plays": "Écoutes",
@@ -59,5 +61,20 @@
     "byTitle": "Par titres",
     "byArtist": "Par artistes",
     "byAlbum": "Par albums"
+  },
+  "live": {
+    "plays30d": "Écoutes (30 jours)",
+    "activeUsers30d": "Auditeurs actifs (30 jours)",
+    "newSignups30d": "Nouveaux inscrits (30 jours)",
+    "revenue": "Revenus générés",
+    "artists": "Artistes",
+    "albums": "Albums",
+    "songs": "Titres",
+    "topSongs": "Titres les plus écoutés",
+    "topArtists": "Artistes les plus écoutés",
+    "playsUnit": "écoutes",
+    "listenersUnit": "auditeurs",
+    "emptyRanking": "Aucune écoute sur cette période.",
+    "notAvailable": "Pas encore fournis par le serveur : la courbe jour par jour, les abonnements (commencés, terminés, échoués), les auditeurs fidèles et les mentions J'aime. Ils s'afficheront ici quand l'API les proposera."
   }
 }
