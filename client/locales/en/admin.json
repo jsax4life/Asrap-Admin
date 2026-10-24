@@ -22,7 +22,9 @@
       "statusInactive": "Inactive",
       "passwordToChange": "To change",
       "passwordSet": "Set",
-      "never": "Never"
+      "never": "Never",
+      "edit": "Edit",
+      "delete": "Delete"
     },
     "emptyUsers": "No admin users yet.",
     "emptyPaymentAgentsBefore": "No payment agents yet. Click",
@@ -31,7 +33,10 @@
       "previous": "Previous",
       "next": "Next",
       "pageOf": "Page {{current}} of {{total}}"
-    }
+    },
+    "confirmDelete": "Deactivate {{name}}'s admin account? They will no longer be able to sign in. You can reactivate it from their profile.",
+    "deleted": "Admin account deactivated",
+    "deleteFailed": "Could not delete the admin account"
   },
   "createUser": {
     "defaultUserName": "System administrator",
@@ -122,7 +127,11 @@
       "namePlaceholder": "Enter the name",
       "phoneNumber": "Phone number",
       "phoneNumberPlaceholder": "+234",
-      "accessLevel": "Access level"
+      "accessLevel": "Access level",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "department": "Department",
+      "bio": "Bio"
     },
     "credentials": {
       "title": "Account credentials",
@@ -138,8 +147,17 @@
       "roleRequired": "Role is required",
       "accessLevelRequired": "Access level is required",
       "passwordRequired": "Password is required",
-      "emailInvalid": "Please enter a valid email address"
-    }
+      "emailInvalid": "Please enter a valid email address",
+      "firstNameRequired": "First name must be at least 2 characters",
+      "lastNameRequired": "Last name must be at least 2 characters",
+      "lettersOnly": "Only unaccented letters and spaces (server rule)."
+    },
+    "backToProfile": "Back to profile",
+    "readOnlyHint": "The email cannot be changed here.",
+    "roleHint": "Changing the role is reserved for the super admin and is not available here yet.",
+    "noChanges": "No changes to save",
+    "saved": "Changes saved",
+    "saveFailed": "Could not save the changes"
   },
   "viewUser": {
     "defaultUserName": "System administrator",
@@ -153,7 +171,13 @@
       "email": "Email",
       "phoneNumber": "Phone number",
       "role": "Role",
-      "accessLevel": "Access level"
+      "accessLevel": "Access level",
+      "department": "Department",
+      "lastLogin": "Last sign-in",
+      "createdAt": "Created on",
+      "createdBy": "Created by",
+      "password": "Password",
+      "bio": "Bio"
     },
     "credentials": {
       "title": "Account credentials",
@@ -161,6 +185,21 @@
     },
     "editButton": "Edit details",
     "deleteButton": "Delete account",
-    "passwordCopiedLog": "Password copied to clipboard"
+    "passwordCopiedLog": "Password copied to clipboard",
+    "notFound": "This admin account could not be found.",
+    "fullAccess": "Full access (super admin)",
+    "activateButton": "Reactivate account",
+    "deactivateButton": "Deactivate account",
+    "activated": "Account reactivated",
+    "deactivated": "Account deactivated",
+    "statusFailed": "Could not change the account status",
+    "selfNote": "You cannot deactivate or delete your own account."
+  },
+  "departments": {
+    "technical": "Technical",
+    "content": "Content",
+    "support": "Support",
+    "management": "Management",
+    "field_agents": "Field agents"
   }
 }

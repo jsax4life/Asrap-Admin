@@ -12,7 +12,7 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
   const location = useLocation();
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
 
   const pageTitle = t(`pageTitles.${location.pathname}`, t('pageTitles./dashboard'));
   return (
@@ -26,7 +26,9 @@ export function DashboardHeader({ onMenuClick, user }: DashboardHeaderProps) {
             <Menu className="w-6 h-6" />
           </button>
           <span className="text-asra-gray-7 text-sm lg:text-base font-bold tracking-[0.13px]">{t('header.date')}</span>
-          <span className="text-asra-gray-7 text-sm lg:text-base font-bold tracking-[0.13px]">03/02/2023</span>
+          <span className="text-asra-gray-7 text-sm lg:text-base font-bold tracking-[0.13px]">
+            {new Date().toLocaleDateString(i18n.language === 'en' ? 'en-GB' : 'fr-FR')}
+          </span>
         </div>
         
         <div className="flex items-center gap-2 lg:gap-3">

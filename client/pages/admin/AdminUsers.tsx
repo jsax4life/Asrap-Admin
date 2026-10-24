@@ -4,24 +4,13 @@ import { Search, Calendar, User, Plus, Edit, Trash2, Eye, Loader2 } from 'lucide
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { adminAgentService, PaymentAgentListItem } from '@/services/adminAgentService';
+import { adminManagementService, AdminMember } from '@/services/adminManagementService';
 
 import { useAuth } from '@/hooks/useAuth';
 import { LanguageToggle } from '@/components/common/LanguageToggle';
-// Utilisateurs admin non-agents (API à connecter)
-const mockAdminUsers: {
-  id: number;
-  name: string;
-  role: string;
-  lastLogin: string;
-  email: string;
-  avatar: string;
-  status: string;
-  createdAt: string;
-}[] = [];
-
-function formatLastLogin(date: string | null | undefined, neverLabel: string) {
+function formatLastLogin(date: string | null | undefined, neverLabel: string, locale: string) {
   if (!date) return neverLabel;
-  return new Date(date).toLocaleString('en-GB', {
+  return new Date(date).toLocaleString(locale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
@@ -45,7 +34,8 @@ function AgentAvatar({ name }: { name: string }) {
 }
 
 const AdminUsers = () => {
-  const { t } = useTranslation('admin');
+  const { t, i18n } = useTranslation('admin');
+  const locale = i18n.language === 'en' ? 'en-GB' : 'fr-FR';
   const { user } = useAuth();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,6 +49,24 @@ const AdminUsers = () => {
   const [paymentAgents, setPaymentAgents] = useState<PaymentAgentListItem[]>([]);
   const [agentsLoading, setAgentsLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
+
+  const [adminUsers, setAdminUsers] = useState<AdminMember[]>([]);
+  const [usersLoading, setUsersLoading] = useState(false);
+
+  const loadAdminUsers = () => {
+    setUsersLoading(true);
+    adminManagementService
+      .listTeam(searchQuery || undefined)
+      .then(setAdminUsers)
+      .catch((err: Error) => toast.error(err.message))
+      .finally(() => setUsersLoading(false));
+  };
+
+  useEffect(() => {
+    if (activeTab !== 'users') return;
+    const timer = setTimeout(loadAdminUsers, 300);
+    return () => clearTimeout(timer);
+  }, [activeTab, searchQuery]);
 
   useEffect(() => {
     if (activeTab !== 'payment-agents') return;
@@ -85,12 +93,19 @@ const AdminUsers = () => {
     }
   };
 
-  const handleEditUser = (userId: string | number) => {
-    console.log('Edit user:', userId);
+  const handleEditUser = (userId: string) => {
+    navigate(`/admin-users/edit/${userId}`);
   };
 
-  const handleDeleteUser = (userId: string | number) => {
-    console.log('Delete user:', userId);
+  const handleDeleteUser = async (member: AdminMember) => {
+    if (!window.confirm(t('usersList.confirmDelete', { name: member.name }))) return;
+    try {
+      await adminManagementService.deleteAdmin(member.id);
+      toast.success(t('usersList.deleted'));
+      loadAdminUsers();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('usersList.deleteFailed'));
+    }
   };
 
   const handleViewUser = (userId: string | number) => {
@@ -101,18 +116,11 @@ const AdminUsers = () => {
     navigate('/admin-users/create');
   };
 
-  const filteredUsers = mockAdminUsers.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.role.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const currentUserItems = filteredUsers.slice(
+  const currentUserItems = adminUsers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  const userTotalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const userTotalPages = Math.ceil(adminUsers.length / itemsPerPage);
   const displayTotalPages = activeTab === 'users' ? userTotalPages : totalPages;
 
   return (
@@ -128,7 +136,7 @@ const AdminUsers = () => {
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">{new Date().toLocaleDateString('en-GB')}</span>
+              <span className="text-sm">{new Date().toLocaleDateString(locale)}</span>
             </div>
           </div>
 
@@ -197,7 +205,7 @@ const AdminUsers = () => {
         </div>
 
         <div className="bg-asra-gray-900 rounded-lg overflow-hidden">
-          {agentsLoading && activeTab === 'payment-agents' ? (
+          {(agentsLoading && activeTab === 'payment-agents') || (usersLoading && activeTab === 'users') ? (
             <div className="flex justify-center py-16">
               <Loader2 className="w-8 h-8 text-asra-red animate-spin" />
             </div>
@@ -211,9 +219,9 @@ const AdminUsers = () => {
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.role')}</th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.lastLogin')}</th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.email')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.status')}</th>
                     {activeTab === 'payment-agents' && (
                       <>
-                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.status')}</th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.password')}</th>
                       </>
                     )}
@@ -229,19 +237,41 @@ const AdminUsers = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center space-x-3">
-                            <img src={item.avatar} alt={item.name} className="w-8 h-8 rounded-full object-cover" />
+                            {item.profilePicture ? (
+                              <img src={item.profilePicture} alt={item.name} className="w-8 h-8 rounded-full object-cover" />
+                            ) : (
+                              <AgentAvatar name={item.name} />
+                            )}
                             <span className="text-sm font-medium text-white">{item.name}</span>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">{item.role}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">{item.lastLogin}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
+                          {t(`roles.${item.role}`, { ns: 'common', defaultValue: item.role })}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
+                          {formatLastLogin(item.lastLoginAt, t('usersList.table.never'), locale)}
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">{item.email}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`text-xs px-2 py-1 rounded-full ${
+                              item.isActive ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+                            }`}
+                          >
+                            {item.isActive ? t('usersList.table.statusActive') : t('usersList.table.statusInactive')}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center space-x-2">
-                            <button onClick={() => handleEditUser(item.id)} className="text-asra-gray-400 hover:text-white">
+                            <button onClick={() => handleEditUser(item.id)} aria-label={t('usersList.table.edit')} className="text-asra-gray-400 hover:text-white">
                               <Edit className="w-4 h-4" />
                             </button>
-                            <button onClick={() => handleDeleteUser(item.id)} className="text-asra-gray-400 hover:text-red-400">
+                            <button
+                              onClick={() => handleDeleteUser(item)}
+                              disabled={item.id === user?.id || !item.isActive}
+                              aria-label={t('usersList.table.delete')}
+                              className="text-asra-gray-400 hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed"
+                            >
                               <Trash2 className="w-4 h-4" />
                             </button>
                             <button
@@ -269,7 +299,7 @@ const AdminUsers = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">{agent.role}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">
-                          {formatLastLogin(agent.lastLoginAt, t('usersList.table.never'))}
+                          {formatLastLogin(agent.lastLoginAt, t('usersList.table.never'), locale)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">{agent.email}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -305,9 +335,9 @@ const AdminUsers = () => {
                       </tr>
                     ))}
 
-                  {activeTab === 'users' && currentUserItems.length === 0 && (
+                  {activeTab === 'users' && !usersLoading && currentUserItems.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="px-6 py-12 text-center text-asra-gray-400">
+                      <td colSpan={7} className="px-6 py-12 text-center text-asra-gray-400">
                         {t('usersList.emptyUsers')}
                       </td>
                     </tr>

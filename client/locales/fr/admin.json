@@ -22,7 +22,9 @@
       "statusInactive": "Inactif",
       "passwordToChange": "À changer",
       "passwordSet": "Défini",
-      "never": "Jamais"
+      "never": "Jamais",
+      "edit": "Modifier",
+      "delete": "Supprimer"
     },
     "emptyUsers": "Aucun utilisateur admin pour le moment.",
     "emptyPaymentAgentsBefore": "Aucun agent de paiement pour le moment. Cliquez sur",
@@ -31,7 +33,10 @@
       "previous": "Précédent",
       "next": "Suivant",
       "pageOf": "Page {{current}} sur {{total}}"
-    }
+    },
+    "confirmDelete": "Désactiver le compte admin de {{name}} ? Il ne pourra plus se connecter. Vous pourrez le réactiver depuis sa fiche.",
+    "deleted": "Compte admin désactivé",
+    "deleteFailed": "Impossible de supprimer le compte admin"
   },
   "createUser": {
     "defaultUserName": "Administrateur système",
@@ -122,7 +127,11 @@
       "namePlaceholder": "Entrez le nom",
       "phoneNumber": "Numéro de téléphone",
       "phoneNumberPlaceholder": "+234",
-      "accessLevel": "Niveau d'accès"
+      "accessLevel": "Niveau d'accès",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "department": "Service",
+      "bio": "Présentation"
     },
     "credentials": {
       "title": "Identifiants du compte",
@@ -138,8 +147,17 @@
       "roleRequired": "Le rôle est requis",
       "accessLevelRequired": "Le niveau d'accès est requis",
       "passwordRequired": "Le mot de passe est requis",
-      "emailInvalid": "Veuillez saisir une adresse e-mail valide"
-    }
+      "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+      "firstNameRequired": "Le prénom doit faire au moins 2 caractères",
+      "lastNameRequired": "Le nom doit faire au moins 2 caractères",
+      "lettersOnly": "Seulement des lettres sans accent et des espaces (règle du serveur)."
+    },
+    "backToProfile": "Retour à la fiche",
+    "readOnlyHint": "L'e-mail ne peut pas être modifié ici.",
+    "roleHint": "Le changement de rôle est réservé au super administrateur et n'est pas encore disponible ici.",
+    "noChanges": "Aucune modification à enregistrer",
+    "saved": "Modifications enregistrées",
+    "saveFailed": "Impossible d'enregistrer les modifications"
   },
   "viewUser": {
     "defaultUserName": "Administrateur système",
@@ -153,7 +171,13 @@
       "email": "E-mail",
       "phoneNumber": "Numéro de téléphone",
       "role": "Rôle",
-      "accessLevel": "Niveau d'accès"
+      "accessLevel": "Niveau d'accès",
+      "department": "Service",
+      "lastLogin": "Dernière connexion",
+      "createdAt": "Créé le",
+      "createdBy": "Créé par",
+      "password": "Mot de passe",
+      "bio": "Présentation"
     },
     "credentials": {
       "title": "Identifiants du compte",
@@ -161,6 +185,21 @@
     },
     "editButton": "Modifier les détails",
     "deleteButton": "Supprimer le compte",
-    "passwordCopiedLog": "Mot de passe copié dans le presse-papiers"
+    "passwordCopiedLog": "Mot de passe copié dans le presse-papiers",
+    "notFound": "Ce compte admin est introuvable.",
+    "fullAccess": "Accès complet (super administrateur)",
+    "activateButton": "Réactiver le compte",
+    "deactivateButton": "Désactiver le compte",
+    "activated": "Compte réactivé",
+    "deactivated": "Compte désactivé",
+    "statusFailed": "Impossible de changer le statut du compte",
+    "selfNote": "Vous ne pouvez pas désactiver ni supprimer votre propre compte."
+  },
+  "departments": {
+    "technical": "Technique",
+    "content": "Contenu",
+    "support": "Support",
+    "management": "Direction",
+    "field_agents": "Agents de terrain"
   }
 }
