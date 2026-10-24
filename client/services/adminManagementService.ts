@@ -17,6 +17,8 @@ export interface AdminMember {
   bio?: string;
   profilePicture?: string | null;
   isActive: boolean;
+  mustChangePassword: boolean;
+  permissions: string[];
   lastLoginAt?: string | null;
   createdAt?: string;
   createdBy?: string | null;
@@ -43,6 +45,8 @@ interface AdminRecord {
   bio?: string;
   profilePicture?: string | null;
   isActive?: boolean;
+  mustChangePassword?: boolean;
+  permissions?: string[];
   lastLoginAt?: string | null;
   createdAt?: string;
   createdBy?: { firstName?: string; lastName?: string; email?: string } | null;
@@ -72,6 +76,8 @@ function toMember(admin: AdminRecord): AdminMember {
     bio: admin.bio,
     profilePicture: /^https?:\/\//.test(admin.profilePicture || '') ? admin.profilePicture! : null,
     isActive: admin.isActive !== false,
+    mustChangePassword: Boolean(admin.mustChangePassword),
+    permissions: Array.isArray(admin.permissions) ? admin.permissions : [],
     lastLoginAt: admin.lastLoginAt ?? null,
     createdAt: admin.createdAt,
     createdBy: creator,

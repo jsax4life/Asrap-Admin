@@ -1,116 +1,119 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, User, Save, UserCheck, Mail, Phone, Shield } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Save, Mail, Phone, Shield, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-hot-toast';
 
 import { useAuth } from '@/hooks/useAuth';
 import { LanguageToggle } from '@/components/common/LanguageToggle';
-// Mock data for user detail
-const mockUserDetail = {
-  id: 1,
-  name: 'Bashir Muhammad',
-  userType: 'Utilisateur administrateur',
-  email: 'hasmad6806@gmail.com',
-  phoneNumber: '+234 7068061724',
-  role: 'Administrateur du support',
-  accessLevel: 'Tableau de bord, Analytique, Aide et assistance',
-  password: 'david@124)(',
-  avatar: 'https://api.builder.io/api/v1/image/assets/TEMP/77784d2e1616758f6b0d5b70a64186f75a3b7ce5?width=200',
-  status: 'Actif',
-  lastLogin: '10/02/2023 9.00AM',
-  createdAt: '2023-01-15',
+import { adminManagementService, AdminMember, AdminUpdatePayload } from '@/services/adminManagementService';
+
+// Departments accepted by PATCH /admin/management/admins/:adminId
+const DEPARTMENTS = ['technical', 'content', 'support', 'management'] as const;
+
+type FormState = {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  department: string;
+  bio: string;
 };
 
+const inputClass = (hasError: boolean) =>
+  `w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
+    hasError ? 'border-red-500' : 'border-asra-gray-700'
+  }`;
+
 const EditUser = () => {
-  const { t } = useTranslation('admin');
+  const { t, i18n } = useTranslation('admin');
   const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: mockUserDetail.name,
-    userType: mockUserDetail.userType,
-    email: mockUserDetail.email,
-    phoneNumber: mockUserDetail.phoneNumber,
-    role: mockUserDetail.role,
-    accessLevel: mockUserDetail.accessLevel,
-    password: mockUserDetail.password,
-    avatar: null as File | null,
-  });
+  const locale = i18n.language === 'en' ? 'en-GB' : 'fr-FR';
 
+  const [admin, setAdmin] = useState<AdminMember | null>(null);
+  const [formData, setFormData] = useState<FormState>({ firstName: '', lastName: '', phoneNumber: '', department: '', bio: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
-  const userTypeOptions = [
-    'Utilisateur administrateur',
-    'Agent de paiement',
-    'Personnel de support',
-    'Modérateur',
-    'Analyste',
-  ];
+  useEffect(() => {
+    if (!id) return;
+    adminManagementService
+      .getAdmin(id)
+      .then((data) => {
+        setAdmin(data);
+        setFormData({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          phoneNumber: data.phoneNumber || '',
+          department: data.department || '',
+          bio: data.bio || '',
+        });
+      })
+      .catch((err: Error) => toast.error(err.message))
+      .finally(() => setLoading(false));
+  }, [id]);
 
-  const accessLevelOptions = [
-    'Tableau de bord, Analytique, Aide et assistance',
-    'Tableau de bord, Analytique',
-    'Tableau de bord uniquement',
-    'Accès complet',
-    'Lecture seule',
-  ];
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
+  const handleInputChange = (field: keyof FormState, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
-    }
-  };
-
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setFormData(prev => ({ ...prev, avatar: file }));
+      setErrors((prev) => ({ ...prev, [field]: '' }));
     }
   };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-
-    if (!formData.name) newErrors.name = t('editUser.errors.nameRequired');
-    if (!formData.userType) newErrors.userType = t('editUser.errors.userTypeRequired');
-    if (!formData.email) newErrors.email = t('editUser.errors.emailRequired');
-    if (!formData.phoneNumber) newErrors.phoneNumber = t('editUser.errors.phoneNumberRequired');
-    if (!formData.role) newErrors.role = t('editUser.errors.roleRequired');
-    if (!formData.accessLevel) newErrors.accessLevel = t('editUser.errors.accessLevelRequired');
-    if (!formData.password) newErrors.password = t('editUser.errors.passwordRequired');
-
-    // Validation de l'e-mail
-    if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = t('editUser.errors.emailInvalid');
-    }
-
+    // Same rules as the API: 2 to 50 characters
+    if (formData.firstName.trim().length < 2) newErrors.firstName = t('editUser.errors.firstNameRequired');
+    if (formData.lastName.trim().length < 2) newErrors.lastName = t('editUser.errors.lastNameRequired');
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const buildPayload = (): AdminUpdatePayload => {
+    if (!admin) return {};
+    const payload: AdminUpdatePayload = {};
+    if (formData.firstName.trim() !== admin.firstName) payload.firstName = formData.firstName.trim();
+    if (formData.lastName.trim() !== admin.lastName) payload.lastName = formData.lastName.trim();
+    if (formData.phoneNumber.trim() !== (admin.phoneNumber || '')) payload.phoneNumber = formData.phoneNumber.trim();
+    if (formData.department !== (admin.department || '')) payload.department = formData.department;
+    if (formData.bio.trim() !== (admin.bio || '')) payload.bio = formData.bio.trim();
+    return payload;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (validateForm()) {
-      console.log('Updating user:', formData);
-      // TODO: Implement update user API call
-      // For now, just navigate back to view user
-      navigate(`/admin-users/view/${id}`);
+    if (!admin || !validateForm()) return;
+
+    const payload = buildPayload();
+    if (Object.keys(payload).length === 0) {
+      toast(t('editUser.noChanges'));
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await adminManagementService.updateAdmin(admin.id, payload);
+      toast.success(t('editUser.saved'));
+      navigate(`/admin-users/view/${admin.id}`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : t('editUser.saveFailed'));
+    } finally {
+      setSaving(false);
     }
   };
 
-  const handleGoBack = () => {
-    navigate(`/admin-users/view/${id}`);
-  };
+  const departmentOptions: string[] =
+    formData.department && !DEPARTMENTS.includes(formData.department as (typeof DEPARTMENTS)[number])
+      ? [formData.department, ...DEPARTMENTS]
+      : [...DEPARTMENTS];
 
   return (
     <div className="min-h-screen bg-asra-dark text-white">
       {/* Header */}
       <div className="bg-asra-dark border-b border-asra-gray-800 px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Left side - Logo and Date */}
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-asra-red rounded-lg flex items-center justify-center">
@@ -120,16 +123,14 @@ const EditUser = () => {
             </div>
             <div className="flex items-center space-x-2 text-asra-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">{t('editUser.dateLabel')}</span>
+              <span className="text-sm">{new Date().toLocaleDateString(locale)}</span>
             </div>
           </div>
 
-          {/* Center - Page Title */}
           <div className="flex-1 flex justify-center">
             <h1 className="text-2xl font-bold text-white">{t('editUser.pageTitle')}</h1>
           </div>
 
-          {/* Right side - Profile */}
           <LanguageToggle />
           <div
             onClick={() => navigate('/settings')}
@@ -145,235 +146,134 @@ const EditUser = () => {
 
       {/* Main Content */}
       <div className="p-6 max-w-4xl mx-auto">
-        {/* Back Link */}
         <button
-          onClick={handleGoBack}
+          onClick={() => navigate(`/admin-users/view/${id}`)}
           className="text-asra-red hover:text-red-400 text-sm font-medium mb-6 flex items-center space-x-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>{t('editUser.backLink')}</span>
+          <span>{t('editUser.backToProfile')}</span>
         </button>
 
-        {/* Form Title */}
         <h2 className="text-3xl font-bold text-white mb-8">{t('editUser.formTitle')}</h2>
 
-        {/* Avatar Section */}
-        <div className="mb-8">
-          <div className="flex items-center space-x-6">
-            <div className="relative">
-              <div className="w-24 h-24 bg-asra-gray-800 rounded-full flex items-center justify-center border-2 border-asra-gray-700">
-                {formData.avatar ? (
-                  <img
-                    src={URL.createObjectURL(formData.avatar)}
-                    alt={t('editUser.avatar.previewAlt')}
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                ) : (
-                  <img
-                    src={mockUserDetail.avatar}
-                    alt={mockUserDetail.name}
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                )}
-              </div>
-              <input
-                type="file"
-                id="avatar"
-                accept="image/*"
-                onChange={handleAvatarChange}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              />
-            </div>
-            <div>
-              <label htmlFor="avatar" className="text-white text-lg font-medium">
-                {t('editUser.avatar.label')}
-              </label>
-              <p className="text-asra-gray-400 text-sm mt-1">
-                {t('editUser.avatar.hint')}
-              </p>
-            </div>
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="w-8 h-8 text-asra-red animate-spin" />
           </div>
-        </div>
+        ) : !admin ? (
+          <div className="bg-asra-gray-900 rounded-lg p-8 text-center text-asra-gray-400">{t('viewUser.notFound')}</div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    {t('editUser.form.firstName')} <span className="text-asra-red">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.firstName}
+                    onChange={(e) => handleInputChange('firstName', e.target.value)}
+                    maxLength={50}
+                    className={inputClass(!!errors.firstName)}
+                  />
+                  {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
+                </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Left Column */}
-            <div className="space-y-6">
-              {/* User Type */}
-              <div>
-                <label className="block text-white text-sm font-medium mb-2">
-                  {t('editUser.form.userType')} <span className="text-asra-red">*</span>
-                </label>
-                <div className="relative">
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">{t('editUser.form.email')}</label>
+                  <div className="relative">
+                    <input type="email" value={admin.email} readOnly className={`${inputClass(false)} pl-12 opacity-60`} />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-asra-gray-400" />
+                  </div>
+                  <p className="text-asra-gray-400 text-xs mt-1">{t('editUser.readOnlyHint')}</p>
+                </div>
+
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">{t('editUser.form.role')}</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={t(`roles.${admin.role}`, { ns: 'common', defaultValue: admin.role })}
+                      readOnly
+                      className={`${inputClass(false)} opacity-60`}
+                    />
+                    <Shield className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-asra-gray-400 pointer-events-none" />
+                  </div>
+                  <p className="text-asra-gray-400 text-xs mt-1">{t('editUser.roleHint')}</p>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">
+                    {t('editUser.form.lastName')} <span className="text-asra-red">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.lastName}
+                    onChange={(e) => handleInputChange('lastName', e.target.value)}
+                    maxLength={50}
+                    className={inputClass(!!errors.lastName)}
+                  />
+                  {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">{t('editUser.form.phoneNumber')}</label>
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      value={formData.phoneNumber}
+                      onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                      placeholder={t('editUser.form.phoneNumberPlaceholder')}
+                      className={`${inputClass(false)} pl-12`}
+                    />
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-asra-gray-400" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-white text-sm font-medium mb-2">{t('editUser.form.department')}</label>
                   <select
-                    value={formData.userType}
-                    onChange={(e) => handleInputChange('userType', e.target.value)}
-                    className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white focus:outline-none focus:border-asra-red ${
-                      errors.userType ? 'border-red-500' : 'border-asra-gray-700'
-                    }`}
+                    value={formData.department}
+                    onChange={(e) => handleInputChange('department', e.target.value)}
+                    className={inputClass(false)}
                   >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">{t('editUser.form.selectPlaceholder')}</option>
-                    {userTypeOptions.map((option) => (
-                      <option key={option} value={option} className="text-white bg-asra-gray-800">
-                        {option}
+                    <option value="" className="bg-asra-gray-800">{t('editUser.form.selectPlaceholder')}</option>
+                    {departmentOptions.map((d) => (
+                      <option key={d} value={d} className="bg-asra-gray-800">
+                        {t(`departments.${d}`, { defaultValue: d })}
                       </option>
                     ))}
                   </select>
-                  <UserCheck className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-asra-gray-400 pointer-events-none" />
                 </div>
-                {errors.userType && (
-                  <p className="text-red-500 text-sm mt-1">{errors.userType}</p>
-                )}
-              </div>
-
-              {/* Email */}
-              <div>
-                <label className="block text-white text-sm font-medium mb-2">
-                  {t('editUser.form.email')} <span className="text-asra-red">*</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    placeholder={t('editUser.form.emailPlaceholder')}
-                    className={`w-full px-4 py-3 pl-12 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
-                      errors.email ? 'border-red-500' : 'border-asra-gray-700'
-                    }`}
-                  />
-                  <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-asra-gray-400" />
-                </div>
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                )}
-              </div>
-
-              {/* Role */}
-              <div>
-                <label className="block text-white text-sm font-medium mb-2">
-                  {t('editUser.form.role')} <span className="text-asra-red">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={formData.role}
-                  onChange={(e) => handleInputChange('role', e.target.value)}
-                  placeholder={t('editUser.form.rolePlaceholder')}
-                  className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
-                    errors.role ? 'border-red-500' : 'border-asra-gray-700'
-                  }`}
-                />
-                {errors.role && (
-                  <p className="text-red-500 text-sm mt-1">{errors.role}</p>
-                )}
               </div>
             </div>
 
-            {/* Right Column */}
-            <div className="space-y-6">
-              {/* Name */}
-              <div>
-                <label className="block text-white text-sm font-medium mb-2">
-                  {t('editUser.form.name')} <span className="text-asra-red">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
-                  placeholder={t('editUser.form.namePlaceholder')}
-                  className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
-                    errors.name ? 'border-red-500' : 'border-asra-gray-700'
-                  }`}
-                />
-                {errors.name && (
-                  <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-                )}
-              </div>
-
-              {/* Phone Number */}
-              <div>
-                <label className="block text-white text-sm font-medium mb-2">
-                  {t('editUser.form.phoneNumber')} <span className="text-asra-red">*</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type="tel"
-                    value={formData.phoneNumber}
-                    onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
-                    placeholder={t('editUser.form.phoneNumberPlaceholder')}
-                    className={`w-full px-4 py-3 pl-12 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
-                      errors.phoneNumber ? 'border-red-500' : 'border-asra-gray-700'
-                    }`}
-                  />
-                  <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-asra-gray-400" />
-                </div>
-                {errors.phoneNumber && (
-                  <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
-                )}
-              </div>
-
-              {/* Access Level */}
-              <div>
-                <label className="block text-white text-sm font-medium mb-2">
-                  {t('editUser.form.accessLevel')} <span className="text-asra-red">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    value={formData.accessLevel}
-                    onChange={(e) => handleInputChange('accessLevel', e.target.value)}
-                    className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white focus:outline-none focus:border-asra-red ${
-                      errors.accessLevel ? 'border-red-500' : 'border-asra-gray-700'
-                    }`}
-                  >
-                    <option value="" className="text-asra-gray-400 bg-asra-gray-800">{t('editUser.form.selectPlaceholder')}</option>
-                    {accessLevelOptions.map((option) => (
-                      <option key={option} value={option} className="text-white bg-asra-gray-800">
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <Shield className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-asra-gray-400 pointer-events-none" />
-                </div>
-                {errors.accessLevel && (
-                  <p className="text-red-500 text-sm mt-1">{errors.accessLevel}</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Password Section */}
-          <div className="border-t border-asra-gray-700 pt-8">
-            <h3 className="text-lg font-semibold text-white mb-4">{t('editUser.credentials.title')}</h3>
             <div>
-              <label className="block text-white text-sm font-medium mb-2">
-                {t('editUser.credentials.password')} <span className="text-asra-red">*</span>
-              </label>
-              <input
-                type="password"
-                value={formData.password}
-                onChange={(e) => handleInputChange('password', e.target.value)}
-                placeholder={t('editUser.credentials.passwordPlaceholder')}
-                className={`w-full px-4 py-3 bg-asra-gray-800 border rounded-lg text-white placeholder:text-asra-gray-400 focus:outline-none focus:border-asra-red ${
-                  errors.password ? 'border-red-500' : 'border-asra-gray-700'
-                }`}
+              <label className="block text-white text-sm font-medium mb-2">{t('editUser.form.bio')}</label>
+              <textarea
+                value={formData.bio}
+                onChange={(e) => handleInputChange('bio', e.target.value)}
+                rows={3}
+                maxLength={500}
+                className={`${inputClass(false)} resize-none`}
               />
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-              )}
             </div>
-          </div>
 
-          {/* Submit Button */}
-          <div className="flex justify-center pt-8">
-            <button
-              type="submit"
-              className="bg-asra-red hover:bg-red-600 text-white px-12 py-4 rounded-lg text-lg font-medium transition-colors flex items-center space-x-2"
-            >
-              <Save className="w-6 h-6" />
-              <span>{t('editUser.saveChanges')}</span>
-            </button>
-          </div>
-        </form>
+            <div className="flex justify-center pt-4">
+              <button
+                type="submit"
+                disabled={saving}
+                className="bg-asra-red hover:bg-red-600 text-white px-12 py-4 rounded-lg text-lg font-medium transition-colors flex items-center space-x-2 disabled:opacity-50"
+              >
+                {saving ? <Loader2 className="w-6 h-6 animate-spin" /> : <Save className="w-6 h-6" />}
+                <span>{t('editUser.saveChanges')}</span>
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
