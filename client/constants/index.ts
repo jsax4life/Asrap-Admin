@@ -157,7 +157,7 @@ export const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "awards",
-    label: "AsraPa Awards",
+    label: "AsraPa Legend",
     icon: "Award",
     path: "/awards",
     roles: ["super_admin", "admin"],

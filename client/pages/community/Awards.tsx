@@ -57,7 +57,7 @@ const PAYOUT_TONE: Record<PayoutStatus, BadgeTone> = { to_pay: 'orange', paid: '
 
 const VERIFICATION_DAYS = 15;
 
-// Values of the AsraPa Awards rules v1.1, shown until the server sends its own settings.
+// Values of the AsraPa Legend rules v1.1, shown until the server sends its own settings.
 const DEFAULT_SETTINGS: AwardsSettings = {
   minPlaysPerSubscriber: 3,
   minArtistsPerPack: 3,
