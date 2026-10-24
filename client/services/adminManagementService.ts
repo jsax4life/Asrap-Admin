@@ -100,7 +100,8 @@ class AdminManagementService {
   /** Admin team without payment agents (they have their own tab). */
   async listTeam(search?: string): Promise<AdminMember[]> {
     const params = new URLSearchParams({ page: '1', limit: '100' });
-    if (search) params.set('search', search);
+    // The API rejects searches shorter than 2 characters
+    if (search && search.trim().length >= 2) params.set('search', search.trim());
     try {
       const response = (await apiClient.get(
         `${API_ENDPOINTS.ADMIN.ADMINS}?${params.toString()}`

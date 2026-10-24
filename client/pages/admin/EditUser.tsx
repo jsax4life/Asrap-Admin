@@ -65,8 +65,11 @@ const EditUser = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     // Same rules as the API: 2 to 50 characters
+    const allowed = /^[a-zA-Z\s]+$/; // API rule: unaccented letters and spaces only
     if (formData.firstName.trim().length < 2) newErrors.firstName = t('editUser.errors.firstNameRequired');
+    else if (!allowed.test(formData.firstName.trim())) newErrors.firstName = t('editUser.errors.lettersOnly');
     if (formData.lastName.trim().length < 2) newErrors.lastName = t('editUser.errors.lastNameRequired');
+    else if (!allowed.test(formData.lastName.trim())) newErrors.lastName = t('editUser.errors.lettersOnly');
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };

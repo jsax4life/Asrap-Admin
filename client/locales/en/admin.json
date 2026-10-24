@@ -34,8 +34,8 @@
       "next": "Next",
       "pageOf": "Page {{current}} of {{total}}"
     },
-    "confirmDelete": "Delete {{name}}'s admin account? They will no longer be able to sign in.",
-    "deleted": "Admin account deleted",
+    "confirmDelete": "Deactivate {{name}}'s admin account? They will no longer be able to sign in. You can reactivate it from their profile.",
+    "deleted": "Admin account deactivated",
     "deleteFailed": "Could not delete the admin account"
   },
   "createUser": {
@@ -149,7 +149,8 @@
       "passwordRequired": "Password is required",
       "emailInvalid": "Please enter a valid email address",
       "firstNameRequired": "First name must be at least 2 characters",
-      "lastNameRequired": "Last name must be at least 2 characters"
+      "lastNameRequired": "Last name must be at least 2 characters",
+      "lettersOnly": "Only unaccented letters and spaces (server rule)."
     },
     "backToProfile": "Back to profile",
     "readOnlyHint": "The email cannot be changed here.",

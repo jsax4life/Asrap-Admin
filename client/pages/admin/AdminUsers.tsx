@@ -219,9 +219,9 @@ const AdminUsers = () => {
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.role')}</th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.lastLogin')}</th>
                     <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.email')}</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.status')}</th>
                     {activeTab === 'payment-agents' && (
                       <>
-                        <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.status')}</th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-asra-gray-300 uppercase tracking-wider">{t('usersList.table.password')}</th>
                       </>
                     )}
@@ -253,13 +253,22 @@ const AdminUsers = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-asra-gray-300">{item.email}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`text-xs px-2 py-1 rounded-full ${
+                              item.isActive ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+                            }`}
+                          >
+                            {item.isActive ? t('usersList.table.statusActive') : t('usersList.table.statusInactive')}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center space-x-2">
                             <button onClick={() => handleEditUser(item.id)} aria-label={t('usersList.table.edit')} className="text-asra-gray-400 hover:text-white">
                               <Edit className="w-4 h-4" />
                             </button>
                             <button
                               onClick={() => handleDeleteUser(item)}
-                              disabled={item.id === user?.id}
+                              disabled={item.id === user?.id || !item.isActive}
                               aria-label={t('usersList.table.delete')}
                               className="text-asra-gray-400 hover:text-red-400 disabled:opacity-30 disabled:cursor-not-allowed"
                             >
@@ -328,7 +337,7 @@ const AdminUsers = () => {
 
                   {activeTab === 'users' && !usersLoading && currentUserItems.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="px-6 py-12 text-center text-asra-gray-400">
+                      <td colSpan={7} className="px-6 py-12 text-center text-asra-gray-400">
                         {t('usersList.emptyUsers')}
                       </td>
                     </tr>

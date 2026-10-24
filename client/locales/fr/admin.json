@@ -34,8 +34,8 @@
       "next": "Suivant",
       "pageOf": "Page {{current}} sur {{total}}"
     },
-    "confirmDelete": "Supprimer le compte admin de {{name}} ? Il ne pourra plus se connecter.",
-    "deleted": "Compte admin supprimé",
+    "confirmDelete": "Désactiver le compte admin de {{name}} ? Il ne pourra plus se connecter. Vous pourrez le réactiver depuis sa fiche.",
+    "deleted": "Compte admin désactivé",
     "deleteFailed": "Impossible de supprimer le compte admin"
   },
   "createUser": {
@@ -149,7 +149,8 @@
       "passwordRequired": "Le mot de passe est requis",
       "emailInvalid": "Veuillez saisir une adresse e-mail valide",
       "firstNameRequired": "Le prénom doit faire au moins 2 caractères",
-      "lastNameRequired": "Le nom doit faire au moins 2 caractères"
+      "lastNameRequired": "Le nom doit faire au moins 2 caractères",
+      "lettersOnly": "Seulement des lettres sans accent et des espaces (règle du serveur)."
     },
     "backToProfile": "Retour à la fiche",
     "readOnlyHint": "L'e-mail ne peut pas être modifié ici.",
