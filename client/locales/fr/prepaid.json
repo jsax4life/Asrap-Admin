@@ -1,0 +1,327 @@
+{
+  "eyebrow": "ASRAPA PRÉPAYÉE",
+  "tabsLabel": "Rubriques de la carte",
+  "tabs": {
+    "vue": "Vue d'ensemble",
+    "demandes": "Demandes",
+    "cartes": "Cartes émises",
+    "lots": "Lots de cartes à gratter",
+    "reclamations": "Réclamations",
+    "regles": "Règles et droits"
+  },
+  "titles": {
+    "vue": "Les cartes, les demandes et l'argent, aujourd'hui.",
+    "demandes": "Examiner, valider, créer la carte.",
+    "cartes": "Chaque carte, son titulaire, son état.",
+    "lots": "Chaque carte à gratter, de l'imprimeur à l'agent.",
+    "reclamations": "Une réclamation, une correction tracée.",
+    "regles": "Les limites de la carte, et qui peut faire quoi."
+  },
+  "asides": {
+    "vue": "Chiffres tirés du registre",
+    "demandes": "Une carte n'existe qu'après validation",
+    "cartes": "Bloquer une carte ne supprime rien",
+    "lots": "Une carte ne vaut rien tant que son lot n'est pas activé",
+    "reclamations": "On ne supprime jamais : on corrige par une écriture inverse",
+    "regles": "Modifiable par le super administrateur seulement"
+  },
+  "notConnected": "S'affichera ici dès que le serveur sera connecté",
+  "notConnectedBanner": "Le serveur de la carte n'est pas encore connecté : les chiffres affichent « — » et les actions sont désactivées.",
+  "toFix": "[à fixer]",
+  "fcfa": "{{n}} FCFA",
+  "errors": {
+    "loadFailed": "Impossible de charger les données",
+    "actionFailed": "L'action n'a pas pu être enregistrée",
+    "apiUnavailable": "Le serveur ne permet pas encore cette action",
+    "reasonRequired": "Le motif est obligatoire"
+  },
+  "owner": {
+    "User": "Auditeur",
+    "Artist": "Artiste"
+  },
+  "requestStatus": {
+    "submitted": "Reçue",
+    "under_review": "En examen",
+    "approved": "Validée",
+    "rejected": "Refusée",
+    "cancelled": "Annulée"
+  },
+  "cardStatus": {
+    "active": "Active",
+    "blocked": "Bloquée",
+    "closed": "Fermée"
+  },
+  "overview": {
+    "openRequests": "DEMANDES À EXAMINER",
+    "openRequestsCaption": "reçues ou en examen",
+    "activeCards": "CARTES ACTIVES",
+    "activeCardsCaption": "{{listeners}} auditeurs · {{artists}} artistes",
+    "circulation": "ARGENT EN CIRCULATION",
+    "circulationCaption": "somme des soldes des cartes",
+    "topups": "RECHARGES DU JOUR",
+    "topupsCaption": "{{amount}} · mobile money et cartes",
+    "spent": "DÉPENSÉ CHEZ ASRAPA",
+    "spentCaption": "ce mois-ci",
+    "reconciliationTitle": "Rapprochement de la nuit",
+    "reconciliationWhen": "dernier passage : {{date}}",
+    "fromOperator": "Reçu de l'opérateur",
+    "toLedger": "Crédité au registre",
+    "gap": "Écart",
+    "balanceCheck": "Soldes des cartes recalculés depuis les écritures",
+    "balanceMismatches": "{{n}} écart(s)",
+    "reconciliationNote": "Un écart différent de zéro crée une alerte. Rien n'est corrigé automatiquement.",
+    "alertsTitle": "Alertes",
+    "alertsEmpty": "Aucune alerte ouverte",
+    "plannedAlerts": "Types d'alertes prévus. Aucune alerte réelle tant que la carte n'est pas lancée.",
+    "alertTypes": {
+      "reconciliation_provider_gap": "Écart avec l'opérateur",
+      "reconciliation_balance_mismatch": "Solde différent du registre",
+      "duplicate_phone_requests": "Plusieurs demandes avec le même téléphone",
+      "code_bruteforce": "Nombreux codes faux essayés sur une carte",
+      "pin_locked": "Code PIN bloqué après trop d'essais",
+      "fulfillment_failed": "Produit payé non livré"
+    },
+    "severity": {
+      "high": "priorité haute",
+      "medium": "à vérifier",
+      "info": "information"
+    }
+  },
+  "requests": {
+    "listLabel": "Demandes de carte",
+    "search": "Nom, téléphone, référence",
+    "columns": {
+      "reference": "Demande",
+      "holder": "Titulaire",
+      "account": "Compte",
+      "received": "Reçue le",
+      "status": "Statut"
+    },
+    "empty": "Aucune demande",
+    "detailTitle": "Demande {{reference}}",
+    "nothingSelected": "Choisissez une demande dans la liste",
+    "nameOnCard": "Nom sur la carte",
+    "account": "Compte",
+    "phone": "Téléphone",
+    "city": "Ville",
+    "terms": "Conditions",
+    "termsAccepted": "acceptées le {{date}}",
+    "checksTitle": "Vérifications automatiques",
+    "checks": {
+      "accountCreatedAt": "Compte créé le",
+      "phoneMatches": "Téléphone identique à celui du compte",
+      "samePhone": "Autres demandes avec ce téléphone",
+      "hasCard": "Carte déjà émise pour ce compte"
+    },
+    "yes": "oui",
+    "no": "non",
+    "startReview": "Commencer l'examen",
+    "internalNote": "Note interne (facultatif)",
+    "approve": "Valider et créer la carte",
+    "approveNote": "Le numéro AP est tiré au hasard à la validation, vérifié unique, puis la carte apparaît dans le compte avec un solde de 0 FCFA.",
+    "rejectTitle": "Motif du refus (obligatoire pour refuser)",
+    "reasons": {
+      "phone_unreachable": "Téléphone injoignable",
+      "duplicate_account": "Compte en double",
+      "incomplete_information": "Informations incomplètes",
+      "other": "Autre"
+    },
+    "rejectNote": "Précisez le motif, il sera montré au demandeur",
+    "reject": "Refuser la demande",
+    "approved": "Carte créée",
+    "rejected": "Demande refusée",
+    "reviewStarted": "Examen commencé",
+    "decided": "Décidée le {{date}}"
+  },
+  "cards": {
+    "listLabel": "Cartes émises",
+    "filters": {
+      "all": "Toutes",
+      "active": "Actives",
+      "blocked": "Bloquées",
+      "User": "Auditeurs",
+      "Artist": "Artistes"
+    },
+    "search": "Numéro AP, 4 derniers chiffres, nom",
+    "columns": {
+      "number": "Numéro",
+      "holder": "Titulaire",
+      "type": "Type",
+      "balance": "Solde",
+      "issued": "Émise le",
+      "state": "État"
+    },
+    "empty": "Aucune carte",
+    "nothingSelected": "Choisissez une carte dans la liste",
+    "holder": "Titulaire",
+    "balance": "Solde (registre)",
+    "ledgerCheck": "Recalculé depuis les écritures",
+    "request": "Demande",
+    "pin": "Code PIN",
+    "pinSet": "défini",
+    "pinNotSet": "non défini",
+    "pinLocked": "bloqué jusqu'au {{date}}",
+    "seeLedger": "Voir le registre",
+    "resetPin": "Débloquer le code PIN",
+    "reasonLabel": "Motif (obligatoire)",
+    "block": "Bloquer la carte",
+    "unblock": "Débloquer la carte",
+    "blockNote": "Carte bloquée : ni recharge ni paiement. Le solde est conservé et revient au déblocage.",
+    "blocked": "Carte bloquée",
+    "unblocked": "Carte débloquée",
+    "pinReset": "Code PIN débloqué"
+  },
+  "batches": {
+    "steps": {
+      "created": {
+        "title": "1. Créé",
+        "text": "Codes générés, fichier envoyé à l'imprimeur. Inutilisables."
+      },
+      "delivered": {
+        "title": "2. Remis",
+        "text": "Cartes données à l'agent, contre signature."
+      },
+      "activated": {
+        "title": "3. Activé",
+        "text": "Un second admin confirme : les codes deviennent valables."
+      },
+      "cancelled": {
+        "title": "Annulé",
+        "text": "Lot perdu ou volé : les codes non utilisés sont bloqués."
+      }
+    },
+    "listLabel": "Lots",
+    "columns": {
+      "batch": "Lot",
+      "value": "Valeur",
+      "cards": "Cartes",
+      "agent": "Agent",
+      "used": "Utilisées",
+      "status": "Statut",
+      "action": "Action"
+    },
+    "empty": "Aucun lot",
+    "status": {
+      "created": "Créé",
+      "delivered": "Remis",
+      "activated": "Activé",
+      "cancelled": "Annulé"
+    },
+    "deliver": "Remettre",
+    "activate": "Activer",
+    "cancel": "Annuler",
+    "cancelReason": "Motif de l'annulation",
+    "createTitle": "Créer un lot",
+    "value": "Valeur de chaque carte (FCFA)",
+    "quantity": "Nombre de cartes",
+    "agent": "Agent destinataire",
+    "chooseAgent": "Choisir un agent de paiement",
+    "noAgents": "Aucun agent de paiement",
+    "total": "Total du lot : {{total}}",
+    "createNote": "Les codes sont créés une seule fois ; seul le fichier pour l'imprimeur les contient en clair. Le lot doit être activé par un autre admin que vous.",
+    "create": "Créer le lot",
+    "created": "Lot créé : fichier pour l'imprimeur téléchargé",
+    "done": "Lot mis à jour"
+  },
+  "claims": {
+    "searchTitle": "Chercher une carte",
+    "search": "Numéro AP, 4 derniers chiffres, nom",
+    "searchButton": "Chercher",
+    "results": "Résultats",
+    "noResult": "Aucune carte trouvée",
+    "ledgerTitle": "Registre de cette carte",
+    "columns": {
+      "when": "Quand",
+      "operation": "Opération",
+      "amount": "Montant",
+      "reference": "Référence",
+      "action": "Correction"
+    },
+    "empty": "Aucune opération",
+    "topupsTitle": "Recharges",
+    "paymentsTitle": "Paiements",
+    "reverse": "Écriture inverse",
+    "credit": "Créditer",
+    "refund": "Rembourser",
+    "correctionTitle": "Corriger l'opération",
+    "reasonLabel": "Motif (obligatoire)",
+    "correctionNote": "La correction s'ajoute au registre avec votre nom et le motif. Rien n'est supprimé.",
+    "save": "Enregistrer la correction",
+    "saved": "Correction enregistrée",
+    "types": {
+      "topup_mobile_money": "Recharge mobile money",
+      "topup_scratch": "Recharge carte à gratter",
+      "topup_gift": "Carte cadeau reçue",
+      "payment": "Paiement",
+      "tip": "Pourboire",
+      "gift_purchase": "Carte cadeau offerte",
+      "gift_redeem_subscription": "Abonnement offert utilisé",
+      "adjustment": "Correction",
+      "reversal": "Écriture inverse"
+    },
+    "topupStatus": {
+      "pending": "En attente",
+      "succeeded": "Créditée",
+      "failed": "Échouée",
+      "expired": "Expirée"
+    },
+    "paymentStatus": {
+      "succeeded": "Payé",
+      "refunded": "Remboursé"
+    }
+  },
+  "rules": {
+    "limitsTitle": "Plafonds",
+    "fields": {
+      "maxBalance": "Solde maximum par carte (FCFA)",
+      "topupMin": "Recharge minimum (FCFA)",
+      "topupMax": "Recharge maximum (FCFA)",
+      "dailyTopupMax": "Recharges par jour et par carte (FCFA)",
+      "scratchValidityMonths": "Validité des cartes à gratter (mois)",
+      "maxCodeAttempts": "Essais de codes faux avant blocage",
+      "pinMaxAttempts": "Essais de code PIN avant blocage",
+      "pinRequired": "Code PIN obligatoire pour payer"
+    },
+    "giftsTitle": "Cartes cadeaux et pourboires",
+    "giftFields": {
+      "giftAmounts": "Montants des cartes cadeaux (FCFA, séparés par des virgules)",
+      "giftValidityMonths": "Validité des codes cadeaux (mois)",
+      "tipMin": "Pourboire minimum (FCFA)",
+      "tipMax": "Pourboire maximum (FCFA)"
+    },
+    "pricesTitle": "Prix en FCFA des produits artistes",
+    "priceFields": {
+      "single": "Forfait Titre",
+      "ep_album": "Forfait EP ou album",
+      "annual": "Forfait annuel",
+      "promotionPrice": "Promotion d'un titre"
+    },
+    "pricesNote": "Abonnements Premium et Famille : tarifs du serveur, non modifiables ici.",
+    "note": "Ces valeurs sont arrêtées avec le juriste avant le lancement. Tant qu'elles sont vides, aucune recharge n'est acceptée. Chaque changement est enregistré au journal.",
+    "save": "Enregistrer les règles",
+    "saved": "Règles enregistrées",
+    "superAdminOnly": "Seul le super administrateur peut modifier ces règles.",
+    "rightsTitle": "Qui peut faire quoi",
+    "roles": {
+      "super_admin": "Super admin",
+      "admin": "Admin",
+      "support": "Support",
+      "analyst": "Analyste"
+    },
+    "action": "Action",
+    "yes": "Oui",
+    "no": "Non",
+    "rights": {
+      "read": "Consulter soldes et registre",
+      "review": "Examiner une demande de carte",
+      "approve": "Valider ou refuser une demande",
+      "batches": "Créer et remettre un lot",
+      "activate": "Activer ou annuler un lot",
+      "adjust": "Corriger une opération",
+      "block": "Bloquer une carte",
+      "pin": "Débloquer un code PIN",
+      "settings": "Modifier les règles"
+    },
+    "rightsNote": "Proposition à valider. Une même personne ne peut pas créer un lot et l'activer."
+  }
+}

@@ -18,6 +18,7 @@ import frPlaylist from '@/locales/fr/playlist.json';
 import frSupport from '@/locales/fr/support.json';
 import frCommunity from '@/locales/fr/community.json';
 import frAwards from '@/locales/fr/awards.json';
+import frPrepaid from '@/locales/fr/prepaid.json';
 
 import enCommon from '@/locales/en/common.json';
 import enAuth from '@/locales/en/auth.json';
@@ -35,6 +36,7 @@ import enPlaylist from '@/locales/en/playlist.json';
 import enSupport from '@/locales/en/support.json';
 import enCommunity from '@/locales/en/community.json';
 import enAwards from '@/locales/en/awards.json';
+import enPrepaid from '@/locales/en/prepaid.json';
 
 export const LANGUAGE_STORAGE_KEY = 'asra_admin_language';
 
@@ -47,7 +49,7 @@ i18n
     ns: [
       'common', 'auth', 'settings', 'dashboard', 'analytics', 'genres',
       'payments', 'promotion', 'artists', 'admin', 'agent', 'musicUpload',
-      'playlist', 'support', 'community', 'awards',
+      'playlist', 'support', 'community', 'awards', 'prepaid',
     ],
     defaultNS: 'common',
     resources: {
@@ -68,6 +70,7 @@ i18n
         support: frSupport,
         community: frCommunity,
         awards: frAwards,
+        prepaid: frPrepaid,
       },
       en: {
         common: enCommon,
@@ -86,6 +89,7 @@ i18n
         support: enSupport,
         community: enCommunity,
         awards: enAwards,
+        prepaid: enPrepaid,
       },
     },
     detection: {
