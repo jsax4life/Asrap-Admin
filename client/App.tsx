@@ -28,6 +28,7 @@ import Moderation from "./pages/community/Moderation";
 import ShortsCommunity from "./pages/community/ShortsCommunity";
 import StudioIA from "./pages/community/StudioIA";
 import Awards from "./pages/community/Awards";
+import Prepaid from "./pages/prepaid/Prepaid";
 import ArtistManagement from "./pages/artists/ArtistManagement";
 import ArtistDetail from "./pages/artists/ArtistDetail";
 import AlbumDetail from "./pages/artists/AlbumDetail";
@@ -64,6 +65,7 @@ import { UserRole } from "@/types";
 const MODERATION_ROLES: UserRole[] = ["super_admin", "admin", "moderator"];
 const COMMUNITY_ROLES: UserRole[] = ["super_admin", "admin", "moderator", "analyst"];
 const STUDIO_IA_ROLES: UserRole[] = ["super_admin", "admin"];
+const PREPAID_ROLES: UserRole[] = ["super_admin", "admin"];
 
 // Hooks
 import { useTheme } from "@/hooks/useTheme";
@@ -200,6 +202,22 @@ const AppRoutes = () => {
           <ProtectedRoute requiredRoles={STUDIO_IA_ROLES}>
             <CustomLayout>
               <Awards />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/prepaid" element={
+          <ProtectedRoute requiredRoles={PREPAID_ROLES}>
+            <CustomLayout>
+              <Prepaid />
+            </CustomLayout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/prepaid/:tab" element={
+          <ProtectedRoute requiredRoles={PREPAID_ROLES}>
+            <CustomLayout>
+              <Prepaid />
             </CustomLayout>
           </ProtectedRoute>
         } />

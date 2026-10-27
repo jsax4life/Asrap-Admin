@@ -26,6 +26,7 @@ import {
   ShieldCheck,
   Sparkles,
   Award,
+  Wallet,
 } from "lucide-react";
 
 export const APP_NAME = "Asrapa";
@@ -163,6 +164,14 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ["super_admin", "admin"],
     section: "new",
   },
+  {
+    id: "prepaid",
+    label: "AsraPa prépayée",
+    icon: "Wallet",
+    path: "/prepaid",
+    roles: ["super_admin", "admin"],
+    section: "new",
+  },
 ];
 
 // Agent App Menu Items
@@ -294,6 +303,7 @@ export const ICON_MAP = {
   ShieldCheck,
   Sparkles,
   Award,
+  Wallet,
 };
 
 // Table pagination
@@ -411,6 +421,27 @@ export const API_ENDPOINTS = {
     SETTINGS: "/admin/awards/settings",
     PUBLISH_THRESHOLDS: "/admin/awards/settings/publish",
     FUND: "/admin/awards/fund",
+  },
+  PREPAID: {
+    OVERVIEW: "/admin/card/overview",
+    ALERTS: "/admin/card/alerts",
+    REQUESTS: "/admin/card/requests",
+    REQUEST: "/admin/card/requests/:id",
+    REQUEST_REVIEW: "/admin/card/requests/:id/review",
+    REQUEST_APPROVE: "/admin/card/requests/:id/approve",
+    REQUEST_REJECT: "/admin/card/requests/:id/reject",
+    CARDS: "/admin/card/cards",
+    CARD: "/admin/card/cards/:id",
+    CARD_LEDGER: "/admin/card/cards/:id/ledger",
+    CARD_BLOCK: "/admin/card/cards/:id/block",
+    CARD_UNBLOCK: "/admin/card/cards/:id/unblock",
+    CARD_PIN_RESET: "/admin/card/cards/:id/pin-reset",
+    TOPUP_CREDIT: "/admin/card/topups/:id/credit",
+    PAYMENT_REFUND: "/admin/card/payments/:id/refund",
+    LEDGER_REVERSE: "/admin/card/ledger/:id/reverse",
+    BATCHES: "/admin/card/batches",
+    BATCH_ACTION: "/admin/card/batches/:id/:action",
+    SETTINGS: "/admin/card/settings",
   },
   STUDIO_IA: {
     STATS: "/admin/studio-ia/stats",

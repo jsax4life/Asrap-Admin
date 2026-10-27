@@ -1,0 +1,327 @@
+{
+  "eyebrow": "ASRAPA PRÉPAYÉE",
+  "tabsLabel": "Card sections",
+  "tabs": {
+    "vue": "Overview",
+    "demandes": "Requests",
+    "cartes": "Issued cards",
+    "lots": "Scratch card batches",
+    "reclamations": "Claims",
+    "regles": "Rules and rights"
+  },
+  "titles": {
+    "vue": "Cards, requests and money, today.",
+    "demandes": "Review, approve, issue the card.",
+    "cartes": "Every card, its holder, its state.",
+    "lots": "Every scratch card, from the printer to the agent.",
+    "reclamations": "One claim, one traced correction.",
+    "regles": "The card's limits, and who can do what."
+  },
+  "asides": {
+    "vue": "Figures taken from the ledger",
+    "demandes": "A card only exists once approved",
+    "cartes": "Blocking a card deletes nothing",
+    "lots": "A card is worthless until its batch is activated",
+    "reclamations": "Nothing is deleted: corrections are reverse entries",
+    "regles": "Editable by the super administrator only"
+  },
+  "notConnected": "Will show here once the server is connected",
+  "notConnectedBanner": "The card server is not connected yet: figures show « — » and actions are disabled.",
+  "toFix": "Not set yet",
+  "fcfa": "{{n}} FCFA",
+  "errors": {
+    "loadFailed": "Could not load the data",
+    "actionFailed": "The action could not be saved",
+    "apiUnavailable": "The server does not support this action yet",
+    "reasonRequired": "A reason is required"
+  },
+  "owner": {
+    "User": "Listener",
+    "Artist": "Artist"
+  },
+  "requestStatus": {
+    "submitted": "Received",
+    "under_review": "Under review",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "cancelled": "Cancelled"
+  },
+  "cardStatus": {
+    "active": "Active",
+    "blocked": "Blocked",
+    "closed": "Closed"
+  },
+  "overview": {
+    "openRequests": "REQUESTS TO REVIEW",
+    "openRequestsCaption": "received or under review",
+    "activeCards": "ACTIVE CARDS",
+    "activeCardsCaption": "{{listeners}} listeners · {{artists}} artists",
+    "circulation": "MONEY IN CIRCULATION",
+    "circulationCaption": "sum of card balances",
+    "topups": "TOP-UPS TODAY",
+    "topupsCaption": "{{amount}} · mobile money and cards",
+    "spent": "SPENT ON ASRAPA",
+    "spentCaption": "this month",
+    "reconciliationTitle": "Nightly reconciliation",
+    "reconciliationWhen": "last run: {{date}}",
+    "fromOperator": "Received from operator",
+    "toLedger": "Credited to ledger",
+    "gap": "Gap",
+    "balanceCheck": "Card balances recomputed from entries",
+    "balanceMismatches": "{{n}} gap(s)",
+    "reconciliationNote": "Any non-zero gap creates an alert. Nothing is corrected automatically.",
+    "alertsTitle": "Alerts",
+    "alertsEmpty": "No open alert",
+    "plannedAlerts": "Planned alert types. No real alert until the card is launched.",
+    "alertTypes": {
+      "reconciliation_provider_gap": "Gap with the operator",
+      "reconciliation_balance_mismatch": "Balance differs from ledger",
+      "duplicate_phone_requests": "Several requests with the same phone",
+      "code_bruteforce": "Many wrong codes tried on a card",
+      "pin_locked": "PIN locked after too many attempts",
+      "fulfillment_failed": "Paid product not delivered"
+    },
+    "severity": {
+      "high": "high priority",
+      "medium": "to check",
+      "info": "information"
+    }
+  },
+  "requests": {
+    "listLabel": "Card requests",
+    "search": "Name, phone, reference",
+    "columns": {
+      "reference": "Request",
+      "holder": "Holder",
+      "account": "Account",
+      "received": "Received",
+      "status": "Status"
+    },
+    "empty": "No request",
+    "detailTitle": "Request {{reference}}",
+    "nothingSelected": "Pick a request in the list",
+    "nameOnCard": "Name on card",
+    "account": "Account",
+    "phone": "Phone",
+    "city": "City",
+    "terms": "Terms",
+    "termsAccepted": "accepted on {{date}}",
+    "checksTitle": "Automatic checks",
+    "checks": {
+      "accountCreatedAt": "Account created on",
+      "phoneMatches": "Phone matches the account",
+      "samePhone": "Other requests with this phone",
+      "hasCard": "Card already issued for this account"
+    },
+    "yes": "yes",
+    "no": "no",
+    "startReview": "Start review",
+    "internalNote": "Internal note (optional)",
+    "approve": "Approve and issue the card",
+    "approveNote": "The AP number is drawn at random on approval, checked unique, then the card appears in the account with a 0 FCFA balance.",
+    "rejectTitle": "Rejection reason (required to reject)",
+    "reasons": {
+      "phone_unreachable": "Phone unreachable",
+      "duplicate_account": "Duplicate account",
+      "incomplete_information": "Incomplete information",
+      "other": "Other"
+    },
+    "rejectNote": "Explain the reason, it will be shown to the applicant",
+    "reject": "Reject the request",
+    "approved": "Card issued",
+    "rejected": "Request rejected",
+    "reviewStarted": "Review started",
+    "decided": "Decided on {{date}}"
+  },
+  "cards": {
+    "listLabel": "Issued cards",
+    "filters": {
+      "all": "All",
+      "active": "Active",
+      "blocked": "Blocked",
+      "User": "Listeners",
+      "Artist": "Artists"
+    },
+    "search": "AP number, last 4 digits, name",
+    "columns": {
+      "number": "Number",
+      "holder": "Holder",
+      "type": "Type",
+      "balance": "Balance",
+      "issued": "Issued",
+      "state": "State"
+    },
+    "empty": "No card",
+    "nothingSelected": "Pick a card in the list",
+    "holder": "Holder",
+    "balance": "Balance (ledger)",
+    "ledgerCheck": "Recomputed from entries",
+    "request": "Request",
+    "pin": "PIN",
+    "pinSet": "set",
+    "pinNotSet": "not set",
+    "pinLocked": "locked until {{date}}",
+    "seeLedger": "See the ledger",
+    "resetPin": "Unlock the PIN",
+    "reasonLabel": "Reason (required)",
+    "block": "Block the card",
+    "unblock": "Unblock the card",
+    "blockNote": "Blocked card: no top-up, no payment. The balance is kept and comes back when unblocked.",
+    "blocked": "Card blocked",
+    "unblocked": "Card unblocked",
+    "pinReset": "PIN unlocked"
+  },
+  "batches": {
+    "steps": {
+      "created": {
+        "title": "1. Created",
+        "text": "Codes generated, file sent to the printer. Not usable."
+      },
+      "delivered": {
+        "title": "2. Delivered",
+        "text": "Cards handed to the agent, against signature."
+      },
+      "activated": {
+        "title": "3. Activated",
+        "text": "A second admin confirms: the codes become valid."
+      },
+      "cancelled": {
+        "title": "Cancelled",
+        "text": "Batch lost or stolen: unused codes are blocked."
+      }
+    },
+    "listLabel": "Batches",
+    "columns": {
+      "batch": "Batch",
+      "value": "Value",
+      "cards": "Cards",
+      "agent": "Agent",
+      "used": "Used",
+      "status": "Status",
+      "action": "Action"
+    },
+    "empty": "No batch",
+    "status": {
+      "created": "Created",
+      "delivered": "Delivered",
+      "activated": "Activated",
+      "cancelled": "Cancelled"
+    },
+    "deliver": "Deliver",
+    "activate": "Activate",
+    "cancel": "Cancel",
+    "cancelReason": "Cancellation reason",
+    "createTitle": "Create a batch",
+    "value": "Value of each card (FCFA)",
+    "quantity": "Number of cards",
+    "agent": "Receiving agent",
+    "chooseAgent": "Choose a payment agent",
+    "noAgents": "No payment agent",
+    "total": "Batch total: {{total}}",
+    "createNote": "Codes are created once; only the printer file holds them in clear. The batch must be activated by another admin.",
+    "create": "Create the batch",
+    "created": "Batch created: printer file downloaded",
+    "done": "Batch updated"
+  },
+  "claims": {
+    "searchTitle": "Find a card",
+    "search": "AP number, last 4 digits, name",
+    "searchButton": "Search",
+    "results": "Results",
+    "noResult": "No card found",
+    "ledgerTitle": "Ledger of this card",
+    "columns": {
+      "when": "When",
+      "operation": "Operation",
+      "amount": "Amount",
+      "reference": "Reference",
+      "action": "Correction"
+    },
+    "empty": "No operation",
+    "topupsTitle": "Top-ups",
+    "paymentsTitle": "Payments",
+    "reverse": "Reverse entry",
+    "credit": "Credit",
+    "refund": "Refund",
+    "correctionTitle": "Correct the operation",
+    "reasonLabel": "Reason (required)",
+    "correctionNote": "The correction is added to the ledger with your name and the reason. Nothing is deleted.",
+    "save": "Save the correction",
+    "saved": "Correction saved",
+    "types": {
+      "topup_mobile_money": "Mobile money top-up",
+      "topup_scratch": "Scratch card top-up",
+      "topup_gift": "Gift card received",
+      "payment": "Payment",
+      "tip": "Tip",
+      "gift_purchase": "Gift card bought",
+      "gift_redeem_subscription": "Gifted subscription used",
+      "adjustment": "Correction",
+      "reversal": "Reverse entry"
+    },
+    "topupStatus": {
+      "pending": "Pending",
+      "succeeded": "Credited",
+      "failed": "Failed",
+      "expired": "Expired"
+    },
+    "paymentStatus": {
+      "succeeded": "Paid",
+      "refunded": "Refunded"
+    }
+  },
+  "rules": {
+    "limitsTitle": "Limits",
+    "fields": {
+      "maxBalance": "Maximum balance per card (FCFA)",
+      "topupMin": "Minimum top-up (FCFA)",
+      "topupMax": "Maximum top-up (FCFA)",
+      "dailyTopupMax": "Top-ups per day and per card (FCFA)",
+      "scratchValidityMonths": "Scratch card validity (months)",
+      "maxCodeAttempts": "Wrong code attempts before lock",
+      "pinMaxAttempts": "PIN attempts before lock",
+      "pinRequired": "PIN required to pay"
+    },
+    "giftsTitle": "Gift cards and tips",
+    "giftFields": {
+      "giftAmounts": "Gift card amounts (FCFA, comma separated)",
+      "giftValidityMonths": "Gift code validity (months)",
+      "tipMin": "Minimum tip (FCFA)",
+      "tipMax": "Maximum tip (FCFA)"
+    },
+    "pricesTitle": "FCFA prices of artist products",
+    "priceFields": {
+      "single": "Single plan",
+      "ep_album": "EP or album plan",
+      "annual": "Annual plan",
+      "promotionPrice": "Promoting a track"
+    },
+    "pricesNote": "Premium and Family subscriptions: server prices, not editable here.",
+    "note": "These values are set with the lawyer before launch. While empty, no top-up is accepted. Every change is logged.",
+    "save": "Save the rules",
+    "saved": "Rules saved",
+    "superAdminOnly": "Only the super administrator can edit these rules.",
+    "rightsTitle": "Who can do what",
+    "roles": {
+      "super_admin": "Super admin",
+      "admin": "Admin",
+      "support": "Support",
+      "analyst": "Analyst"
+    },
+    "action": "Action",
+    "yes": "Yes",
+    "no": "No",
+    "rights": {
+      "read": "View balances and ledger",
+      "review": "Review a card request",
+      "approve": "Approve or reject a request",
+      "batches": "Create and deliver a batch",
+      "activate": "Activate or cancel a batch",
+      "adjust": "Correct an operation",
+      "block": "Block a card",
+      "pin": "Unlock a PIN",
+      "settings": "Edit the rules"
+    },
+    "rightsNote": "Split proposed by AsraPa. The same person cannot create a batch and activate it."
+  }
+}
