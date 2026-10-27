@@ -1,0 +1,189 @@
+{
+  "eyebrow": "BOUTIQUE ASRAPA",
+  "tabsLabel": "Rubriques de la boutique",
+  "tabs": {
+    "vue": "Vue d'ensemble",
+    "catalogue": "Catalogue",
+    "artistes": "Produits d'artistes",
+    "commandes": "Commandes",
+    "versements": "Versements artistes",
+    "points": "Points de vente",
+    "regles": "Règles"
+  },
+  "titles": {
+    "vue": "La boutique, les artistes et l'argent, aujourd'hui.",
+    "catalogue": "Chaque produit, son prix, son stock.",
+    "artistes": "Vérifier avant de mettre en ligne.",
+    "commandes": "De la commande payée à la livraison.",
+    "versements": "La part des artistes, versée par mobile money.",
+    "points": "Les quatre paliers du réseau AsraPa.",
+    "regles": "Les règles de la boutique, et qui peut les changer."
+  },
+  "asides": {
+    "vue": "Chiffres tirés du serveur",
+    "catalogue": "Le prix en ligne est le prix conseillé",
+    "artistes": "Un produit passe en ligne après réception du stock",
+    "commandes": "Une commande n'existe qu'après la confirmation de l'opérateur",
+    "versements": "Un lot est préparé par un admin et approuvé par un autre",
+    "points": "Document des paliers du 26/10/2026",
+    "regles": "Modifiable par le super administrateur seulement"
+  },
+  "notConnectedBanner": "Le serveur de la boutique n'est pas encore connecté : les chiffres affichent « — » et les actions sont désactivées.",
+  "toFix": "À fixer",
+  "errors": {
+    "loadFailed": "Impossible de charger les données",
+    "actionFailed": "L'action n'a pas pu être enregistrée",
+    "apiUnavailable": "Le serveur ne permet pas encore cette action",
+    "reasonRequired": "Le motif est obligatoire"
+  },
+  "overview": {
+    "ordered": "ARTICLES COMMANDÉS",
+    "orderedCaption": "{{refs}} références au fournisseur, pas encore réceptionnés",
+    "ordersToProcess": "COMMANDES À TRAITER",
+    "ordersToProcessCaption": "Payées, en préparation ou en livraison",
+    "toReview": "PRODUITS À VÉRIFIER",
+    "toReviewCaption": "Envoyés par les artistes",
+    "reserved": "PARTS EN RÉSERVE",
+    "reservedCaption": "Dues aux artistes après le délai de retour",
+    "todoTitle": "Ce qui attend une action",
+    "todo": {
+      "receive": "Réceptionner la commande fournisseur",
+      "receiveText": "194 articles à compter et à répartir : 10 points de vente et 2 équivalents de stock en ligne.",
+      "prices": "Harmoniser les prix des abonnements",
+      "pricesText": "Le document des paliers et le serveur n'affichent pas les mêmes prix (onglet Catalogue).",
+      "rules": "Arrêter les règles des artistes",
+      "rulesText": "Commission, délai de retour, fréquence des versements : propositions en attente.",
+      "delivery": "Fixer la livraison",
+      "deliveryText": "Par TMA, retrait chez un revendeur, ou les deux ; prix payé par le client."
+    },
+    "badges": { "todo": "À faire", "gap": "Écart", "proposal": "Proposition", "decide": "À décider" },
+    "splitTitle": "Répartition de la commande fournisseur",
+    "split": {
+      "phones": "Téléphones",
+      "headphones": "Casques",
+      "wired": "Écouteurs filaires",
+      "wireless": "Écouteurs sans fil"
+    },
+    "splitSource": "Source : bon de commande « ASRAPA SHOP 194 articles » du 26/10/2026."
+  },
+  "catalogue": {
+    "filters": { "all": "Tout", "phone": "Téléphones", "accessory": "Accessoires", "subscription": "Abonnements" },
+    "search": "Rechercher une référence",
+    "columns": { "product": "Produit", "price": "Prix conseillé", "asrashop": "Cession AsraShop", "asraexperience": "Cession AsraExperience", "ordered": "Commandés", "state": "État" },
+    "types": { "phone": "Téléphone", "accessory": "Accessoire", "subscription": "Abonnement" },
+    "states": { "ordered": "En commande", "offKit": "Hors kit", "priceGap": "Écart de prix", "missing": "Absent du serveur" },
+    "serverPrice": "Serveur : {{price}}",
+    "empty": "Aucun produit ne correspond.",
+    "gapTitle": "Écart à régler sur les abonnements.",
+    "gapText": "Le document des paliers fixe Premium à 3 000 FCFA, Famille à 5 000 FCFA et Moins de 26 ans à 1 500 FCFA. Le serveur et cette administration utilisent Premium à 1 500 FCFA et Famille à 3 500 FCFA, sans formule Moins de 26 ans. Un seul tarif doit être retenu avant l'ouverture.",
+    "source": "Référence : document des paliers et bon de commande du 26/10/2026 (prix d'Abidjan, à vérifier à N'Djamena). « — » : prix non fixé. Le Nokia 5310 figure dans le bon de commande mais dans aucun kit revendeur."
+  },
+  "artists": {
+    "filters": { "in_review": "À vérifier", "awaiting_stock": "Stock à réceptionner", "live": "En ligne", "rejected": "Refusés" },
+    "empty": "Aucun produit d'artiste dans cette liste.",
+    "emptyText": "Quand un artiste envoie un produit depuis « Ma boutique », il arrive ici. Il passe en ligne après vérification et réception de son stock.",
+    "checklistTitle": "Grille de vérification",
+    "checks": {
+      "photos": "Photos",
+      "photosText": "Nettes, fond uni, fidèles au produit.",
+      "rights": "Droits",
+      "rightsText": "L'artiste a coché l'engagement et rien n'indique un visuel d'autrui.",
+      "price": "Prix",
+      "priceText": "Cohérent avec le produit ; part de l'artiste calculée automatiquement.",
+      "stock": "Stock reçu",
+      "stockText": "Quantités comptées par taille, identiques à la déclaration."
+    },
+    "approve": "Valider",
+    "reject": "Refuser avec un motif",
+    "reason": "Motif du refus, envoyé à l'artiste",
+    "approved": "Produit validé : en attente du stock",
+    "rejected": "Produit refusé",
+    "receive": "Stock reçu",
+    "received": "Stock enregistré",
+    "declared": "déclaré",
+    "price": "Prix",
+    "note": "Chaque décision est enregistrée dans le journal."
+  },
+  "orders": {
+    "columns": {
+      "paid": "Payées",
+      "preparing": "En préparation",
+      "shipping": "En livraison",
+      "delivered": "Livrées",
+      "returned": "Retours"
+    },
+    "hints": {
+      "paid": "Paiement mobile money confirmé",
+      "preparing": "Articles sortis du stock",
+      "shipping": "Confiées au livreur",
+      "delivered": "Délai de retour en cours",
+      "returned": "Remboursement ou échange"
+    },
+    "next": {
+      "paid": "Préparer",
+      "preparing": "Expédier",
+      "shipping": "Marquer livrée"
+    },
+    "moved": "Commande mise à jour",
+    "note": "Une commande livrée libère la part de l'artiste à la fin du délai de retour."
+  },
+  "payouts": {
+    "reserved": "EN RÉSERVE",
+    "reservedCaption": "En attente de livraison ou du délai de retour",
+    "available": "PRÊT À VERSER",
+    "availableCaption": "Délai de retour terminé",
+    "paid": "DÉJÀ VERSÉ",
+    "paidCaption": "Depuis l'ouverture",
+    "batchesTitle": "Lots de versements",
+    "prepare": "Préparer le lot",
+    "prepared": "Lot préparé",
+    "empty": "Aucun lot pour l'instant.",
+    "emptyText": "Un lot regroupe toutes les parts prêtes à verser. Il est préparé par un admin, approuvé par un autre, puis envoyé par mobile money.",
+    "status": { "draft": "À approuver", "approved": "Approuvé", "sent": "Envoyé", "cancelled": "Annulé" },
+    "actions": { "approve": "Approuver", "send": "Envoyer", "cancel": "Annuler" },
+    "done": "Lot mis à jour",
+    "artists": "{{n}} artiste(s)"
+  },
+  "outlets": {
+    "deposit": "Caution",
+    "entry": "À l'entrée",
+    "share": "Part du revendeur",
+    "furniture": "Fourni",
+    "planned": "prévus (simulation)",
+    "building": "En construction",
+    "standby": "En standby",
+    "listTitle": "Points de vente",
+    "listEmpty": "Aucun point de vente ouvert.",
+    "listText": "Premiers points prévus : 10 AsraExperience, 2 par arrondissement de N'Djamena et 4 dans le 7e.",
+    "tiers": {
+      "point": { "entry": "15 000 FCFA de crédit AsraPa", "share": "Commission fixe par service", "furniture": "Kit de visibilité" },
+      "shop": { "entry": "15 000 FCFA de crédit + 97 800 FCFA d'accessoires", "share": "50 % de la marge brute", "furniture": "Présentoir de comptoir" },
+      "experience": { "entry": "15 000 FCFA de crédit + 177 900 FCFA de produits", "share": "65 % de la marge brute", "furniture": "Borne au sol" },
+      "signature": { "entry": "En standby", "share": "Exploité par AsraPa", "furniture": "Showroom dédié" }
+    }
+  },
+  "rules": {
+    "banner": "Ces règles sont des propositions de la note d'architecture du 26/10/2026. Seul un super administrateur peut les modifier ; chaque changement est enregistré.",
+    "artistsTitle": "Produits des artistes",
+    "commission": "Commission AsraPa",
+    "commissionText": "Prélevée sur le prix de chaque article vendu en dépôt-vente.",
+    "returnWindow": "Délai de retour avant versement",
+    "returnWindowText": "La part de l'artiste reste en réserve pendant ce délai après la livraison.",
+    "frequency": "Fréquence des versements",
+    "frequencyText": "Date fixe à laquelle les parts prêtes sont versées.",
+    "frequencies": { "weekly": "Chaque semaine", "monthly": "Chaque mois" },
+    "deliveryTitle": "Prix et livraison",
+    "deliveryFee": "Prix de la livraison à N'Djamena",
+    "deliveryFeeText": "Montant fixe ajouté à chaque commande, payé par le client.",
+    "fixedTitle": "Règles fixes",
+    "fixed": {
+      "price": "Le prix en ligne est le prix conseillé des points de vente, jamais en dessous.",
+      "twoAdmins": "Un lot de versements préparé par un admin est approuvé par un autre.",
+      "verifiedNumber": "Un artiste n'est payé que sur un numéro vérifié par AsraPa."
+    },
+    "days": "jours",
+    "save": "Enregistrer les règles",
+    "saved": "Règles enregistrées",
+    "superAdminOnly": "Réservé au super administrateur"
+  }
+}

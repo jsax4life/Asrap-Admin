@@ -1,0 +1,189 @@
+{
+  "eyebrow": "ASRAPA SHOP",
+  "tabsLabel": "Shop sections",
+  "tabs": {
+    "vue": "Overview",
+    "catalogue": "Catalogue",
+    "artistes": "Artist products",
+    "commandes": "Orders",
+    "versements": "Artist payouts",
+    "points": "Outlets",
+    "regles": "Rules"
+  },
+  "titles": {
+    "vue": "The shop, the artists and the money, today.",
+    "catalogue": "Every product, its price, its stock.",
+    "artistes": "Check before going live.",
+    "commandes": "From paid order to delivery.",
+    "versements": "The artists' share, paid by mobile money.",
+    "points": "The four tiers of the AsraPa network.",
+    "regles": "The shop rules, and who can change them."
+  },
+  "asides": {
+    "vue": "Figures from the server",
+    "catalogue": "The online price is the recommended price",
+    "artistes": "A product goes live once its stock is received",
+    "commandes": "An order only exists once the operator confirms payment",
+    "versements": "A batch is prepared by one admin and approved by another",
+    "points": "Tier document of 26/10/2026",
+    "regles": "Super administrator only"
+  },
+  "notConnectedBanner": "The shop server is not connected yet: figures show « — » and actions are disabled.",
+  "toFix": "To be set",
+  "errors": {
+    "loadFailed": "Could not load the data",
+    "actionFailed": "The action could not be saved",
+    "apiUnavailable": "The server does not allow this action yet",
+    "reasonRequired": "A reason is required"
+  },
+  "overview": {
+    "ordered": "ITEMS ORDERED",
+    "orderedCaption": "{{refs}} references from the supplier, not received yet",
+    "ordersToProcess": "ORDERS TO PROCESS",
+    "ordersToProcessCaption": "Paid, being prepared or out for delivery",
+    "toReview": "PRODUCTS TO CHECK",
+    "toReviewCaption": "Sent by artists",
+    "reserved": "SHARES ON HOLD",
+    "reservedCaption": "Owed to artists after the return period",
+    "todoTitle": "Waiting for action",
+    "todo": {
+      "receive": "Receive the supplier order",
+      "receiveText": "194 items to count and split: 10 outlets and 2 outlets' worth of online stock.",
+      "prices": "Align subscription prices",
+      "pricesText": "The tier document and the server do not show the same prices (Catalogue tab).",
+      "rules": "Set the artist rules",
+      "rulesText": "Commission, return period, payout frequency: proposals pending.",
+      "delivery": "Set delivery",
+      "deliveryText": "By TMA, pick-up at a reseller, or both; price paid by the customer."
+    },
+    "badges": { "todo": "To do", "gap": "Gap", "proposal": "Proposal", "decide": "To decide" },
+    "splitTitle": "Supplier order breakdown",
+    "split": {
+      "phones": "Phones",
+      "headphones": "Headphones",
+      "wired": "Wired earphones",
+      "wireless": "Wireless earbuds"
+    },
+    "splitSource": "Source: purchase order « ASRAPA SHOP 194 articles » of 26/10/2026."
+  },
+  "catalogue": {
+    "filters": { "all": "All", "phone": "Phones", "accessory": "Accessories", "subscription": "Subscriptions" },
+    "search": "Search a reference",
+    "columns": { "product": "Product", "price": "Recommended price", "asrashop": "AsraShop price", "asraexperience": "AsraExperience price", "ordered": "Ordered", "state": "State" },
+    "types": { "phone": "Phone", "accessory": "Accessory", "subscription": "Subscription" },
+    "states": { "ordered": "On order", "offKit": "Not in a kit", "priceGap": "Price gap", "missing": "Missing on server" },
+    "serverPrice": "Server: {{price}}",
+    "empty": "No matching product.",
+    "gapTitle": "Subscription prices to align.",
+    "gapText": "The tier document sets Premium at 3,000 FCFA, Family at 5,000 FCFA and Under 26 at 1,500 FCFA. The server and this admin use Premium at 1,500 FCFA and Family at 3,500 FCFA, with no Under 26 plan. One price list must be chosen before opening.",
+    "source": "Reference: tier document and purchase order of 26/10/2026 (Abidjan prices, to be checked in N'Djamena). « — »: price not set. The Nokia 5310 is in the purchase order but in no reseller kit."
+  },
+  "artists": {
+    "filters": { "in_review": "To check", "awaiting_stock": "Stock to receive", "live": "Live", "rejected": "Rejected" },
+    "empty": "No artist product in this list.",
+    "emptyText": "When an artist sends a product from « Ma boutique », it lands here. It goes live after the check and once its stock is received.",
+    "checklistTitle": "Checklist",
+    "checks": {
+      "photos": "Photos",
+      "photosText": "Sharp, plain background, true to the product.",
+      "rights": "Rights",
+      "rightsText": "The artist ticked the commitment and nothing suggests someone else's artwork.",
+      "price": "Price",
+      "priceText": "Consistent with the product; artist share computed automatically.",
+      "stock": "Stock received",
+      "stockText": "Quantities counted per size, matching the declaration."
+    },
+    "approve": "Approve",
+    "reject": "Reject with a reason",
+    "reason": "Reason for rejection, sent to the artist",
+    "approved": "Product approved: waiting for stock",
+    "rejected": "Product rejected",
+    "receive": "Stock received",
+    "received": "Stock recorded",
+    "declared": "declared",
+    "price": "Price",
+    "note": "Every decision is logged."
+  },
+  "orders": {
+    "columns": {
+      "paid": "Paid",
+      "preparing": "Preparing",
+      "shipping": "Out for delivery",
+      "delivered": "Delivered",
+      "returned": "Returns"
+    },
+    "hints": {
+      "paid": "Mobile money payment confirmed",
+      "preparing": "Items taken from stock",
+      "shipping": "Handed to the courier",
+      "delivered": "Return period running",
+      "returned": "Refund or exchange"
+    },
+    "next": {
+      "paid": "Prepare",
+      "preparing": "Ship",
+      "shipping": "Mark delivered"
+    },
+    "moved": "Order updated",
+    "note": "A delivered order releases the artist's share at the end of the return period."
+  },
+  "payouts": {
+    "reserved": "ON HOLD",
+    "reservedCaption": "Waiting for delivery or the return period",
+    "available": "READY TO PAY",
+    "availableCaption": "Return period over",
+    "paid": "ALREADY PAID",
+    "paidCaption": "Since opening",
+    "batchesTitle": "Payout batches",
+    "prepare": "Prepare batch",
+    "prepared": "Batch prepared",
+    "empty": "No batch yet.",
+    "emptyText": "A batch groups every share ready to pay. One admin prepares it, another approves it, then it is sent by mobile money.",
+    "status": { "draft": "To approve", "approved": "Approved", "sent": "Sent", "cancelled": "Cancelled" },
+    "actions": { "approve": "Approve", "send": "Send", "cancel": "Cancel" },
+    "done": "Batch updated",
+    "artists": "{{n}} artist(s)"
+  },
+  "outlets": {
+    "deposit": "Deposit",
+    "entry": "Entry",
+    "share": "Reseller share",
+    "furniture": "Provided",
+    "planned": "planned (simulation)",
+    "building": "Under construction",
+    "standby": "On standby",
+    "listTitle": "Outlets",
+    "listEmpty": "No outlet open.",
+    "listText": "First outlets planned: 10 AsraExperience, 2 per N'Djamena district and 4 in the 7th.",
+    "tiers": {
+      "point": { "entry": "15,000 FCFA of AsraPa credit", "share": "Fixed commission per service", "furniture": "Visibility kit" },
+      "shop": { "entry": "15,000 FCFA of credit + 97,800 FCFA of accessories", "share": "50% of gross margin", "furniture": "Counter display" },
+      "experience": { "entry": "15,000 FCFA of credit + 177,900 FCFA of products", "share": "65% of gross margin", "furniture": "Floor stand" },
+      "signature": { "entry": "On standby", "share": "Run by AsraPa", "furniture": "Dedicated showroom" }
+    }
+  },
+  "rules": {
+    "banner": "These rules are proposals from the architecture note of 26/10/2026. Only a super administrator can change them; every change is logged.",
+    "artistsTitle": "Artist products",
+    "commission": "AsraPa commission",
+    "commissionText": "Taken on the price of each item sold on consignment.",
+    "returnWindow": "Return period before payout",
+    "returnWindowText": "The artist's share stays on hold for this period after delivery.",
+    "frequency": "Payout frequency",
+    "frequencyText": "Fixed date on which ready shares are paid.",
+    "frequencies": { "weekly": "Every week", "monthly": "Every month" },
+    "deliveryTitle": "Price and delivery",
+    "deliveryFee": "Delivery price in N'Djamena",
+    "deliveryFeeText": "Fixed amount added to each order, paid by the customer.",
+    "fixedTitle": "Fixed rules",
+    "fixed": {
+      "price": "The online price is the outlets' recommended price, never lower.",
+      "twoAdmins": "A payout batch prepared by one admin is approved by another.",
+      "verifiedNumber": "An artist is only paid on a number verified by AsraPa."
+    },
+    "days": "days",
+    "save": "Save rules",
+    "saved": "Rules saved",
+    "superAdminOnly": "Super administrator only"
+  }
+}

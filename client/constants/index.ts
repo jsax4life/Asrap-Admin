@@ -27,6 +27,7 @@ import {
   Sparkles,
   Award,
   Wallet,
+  ShoppingBag,
 } from "lucide-react";
 
 export const APP_NAME = "Asrapa";
@@ -172,6 +173,14 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ["super_admin", "admin"],
     section: "new",
   },
+  {
+    id: "shop",
+    label: "Boutique",
+    icon: "ShoppingBag",
+    path: "/shop",
+    roles: ["super_admin", "admin"],
+    section: "new",
+  },
 ];
 
 // Agent App Menu Items
@@ -304,6 +313,7 @@ export const ICON_MAP = {
   Sparkles,
   Award,
   Wallet,
+  ShoppingBag,
 };
 
 // Table pagination
@@ -442,6 +452,17 @@ export const API_ENDPOINTS = {
     BATCHES: "/admin/card/batches",
     BATCH_ACTION: "/admin/card/batches/:id/:action",
     SETTINGS: "/admin/card/settings",
+  },
+  SHOP: {
+    OVERVIEW: "/admin/shop/overview",
+    PRODUCTS: "/admin/shop/products",
+    PRODUCT_REVIEW: "/admin/shop/products/:id/review",
+    PRODUCT_RECEIVE_STOCK: "/admin/shop/products/:id/receive-stock",
+    ORDERS: "/admin/shop/orders",
+    ORDER_STATUS: "/admin/shop/orders/:id/status",
+    PAYOUTS: "/admin/shop/payouts",
+    PAYOUT_ACTION: "/admin/shop/payouts/:id/:action",
+    SETTINGS: "/admin/shop/settings",
   },
   STUDIO_IA: {
     STATS: "/admin/studio-ia/stats",
