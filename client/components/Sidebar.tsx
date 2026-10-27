@@ -35,7 +35,7 @@ export function Sidebar({ isOpen = true, onClose, user }: SidebarProps) {
   };
 
   const isActiveRoute = (path: string) => {
-    return location.pathname === path || (['/moderation', '/prepaid'].includes(path) && location.pathname.startsWith(`${path}/`));
+    return location.pathname === path || (['/moderation', '/prepaid', '/shop'].includes(path) && location.pathname.startsWith(`${path}/`));
   };
 
   const renderMenuItem = (item: (typeof MENU_ITEMS)[number]) => {
