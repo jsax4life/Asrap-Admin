@@ -27,7 +27,7 @@
   },
   "notConnected": "S'affichera ici dès que le serveur sera connecté",
   "notConnectedBanner": "Le serveur de la carte n'est pas encore connecté : les chiffres affichent « — » et les actions sont désactivées.",
-  "toFix": "[à fixer]",
+  "toFix": "Non défini pour l'instant",
   "fcfa": "{{n}} FCFA",
   "errors": {
     "loadFailed": "Impossible de charger les données",
@@ -322,6 +322,6 @@
       "pin": "Débloquer un code PIN",
       "settings": "Modifier les règles"
     },
-    "rightsNote": "Proposition à valider. Une même personne ne peut pas créer un lot et l'activer."
+    "rightsNote": "Répartition proposée par AsraPa. Une même personne ne peut pas créer un lot et l'activer."
   }
 }

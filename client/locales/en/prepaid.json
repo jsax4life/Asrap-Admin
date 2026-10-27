@@ -27,7 +27,7 @@
   },
   "notConnected": "Will show here once the server is connected",
   "notConnectedBanner": "The card server is not connected yet: figures show « — » and actions are disabled.",
-  "toFix": "[to be set]",
+  "toFix": "Not set yet",
   "fcfa": "{{n}} FCFA",
   "errors": {
     "loadFailed": "Could not load the data",
@@ -35,7 +35,10 @@
     "apiUnavailable": "The server does not support this action yet",
     "reasonRequired": "A reason is required"
   },
-  "owner": { "User": "Listener", "Artist": "Artist" },
+  "owner": {
+    "User": "Listener",
+    "Artist": "Artist"
+  },
   "requestStatus": {
     "submitted": "Received",
     "under_review": "Under review",
@@ -43,7 +46,11 @@
     "rejected": "Rejected",
     "cancelled": "Cancelled"
   },
-  "cardStatus": { "active": "Active", "blocked": "Blocked", "closed": "Closed" },
+  "cardStatus": {
+    "active": "Active",
+    "blocked": "Blocked",
+    "closed": "Closed"
+  },
   "overview": {
     "openRequests": "REQUESTS TO REVIEW",
     "openRequestsCaption": "received or under review",
@@ -74,12 +81,22 @@
       "pin_locked": "PIN locked after too many attempts",
       "fulfillment_failed": "Paid product not delivered"
     },
-    "severity": { "high": "high priority", "medium": "to check", "info": "information" }
+    "severity": {
+      "high": "high priority",
+      "medium": "to check",
+      "info": "information"
+    }
   },
   "requests": {
     "listLabel": "Card requests",
     "search": "Name, phone, reference",
-    "columns": { "reference": "Request", "holder": "Holder", "account": "Account", "received": "Received", "status": "Status" },
+    "columns": {
+      "reference": "Request",
+      "holder": "Holder",
+      "account": "Account",
+      "received": "Received",
+      "status": "Status"
+    },
     "empty": "No request",
     "detailTitle": "Request {{reference}}",
     "nothingSelected": "Pick a request in the list",
@@ -118,9 +135,22 @@
   },
   "cards": {
     "listLabel": "Issued cards",
-    "filters": { "all": "All", "active": "Active", "blocked": "Blocked", "User": "Listeners", "Artist": "Artists" },
+    "filters": {
+      "all": "All",
+      "active": "Active",
+      "blocked": "Blocked",
+      "User": "Listeners",
+      "Artist": "Artists"
+    },
     "search": "AP number, last 4 digits, name",
-    "columns": { "number": "Number", "holder": "Holder", "type": "Type", "balance": "Balance", "issued": "Issued", "state": "State" },
+    "columns": {
+      "number": "Number",
+      "holder": "Holder",
+      "type": "Type",
+      "balance": "Balance",
+      "issued": "Issued",
+      "state": "State"
+    },
     "empty": "No card",
     "nothingSelected": "Pick a card in the list",
     "holder": "Holder",
@@ -143,15 +173,40 @@
   },
   "batches": {
     "steps": {
-      "created": { "title": "1. Created", "text": "Codes generated, file sent to the printer. Not usable." },
-      "delivered": { "title": "2. Delivered", "text": "Cards handed to the agent, against signature." },
-      "activated": { "title": "3. Activated", "text": "A second admin confirms: the codes become valid." },
-      "cancelled": { "title": "Cancelled", "text": "Batch lost or stolen: unused codes are blocked." }
+      "created": {
+        "title": "1. Created",
+        "text": "Codes generated, file sent to the printer. Not usable."
+      },
+      "delivered": {
+        "title": "2. Delivered",
+        "text": "Cards handed to the agent, against signature."
+      },
+      "activated": {
+        "title": "3. Activated",
+        "text": "A second admin confirms: the codes become valid."
+      },
+      "cancelled": {
+        "title": "Cancelled",
+        "text": "Batch lost or stolen: unused codes are blocked."
+      }
     },
     "listLabel": "Batches",
-    "columns": { "batch": "Batch", "value": "Value", "cards": "Cards", "agent": "Agent", "used": "Used", "status": "Status", "action": "Action" },
+    "columns": {
+      "batch": "Batch",
+      "value": "Value",
+      "cards": "Cards",
+      "agent": "Agent",
+      "used": "Used",
+      "status": "Status",
+      "action": "Action"
+    },
     "empty": "No batch",
-    "status": { "created": "Created", "delivered": "Delivered", "activated": "Activated", "cancelled": "Cancelled" },
+    "status": {
+      "created": "Created",
+      "delivered": "Delivered",
+      "activated": "Activated",
+      "cancelled": "Cancelled"
+    },
     "deliver": "Deliver",
     "activate": "Activate",
     "cancel": "Cancel",
@@ -175,7 +230,13 @@
     "results": "Results",
     "noResult": "No card found",
     "ledgerTitle": "Ledger of this card",
-    "columns": { "when": "When", "operation": "Operation", "amount": "Amount", "reference": "Reference", "action": "Correction" },
+    "columns": {
+      "when": "When",
+      "operation": "Operation",
+      "amount": "Amount",
+      "reference": "Reference",
+      "action": "Correction"
+    },
     "empty": "No operation",
     "topupsTitle": "Top-ups",
     "paymentsTitle": "Payments",
@@ -198,8 +259,16 @@
       "adjustment": "Correction",
       "reversal": "Reverse entry"
     },
-    "topupStatus": { "pending": "Pending", "succeeded": "Credited", "failed": "Failed", "expired": "Expired" },
-    "paymentStatus": { "succeeded": "Paid", "refunded": "Refunded" }
+    "topupStatus": {
+      "pending": "Pending",
+      "succeeded": "Credited",
+      "failed": "Failed",
+      "expired": "Expired"
+    },
+    "paymentStatus": {
+      "succeeded": "Paid",
+      "refunded": "Refunded"
+    }
   },
   "rules": {
     "limitsTitle": "Limits",
@@ -233,7 +302,12 @@
     "saved": "Rules saved",
     "superAdminOnly": "Only the super administrator can edit these rules.",
     "rightsTitle": "Who can do what",
-    "roles": { "super_admin": "Super admin", "admin": "Admin", "support": "Support", "analyst": "Analyst" },
+    "roles": {
+      "super_admin": "Super admin",
+      "admin": "Admin",
+      "support": "Support",
+      "analyst": "Analyst"
+    },
     "action": "Action",
     "yes": "Yes",
     "no": "No",
@@ -248,6 +322,6 @@
       "pin": "Unlock a PIN",
       "settings": "Edit the rules"
     },
-    "rightsNote": "Proposal to approve. The same person cannot create a batch and activate it."
+    "rightsNote": "Split proposed by AsraPa. The same person cannot create a batch and activate it."
   }
 }

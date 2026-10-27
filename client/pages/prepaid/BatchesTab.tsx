@@ -45,7 +45,7 @@ export default function BatchesTab() {
   useEffect(() => {
     loadList();
     adminAgentService
-      .listPaymentAgents()
+      .listPaymentAgents({ limit: 100 })
       .then((r) => setAgents(r.agents.filter((a) => a.isActive)))
       .catch(() => setAgents([]));
   }, []);

@@ -29,17 +29,18 @@ const LIMITS: NumKey[] = ['maxBalance', 'topupMin', 'topupMax', 'dailyTopupMax',
 const GIFTS: NumKey[] = ['giftValidityMonths', 'tipMin', 'tipMax'];
 const PLANS = ['single', 'ep_album', 'annual'] as const;
 
-const ROLES = ['super_admin', 'admin', 'support', 'analyst'] as const;
+// Only the two roles that can open this page.
+const ROLES = ['super_admin', 'admin'] as const;
 const RIGHTS: [string, boolean[]][] = [
-  ['read', [true, true, true, true]],
-  ['review', [true, true, true, false]],
-  ['approve', [true, true, false, false]],
-  ['batches', [true, true, false, false]],
-  ['activate', [true, true, false, false]],
-  ['adjust', [true, true, false, false]],
-  ['block', [true, true, true, false]],
-  ['pin', [true, true, true, false]],
-  ['settings', [true, false, false, false]],
+  ['read', [true, true]],
+  ['review', [true, true]],
+  ['approve', [true, true]],
+  ['batches', [true, true]],
+  ['activate', [true, true]],
+  ['adjust', [true, true]],
+  ['block', [true, true]],
+  ['pin', [true, true]],
+  ['settings', [true, false]],
 ];
 
 function toNumber(value: string): number | null {
@@ -132,7 +133,7 @@ export default function RulesTab() {
         <Card className="p-5 flex flex-col gap-3">
           <CardTitle>{t('rules.rightsTitle')}</CardTitle>
           <div className="overflow-x-auto">
-            <div className="min-w-[380px] grid grid-cols-[1.8fr_repeat(4,1fr)] gap-x-3 gap-y-2.5 text-[13px] items-center">
+            <div className="min-w-[320px] grid grid-cols-[2fr_repeat(2,1fr)] gap-x-3 gap-y-2.5 text-[13px] items-center">
               <span className="text-[#C4C4C4]">{t('rules.action')}</span>
               {ROLES.map((r) => <span key={r} className="text-[#C4C4C4] text-center">{t(`rules.roles.${r}`)}</span>)}
               {RIGHTS.map(([key, values]) => (

@@ -163,7 +163,8 @@ export const MENU_ITEMS: MenuItem[] = [
     path: "/awards",
     roles: ["super_admin", "admin"],
     section: "new",
-  },  {
+  },
+  {
     id: "prepaid",
     label: "AsraPa prépayée",
     icon: "Wallet",
